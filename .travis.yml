@@ -1,0 +1,49 @@
+language: minimal
+sudo: false
+branches:
+    only:
+        - master
+        - /^v[0-9].*$/
+env:
+    global:
+        - ENCRYPTION_LABEL: "TODO"
+        - COMMIT_AUTHOR_EMAIL: "ceholden@gmail.com"
+        - COMMIT_AUTHOR_NAME: "TRAVIS-CI BOT"
+        - DOCS_ENV: "py37"
+    matrix:
+        - CONDA_ENV: "py37"
+
+notifications:
+    email: false
+
+before_install:
+    - wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
+    - bash miniconda.sh -b -p $HOME/miniconda
+    - export PATH=$HOME/miniconda/bin:$PATH
+    - conda config --set always_yes yes --set changeps1 no --set show_channel_urls yes
+    - conda config --add channels conda-forge
+    - conda update -q conda
+    - conda info -a
+    - conda install conda-env  # no longer installed by default?
+
+install:
+    # Create conda matching requirements
+    - conda env create -n test_env -f "ci/requirements-${CONDA_ENV}.yml"
+    - source activate test_env
+    # Install package
+    - "pip install -e ."
+
+script:
+    - py.test -r --cov=ardzilla/ --cov-report=html --cov-report=term ardzilla/
+    - coverage-badge -f -o badge.svg
+
+after_success:
+    # Docs
+    - source activate test_env
+    - if [[ "$CONDA_ENV" == "$DOCS_ENV" ]]; then
+          bash docs/scripts/deploy-to-gh-pages.sh;
+      fi
+
+before_cache:
+    # Deactivate conda so we use system 'curl'
+    - conda deactivate

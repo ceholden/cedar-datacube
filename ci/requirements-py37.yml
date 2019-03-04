@@ -1,0 +1,21 @@
+name: ardzilla
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python>=3.7
+  # CLI
+  - click
+  - click-plugins
+  - cligj
+  # tests
+  - pytest
+  - pytest-cov
+  - pytest-lazy-fixture
+  - pytest-runner
+  # docs
+  - sphinx
+  - sphinx_rtd_theme
+  - pip:
+    - coverage-badge
+    - sphinxcontrib-bibtex
