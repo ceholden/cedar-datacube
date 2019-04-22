@@ -76,7 +76,7 @@ def get_gdrive_credentials(client_secrets=None, credentials=None):
         Raised if `client_secrets` file is needed but missing
     """
     client_secrets_ = _get_file(client_secrets, _CLIENT_SECRETS)
-    credentials_ = _get_file(credentials, _USER_CREDS)
+    credentials_ = _get_file(credentials, _USER_CREDS, False)
 
     creds = None
     if credentials_ and os.path.exists(credentials_):
@@ -130,12 +130,14 @@ def _save_credentials(creds, filename):
     return str(filename)
 
 
-def _get_file(filename=None, backup=None):
+def _get_file(filename=None, backup=None, exists=True):
     if filename is not None:
         return filename
     else:
         for backup_ in backup:
-            if os.path.exists(backup_):
+            if exists and os.path.exists(backup_):
+                return backup_
+            elif not exists:
                 return backup_
             else:
                 logger.debug(f'File not found at "{backup_}"')
