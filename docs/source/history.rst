@@ -1,1 +1,3 @@
-.. include:: ../HISTORY.rst
+.. _history:
+
+.. include:: ../../CHANGELOG.rst
