@@ -1,3 +1,3 @@
 """ Tests for :py:mod:`ardzilla.config.gauth`
 """
-from ardzilla.config import gauth
+from ardzilla.gee import gauth
