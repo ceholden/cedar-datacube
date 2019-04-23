@@ -3,9 +3,10 @@
 import datetime as dt
 
 import ee
-import shapely.geometry
 
 from stems.gis.grids import TileGrid, Tile
+
+from . import common
 
 
 # Renaming stuff
@@ -21,6 +22,34 @@ BANDS = {
     'LANDSAT/LC08/C01/T1_SR': BANDS_LC8,
     'LANDSAT/LT05/C01/T1_SR': BANDS_LT5,
     'LANDSAT/LE07/C01/T1_SR': BANDS_LE7
+}
+
+_T1_SR_METADATA = [
+    'CLOUD_COVER',
+    'CLOUD_COVER_LAND',
+    'EARTH_SUN_DISTANCE',
+    'ESPA_VERSION',
+    'GEOMETRIC_RMSE_MODEL',
+    'GEOMETRIC_RMSE_MODEL_X',
+    'GEOMETRIC_RMSE_MODEL_Y',
+    'IMAGE_QUALITY_OLI',
+    'LANDSAT_ID',
+    'LEVEL1_PRODUCTION_DATE',
+    'SATELLITE',
+    'SENSING_TIME',
+    'SOLAR_AZIMUTH_ANGLE',
+    'SOLAR_ZENITH_ANGLE',
+    'SR_APP_VERSION',
+    'WRS_PATH',
+    'WRS_ROW',
+    'system:id',
+    'system:time_start',
+    'system:version'
+]
+METADATA = {
+    'LANDSAT/LC08/C01/T1_SR': _T1_SR_METADATA,
+    'LANDSAT/LT05/C01/T1_SR': _T1_SR_METADATA,
+    'LANDSAT/LE07/C01/T1_SR': _T1_SR_METADATA
 }
 
 
@@ -55,39 +84,45 @@ def create_ard(collection, tile, date_start, date_end):
         raise KeyError(f'Unsupported image collection "{collection}"')
 
     # Find images in tile
-    imgcol = _filter_collection_tile(imgcol, tile)
+    imgcol = common.filter_collection_tile(imgcol, tile)
 
     # For each unique date of imagery in this image collection covering the tile
-    imgcol = _filter_collection_time(imgcol, date_start, date_end)
+    imgcol = common.filter_collection_time(imgcol, date_start, date_end)
 
     # Select and rename bands
     imgcol = imgcol.select(BANDS[collection], BANDS['COMMON'])
 
-    imgcol_udates = _get_collection_uniq_dates(imgcol)
+    imgcol_udates = common.get_collection_uniq_dates(imgcol)
 
     # Loop over unique dates, making mosaics to eliminate north/south if needed
-    images = []
-    metadata = []
+    prepped = []
     for udate in sorted(imgcol_udates):
         # Prepare and get metadata for unique date
-        img, meta = _prep_collection_image(imgcol, tile, udate)
+        img, meta = _prep_collection_image(imgcol, collection, tile, udate)
         # Add image and metadata
-        images.append(img)
-        metadata.append(meta)
+        prepped.append((img, meta))
 
+    # Unpack
+    images, _ = list(zip(*prepped))
+
+    # Get all metadata at once (saves time back and forth)
+    metadata = ee.List(_).getInfo()
+
+    # Re-create as collection and turn to bands (n_image x bands_per_image)
     tile_col = ee.ImageCollection.fromImages(images)
     tile_bands = tile_col.toBands()
 
     # Reproject, clip, & convert dtype to be uniform
-    f_reproj = _map_reproj_image_tile(tile)
-    f_clip = _map_clip_image_tile(tile)
-
+    f_reproj = common.map_reproj_image_tile(tile)
+    f_clip = common.map_clip_image_tile(tile)
     tile_bands_proj = f_clip(f_reproj(tile_bands)).toInt16()
 
+    # TODO: turn off check -- costly!
+    # Check dimensions to make sure
     dims = tile_bands_proj.getInfo()['bands'][0]['dimensions']
     assert tuple(dims) == tuple(tile.size)
 
-    return tile_bands, tuple(metadata)
+    return tile_bands_proj, list(metadata)
 
 
 def export_desc(collection, tile, d_start, d_end,
@@ -129,76 +164,39 @@ def export_path(collection, tile, d_start, d_end,
     return path
 
 
-def _map_reproj_image_tile(tile):
-    """ Reproject an ee.Image according to the tile
+def _imgcol_metadata(imgcol, keys):
+    """ Return metadata for Landsat image collection
     """
-    crs = _tile_crs(tile)
-    scale = None  # mutually exclusive
-    transform = tile.transform[:6]
-    def inner(img):
-        return img.reproject(crs, scale=scale, crsTransform=transform)
-    return inner
-
-
-def _map_clip_image_tile(tile):
-    """ Clip an ee.Image according to the tile
-    """
-    geom_ee = _tile_geom(tile)
-    def inner(img):
-        return img.clip(geom_ee)
-    return inner
-
-
-def _get_collection_dates(imgcol):
-    def inner(image, previous):
-        date = ee.Image(image).date().format('YYYY-MM-dd')
+    def inner(img, previous):
+        meta = common.object_metadata(img, keys)
         previous_ = ee.List(previous)
-        return ee.List(previous_.add(date))
-    dates = imgcol.iterate(inner, ee.List([])).getInfo()
-    return [dt.datetime.strptime(d, '%Y-%m-%d') for d in dates]
+        return ee.List(previous_.add(meta))
+
+    meta = imgcol.iterate(inner, ee.List([]))
+    return meta
 
 
-def _get_collection_uniq_dates(col):
-    return list(sorted(set(_get_collection_dates(col))))
-
-
-def _filter_collection_tile(col, tile):
-    geom_ee = _tile_geom(tile)
-    return col.filterBounds(geom_ee)
-
-
-def _filter_collection_time(col, d_start, d_end):
-    d_start = d_start.strftime('%Y-%m-%d')
-    d_end = d_end.strftime('%Y-%m-%d')
-    col_ = col.filterDate(d_start, d_end)
-    return col_
-
-
-def _tile_geom(tile):
-    geom = shapely.geometry.mapping(tile.bbox.buffer(-1e-3))
-    geom_ee = ee.Geometry(geom, opt_proj=tile.crs.wkt)
-    return geom_ee
-
-
-def _tile_crs(tile):
-    return ee.Projection(tile.crs.wkt)
-
-
-def _prep_collection_image(imgcol, tile, date):
+def _prep_collection_image(imgcol, collection, tile, date):
+    """ Prepare an image for ``tile`` and ``date`` from an ImageCollection
+    """
     # Filter for this date (day <-> day+1)
     date_end = (date + dt.timedelta(days=1))
-    imgcol_ = _filter_collection_time(imgcol, date, date_end)
+    imgcol_ = common.filter_collection_time(imgcol, date, date_end)
 
+    # TODO: make optional -- getInfo is a big slowdown!
     # Check to make sure just 1 unique date
-    _ = _get_collection_uniq_dates(imgcol_)
+    _ = common.get_collection_uniq_dates(imgcol_)
     assert len(_) == 1
 
     # Prepare all images in this collection (i.e., 1 or 2, depending on overlap)
     img = (
         imgcol_
-        .map(_map_clip_image_tile(tile))
+        .map(common.map_clip_image_tile(tile))
         .mosaic()
     )
 
-    meta = {}
+    # Get metadata from each image in new, potentially mosaiced ``img``
+    keys = METADATA[collection]
+    meta = _imgcol_metadata(imgcol_, keys)
+
     return img, meta
