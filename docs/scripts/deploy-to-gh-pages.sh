@@ -74,10 +74,10 @@ rm -rf $DST
 git clone $SSH_REPO $DST/
 cd $DST/
 git checkout $DST_BRANCH || git checkout --orphan $DST_BRANCH
-cd $DOCS/
-rm -rf $DEST || exit 0
+git reset
 
 # Generate API doc
+cd $DOCS/
 sphinx-apidoc -f -e -o $APIDOC ../${PACKAGE}/
 
 # Build docs
