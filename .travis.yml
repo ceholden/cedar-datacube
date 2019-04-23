@@ -34,7 +34,7 @@ install:
     - "pip install -e ."
 
 script:
-    - pytest -r --cov=ardzilla/ --cov-report=html --cov-report=term ardzilla/
+    - pytest -r ardzilla/ --cov=ardzilla/ --cov-report=html --cov-report=term
     - coverage-badge -f -o badge.svg
 
 after_success:
