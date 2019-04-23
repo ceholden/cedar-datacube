@@ -114,7 +114,15 @@ Once you have a copy of the source, you can install it with:
 
 .. code-block:: console
 
+    $ cd ardzilla/
     $ pip install -e .
+
+or
+
+.. code-block:: console
+
+    $ pip install -e ardzilla/
+
 
 The flag, ``-e``, is recommended to tell ``pip`` to make the installation
 "editable", meaning that changes you make to the files in the repository
