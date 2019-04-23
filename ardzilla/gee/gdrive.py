@@ -1,5 +1,6 @@
 """ Helper utilities for using Google Drive
 """
+import functools
 import logging
 import os
 
@@ -54,6 +55,28 @@ def mkdir(service, name, parent_id=None):
     return dir_['id']
 
 
+def _memoize_exists(func):
+    cache = {}
+    @functools.wraps(func)
+    def inner(*args, **kwds):
+        # don't use "service" as key
+        key = (args[1],
+               kwds.get('parent_id', None),
+               kwds.get('directory', False),
+               kwds.get('trashed', False), )
+        if key in cache:
+            return cache[key]
+        else:
+            ans = func(*args, **kwds)
+            # only cache "hits" (id != '')
+            if ans:
+                cache[key] = ans
+            return ans
+
+    return inner
+
+
+@_memoize_exists
 def exists(service, name, parent_id=None, directory=False, trashed=False):
     """ Check if file/folder exists
 
