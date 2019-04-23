@@ -1,0 +1,286 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ardzilla.gee.gdrive module &mdash; ardzilla 0+untagged.19.gda23ef7.dirty documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> ardzilla
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0+untagged.19.gda23ef7.dirty
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequently Asked Questions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../gee.html">Source - Google Earth Engine (GEE)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usgs.html">Source - USGS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../netcdf4.html">Destination - NetCDF4</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Help and Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../dev.html">Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ardzilla</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>ardzilla.gee.gdrive module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/ceholden/ardzilla/blob/master/docs/source/ardzilla/ardzilla.gee.gdrive.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-ardzilla.gee.gdrive">
+<span id="ardzilla-gee-gdrive-module"></span><h1>ardzilla.gee.gdrive module<a class="headerlink" href="#module-ardzilla.gee.gdrive" title="Permalink to this headline">¶</a></h1>
+<p>Helper utilities for using Google Drive</p>
+<dl class="function">
+<dt id="ardzilla.gee.gdrive.exists">
+<code class="descclassname">ardzilla.gee.gdrive.</code><code class="descname">exists</code><span class="sig-paren">(</span><em>service</em>, <em>name</em>, <em>parent_id=None</em>, <em>directory=False</em>, <em>trashed=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/gdrive.html#exists"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.gdrive.exists" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if file/folder exists</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>service</strong> (<em>googleapiclient.discovery.Resource</em>) – Google API resource for GDrive v3</p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Name of file/folder</p></li>
+<li><p><strong>parent_id</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Parent ID of folder containing file (to narrow search)</p></li>
+<li><p><strong>directory</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em>, </em><em>optional</em>) – True if file needs to also be a directory</p></li>
+<li><p><strong>trashed</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em>, </em><em>optional</em>) – Search in the trash?</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Returns object ID if exists, otherwise empty string</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ardzilla.gee.gdrive.mkdir">
+<code class="descclassname">ardzilla.gee.gdrive.</code><code class="descname">mkdir</code><span class="sig-paren">(</span><em>service</em>, <em>name</em>, <em>parent_id=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/gdrive.html#mkdir"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.gdrive.mkdir" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make a directory on GDrive</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="ardzilla.gee.gdrive.mkdir_p">
+<code class="descclassname">ardzilla.gee.gdrive.</code><code class="descname">mkdir_p</code><span class="sig-paren">(</span><em>service</em>, <em>dest</em>, <em>parent_id=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/gdrive.html#mkdir_p"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.gdrive.mkdir_p" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make a directory, recursively</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>service</strong> (<em>googleapiclient.discovery.Resource</em>) – Google API resource for GDrive v3</p></li>
+<li><p><strong>dest</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Directory to create</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Google Drive ID for directory created (or already existing)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ardzilla.gee.gdrive.upload_json">
+<code class="descclassname">ardzilla.gee.gdrive.</code><code class="descname">upload_json</code><span class="sig-paren">(</span><em>service</em>, <em>data</em>, <em>name</em>, <em>dest=None</em>, <em>check=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/gdrive.html#upload_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.gdrive.upload_json" title="Permalink to this definition">¶</a></dt>
+<dd><p>Upload JSON data to Google Drive</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>service</strong> (<em>googleapiclient.discovery.Resource</em>) – Google API resource for GDrive v3</p></li>
+<li><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – JSON, either already dumped to str or as a dict</p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Filename for data</p></li>
+<li><p><strong>dest</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Parent directory to put file. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, stores in
+root of Google Drive</p></li>
+<li><p><strong>check</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em>, </em><em>optional</em>) – Check to see if the file already exists first. If so, will
+overwrite (or “update” instead of “create”)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>ID of file uploaded</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Chris Holden
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

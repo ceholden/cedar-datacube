@@ -1,0 +1,17 @@
+ardzilla.cli package
+====================
+
+Submodules
+----------
+
+.. toctree::
+
+   ardzilla.cli.main
+
+Module contents
+---------------
+
+.. automodule:: ardzilla.cli
+    :members:
+    :undoc-members:
+    :show-inheritance:

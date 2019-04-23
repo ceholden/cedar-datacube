@@ -1,0 +1,20 @@
+ardzilla package
+================
+
+Subpackages
+-----------
+
+.. toctree::
+
+    ardzilla.cli
+    ardzilla.config
+    ardzilla.gee
+    ardzilla.usgs
+
+Module contents
+---------------
+
+.. automodule:: ardzilla
+    :members:
+    :undoc-members:
+    :show-inheritance:

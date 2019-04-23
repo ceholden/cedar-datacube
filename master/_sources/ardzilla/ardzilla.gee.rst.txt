@@ -1,0 +1,20 @@
+ardzilla.gee package
+====================
+
+Submodules
+----------
+
+.. toctree::
+
+   ardzilla.gee.common
+   ardzilla.gee.gauth
+   ardzilla.gee.gdrive
+   ardzilla.gee.landsat
+
+Module contents
+---------------
+
+.. automodule:: ardzilla.gee
+    :members:
+    :undoc-members:
+    :show-inheritance:
