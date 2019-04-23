@@ -40,7 +40,35 @@ import ardzilla
 
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom ones.
-extensions = ['sphinx.ext.autodoc', 'sphinx.ext.viewcode']
+extensions = [
+    'sphinx.ext.autodoc',
+    'sphinx.ext.autosummary',
+    'sphinx.ext.intersphinx',
+    'sphinx.ext.mathjax',
+    'sphinx.ext.napoleon',
+    'sphinx.ext.todo',
+    'sphinx.ext.viewcode',
+    'numpydoc',
+    'IPython.sphinxext.ipython_console_highlighting',
+    'IPython.sphinxext.ipython_directive'
+]
+# https://github.com/numpy/numpydoc/issues/69
+numpydoc_show_class_members = False
+
+# Mapping to other project docs so we can link to classes, functions, etc
+_py_version = f'{sys.version_info.major}.{sys.version_info.minor}'
+intersphinx_mapping = {
+    'python': (f'https://docs.python.org/{_py_version}/', None),
+    'numpy': ('http://docs.scipy.org/doc/numpy/', None),
+    'np': ('http://docs.scipy.org/doc/numpy/', None),
+    'pandas': ('http://pandas.pydata.org/pandas-docs/stable/', None),
+    'pd': ('http://pandas.pydata.org/pandas-docs/stable/', None),
+    'xarray': ('http://xarray.pydata.org/en/stable/', None),
+    'xr': ('http://xarray.pydata.org/en/stable/', None),
+    'dask': ('http://docs.dask.org/en/latest/', None),
+    'distributed': ('http://distributed.dask.org/en/latest/', None),
+    'rasterio': ('https://rasterio.readthedocs.io/en/latest/', None),
+}
 
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
