@@ -1,13 +1,75 @@
 """ Helper utilities for using Google Drive
 """
 import functools
+import io
+import json
 import logging
 import os
+
+from apiclient.http import MediaIoBaseUpload
 
 logger = logging.getLogger(__name__)
 
 MIME_TYPE_DIRECTORY = 'application/vnd.google-apps.folder'
 MIME_TYPE_FILE = 'application/vnd.google-apps.file'
+
+
+def upload_json(service, data, name, dest=None, check=False):
+    """ Upload JSON data to Google Drive
+
+    Parameters
+    ----------
+    service : googleapiclient.discovery.Resource
+        Google API resource for GDrive v3
+    data : str or dict
+        JSON, either already dumped to str or as a dict
+    name : str
+        Filename for data
+    dest : str, optional
+        Parent directory to put file. If ``None``, stores in
+        root of Google Drive
+    check : bool, optional
+        Check to see if the file already exists first. If so, will
+        overwrite (or "update" instead of "create")
+
+    Returns
+    -------
+    str
+        ID of file uploaded
+    """
+    # Dump to JSON if needed
+    if not isinstance(data, str):
+        data = json.dumps(data, indent=2)
+
+    # Find folder ID for parent directory
+    if dest:
+        dest_id = mkdir_p(service, dest)
+    else:
+        dest_id = None
+
+    # Prepare metadata body & data
+    body = {
+        'name': name,
+        'parents': [dest_id],
+        'mimeType': 'text/plain',
+    }
+    content = io.BytesIO(data.encode('utf-8'))
+    media = MediaIoBaseUpload(content, 'text/plain', resumable=True)
+
+    # Check to see if file already exists...
+    if check:
+        file_id = exists(service, name, parent_id=dest_id)
+    else:
+        file_id = ''
+
+    # Update or create
+    if check and file_id:
+        req = service.files().update(fileId=file_id, media_body=media)
+    else:
+        req = service.files().create(body=body, media_body=media, fields='id')
+    meta = req.execute()
+
+    return meta['id']
 
 
 def mkdir_p(service, dest, parent_id=None):
@@ -23,7 +85,7 @@ def mkdir_p(service, dest, parent_id=None):
     Returns
     -------
     str
-        Directory created
+        Google Drive ID for directory created (or already existing)
     """
     paths = dest.split('/', 1)
     if len(paths) == 1:  # root
