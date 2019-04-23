@@ -111,6 +111,22 @@ def get_gdrive_credentials(client_secrets=None, credentials=None):
     return creds
 
 
+def _dict_to_creds(d):
+    assert isinstance(d, dict)
+    token = d['token']
+    kwds = {k: v for k, v in d.items() if k != 'token'}
+    creds = Credentials(token, **kwds)
+    return creds
+
+
+def _creds_to_dict(creds):
+    assert isinstance(creds, Credentials)
+    creds_ = {
+        k: getattr(creds, k, None) for k in _OAUTH2_CREDS
+    }
+    return creds_
+
+
 def _load_credentials(filename):
     """ Load Google OAuth2 credentials from file
 
@@ -120,18 +136,14 @@ def _load_credentials(filename):
     """
     with open(filename) as src:
         data = json.load(src)
-    token = data.pop('token')
-    creds = Credentials(token, **data)
+    creds = _dict_to_creds(data)
     return creds
 
 
 def _save_credentials(creds, filename):
     """ Save Google OAuth2 credentials
     """
-    assert isinstance(creds, Credentials)
-    creds_ = {
-        k: getattr(creds, k, None) for k in _OAUTH2_CREDS
-    }
+    creds_ = _creds_to_dict(creds)
     style = {'indent': 2, 'sort_keys': False}
     with open(str(filename), 'w') as dst:
         json.dump(creds_, dst, **style)
