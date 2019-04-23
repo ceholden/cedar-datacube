@@ -82,7 +82,8 @@ def get_gdrive_credentials(client_secrets=None, credentials=None):
     if credentials_ and os.path.exists(credentials_):
         logger.debug('Trying to load previous credentials file...')
         creds = _load_credentials(credentials_)
-    elif not creds or not creds.valid:
+
+    if not creds or not creds.valid:
         # Try refreshing
         if creds and not creds.expired and creds.fresh_token:
             logger.debug('Trying to refresh credentials token...')
@@ -91,10 +92,17 @@ def get_gdrive_credentials(client_secrets=None, credentials=None):
             if not client_secrets_:
                 raise ValueError('Cannot find `client_secrets` file needed '
                                  'to authenticate user')
+
             logger.debug('Opening local web server to authenticate..')
             flow = InstalledAppFlow.from_client_secrets_file(
                 client_secrets_, _SCOPES)
-            creds = flow.run_local_server()
+
+            flow_kwds = {
+                # Enable offline access so we can refresh access token without
+                # reprompting user for permission.
+                'access_type': 'offline'
+            }
+            creds = flow.run_local_server(**flow_kwds)
 
     # Save for next time
     logger.debug(f'Saving Google API credentials to {credentials_}')
