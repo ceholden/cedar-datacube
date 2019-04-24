@@ -16,8 +16,11 @@ except ImportError:
     raise
 
 
-_SCOPES = [
-    'https://www.googleapis.com/auth/drive'
+_GDRIVE_SCOPES = [
+    'https://www.googleapis.com/auth/drive',
+]
+_GCS_SCOPES = [
+    'https://www.googleapis.com/auth/devstorage.read_write'
 ]
 _OAUTH2_CREDS = ['token', 'refresh_token', 'id_token', 'token_uri',
                  'client_id', 'client_secret', 'scopes']
@@ -52,6 +55,19 @@ def build_gdrive_service(client_secrets=None, credentials=None):
     service = build('drive', 'v3', credentials=creds)
 
     return service
+
+
+def build_gcs_client(project=None, credentials=None):
+    # TODO: add dep -- `pip install --upgrade google-cloud-storage`
+    from google.cloud import storage
+    from google.oauth2 import service_account
+
+    if credentials:
+        credentials = service_account.Credentials.from_service_account_file(
+            credentials)
+
+    client = storage.Client(project=project, credentials=credentials)
+    return client
 
 
 def get_gdrive_credentials(client_secrets=None, credentials=None):
@@ -95,7 +111,7 @@ def get_gdrive_credentials(client_secrets=None, credentials=None):
 
             logger.debug('Opening local web server to authenticate..')
             flow = InstalledAppFlow.from_client_secrets_file(
-                client_secrets_, _SCOPES)
+                client_secrets_, _GDRIVE_SCOPES)
 
             flow_kwds = {
                 # Enable offline access so we can refresh access token without
