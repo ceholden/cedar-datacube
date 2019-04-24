@@ -45,13 +45,10 @@ def get_collection_uniq_dates(col):
 
 
 def filter_collection_time(col, d_start, d_end):
-    assert isinstance(d_start, dt.datetime)
-    assert isinstance(d_end, dt.datetime)
-
-    d_start = d_start.strftime('%Y-%m-%d')
-    d_end = d_end.strftime('%Y-%m-%d')
-    col_ = col.filterDate(d_start, d_end)
-
+    # ee.Date should parse from str or datetime
+    d_start_ = ee.Date(d_start)
+    d_end_ = ee.Date(d_end)
+    col_ = col.filterDate(d_start_, d_end_)
     return col_
 
 
