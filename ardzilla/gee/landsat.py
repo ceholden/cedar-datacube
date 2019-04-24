@@ -4,8 +4,6 @@ import datetime as dt
 
 import ee
 
-from stems.gis.grids import TileGrid, Tile
-
 from . import common
 
 
