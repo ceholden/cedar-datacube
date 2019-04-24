@@ -80,7 +80,7 @@ def export_path(collection, tile, d_start, d_end,
     return path
 
 
-def submit_ard(collection, tile, date_start, date_end, store):
+def submit_ard(collection, tile, date_start, date_end, store, freq=None):
     """ Submit a ee.Task to create ARD, and stores the ARD with metadata
 
     Parameters
@@ -95,21 +95,56 @@ def submit_ard(collection, tile, date_start, date_end, store):
         Ending period
     store : gcs.GCSStore or gdrive.GDriveStore
         Data store helper object from this package
+    freq : str, optional
+        If provided, ``date_start``, ``date_end``, and ``freq`` are interpeted
+        as the range for :py:func:`pandas.date_range` and one or more Tasks
+        will be submitted
 
     Returns
     -------
-    ee.batch.Task
-        Earth Engine task
-    str
-        Metadata object store information (object ID if using the GDrive
+    Sequence[ee.batch.Task]
+        Earth Engine task(s)
+    Sequence[str]
+        Stored metadata object(s) information (object ID if using the GDrive
         store or a path if using GCS)
     """
     assert isinstance(store, (gcs.GCSStore, gdrive.GDriveStore))
     logger.debug(f'Storing image and metadata using {store}')
 
+    # Stores are agnostic about these keywords needed for image
+    image_store_kwds = {
+        'crs': tile.crs.wkt,
+        'scale': tile.transform.a
+    }
+
+    # Split up period into 1 or more sub-periods if freq is given
+    date_periods = _parse_date_freq(date_start, date_end, freq)
+    n_periods = len(date_periods)
+    logger.debug(f'Creating {n_periods} ARD slice(s) for date range')
+
+    out = []
+    for start_, end_ in date_periods:
+        # TODO: Better place/way of getting this... just outsourcing for now...
+        name = export_name(collection, tile, start_, end_)
+        path = export_path(collection, tile, start_, end_)
+
+        # Create image & metadata
+        logger.debug(f'Creating ARD between {start_}-{end_}')
+        image, metadata = _create_ard(collection, tile, start_, end_)
+
+        # Export & store
+        logger.debug('Creating Task to calculate and store image...')
+        task = store.store_image(image, name, path, **image_store_kwds)
+        logger.debug('Storing metadata...')
+        metadata_ = store.store_metadata(metadata, name, path)
+
+        out.append((task, metadata_, ))
+
+    return out
+
+
+def _create_ard(collection, tile, date_start, date_end):
     # TODO: Better place/way of getting this... just outsourcing for now...
-    logger.debug(f'Submitting ARD for collection {collection} between '
-                 f'{date_start}-{date_end}')
     name = export_name(collection, tile, date_start, date_end)
     path = export_path(collection, tile, date_start, date_end)
 
@@ -120,25 +155,15 @@ def submit_ard(collection, tile, date_start, date_end, store):
     # Actually create it...
     logger.debug('Creating ARD...')
     image, metadata = func_create_ard(collection, tile, date_start, date_end)
-
-    # Stores are agnostic about these keywords needed for image
-    logger.debug('Creating Task to calculate and store image...')
-    kwds = {
-        'crs': tile.crs.wkt,
-        'scale': tile.crs.transform.a
-    }
-    task = store.store_image(image, name, path, **kwds)
-
-    logger.debug('Storing metadata...')
-    metadata_ = store.store_metadata(metadata, name, path)
-
-    return task, metadata_
+    return image, metadata
 
 
-# TODO: add below
-"""
-    freq : str, optional
-        If provided, ``date_start``, ``date_end``, and ``freq`` are interpeted
-        as the range for :py:func:`pandas.date_range` and one or more Tasks
-        will be submitted
-"""
+def _parse_date_freq(start, end, freq=None):
+    import pandas as pd  # hiding because it can be expensive to import
+    start_ = pd.to_datetime(start).to_pydatetime()
+    end_ = pd.to_datetime(end).to_pydatetime()
+    if freq is None:
+        return list(zip([start], [end]))
+    else:
+        times = pd.date_range(start, end, freq=freq).to_pydatetime()
+        return list(zip(times[:-1], times[1:]))
