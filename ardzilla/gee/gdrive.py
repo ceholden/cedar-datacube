@@ -7,6 +7,7 @@ import logging
 import os
 
 from apiclient.http import MediaIoBaseUpload
+import ee
 
 from . import gauth
 

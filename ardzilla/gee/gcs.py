@@ -6,6 +6,7 @@ import json
 import logging
 import os
 
+import ee
 from google.cloud import storage
 
 logger = logging.getLogger(__name__)
@@ -41,12 +42,12 @@ class GCSStore(object):
         str
             Path to object uploaded
         """
+        if not name.endswith('.json'):
+            name += '.json'
         fullname, _, path_ = _combine_name_path(name, path)
-        breakpoint()
-        # Make parent directory
+
         path_ = mkdir_p(self.client, self.bucket, path_)
 
-        # Store
         name_ = upload_json(self.client, self.bucket, metadata, fullname,
                             check=False)
         return name_
