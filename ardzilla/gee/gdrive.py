@@ -8,10 +8,81 @@ import os
 
 from apiclient.http import MediaIoBaseUpload
 
+from . import gauth
+
 logger = logging.getLogger(__name__)
 
 MIME_TYPE_DIRECTORY = 'application/vnd.google-apps.folder'
 MIME_TYPE_FILE = 'application/vnd.google-apps.file'
+
+
+class GDriveStore(object):
+
+    def __init__(self, client_secrets=None, credentials=None):
+        self.gdrive = gauth.build_gdrive_service(
+            client_secrets, credentials)
+
+    def store_metadata(self, metadata, name, path=None):
+        """ Store JSON metadata
+
+        Parameters
+        ----------
+        metadata : dict
+            Metadata, to be saved as JSON
+        name : str
+            Name of file/object to store
+        path : str, optional
+            Parent directory for file/object stored
+
+        Returns
+        -------
+        str
+            ID of file uploaded
+        """
+        if not name.endswith('.json'):
+            name += '.json'
+
+        if path is not None:
+            path_id = gdrive.mkdir_p(self.service, path)
+
+        meta_id = gdrive.upload_json(self.service, metadata, name,
+                                     dest=path, check=True)
+        return meta_id
+
+    def store_image(self, image, name, path=None, **kwds):
+        """ Create ee.batch.Task to create and store "pre-ARD"
+
+        Parameters
+        ----------
+        image : ee.Image
+            Earth Engine image to compute & store
+        name : str
+            Name of file/object to store
+        path : str, optional
+            Parent directory for file/object stored
+        kwds
+            Additional keyword arguments to export function (hint: "crs" and
+            "scale")
+
+        Returns
+        -------
+        ee.Task
+            Earth Engine Task
+        """
+        # Make parent directory
+        path_ = mkdir_p(self.service,  path_)
+        # Canonicalized:
+        #   folder -> driveFolder
+        #   fileNamePrefix, path -> driveFileNamePrefix
+        task = ee.batch.Export.image.toDrive(
+            image,
+            description=name,
+            fileNamePrefix=name,
+            driveFolder=path,
+            **kwds
+        )
+        return task
+
 
 
 def upload_json(service, data, name, dest=None, check=False):

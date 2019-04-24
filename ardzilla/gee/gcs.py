@@ -11,8 +11,83 @@ from google.cloud import storage
 logger = logging.getLogger(__name__)
 
 
-# TODO: client, or bucket?
+# TODO: pass client, or bucket? we _never_ use client in functions but could be
+#       useful later
 # TODO: if client, default bucket or set None and try to pull from settings?
+class GCSStore(object):
+
+    def __init__(self, client, bucket):
+        self.client = client
+        if isinstance(bucket, str):
+            self.bucket = client.bucket(bucket)
+        else:
+            self.bucket = bucket
+
+    def store_metadata(self, metadata, name, path=None):
+        """ Store JSON metadata
+
+        Parameters
+        ----------
+        metadata : dict
+            Metadata, to be saved as JSON
+        name : str
+            Name of file/object to store
+        path : str, optional
+            Parent directory for file/object stored. Otherwise assumed to
+            be part of ``name``
+
+        Returns
+        -------
+        str
+            Path to object uploaded
+        """
+        fullname, _, path_ = _combine_name_path(name, path)
+        breakpoint()
+        # Make parent directory
+        path_ = mkdir_p(self.client, self.bucket, path_)
+
+        # Store
+        name_ = upload_json(self.client, self.bucket, metadata, fullname,
+                            check=False)
+        return name_
+
+    def store_image(self, image, name, path=None, **kwds):
+        """ Create ee.batch.Task to create and store "pre-ARD"
+
+        Parameters
+        ----------
+        image : ee.Image
+            Earth Engine image to compute & store
+        name : str
+            Name of file/object to store
+        path : str, optional
+            Parent directory for file/object stored
+        kwds
+            Additional keyword arguments to export function (hint: "crs" and
+            "scale")
+
+        Returns
+        -------
+        ee.Task
+            Earth Engine Task
+        """
+        fullname, basename, path_ = _combine_name_path(name, path)
+        # Make parent directory
+        path_ = mkdir_p(self.client, self.bucket, path_)
+        # Create compute/store export task
+        # Canonicalized:
+        #   bucket -> outputBucket
+        #   fileNamePrefix, path -> outputPrefix
+        task = ee.batch.Export.image.toCloudStorage(
+            image,
+            bucket=self.bucket.name,
+            description=basename,
+            fileNamePrefix=fullname,
+            **kwds
+        )
+        return task
+
+
 def upload_json(client, bucket, data, path, check=False):
     """ Upload data as JSON to GCS
 

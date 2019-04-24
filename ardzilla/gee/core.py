@@ -4,133 +4,18 @@ import logging
 
 import ee
 
-from . import gauth
-from . import gdrive
+from . import gdrive, gcs
 from . import landsat
 
 logger = logging.getLogger(__name__)
 
 
+#: dict: Mapping of GEE collection to ARD creating function
 CREATE_ARD_COLLECTION = {}
-CREATE_ARD_COLLECTION.update({k: landsat.create_ard for k in landsat.METADATA.keys()})
-
-
-class GDriveStore(object):
-
-    def __init__(self, client_secrets=None, credentials=None):
-        self.gdrive = gauth.build_gdrive_service(
-            client_secrets, credentials)
-
-    def store_metadata(self, metadata, name, path=None):
-        """ Store JSON metadata
-
-        Parameters
-        ----------
-        metadata : dict
-            Metadata, to be saved as JSON
-        name : str
-            Name of file/object to store
-        path : str, optional
-            Parent directory for file/object stored
-
-        Returns
-        -------
-        str
-            ID of file uploaded
-        """
-        if not name.endswith('.json'):
-            name += '.json'
-
-        if path is not None:
-            path_id = gdrive.mkdir_p(self.service, path)
-
-        meta_id = gdrive.upload_json(self.serivce, metadata, name,
-                                     dest=path, check=True)
-        return meta_id
-
-    def store_image(self, image, name, path=None, **kwds):
-        """ Create ee.batch.Task to create and store "pre-ARD"
-
-        Parameters
-        ----------
-        metadata : dict
-            Metadata, to be saved as JSON
-        name : str
-            Name of file/object to store
-        path : str, optional
-            Parent directory for file/object stored
-        kwds
-            Additional keyword arguments to export function (hint: "crs" and
-            "scale")
-
-        Returns
-        -------
-        ee.Task
-            Earth Engine Task
-        """
-        task = ee.batch.Export.image.toDrive(
-            img,
-            description=name,
-            driveFolder=path,
-            **kwds
-        )
-        return task
-
-
-class GCSStore(object):
-
-    def __init__(self, bucket):
-        self.bucket = bucket
-        raise NotADirectoryError("TODO")
-
-    def store_metadata(self, metadata, name, path=None):
-        """ Store JSON metadata
-
-        Parameters
-        ----------
-        metadata : dict
-            Metadata, to be saved as JSON
-        name : str
-            Name of file/object to store
-        path : str, optional
-            Parent directory for file/object stored
-
-        Returns
-        -------
-        str
-            ID of file uploaded
-        """
-        raise NotADirectoryError("TODO")
-
-
-    def store_image(self, image, name, path=None, **kwds):
-        """ Create ee.batch.Task to create and store "pre-ARD"
-
-        Parameters
-        ----------
-        metadata : dict
-            Metadata, to be saved as JSON
-        name : str
-            Name of file/object to store
-        path : str, optional
-            Parent directory for file/object stored
-        kwds
-            Additional keyword arguments to export function (hint: "crs" and
-            "scale")
-
-        Returns
-        -------
-        ee.Task
-            Earth Engine Task
-        """
-        task = ee.batch.Export.image.toDrive(
-            image,
-            description=name,
-            bucket=self.bucket,
-            path='/'.join([path, name]),
-            **kwds
-        )
-        return task
+# Add function for Landsat collections
+CREATE_ARD_COLLECTION.update({
+    k: landsat.create_ard for k in landsat.METADATA.keys()
+})
 
 
 def export_name(collection, tile, d_start, d_end,
@@ -183,10 +68,11 @@ def submit_ard(collection, tile, date_start, date_end, store):
     -------
     ?
     """
+    assert isinstance(store, (gcs.GCSStore, gdrive.GDriveStore))
     logger.debug(f'Storing image and metadata using {store}')
+    # TODO: Better place/way of getting this... just outsourcing for now...
     logger.debug(f'Submitting ARD for collection {collection} between '
                  f'{date_start}-{date_end}')
-    # TODO: Better place/way of getting this... just outsourcing for now...
     name = export_name(collection, tile, date_start, date_end)
     path = export_path(collection, tile, date_start, date_end)
 
