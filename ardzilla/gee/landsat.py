@@ -125,45 +125,6 @@ def create_ard(collection, tile, date_start, date_end):
     return tile_bands_proj, list(metadata)
 
 
-def export_desc(collection, tile, d_start, d_end,
-                version='v01', prefix='GEEARD'):
-    """ Calculate a filename for GEE ARD downloads
-
-    Parameters
-    ----------
-    imgcol : str
-        GEE image collection name
-    tile : stems.gis.grids.Tile
-        STEMS TileGrid tile
-    date_start : dt.datetime
-        Starting period
-    date_end : dt.datetime
-        Ending period
-    """
-    # We need a LOT of metadata in the name...
-    collection_ = collection.replace('/', '-')
-    hv = f"h{tile.horizontal:03d}v{tile.vertical:03d}"
-    d_start_ = d_start.strftime('%Y-%m-%d')
-    d_end_ = d_end.strftime('%Y-%m-%d')
-
-    desc = '_'.join([prefix, version, collection_, hv, d_start_, d_end_])
-    return desc
-
-
-def export_path(collection, tile, d_start, d_end,
-                version='v01', prefix='GEEARD'):
-    collection_ = collection.replace('/', '-')
-    hv = f"h{tile.horizontal:03d}v{tile.vertical:03d}"
-
-    path = '/'.join([
-        prefix,
-        version,
-        collection_,
-        hv
-    ])
-    return path
-
-
 def _imgcol_metadata(imgcol, keys):
     """ Return metadata for Landsat image collection
     """
