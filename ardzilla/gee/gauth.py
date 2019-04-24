@@ -57,7 +57,7 @@ def build_gdrive_service(client_secrets=None, credentials=None):
     return service
 
 
-def build_gcs_client(project=None, credentials=None):
+def build_gcs_client(credentials=None, project=None):
     # TODO: add dep -- `pip install --upgrade google-cloud-storage`
     from google.cloud import storage
     from google.oauth2 import service_account
@@ -65,6 +65,7 @@ def build_gcs_client(project=None, credentials=None):
     if credentials:
         credentials = service_account.Credentials.from_service_account_file(
             credentials)
+        credentials = credentials.with_scopes(_GCS_SCOPES)
 
     client = storage.Client(project=project, credentials=credentials)
     return client
