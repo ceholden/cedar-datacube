@@ -42,7 +42,7 @@ ENTRY_POINTS = {
 
 
 PYTHON_REQUIRES = '>=3.6'
-INSTALL_REQUIRES = ['earthengine-api', 'shapely']
+INSTALL_REQUIRES = ['earthengine-api', 'pandas', 'shapely']
 INSTALL_REQUIRES.extend(['click>=6.0', 'click-plugins', 'cligj>=0.5'])
 SETUP_REQUIRES = ['pytest-runner',]
 TESTS_REQUIRE = ['pytest',]
