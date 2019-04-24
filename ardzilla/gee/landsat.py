@@ -4,6 +4,7 @@ import datetime as dt
 
 import ee
 
+from .. import __version__ as ardzilla_version
 from . import common
 
 
@@ -72,6 +73,7 @@ def create_ard(collection, tile, date_start, date_end):
     Sequence[dict]
         Metadata, one dict per image
     """
+    # TODO: convert system:time_start to datetime/strftime
     assert isinstance(collection, str)
     assert isinstance(date_start, dt.datetime)
     assert isinstance(date_end, dt.datetime)
@@ -103,8 +105,20 @@ def create_ard(collection, tile, date_start, date_end):
     # Unpack
     images, _ = list(zip(*prepped))
 
-    # Get all metadata at once (saves time back and forth)
-    metadata = ee.List(_).getInfo()
+    # Get all image metadata at once (saves time back and forth)
+    images_metadata = list(ee.List(_).getInfo())
+
+    # Create overall metadata
+    # TODO: build elsewhere
+    metadata = {
+        'ardzilla:version': ardzilla_version,
+        'ardzilla:time': dt.datetime.now().strftime('%Y-%m-%dT%H:%M:%S'),
+        'collection': collection,
+        'date_start': date_start.strftime('%Y-%m-%d'),
+        'date_end': date_end.strftime('%Y-%m-%d'),
+        'bands': list(imgcol.first().bandNames().getInfo()),
+        'images': images_metadata
+    }
 
     # Re-create as collection and turn to bands (n_image x bands_per_image)
     tile_col = ee.ImageCollection.fromImages(images)
@@ -120,7 +134,7 @@ def create_ard(collection, tile, date_start, date_end):
     dims = tile_bands_proj.getInfo()['bands'][0]['dimensions']
     assert tuple(dims) == tuple(tile.size)
 
-    return tile_bands_proj, list(metadata)
+    return tile_bands_proj, metadata
 
 
 def _imgcol_metadata(imgcol, keys):
