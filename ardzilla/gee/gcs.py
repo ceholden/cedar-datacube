@@ -146,7 +146,7 @@ def mkdir_p(client, bucket, path):
     ----------
     .. [1] https://cloud.google.com/storage/docs/gsutil/addlhelp/HowSubdirectoriesWork
     """
-    paths = path.split('/')
+    paths = path.rstrip('/').split('/')
     for i in range(len(paths)):
         path_ = _format_dirpath('/'.join(paths[:i + 1]))
         if not exists(client, bucket, path_):
