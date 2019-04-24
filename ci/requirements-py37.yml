@@ -4,6 +4,15 @@ channels:
   - defaults
 dependencies:
   - python>=3.7
+  - pip
+  # core
+  - shapely
+  # EarthEngine
+  - pycrypto
+  - pyopenssl
+  - six
+  - oauth2client
+  - requests
   # CLI
   - click
   - click-plugins
@@ -17,5 +26,14 @@ dependencies:
   - sphinx
   - sphinx_rtd_theme
   - pip:
+    # EarthEngine
+    - earthengine-api
+    # Google Drive
+    - google-api-python-client
+    - google-auth-httplib2
+    - google-auth-oauthlib
+    # GCS
+    - google-cloud-storage
+    # docs
     - coverage-badge
     - sphinxcontrib-bibtex

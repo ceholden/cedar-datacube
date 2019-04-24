@@ -42,10 +42,18 @@ ENTRY_POINTS = {
 
 
 PYTHON_REQUIRES = '>=3.6'
-INSTALL_REQUIRES = []
+INSTALL_REQUIRES = ['earthengine-api', 'shapely']
 INSTALL_REQUIRES.extend(['click>=6.0', 'click-plugins', 'cligj>=0.5'])
 SETUP_REQUIRES = ['pytest-runner',]
-TEST_REQUIRES = ['pytest',]
+TESTS_REQUIRE = ['pytest',]
+EXTRAS_REQUIRE = {
+    'core': INSTALL_REQUIRES,
+    'tests': TESTS_REQUIRE,
+    'gcs': ['google-cloud-storage'],
+    'gdrive': ['google-api-python-client', 'google-auth-httplib2',
+               'google-auth-oauthlib']
+}
+EXTRAS_REQUIRE['all'] = sorted(set(sum(EXTRAS_REQUIRE.values(), [])))
 
 
 setup(
@@ -64,6 +72,7 @@ setup(
     include_package_data=True,
     python_requires=PYTHON_REQUIRES,
     install_requires=INSTALL_REQUIRES,
-    tests_require=TEST_REQUIRES,
     setup_requires=SETUP_REQUIRES,
+    tests_require=TESTS_REQUIRE,
+    extras_require=EXTRAS_REQUIRE
 )
