@@ -1,12 +1,14 @@
 """ Functions for dealing with Landsat data on GEE
 """
 import datetime as dt
+import logging
 
 import ee
 
 from .. import __version__ as ardzilla_version
 from . import common
 
+logger = logging.getLogger(__name__)
 
 # Renaming stuff
 BANDS_COMMON = ['blue', 'green', 'red', 'nir',
@@ -76,14 +78,18 @@ def create_ard(collection, tile, date_start, date_end, filters=None):
         Metadata, one dict per image
     """
     # TODO: convert system:time_start to datetime/strftime
-    assert isinstance(collection, str)
     assert isinstance(date_start, dt.datetime)
     assert isinstance(date_end, dt.datetime)
 
     # Get collection
-    imgcol = ee.ImageCollection(collection)
+    if isinstance(collection, ee.ImageCollection):
+        imgcol = collection
+        collection = imgcol.get('system:id').getInfo()
+    else:
+        imgcol = ee.ImageCollection(collection)
+
     if not collection in BANDS.keys():
-        raise KeyError(f'Unsupported image collection "{collection}"')
+        raise KeyError(f'Image collection "{collection}"')
 
     # Find images in tile
     imgcol = common.filter_collection_tile(imgcol, tile)
