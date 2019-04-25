@@ -29,6 +29,28 @@ def object_metadata(obj, keys):
     return d
 
 
+def collection_metadata(collection, key):
+    """ Return a ee.List of metadata from each item in ``collection``
+
+    Parameters
+    ----------
+    collection : ee.ImageCollection
+        GEE collection
+    key : str
+        Metadata key
+
+    Returns
+    -------
+    ee.List
+        List of metadata per item in ``collection``
+    """
+    def inner(img, previous):
+        v = ee.Image(img).get(key)
+        previous_ = ee.List(previous)
+        return ee.List(previous_.add(v))
+    return collection.iterate(inner, ee.List([]))
+
+
 # ==============================================================================
 # Time
 def get_collection_dates(imgcol):
