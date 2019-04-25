@@ -7,7 +7,7 @@ import shapely.geometry
 
 
 # ==============================================================================
-# Metadata
+# Metadata handling
 def object_metadata(obj, keys):
     """ Return metadata from some EE object as dict (not evaluated)
 

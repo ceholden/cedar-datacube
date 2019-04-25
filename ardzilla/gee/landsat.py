@@ -152,8 +152,11 @@ def create_ard(collection, tile, date_start, date_end, filters=None):
 
     # TODO: turn off check -- costly!
     # Check dimensions to make sure
-    dims = tile_bands_proj.getInfo()['bands'][0]['dimensions']
+    info = tile_bands_proj.getInfo()
+    dims = info['bands'][0]['dimensions']
     assert tuple(dims) == tuple(tile.size)
+    transform = list(info['bands'][0]['crs_transform'])
+    assert transform == list(tile.transform[:6])
 
     return tile_bands_proj, metadata
 
