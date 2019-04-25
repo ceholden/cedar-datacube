@@ -52,7 +52,7 @@ METADATA = {
 }
 
 
-def create_ard(collection, tile, date_start, date_end):
+def create_ard(collection, tile, date_start, date_end, filters=None):
     """ Create an ARD :py:class:`ee.Image`
 
     Parameters
@@ -65,6 +65,8 @@ def create_ard(collection, tile, date_start, date_end):
         Starting period
     date_end : dt.datetime
         Ending period
+    filters : Sequence[ee.Filter]
+        Additional filters to apply over image collection
 
     Returns
     -------
@@ -88,6 +90,11 @@ def create_ard(collection, tile, date_start, date_end):
 
     # For each unique date of imagery in this image collection covering the tile
     imgcol = common.filter_collection_time(imgcol, date_start, date_end)
+
+    # Apply additional filters
+    if filters is not None:
+        logger.debug(f'Applying {len(filters)} filters over collection')
+        imgcol = imgcol.filter(filters)
 
     # Select and rename bands
     imgcol = imgcol.select(BANDS[collection], BANDS['COMMON'])

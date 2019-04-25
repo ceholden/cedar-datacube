@@ -80,7 +80,8 @@ def export_path(collection, tile, d_start, d_end,
     return path
 
 
-def submit_ard(collection, tile, date_start, date_end, store, freq=None):
+def submit_ard(collection, tile, date_start, date_end, store,
+               filters=None, freq=None):
     """ Submit a ee.Task to create ARD, and stores the ARD with metadata
 
     Parameters
@@ -95,6 +96,8 @@ def submit_ard(collection, tile, date_start, date_end, store, freq=None):
         Ending period
     store : gcs.GCSStore or gdrive.GDriveStore
         Data store helper object from this package
+    filters : Sequence[ee.Filter]
+        Additional filters to apply over image collection
     freq : str, optional
         If provided, ``date_start``, ``date_end``, and ``freq`` are interpeted
         as the range for :py:func:`pandas.date_range` and one or more Tasks
@@ -130,7 +133,8 @@ def submit_ard(collection, tile, date_start, date_end, store, freq=None):
 
         # Create image & metadata
         logger.debug(f'Creating ARD between {start_}-{end_}')
-        image, metadata = _create_ard(collection, tile, start_, end_)
+        image, metadata = _create_ard(collection, tile, start_, end_,
+                                      filters=filters)
 
         # Export & store
         logger.debug('Creating Task to calculate and store image...')
@@ -143,7 +147,7 @@ def submit_ard(collection, tile, date_start, date_end, store, freq=None):
     return out
 
 
-def _create_ard(collection, tile, date_start, date_end):
+def _create_ard(collection, tile, date_start, date_end, **kwds):
     # TODO: Better place/way of getting this... just outsourcing for now...
     name = export_name(collection, tile, date_start, date_end)
     path = export_path(collection, tile, date_start, date_end)
@@ -154,7 +158,8 @@ def _create_ard(collection, tile, date_start, date_end):
 
     # Actually create it...
     logger.debug('Creating ARD...')
-    image, metadata = func_create_ard(collection, tile, date_start, date_end)
+    image, metadata = func_create_ard(collection, tile, date_start, date_end,
+                                      **kwds)
     return image, metadata
 
 
