@@ -6,6 +6,7 @@ import logging
 import ee
 
 from .. import __version__ as ardzilla_version
+from ..exceptions import EmptyCollectionError
 from . import common
 
 logger = logging.getLogger(__name__)
@@ -105,7 +106,12 @@ def create_ard(collection, tile, date_start, date_end, filters=None):
     # Select and rename bands
     imgcol = imgcol.select(BANDS[collection], BANDS['COMMON'])
 
+    # Find number of unique observations (or, uniquely dated)
     imgcol_udates = common.get_collection_uniq_dates(imgcol)
+    n_images = len(imgcol_udates)
+    if n_images == 0:
+        raise EmptyCollectionError('Found 0 dates of imagery usable for ARD')
+    logger.debug(f'Creating ARD for {n_images} images')
 
     # Loop over unique dates, making mosaics to eliminate north/south if needed
     prepped = []
