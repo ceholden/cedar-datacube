@@ -4,6 +4,7 @@ import logging
 
 import ee
 
+from ..exceptions import EmptyCollectionError
 from . import gdrive, gcs
 from . import landsat
 
@@ -127,22 +128,26 @@ def submit_ard(collection, tile, date_start, date_end, store,
 
     out = []
     for start_, end_ in date_periods:
+        logger.debug(f'Creating ARD between {start_}-{end_}')
         # TODO: Better place/way of getting this... just outsourcing for now...
         name = export_name(collection, tile, start_, end_)
         path = export_path(collection, tile, start_, end_)
 
         # Create image & metadata
-        logger.debug(f'Creating ARD between {start_}-{end_}')
-        image, metadata = _create_ard(collection, tile, start_, end_,
-                                      filters=filters)
+        try:
+            image, metadata = _create_ard(collection, tile, start_, end_,
+                                          filters=filters)
+        except EmptyCollectionError as e:
+            logger.exception('Could not process ARD for period '
+                             f'{start_}-{end_}')
+        else:
+            # Export & store
+            logger.debug('Creating Task to calculate and store image...')
+            task = store.store_image(image, name, path, **image_store_kwds)
+            logger.debug('Storing metadata...')
+            metadata_ = store.store_metadata(metadata, name, path)
 
-        # Export & store
-        logger.debug('Creating Task to calculate and store image...')
-        task = store.store_image(image, name, path, **image_store_kwds)
-        logger.debug('Storing metadata...')
-        metadata_ = store.store_metadata(metadata, name, path)
-
-        out.append((task, metadata_, ))
+            out.append((task, metadata_, ))
 
     return out
 
