@@ -7,6 +7,7 @@ import logging
 import os
 
 from apiclient.http import MediaIoBaseUpload
+from googleapiclient.discovery import Resource
 import ee
 
 from . import gauth
@@ -31,6 +32,7 @@ class GDriveStore(object):
         Additional keyword arguments to pass onto ``toDrive``
     """
     def __init__(self, gdrive, export_image_kwds=None):
+        assert isinstance(gdrive, Resource)
         self.gdrive = gdrive
         self.export_image_kwds = export_image_kwds or {}
 

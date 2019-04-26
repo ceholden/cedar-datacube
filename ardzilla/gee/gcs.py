@@ -27,6 +27,8 @@ class GCSStore(object):
         Additional keyword arguments to pass onto ``toCloudStorage``
     """
     def __init__(self, client, bucket, export_image_kwds=None):
+        assert isinstance(client, storage.Client)
+        assert isinstance(bucket, storage.Bucket)
         self.client = client
         self.bucket = bucket
         self.export_image_kwds = export_image_kwds or {}
