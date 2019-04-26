@@ -6,7 +6,7 @@ branches:
         - /^v[0-9].*$/
 env:
     global:
-        - ENCRYPTION_LABEL: "TODO"
+        - ENCRYPTION_LABEL: "15e8d589a7e2"
         - COMMIT_AUTHOR_EMAIL: "ceholden@gmail.com"
         - COMMIT_AUTHOR_NAME: "TRAVIS-CI BOT"
         - DOCS_ENV: "py37"

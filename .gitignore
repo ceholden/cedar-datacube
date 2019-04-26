@@ -1,5 +1,7 @@
 # Project ignore files
 
+.deploy_key
+.deploy_key.pub
 client_secret*.json
 credentials*.json
 
