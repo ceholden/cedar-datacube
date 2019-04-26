@@ -36,6 +36,16 @@ Follow the instructions provided at the following:
 It's probably going to be easiest to create and use a Service account private
 credential file.
 
+Make sure to enable the following Google Cloud Platform services:
+
+- Cloud Storage
+- Google Cloud Storage JSON API
+
+The "Cloud Storage" service is needed to actually store data, and the JSON API
+service is needed by the client libraries we use to interact with the storage
+service.
+
+
 .. _gee_creds_gdrive:
 
 Google Drive
