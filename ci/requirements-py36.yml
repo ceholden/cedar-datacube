@@ -26,6 +26,8 @@ dependencies:
   # docs
   - sphinx
   - sphinx_rtd_theme
+  - numpydoc
+  - ipython
   - pip:
     # EarthEngine
     - earthengine-api
