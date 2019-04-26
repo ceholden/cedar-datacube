@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.gee.gcs module &mdash; ardzilla 0+untagged.50.g0e2b3fc documentation</title>
+  <title>ardzilla.gee.gcs module &mdash; ardzilla 0+untagged.50.gaa6f472 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.g0e2b3fc
+                0+untagged.50.gaa6f472
               </div>
             
           
@@ -255,21 +255,42 @@ be part of <code class="docutils literal notranslate"><span class="pre">name</sp
 </dd></dl>
 
 <dl class="function">
-<dt id="ardzilla.gee.gcs.list_dir">
-<code class="descclassname">ardzilla.gee.gcs.</code><code class="descname">list_dir</code><span class="sig-paren">(</span><em>bucket</em>, <em>path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/gcs.html#list_dir"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.gcs.list_dir" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return blobs within a “directory” on GCS</p>
+<dt id="ardzilla.gee.gcs.list_blobs">
+<code class="descclassname">ardzilla.gee.gcs.</code><code class="descname">list_blobs</code><span class="sig-paren">(</span><em>bucket</em>, <em>prefix=None</em>, <em>pattern=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/gcs.html#list_blobs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.gcs.list_blobs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return file/non-directory blobs within a on GCS</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>bucket</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em> or </em><em>google.cloud.storage.bucket.Bucket</em>) – Bucket or bucket name</p></li>
-<li><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Path to folder</p></li>
+<li><p><strong>prefix</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – List contents within this folder</p></li>
+<li><p><strong>pattern</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Filter search by glob pattern (i.e., <code class="docutils literal notranslate"><span class="pre">*.json</span></code>)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>List of files inside “directory” at <code class="docutils literal notranslate"><span class="pre">path</span></code></p>
+<dd class="field-even"><p>List of blob files inside at <code class="docutils literal notranslate"><span class="pre">prefix</span></code></p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#list" title="(in Python v3.7)">list</a></p>
+<dd class="field-odd"><p>Sequence[google.cloud.storage.blob.Blob]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ardzilla.gee.gcs.list_dirs">
+<code class="descclassname">ardzilla.gee.gcs.</code><code class="descname">list_dirs</code><span class="sig-paren">(</span><em>bucket</em>, <em>prefix=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/gcs.html#list_dirs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.gcs.list_dirs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return “directory” blobs within a on GCS</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bucket</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em> or </em><em>google.cloud.storage.bucket.Bucket</em>) – Bucket or bucket name</p></li>
+<li><p><strong>prefix</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – List contents within this folder</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of directories names inside at <code class="docutils literal notranslate"><span class="pre">prefix</span></code></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Sequence[<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a>]</p>
 </dd>
 </dl>
 </dd></dl>
