@@ -7,7 +7,9 @@ Submodules
 .. toctree::
 
    ardzilla.gee.common
+   ardzilla.gee.core
    ardzilla.gee.gauth
+   ardzilla.gee.gcs
    ardzilla.gee.gdrive
    ardzilla.gee.landsat
 

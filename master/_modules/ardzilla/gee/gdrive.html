@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.gee.gdrive &mdash; ardzilla 0+untagged.19.gda23ef7.dirty documentation</title>
+  <title>ardzilla.gee.gdrive &mdash; ardzilla 0+untagged.50.g0e2b3fc documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.19.gda23ef7.dirty
+                0+untagged.50.g0e2b3fc
               </div>
             
           
@@ -170,11 +170,108 @@
 <span class="kn">import</span> <span class="nn">os</span>
 
 <span class="kn">from</span> <span class="nn">apiclient.http</span> <span class="k">import</span> <span class="n">MediaIoBaseUpload</span>
+<span class="kn">from</span> <span class="nn">googleapiclient.discovery</span> <span class="k">import</span> <span class="n">Resource</span>
+<span class="kn">import</span> <span class="nn">ee</span>
+
+<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">gauth</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
+
 <span class="n">MIME_TYPE_DIRECTORY</span> <span class="o">=</span> <span class="s1">&#39;application/vnd.google-apps.folder&#39;</span>
 <span class="n">MIME_TYPE_FILE</span> <span class="o">=</span> <span class="s1">&#39;application/vnd.google-apps.file&#39;</span>
+
+
+<div class="viewcode-block" id="GDriveStore"><a class="viewcode-back" href="../../../ardzilla/ardzilla.gee.gdrive.html#ardzilla.gee.gdrive.GDriveStore">[docs]</a><span class="k">class</span> <span class="nc">GDriveStore</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Store GEE &quot;pre-ARD&quot; images and metadata on Google Drive</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    client : google.cloud.storage.client.Client</span>
+<span class="sd">        GCS client</span>
+<span class="sd">    bucket : google.cloud.storage.bucket.Bucket</span>
+<span class="sd">        GCS bucket</span>
+<span class="sd">    export_image_kwds : dict, optional</span>
+<span class="sd">        Additional keyword arguments to pass onto ``toDrive``</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gdrive</span><span class="p">,</span> <span class="n">export_image_kwds</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">gdrive</span><span class="p">,</span> <span class="n">Resource</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gdrive</span> <span class="o">=</span> <span class="n">gdrive</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">export_image_kwds</span> <span class="o">=</span> <span class="n">export_image_kwds</span> <span class="ow">or</span> <span class="p">{}</span>
+
+<div class="viewcode-block" id="GDriveStore.from_credentials"><a class="viewcode-back" href="../../../ardzilla/ardzilla.gee.gdrive.html#ardzilla.gee.gdrive.GDriveStore.from_credentials">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_credentials</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">client_secrets</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">credentials</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                         <span class="n">export_image_kwds</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Load credentials and create the store</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">gdrive</span> <span class="o">=</span> <span class="n">gauth</span><span class="o">.</span><span class="n">build_gdrive_service</span><span class="p">(</span><span class="n">client_secrets</span><span class="p">,</span> <span class="n">credentials</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">gdrive</span><span class="p">,</span> <span class="n">export_image_kwds</span><span class="o">=</span><span class="n">export_image_kwds</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="GDriveStore.store_metadata"><a class="viewcode-back" href="../../../ardzilla/ardzilla.gee.gdrive.html#ardzilla.gee.gdrive.GDriveStore.store_metadata">[docs]</a>    <span class="k">def</span> <span class="nf">store_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Store JSON metadata</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        metadata : dict</span>
+<span class="sd">            Metadata, to be saved as JSON</span>
+<span class="sd">        name : str</span>
+<span class="sd">            Name of file/object to store</span>
+<span class="sd">        path : str, optional</span>
+<span class="sd">            Parent directory for file/object stored</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        str</span>
+<span class="sd">            ID of file uploaded</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">name</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.json&#39;</span><span class="p">):</span>
+            <span class="n">name</span> <span class="o">+=</span> <span class="s1">&#39;.json&#39;</span>
+
+        <span class="k">if</span> <span class="n">path</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">path_id</span> <span class="o">=</span> <span class="n">gdrive</span><span class="o">.</span><span class="n">mkdir_p</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">service</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+
+        <span class="n">meta_id</span> <span class="o">=</span> <span class="n">gdrive</span><span class="o">.</span><span class="n">upload_json</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">service</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span>
+                                     <span class="n">dest</span><span class="o">=</span><span class="n">path</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">meta_id</span></div>
+
+<div class="viewcode-block" id="GDriveStore.store_image"><a class="viewcode-back" href="../../../ardzilla/ardzilla.gee.gdrive.html#ardzilla.gee.gdrive.GDriveStore.store_image">[docs]</a>    <span class="k">def</span> <span class="nf">store_image</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Create ee.batch.Task to create and store &quot;pre-ARD&quot;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        image : ee.Image</span>
+<span class="sd">            Earth Engine image to compute &amp; store</span>
+<span class="sd">        name : str</span>
+<span class="sd">            Name of file/object to store</span>
+<span class="sd">        path : str, optional</span>
+<span class="sd">            Parent directory for file/object stored</span>
+<span class="sd">        kwds</span>
+<span class="sd">            Additional keyword arguments to export function (hint: &quot;crs&quot; and</span>
+<span class="sd">            &quot;scale&quot;)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        ee.Task</span>
+<span class="sd">            Earth Engine Task</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Combine keywords, with function&#39;s overriding</span>
+        <span class="n">kwds_</span> <span class="o">=</span> <span class="n">kwds</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">kwds_</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">export_image_kwds</span><span class="p">)</span>
+
+        <span class="c1"># Make parent directory</span>
+        <span class="n">path_</span> <span class="o">=</span> <span class="n">mkdir_p</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">service</span><span class="p">,</span>  <span class="n">path_</span><span class="p">)</span>
+
+        <span class="c1"># Canonicalized:</span>
+        <span class="c1">#   folder -&gt; driveFolder</span>
+        <span class="c1">#   fileNamePrefix, path -&gt; driveFileNamePrefix</span>
+        <span class="n">task</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">batch</span><span class="o">.</span><span class="n">Export</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">toDrive</span><span class="p">(</span>
+            <span class="n">image</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">fileNamePrefix</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">driveFolder</span><span class="o">=</span><span class="n">path</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwds</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">task</span></div></div>
 
 
 <div class="viewcode-block" id="upload_json"><a class="viewcode-back" href="../../../ardzilla/ardzilla.gee.gdrive.html#ardzilla.gee.gdrive.upload_json">[docs]</a><span class="k">def</span> <span class="nf">upload_json</span><span class="p">(</span><span class="n">service</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>

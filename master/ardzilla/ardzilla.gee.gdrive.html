@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.gee.gdrive module &mdash; ardzilla 0+untagged.19.gda23ef7.dirty documentation</title>
+  <title>ardzilla.gee.gdrive module &mdash; ardzilla 0+untagged.50.g0e2b3fc documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.19.gda23ef7.dirty
+                0+untagged.50.g0e2b3fc
               </div>
             
           
@@ -167,6 +167,72 @@
   <div class="section" id="module-ardzilla.gee.gdrive">
 <span id="ardzilla-gee-gdrive-module"></span><h1>ardzilla.gee.gdrive module<a class="headerlink" href="#module-ardzilla.gee.gdrive" title="Permalink to this headline">¶</a></h1>
 <p>Helper utilities for using Google Drive</p>
+<dl class="class">
+<dt id="ardzilla.gee.gdrive.GDriveStore">
+<em class="property">class </em><code class="descclassname">ardzilla.gee.gdrive.</code><code class="descname">GDriveStore</code><span class="sig-paren">(</span><em>gdrive</em>, <em>export_image_kwds=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/gdrive.html#GDriveStore"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.gdrive.GDriveStore" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.7/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Store GEE “pre-ARD” images and metadata on Google Drive</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>client</strong> (<em>google.cloud.storage.client.Client</em>) – GCS client</p></li>
+<li><p><strong>bucket</strong> (<em>google.cloud.storage.bucket.Bucket</em>) – GCS bucket</p></li>
+<li><p><strong>export_image_kwds</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a><em>, </em><em>optional</em>) – Additional keyword arguments to pass onto <code class="docutils literal notranslate"><span class="pre">toDrive</span></code></p></li>
+</ul>
+</dd>
+</dl>
+<dl class="classmethod">
+<dt id="ardzilla.gee.gdrive.GDriveStore.from_credentials">
+<em class="property">classmethod </em><code class="descname">from_credentials</code><span class="sig-paren">(</span><em>client_secrets=None</em>, <em>credentials=None</em>, <em>export_image_kwds=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/gdrive.html#GDriveStore.from_credentials"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.gdrive.GDriveStore.from_credentials" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load credentials and create the store</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ardzilla.gee.gdrive.GDriveStore.store_image">
+<code class="descname">store_image</code><span class="sig-paren">(</span><em>self</em>, <em>image</em>, <em>name</em>, <em>path=None</em>, <em>**kwds</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/gdrive.html#GDriveStore.store_image"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.gdrive.GDriveStore.store_image" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create ee.batch.Task to create and store “pre-ARD”</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>image</strong> (<em>ee.Image</em>) – Earth Engine image to compute &amp; store</p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Name of file/object to store</p></li>
+<li><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Parent directory for file/object stored</p></li>
+<li><p><strong>kwds</strong> – Additional keyword arguments to export function (hint: “crs” and
+“scale”)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Earth Engine Task</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ee.Task</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="ardzilla.gee.gdrive.GDriveStore.store_metadata">
+<code class="descname">store_metadata</code><span class="sig-paren">(</span><em>self</em>, <em>metadata</em>, <em>name</em>, <em>path=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/gdrive.html#GDriveStore.store_metadata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.gdrive.GDriveStore.store_metadata" title="Permalink to this definition">¶</a></dt>
+<dd><p>Store JSON metadata</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>metadata</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – Metadata, to be saved as JSON</p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Name of file/object to store</p></li>
+<li><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Parent directory for file/object stored</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>ID of file uploaded</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
 <dl class="function">
 <dt id="ardzilla.gee.gdrive.exists">
 <code class="descclassname">ardzilla.gee.gdrive.</code><code class="descname">exists</code><span class="sig-paren">(</span><em>service</em>, <em>name</em>, <em>parent_id=None</em>, <em>directory=False</em>, <em>trashed=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/gdrive.html#exists"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.gdrive.exists" title="Permalink to this definition">¶</a></dt>

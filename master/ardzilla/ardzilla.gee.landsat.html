@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.gee.landsat module &mdash; ardzilla 0+untagged.19.gda23ef7.dirty documentation</title>
+  <title>ardzilla.gee.landsat module &mdash; ardzilla 0+untagged.50.g0e2b3fc documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.19.gda23ef7.dirty
+                0+untagged.50.g0e2b3fc
               </div>
             
           
@@ -169,7 +169,7 @@
 <p>Functions for dealing with Landsat data on GEE</p>
 <dl class="function">
 <dt id="ardzilla.gee.landsat.create_ard">
-<code class="descclassname">ardzilla.gee.landsat.</code><code class="descname">create_ard</code><span class="sig-paren">(</span><em>collection</em>, <em>tile</em>, <em>date_start</em>, <em>date_end</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/landsat.html#create_ard"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.landsat.create_ard" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">ardzilla.gee.landsat.</code><code class="descname">create_ard</code><span class="sig-paren">(</span><em>collection</em>, <em>tile</em>, <em>date_start</em>, <em>date_end</em>, <em>filters=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/landsat.html#create_ard"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.landsat.create_ard" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create an ARD <code class="xref py py-class docutils literal notranslate"><span class="pre">ee.Image</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -178,6 +178,7 @@
 <li><p><strong>tile</strong> (<em>stems.gis.grids.Tile</em>) – STEMS TileGrid tile</p></li>
 <li><p><strong>date_start</strong> (<em>dt.datetime</em>) – Starting period</p></li>
 <li><p><strong>date_end</strong> (<em>dt.datetime</em>) – Ending period</p></li>
+<li><p><strong>filters</strong> (<em>Sequence</em><em>[</em><em>ee.Filter</em><em>]</em>) – Additional filters to apply over image collection</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -189,27 +190,6 @@
 </dd>
 </dl>
 </dd></dl>
-
-<dl class="function">
-<dt id="ardzilla.gee.landsat.export_desc">
-<code class="descclassname">ardzilla.gee.landsat.</code><code class="descname">export_desc</code><span class="sig-paren">(</span><em>collection</em>, <em>tile</em>, <em>d_start</em>, <em>d_end</em>, <em>version='v01'</em>, <em>prefix='GEEARD'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/landsat.html#export_desc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.landsat.export_desc" title="Permalink to this definition">¶</a></dt>
-<dd><p>Calculate a filename for GEE ARD downloads</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>imgcol</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – GEE image collection name</p></li>
-<li><p><strong>tile</strong> (<em>stems.gis.grids.Tile</em>) – STEMS TileGrid tile</p></li>
-<li><p><strong>date_start</strong> (<em>dt.datetime</em>) – Starting period</p></li>
-<li><p><strong>date_end</strong> (<em>dt.datetime</em>) – Ending period</p></li>
-</ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="ardzilla.gee.landsat.export_path">
-<code class="descclassname">ardzilla.gee.landsat.</code><code class="descname">export_path</code><span class="sig-paren">(</span><em>collection</em>, <em>tile</em>, <em>d_start</em>, <em>d_end</em>, <em>version='v01'</em>, <em>prefix='GEEARD'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/landsat.html#export_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.landsat.export_path" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
 
 </div>
 

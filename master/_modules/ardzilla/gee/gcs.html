@@ -1,0 +1,464 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ardzilla.gee.gcs &mdash; ardzilla 0+untagged.50.g0e2b3fc documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> ardzilla
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0+untagged.50.g0e2b3fc
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../faq.html">Frequently Asked Questions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../gee.html">Source - Google Earth Engine (GEE)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../usgs.html">Source - USGS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../netcdf4.html">Destination - NetCDF4</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Help and Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../dev.html">Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">ardzilla</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>ardzilla.gee.gcs</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for ardzilla.gee.gcs</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot; Helper utilities for using Google Cloud Storage</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">functools</span>
+<span class="kn">import</span> <span class="nn">io</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">import</span> <span class="nn">ee</span>
+<span class="kn">from</span> <span class="nn">google.cloud</span> <span class="k">import</span> <span class="n">storage</span>
+
+<span class="kn">from</span> <span class="nn">.gauth</span> <span class="k">import</span> <span class="n">build_gcs_client</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="GCSStore"><a class="viewcode-back" href="../../../ardzilla/ardzilla.gee.gcs.html#ardzilla.gee.gcs.GCSStore">[docs]</a><span class="k">class</span> <span class="nc">GCSStore</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Store GEE &quot;pre-ARD&quot; images and metadata on Google Cloud Storage</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    client : google.cloud.storage.client.Client</span>
+<span class="sd">        GCS client</span>
+<span class="sd">    bucket : google.cloud.storage.bucket.Bucket</span>
+<span class="sd">        GCS bucket</span>
+<span class="sd">    export_image_kwds : dict, optional</span>
+<span class="sd">        Additional keyword arguments to pass onto ``toCloudStorage``</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">export_image_kwds</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">storage</span><span class="o">.</span><span class="n">Client</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">storage</span><span class="o">.</span><span class="n">Bucket</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">client</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bucket</span> <span class="o">=</span> <span class="n">bucket</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">export_image_kwds</span> <span class="o">=</span> <span class="n">export_image_kwds</span> <span class="ow">or</span> <span class="p">{}</span>
+
+<div class="viewcode-block" id="GCSStore.from_credentials"><a class="viewcode-back" href="../../../ardzilla/ardzilla.gee.gcs.html#ardzilla.gee.gcs.GCSStore.from_credentials">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_credentials</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">bucket_name</span><span class="p">,</span> <span class="n">credentials</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">project</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                         <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Load Google Cloud Storage credentials and create store</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">client</span> <span class="o">=</span> <span class="n">build_gcs_client</span><span class="p">(</span><span class="n">credentials</span><span class="o">=</span><span class="n">credentials</span><span class="p">,</span> <span class="n">project</span><span class="o">=</span><span class="n">project</span><span class="p">)</span>
+        <span class="n">bucket</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_bucket</span><span class="p">(</span><span class="n">bucket_name</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="GCSStore.store_metadata"><a class="viewcode-back" href="../../../ardzilla/ardzilla.gee.gcs.html#ardzilla.gee.gcs.GCSStore.store_metadata">[docs]</a>    <span class="k">def</span> <span class="nf">store_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Store JSON metadata</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        metadata : dict</span>
+<span class="sd">            Metadata, to be saved as JSON</span>
+<span class="sd">        name : str</span>
+<span class="sd">            Name of file/object to store</span>
+<span class="sd">        path : str, optional</span>
+<span class="sd">            Parent directory for file/object stored. Otherwise assumed to</span>
+<span class="sd">            be part of ``name``</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        str</span>
+<span class="sd">            Path to object uploaded</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">name</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.json&#39;</span><span class="p">):</span>
+            <span class="n">name</span> <span class="o">+=</span> <span class="s1">&#39;.json&#39;</span>
+        <span class="n">fullname</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">path_</span> <span class="o">=</span> <span class="n">_combine_name_path</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+
+        <span class="n">path_</span> <span class="o">=</span> <span class="n">mkdir_p</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bucket</span><span class="p">,</span> <span class="n">path_</span><span class="p">)</span>
+
+        <span class="n">name_</span> <span class="o">=</span> <span class="n">upload_json</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bucket</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span> <span class="n">fullname</span><span class="p">,</span>
+                            <span class="n">check</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">name_</span></div>
+
+<div class="viewcode-block" id="GCSStore.store_image"><a class="viewcode-back" href="../../../ardzilla/ardzilla.gee.gcs.html#ardzilla.gee.gcs.GCSStore.store_image">[docs]</a>    <span class="k">def</span> <span class="nf">store_image</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Create ee.batch.Task to create and store &quot;pre-ARD&quot;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        image : ee.Image</span>
+<span class="sd">            Earth Engine image to compute &amp; store</span>
+<span class="sd">        name : str</span>
+<span class="sd">            Name of file/object to store</span>
+<span class="sd">        path : str, optional</span>
+<span class="sd">            Parent directory for file/object stored</span>
+<span class="sd">        kwds</span>
+<span class="sd">            Additional keyword arguments to export function (hint: &quot;crs&quot; and</span>
+<span class="sd">            &quot;scale&quot;)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        ee.Task</span>
+<span class="sd">            Earth Engine Task</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Combine keywords, with function&#39;s overriding</span>
+        <span class="n">kwds_</span> <span class="o">=</span> <span class="n">kwds</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">kwds_</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">export_image_kwds</span><span class="p">)</span>
+
+        <span class="c1"># Make parent directory</span>
+        <span class="n">fullname</span><span class="p">,</span> <span class="n">basename</span><span class="p">,</span> <span class="n">path_</span> <span class="o">=</span> <span class="n">_combine_name_path</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+        <span class="n">path_</span> <span class="o">=</span> <span class="n">mkdir_p</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bucket</span><span class="p">,</span> <span class="n">path_</span><span class="p">)</span>
+
+        <span class="c1"># Create compute/store export task</span>
+        <span class="c1"># Canonicalized:</span>
+        <span class="c1">#   bucket -&gt; outputBucket</span>
+        <span class="c1">#   fileNamePrefix, path -&gt; outputPrefix</span>
+        <span class="n">task</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">batch</span><span class="o">.</span><span class="n">Export</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">toCloudStorage</span><span class="p">(</span>
+            <span class="n">image</span><span class="p">,</span>
+            <span class="n">bucket</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">bucket</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="n">basename</span><span class="p">,</span>
+            <span class="n">fileNamePrefix</span><span class="o">=</span><span class="n">fullname</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwds</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">task</span></div></div>
+
+
+<div class="viewcode-block" id="upload_json"><a class="viewcode-back" href="../../../ardzilla/ardzilla.gee.gcs.html#ardzilla.gee.gcs.upload_json">[docs]</a><span class="k">def</span> <span class="nf">upload_json</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Upload data as JSON to GCS</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    bucket : google.cloud.storage.bucket.Bucket</span>
+<span class="sd">        GCS bucket</span>
+<span class="sd">    data : str or dict</span>
+<span class="sd">        JSON, either already dumped to str or as a dict</span>
+<span class="sd">    path : str</span>
+<span class="sd">        Destination path on GCS for data</span>
+<span class="sd">    check : bool, optional</span>
+<span class="sd">        Check to see if the file already exists first. If so, will</span>
+<span class="sd">        overwrite (or &quot;update&quot; instead of &quot;create&quot;)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    str</span>
+<span class="sd">        Filename uploaded</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Dump to JSON if needed</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">blob</span> <span class="o">=</span> <span class="n">bucket</span><span class="o">.</span><span class="n">blob</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="n">blob</span><span class="o">.</span><span class="n">upload_from_string</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s1">&#39;utf-8&#39;</span><span class="p">),</span>
+                            <span class="n">content_type</span><span class="o">=</span><span class="s1">&#39;application/json&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">path</span></div>
+
+
+<div class="viewcode-block" id="mkdir_p"><a class="viewcode-back" href="../../../ardzilla/ardzilla.gee.gcs.html#ardzilla.gee.gcs.mkdir_p">[docs]</a><span class="k">def</span> <span class="nf">mkdir_p</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Create a &quot;directory&quot; on GCS</span>
+
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    bucket : str or google.cloud.storage.bucket.Bucket</span>
+<span class="sd">        Bucket or bucket name</span>
+<span class="sd">    path : str</span>
+<span class="sd">        Path to folder</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    str</span>
+<span class="sd">        Path to directory on GCS bucket</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Directories don&#39;t really exist on GCS but we can fake it [1]_.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [1] https://cloud.google.com/storage/docs/gsutil/addlhelp/HowSubdirectoriesWork</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">paths</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">paths</span><span class="p">)):</span>
+        <span class="n">path_</span> <span class="o">=</span> <span class="n">_format_dirpath</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">paths</span><span class="p">[:</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]))</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">exists</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">path_</span><span class="p">):</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Creating &quot;directory&quot; on GCS &quot;</span><span class="si">{path_}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
+            <span class="n">mkdir</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">path_</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Path </span><span class="si">{path_}</span><span class="s1"> already exists...&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">_format_dirpath</span><span class="p">(</span><span class="n">path</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="mkdir"><a class="viewcode-back" href="../../../ardzilla/ardzilla.gee.gcs.html#ardzilla.gee.gcs.mkdir">[docs]</a><span class="k">def</span> <span class="nf">mkdir</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Make a directory, recursively</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    bucket : str or google.cloud.storage.bucket.Bucket</span>
+<span class="sd">        Bucket or bucket name</span>
+<span class="sd">    path : str</span>
+<span class="sd">        Path to folder</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    str</span>
+<span class="sd">        GCS for directory created (or already existing)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">path_</span> <span class="o">=</span> <span class="n">_format_dirpath</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="n">blob</span> <span class="o">=</span> <span class="n">bucket</span><span class="o">.</span><span class="n">blob</span><span class="p">(</span><span class="n">path_</span><span class="p">)</span>
+    <span class="n">content_type</span> <span class="o">=</span> <span class="s1">&#39;application/x-www-form-urlencoded;charset=UTF-8&#39;</span>
+    <span class="n">blob</span><span class="o">.</span><span class="n">upload_from_string</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">content_type</span><span class="o">=</span><span class="n">content_type</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">path</span></div>
+
+
+<div class="viewcode-block" id="exists"><a class="viewcode-back" href="../../../ardzilla/ardzilla.gee.gcs.html#ardzilla.gee.gcs.exists">[docs]</a><span class="k">def</span> <span class="nf">exists</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Check if file/folder exists</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    bucket : str or google.cloud.storage.bucket.Bucket</span>
+<span class="sd">        Bucket or bucket name</span>
+<span class="sd">    path : str</span>
+<span class="sd">        Path to file/folder</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    bool</span>
+<span class="sd">        True or False if exists</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">blob</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">Blob</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">bucket</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">blob</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="list_dir"><a class="viewcode-back" href="../../../ardzilla/ardzilla.gee.gcs.html#ardzilla.gee.gcs.list_dir">[docs]</a><span class="k">def</span> <span class="nf">list_dir</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Return blobs within a &quot;directory&quot; on GCS</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    bucket : str or google.cloud.storage.bucket.Bucket</span>
+<span class="sd">        Bucket or bucket name</span>
+<span class="sd">    path : str</span>
+<span class="sd">        Path to folder</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    list</span>
+<span class="sd">        List of files inside &quot;directory&quot; at ``path``</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">path_</span> <span class="o">=</span> <span class="n">_format_dirpath</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="n">blobs</span> <span class="o">=</span> <span class="n">bucket</span><span class="o">.</span><span class="n">list_blobs</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="n">path_</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+    <span class="n">prefixes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">page</span> <span class="ow">in</span> <span class="n">blobs</span><span class="o">.</span><span class="n">pages</span><span class="p">:</span>
+        <span class="n">prefixes</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">page</span><span class="o">.</span><span class="n">prefixes</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">prefixes</span><span class="p">)</span></div>
+
+
+<span class="k">def</span> <span class="nf">_format_dirpath</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">path</span> <span class="k">if</span> <span class="n">path</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="n">path</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span>
+
+
+<span class="k">def</span> <span class="nf">_combine_name_path</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="c1"># Entire filename</span>
+    <span class="k">if</span> <span class="n">prefix</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">parts</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+        <span class="n">prefix_</span> <span class="o">=</span> <span class="s1">&#39;/&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">parts</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">basename</span> <span class="o">=</span> <span class="n">parts</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">name</span><span class="p">,</span> <span class="n">basename</span><span class="p">,</span> <span class="n">_format_dirpath</span><span class="p">(</span><span class="n">prefix_</span><span class="p">)</span>
+    <span class="c1"># Filename + prefix</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="s1">&#39;/&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">name</span>  <span class="c1"># should just be a file</span>
+        <span class="n">prefix_</span> <span class="o">=</span> <span class="n">_format_dirpath</span><span class="p">(</span><span class="n">prefix</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">prefix_</span> <span class="o">+</span> <span class="n">name</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">prefix_</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Chris Holden
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

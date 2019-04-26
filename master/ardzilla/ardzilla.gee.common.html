@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.gee.common module &mdash; ardzilla 0+untagged.19.gda23ef7.dirty documentation</title>
+  <title>ardzilla.gee.common module &mdash; ardzilla 0+untagged.50.g0e2b3fc documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.19.gda23ef7.dirty
+                0+untagged.50.g0e2b3fc
               </div>
             
           
@@ -168,6 +168,26 @@
 <span id="ardzilla-gee-common-module"></span><h1>ardzilla.gee.common module<a class="headerlink" href="#module-ardzilla.gee.common" title="Permalink to this headline">¶</a></h1>
 <p>Common functions for dealing with GEE</p>
 <dl class="function">
+<dt id="ardzilla.gee.common.collection_metadata">
+<code class="descclassname">ardzilla.gee.common.</code><code class="descname">collection_metadata</code><span class="sig-paren">(</span><em>collection</em>, <em>key</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/common.html#collection_metadata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.common.collection_metadata" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a ee.List of metadata from each item in <code class="docutils literal notranslate"><span class="pre">collection</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>collection</strong> (<em>ee.ImageCollection</em>) – GEE collection</p></li>
+<li><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Metadata key</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of metadata per item in <code class="docutils literal notranslate"><span class="pre">collection</span></code></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ee.List</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
 <dt id="ardzilla.gee.common.filter_collection_tile">
 <code class="descclassname">ardzilla.gee.common.</code><code class="descname">filter_collection_tile</code><span class="sig-paren">(</span><em>col</em>, <em>tile</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/common.html#filter_collection_tile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.common.filter_collection_tile" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -188,18 +208,6 @@
 <dd></dd></dl>
 
 <dl class="function">
-<dt id="ardzilla.gee.common.map_clip_image_tile">
-<code class="descclassname">ardzilla.gee.common.</code><code class="descname">map_clip_image_tile</code><span class="sig-paren">(</span><em>tile</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/common.html#map_clip_image_tile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.common.map_clip_image_tile" title="Permalink to this definition">¶</a></dt>
-<dd><p>Clip an ee.Image according to the tile</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="ardzilla.gee.common.map_reproj_image_tile">
-<code class="descclassname">ardzilla.gee.common.</code><code class="descname">map_reproj_image_tile</code><span class="sig-paren">(</span><em>tile</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/common.html#map_reproj_image_tile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.common.map_reproj_image_tile" title="Permalink to this definition">¶</a></dt>
-<dd><p>Reproject an ee.Image according to the tile</p>
-</dd></dl>
-
-<dl class="function">
 <dt id="ardzilla.gee.common.object_metadata">
 <code class="descclassname">ardzilla.gee.common.</code><code class="descname">object_metadata</code><span class="sig-paren">(</span><em>obj</em>, <em>keys</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/common.html#object_metadata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.common.object_metadata" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return metadata from some EE object as dict (not evaluated)</p>
@@ -218,11 +226,6 @@
 </dd>
 </dl>
 </dd></dl>
-
-<dl class="function">
-<dt id="ardzilla.gee.common.tile_crs">
-<code class="descclassname">ardzilla.gee.common.</code><code class="descname">tile_crs</code><span class="sig-paren">(</span><em>tile</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/common.html#tile_crs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.common.tile_crs" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
 
 <dl class="function">
 <dt id="ardzilla.gee.common.tile_geom">

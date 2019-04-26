@@ -1,0 +1,7 @@
+ardzilla.exceptions module
+==========================
+
+.. automodule:: ardzilla.exceptions
+    :members:
+    :undoc-members:
+    :show-inheritance:

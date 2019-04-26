@@ -11,6 +11,13 @@ Subpackages
     ardzilla.gee
     ardzilla.usgs
 
+Submodules
+----------
+
+.. toctree::
+
+   ardzilla.exceptions
+
 Module contents
 ---------------
 

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.gee.common &mdash; ardzilla 0+untagged.19.gda23ef7.dirty documentation</title>
+  <title>ardzilla.gee.common &mdash; ardzilla 0+untagged.50.g0e2b3fc documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.19.gda23ef7.dirty
+                0+untagged.50.g0e2b3fc
               </div>
             
           
@@ -170,7 +170,7 @@
 
 
 <span class="c1"># ==============================================================================</span>
-<span class="c1"># Metadata</span>
+<span class="c1"># Metadata handling</span>
 <div class="viewcode-block" id="object_metadata"><a class="viewcode-back" href="../../../ardzilla/ardzilla.gee.common.html#ardzilla.gee.common.object_metadata">[docs]</a><span class="k">def</span> <span class="nf">object_metadata</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">keys</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Return metadata from some EE object as dict (not evaluated)</span>
 
@@ -192,6 +192,28 @@
     <span class="k">return</span> <span class="n">d</span></div>
 
 
+<div class="viewcode-block" id="collection_metadata"><a class="viewcode-back" href="../../../ardzilla/ardzilla.gee.common.html#ardzilla.gee.common.collection_metadata">[docs]</a><span class="k">def</span> <span class="nf">collection_metadata</span><span class="p">(</span><span class="n">collection</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Return a ee.List of metadata from each item in ``collection``</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    collection : ee.ImageCollection</span>
+<span class="sd">        GEE collection</span>
+<span class="sd">    key : str</span>
+<span class="sd">        Metadata key</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ee.List</span>
+<span class="sd">        List of metadata per item in ``collection``</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">inner</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">previous</span><span class="p">):</span>
+        <span class="n">v</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">img</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="n">previous_</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">List</span><span class="p">(</span><span class="n">previous</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ee</span><span class="o">.</span><span class="n">List</span><span class="p">(</span><span class="n">previous_</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">v</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">collection</span><span class="o">.</span><span class="n">iterate</span><span class="p">(</span><span class="n">inner</span><span class="p">,</span> <span class="n">ee</span><span class="o">.</span><span class="n">List</span><span class="p">([]))</span></div>
+
+
 <span class="c1"># ==============================================================================</span>
 <span class="c1"># Time</span>
 <div class="viewcode-block" id="get_collection_dates"><a class="viewcode-back" href="../../../ardzilla/ardzilla.gee.common.html#ardzilla.gee.common.get_collection_dates">[docs]</a><span class="k">def</span> <span class="nf">get_collection_dates</span><span class="p">(</span><span class="n">imgcol</span><span class="p">):</span>
@@ -208,13 +230,10 @@
 
 
 <div class="viewcode-block" id="filter_collection_time"><a class="viewcode-back" href="../../../ardzilla/ardzilla.gee.common.html#ardzilla.gee.common.filter_collection_time">[docs]</a><span class="k">def</span> <span class="nf">filter_collection_time</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="n">d_start</span><span class="p">,</span> <span class="n">d_end</span><span class="p">):</span>
-    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">d_start</span><span class="p">,</span> <span class="n">dt</span><span class="o">.</span><span class="n">datetime</span><span class="p">)</span>
-    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">d_end</span><span class="p">,</span> <span class="n">dt</span><span class="o">.</span><span class="n">datetime</span><span class="p">)</span>
-
-    <span class="n">d_start</span> <span class="o">=</span> <span class="n">d_start</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span>
-    <span class="n">d_end</span> <span class="o">=</span> <span class="n">d_end</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span>
-    <span class="n">col_</span> <span class="o">=</span> <span class="n">col</span><span class="o">.</span><span class="n">filterDate</span><span class="p">(</span><span class="n">d_start</span><span class="p">,</span> <span class="n">d_end</span><span class="p">)</span>
-
+    <span class="c1"># ee.Date should parse from str or datetime</span>
+    <span class="n">d_start_</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Date</span><span class="p">(</span><span class="n">d_start</span><span class="p">)</span>
+    <span class="n">d_end_</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Date</span><span class="p">(</span><span class="n">d_end</span><span class="p">)</span>
+    <span class="n">col_</span> <span class="o">=</span> <span class="n">col</span><span class="o">.</span><span class="n">filterDate</span><span class="p">(</span><span class="n">d_start_</span><span class="p">,</span> <span class="n">d_end_</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">col_</span></div>
 
 
@@ -225,34 +244,11 @@
     <span class="k">return</span> <span class="n">col</span><span class="o">.</span><span class="n">filterBounds</span><span class="p">(</span><span class="n">geom_ee</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="map_reproj_image_tile"><a class="viewcode-back" href="../../../ardzilla/ardzilla.gee.common.html#ardzilla.gee.common.map_reproj_image_tile">[docs]</a><span class="k">def</span> <span class="nf">map_reproj_image_tile</span><span class="p">(</span><span class="n">tile</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Reproject an ee.Image according to the tile</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">crs</span> <span class="o">=</span> <span class="n">tile_crs</span><span class="p">(</span><span class="n">tile</span><span class="p">)</span>
-    <span class="n">scale</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># mutually exclusive</span>
-    <span class="n">transform</span> <span class="o">=</span> <span class="n">tile</span><span class="o">.</span><span class="n">transform</span><span class="p">[:</span><span class="mi">6</span><span class="p">]</span>
-    <span class="k">def</span> <span class="nf">inner</span><span class="p">(</span><span class="n">img</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">img</span><span class="o">.</span><span class="n">reproject</span><span class="p">(</span><span class="n">crs</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">scale</span><span class="p">,</span> <span class="n">crsTransform</span><span class="o">=</span><span class="n">transform</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">inner</span></div>
-
-
-<div class="viewcode-block" id="map_clip_image_tile"><a class="viewcode-back" href="../../../ardzilla/ardzilla.gee.common.html#ardzilla.gee.common.map_clip_image_tile">[docs]</a><span class="k">def</span> <span class="nf">map_clip_image_tile</span><span class="p">(</span><span class="n">tile</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Clip an ee.Image according to the tile</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">geom_ee</span> <span class="o">=</span> <span class="n">tile_geom</span><span class="p">(</span><span class="n">tile</span><span class="p">)</span>
-    <span class="k">def</span> <span class="nf">inner</span><span class="p">(</span><span class="n">img</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">img</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span><span class="n">geom_ee</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">inner</span></div>
-
-
 <div class="viewcode-block" id="tile_geom"><a class="viewcode-back" href="../../../ardzilla/ardzilla.gee.common.html#ardzilla.gee.common.tile_geom">[docs]</a><span class="k">def</span> <span class="nf">tile_geom</span><span class="p">(</span><span class="n">tile</span><span class="p">):</span>
+    <span class="c1"># Buffer slightly inward so we don&#39;t get &quot;touching&quot; but not overlapping</span>
     <span class="n">geom</span> <span class="o">=</span> <span class="n">shapely</span><span class="o">.</span><span class="n">geometry</span><span class="o">.</span><span class="n">mapping</span><span class="p">(</span><span class="n">tile</span><span class="o">.</span><span class="n">bbox</span><span class="o">.</span><span class="n">buffer</span><span class="p">(</span><span class="o">-</span><span class="mf">1e-3</span><span class="p">))</span>
     <span class="n">geom_ee</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">Geometry</span><span class="p">(</span><span class="n">geom</span><span class="p">,</span> <span class="n">opt_proj</span><span class="o">=</span><span class="n">tile</span><span class="o">.</span><span class="n">crs</span><span class="o">.</span><span class="n">wkt</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">geom_ee</span></div>
-
-
-<div class="viewcode-block" id="tile_crs"><a class="viewcode-back" href="../../../ardzilla/ardzilla.gee.common.html#ardzilla.gee.common.tile_crs">[docs]</a><span class="k">def</span> <span class="nf">tile_crs</span><span class="p">(</span><span class="n">tile</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">ee</span><span class="o">.</span><span class="n">Projection</span><span class="p">(</span><span class="n">tile</span><span class="o">.</span><span class="n">crs</span><span class="o">.</span><span class="n">wkt</span><span class="p">)</span></div>
 </pre></div>
 
            </div>
