@@ -81,31 +81,8 @@ def filter_collection_tile(col, tile):
     return col.filterBounds(geom_ee)
 
 
-def map_reproj_image_tile(tile):
-    """ Reproject an ee.Image according to the tile
-    """
-    crs = tile_crs(tile)
-    scale = None  # mutually exclusive
-    transform = tile.transform[:6]
-    def inner(img):
-        return img.reproject(crs, scale=scale, crsTransform=transform)
-    return inner
-
-
-def map_clip_image_tile(tile):
-    """ Clip an ee.Image according to the tile
-    """
-    geom_ee = tile_geom(tile)
-    def inner(img):
-        return img.clip(geom_ee)
-    return inner
-
-
 def tile_geom(tile):
+    # Buffer slightly inward so we don't get "touching" but not overlapping
     geom = shapely.geometry.mapping(tile.bbox.buffer(-1e-3))
     geom_ee = ee.Geometry(geom, opt_proj=tile.crs.wkt)
     return geom_ee
-
-
-def tile_crs(tile):
-    return ee.Projection(tile.crs.wkt)

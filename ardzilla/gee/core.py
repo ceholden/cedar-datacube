@@ -1,11 +1,12 @@
 """ Core functions/etc for GEE ARD
 """
 import logging
+import json
 
 import ee
 
 from ..exceptions import EmptyCollectionError
-from . import gdrive, gcs
+from . import common
 from . import landsat
 
 logger = logging.getLogger(__name__)
@@ -112,13 +113,13 @@ def submit_ard(collection, tile, date_start, date_end, store,
         Stored metadata object(s) information (object ID if using the GDrive
         store or a path if using GCS)
     """
-    assert isinstance(store, (gcs.GCSStore, gdrive.GDriveStore))
     logger.debug(f'Storing image and metadata using {store}')
 
     # Stores are agnostic about these keywords needed for image
     image_store_kwds = {
         'crs': tile.crs.wkt,
-        'scale': tile.transform.a
+        'crs_transform': json.dumps(tile.transform[:6]),
+        'dimensions': f'{tile.width}x{tile.height}',
     }
 
     # Split up period into 1 or more sub-periods if freq is given
@@ -135,6 +136,8 @@ def submit_ard(collection, tile, date_start, date_end, store,
 
         # Create image & metadata
         try:
+            # Image is still "unbounded", but will be given crs, transform,
+            # and size on export
             image, metadata = _create_ard(collection, tile, start_, end_,
                                           filters=filters)
         except EmptyCollectionError as e:

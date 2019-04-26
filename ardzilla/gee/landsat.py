@@ -143,22 +143,9 @@ def create_ard(collection, tile, date_start, date_end, filters=None):
 
     # Re-create as collection and turn to bands (n_image x bands_per_image)
     tile_col = ee.ImageCollection.fromImages(images)
-    tile_bands = tile_col.toBands()
+    tile_bands = tile_col.toBands().toInt16()
 
-    # Reproject, clip, & convert dtype to be uniform
-    f_reproj = common.map_reproj_image_tile(tile)
-    f_clip = common.map_clip_image_tile(tile)
-    tile_bands_proj = f_clip(f_reproj(tile_bands)).toInt16()
-
-    # TODO: turn off check -- costly!
-    # Check dimensions to make sure
-    info = tile_bands_proj.getInfo()
-    dims = info['bands'][0]['dimensions']
-    assert tuple(dims) == tuple(tile.size)
-    transform = list(info['bands'][0]['crs_transform'])
-    assert transform == list(tile.transform[:6])
-
-    return tile_bands_proj, metadata
+    return tile_bands, metadata
 
 
 def _imgcol_metadata(imgcol, keys):
@@ -186,11 +173,7 @@ def _prep_collection_image(imgcol, collection, tile, date):
     assert len(_) == 1
 
     # Prepare all images in this collection (i.e., 1 or 2, depending on overlap)
-    img = (
-        imgcol_
-        .map(common.map_clip_image_tile(tile))
-        .mosaic()
-    )
+    img = imgcol_.mosaic()
 
     # Get metadata from each image in new, potentially mosaiced ``img``
     keys = METADATA[collection]
