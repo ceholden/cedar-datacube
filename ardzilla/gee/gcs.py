@@ -64,9 +64,9 @@ class GCSStore(object):
             name += '.json'
         fullname, _, path_ = _combine_name_path(name, path)
 
-        path_ = mkdir_p(self.client, self.bucket, path_)
+        path_ = mkdir_p(self.bucket, path_)
 
-        name_ = upload_json(self.client, self.bucket, metadata, fullname,
+        name_ = upload_json(self.bucket, metadata, fullname,
                             check=False)
         return name_
 
@@ -96,7 +96,7 @@ class GCSStore(object):
 
         # Make parent directory
         fullname, basename, path_ = _combine_name_path(name, path)
-        path_ = mkdir_p(self.client, self.bucket, path_)
+        path_ = mkdir_p(self.bucket, path_)
 
         # Create compute/store export task
         # Canonicalized:
@@ -112,13 +112,11 @@ class GCSStore(object):
         return task
 
 
-def upload_json(client, bucket, data, path, check=False):
+def upload_json(bucket, data, path, check=False):
     """ Upload data as JSON to GCS
 
     Parameters
     ----------
-    client : google.cloud.storage.client.Client
-        GCS client
     bucket : google.cloud.storage.bucket.Bucket
         GCS bucket
     data : str or dict
@@ -143,14 +141,12 @@ def upload_json(client, bucket, data, path, check=False):
     return path
 
 
-def mkdir_p(client, bucket, path):
+def mkdir_p(bucket, path):
     """ Create a "directory" on GCS
 
 
     Parameters
     ----------
-    client : google.cloud.storage.client.Client
-        GCS client
     bucket : str or google.cloud.storage.bucket.Bucket
         Bucket or bucket name
     path : str
@@ -172,22 +168,20 @@ def mkdir_p(client, bucket, path):
     paths = path.rstrip('/').split('/')
     for i in range(len(paths)):
         path_ = _format_dirpath('/'.join(paths[:i + 1]))
-        if not exists(client, bucket, path_):
+        if not exists(bucket, path_):
             logger.debug(f'Creating "directory" on GCS "{path_}"')
-            mkdir(client, bucket, path_)
+            mkdir(bucket, path_)
         else:
             logger.debug(f'Path {path_} already exists...')
 
     return _format_dirpath(path)
 
 
-def mkdir(client, bucket, path):
+def mkdir(bucket, path):
     """ Make a directory, recursively
 
     Parameters
     ----------
-    client : google.cloud.storage.client.Client
-        GCS client
     bucket : str or google.cloud.storage.bucket.Bucket
         Bucket or bucket name
     path : str
@@ -205,13 +199,11 @@ def mkdir(client, bucket, path):
     return path
 
 
-def exists(client, bucket, path):
+def exists(bucket, path):
     """ Check if file/folder exists
 
     Parameters
     ----------
-    client : google.cloud.storage.client.Client
-        GCS client
     bucket : str or google.cloud.storage.bucket.Bucket
         Bucket or bucket name
     path : str
@@ -226,13 +218,11 @@ def exists(client, bucket, path):
     return blob.exists()
 
 
-def list_dir(client, bucket, path):
+def list_dir(bucket, path):
     """ Return blobs within a "directory" on GCS
 
     Parameters
     ----------
-    client : google.cloud.storage.client.Client
-        GCS client
     bucket : str or google.cloud.storage.bucket.Bucket
         Bucket or bucket name
     path : str
