@@ -13,15 +13,34 @@ from . import gauth
 
 logger = logging.getLogger(__name__)
 
+
 MIME_TYPE_DIRECTORY = 'application/vnd.google-apps.folder'
 MIME_TYPE_FILE = 'application/vnd.google-apps.file'
 
 
 class GDriveStore(object):
+    """ Store GEE "pre-ARD" images and metadata on Google Drive
 
-    def __init__(self, client_secrets=None, credentials=None):
-        self.gdrive = gauth.build_gdrive_service(
-            client_secrets, credentials)
+    Parameters
+    ----------
+    client : google.cloud.storage.client.Client
+        GCS client
+    bucket : google.cloud.storage.bucket.Bucket
+        GCS bucket
+    export_image_kwds : dict, optional
+        Additional keyword arguments to pass onto ``toDrive``
+    """
+    def __init__(self, gdrive, export_image_kwds=None):
+        self.gdrive = gdrive
+        self.export_image_kwds = export_image_kwds or {}
+
+    @classmethod
+    def from_credentials(cls, client_secrets=None, credentials=None,
+                         export_image_kwds=None):
+        """ Load credentials and create the store
+        """
+        gdrive = gauth.build_gdrive_service(client_secrets, credentials)
+        return cls(gdrive, export_image_kwds=export_image_kwds)
 
     def store_metadata(self, metadata, name, path=None):
         """ Store JSON metadata
@@ -83,7 +102,6 @@ class GDriveStore(object):
             **kwds
         )
         return task
-
 
 
 def upload_json(service, data, name, dest=None, check=False):

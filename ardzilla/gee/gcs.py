@@ -9,20 +9,36 @@ import os
 import ee
 from google.cloud import storage
 
+from .gauth import build_gcs_client
+
 logger = logging.getLogger(__name__)
 
 
-# TODO: pass client, or bucket? we _never_ use client in functions but could be
-#       useful later
-# TODO: if client, default bucket or set None and try to pull from settings?
 class GCSStore(object):
+    """ Store GEE "pre-ARD" images and metadata on Google Cloud Storage
 
-    def __init__(self, client, bucket):
+    Parameters
+    ----------
+    client : google.cloud.storage.client.Client
+        GCS client
+    bucket : google.cloud.storage.bucket.Bucket
+        GCS bucket
+    export_image_kwds : dict, optional
+        Additional keyword arguments to pass onto ``toCloudStorage``
+    """
+    def __init__(self, client, bucket, export_image_kwds=None):
         self.client = client
-        if isinstance(bucket, str):
-            self.bucket = client.bucket(bucket)
-        else:
-            self.bucket = bucket
+        self.bucket = bucket
+        self.export_image_kwds = export_image_kwds or {}
+
+    @classmethod
+    def from_credentials(cls, bucket_name, credentials=None, project=None,
+                         **kwds):
+        """ Load Google Cloud Storage credentials and create store
+        """
+        client = build_gcs_client(credentials=credentials, project=project)
+        bucket = client.get_bucket(bucket_name)
+        return cls(client, bucket, **kwds)
 
     def store_metadata(self, metadata, name, path=None):
         """ Store JSON metadata
@@ -96,8 +112,8 @@ def upload_json(client, bucket, data, path, check=False):
     ----------
     client : google.cloud.storage.client.Client
         GCS client
-    bucket : str or google.cloud.storage.bucket.Bucket
-        Bucket or bucket name
+    bucket : google.cloud.storage.bucket.Bucket
+        GCS bucket
     data : str or dict
         JSON, either already dumped to str or as a dict
     path : str
