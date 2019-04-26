@@ -20,6 +20,7 @@ CREATE_ARD_COLLECTION.update({
 })
 
 
+# TODO: replace export_name/export_path
 def export_name(collection, tile, d_start, d_end,
                 version='v01', prefix='GEEARD'):
     """ Calculate a name/description for GEE ARD downloads

@@ -88,9 +88,14 @@ class GCSStore(object):
         ee.Task
             Earth Engine Task
         """
-        fullname, basename, path_ = _combine_name_path(name, path)
+        # Combine keywords, with function's overriding
+        kwds_ = kwds.copy()
+        kwds_.update(self.export_image_kwds)
+
         # Make parent directory
+        fullname, basename, path_ = _combine_name_path(name, path)
         path_ = mkdir_p(self.client, self.bucket, path_)
+
         # Create compute/store export task
         # Canonicalized:
         #   bucket -> outputBucket

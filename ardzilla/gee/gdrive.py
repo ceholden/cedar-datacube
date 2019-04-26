@@ -89,8 +89,13 @@ class GDriveStore(object):
         ee.Task
             Earth Engine Task
         """
+        # Combine keywords, with function's overriding
+        kwds_ = kwds.copy()
+        kwds_.update(self.export_image_kwds)
+
         # Make parent directory
         path_ = mkdir_p(self.service,  path_)
+
         # Canonicalized:
         #   folder -> driveFolder
         #   fileNamePrefix, path -> driveFileNamePrefix
