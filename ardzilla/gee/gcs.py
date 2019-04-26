@@ -1,10 +1,12 @@
 """ Helper utilities for using Google Cloud Storage
 """
+import fnmatch
 import functools
 import io
 import json
 import logging
 import os
+import re
 
 import ee
 from google.cloud import storage
@@ -12,6 +14,8 @@ from google.cloud import storage
 from .gauth import build_gcs_client
 
 logger = logging.getLogger(__name__)
+
+_RE_FILE = re.compile(r'.*(?<!\/)$')
 
 
 class GCSStore(object):
@@ -218,27 +222,57 @@ def exists(bucket, path):
     return blob.exists()
 
 
-def list_dir(bucket, path):
-    """ Return blobs within a "directory" on GCS
+def list_dirs(bucket, prefix=None):
+    """ Return "directory" blobs within a on GCS
 
     Parameters
     ----------
     bucket : str or google.cloud.storage.bucket.Bucket
         Bucket or bucket name
-    path : str
-        Path to folder
+    prefix : str
+        List contents within this folder
 
     Returns
     -------
-    list
-        List of files inside "directory" at ``path``
+    Sequence[str]
+        List of directories names inside at ``prefix``
     """
-    path_ = _format_dirpath(path)
-    blobs = bucket.list_blobs(prefix=path_, delimiter='/')
+    prefix = _format_dirpath(prefix) if prefix else None
+    blobs = bucket.list_blobs(prefix=prefix, delimiter='/')
     prefixes = set()
     for page in blobs.pages:
         prefixes.update(page.prefixes)
     return list(prefixes)
+
+
+def list_blobs(bucket, prefix=None, pattern=None):
+    """ Return file/non-directory blobs within a on GCS
+
+    Parameters
+    ----------
+    bucket : str or google.cloud.storage.bucket.Bucket
+        Bucket or bucket name
+    prefix : str
+        List contents within this folder
+    pattern : str, optional
+        Filter search by glob pattern (i.e., ``*.json``)
+
+    Returns
+    -------
+    Sequence[google.cloud.storage.blob.Blob]
+        List of blob files inside at ``prefix``
+    """
+    if prefix:
+        prefix = _format_dirpath(prefix)
+
+    blobs = bucket.list_blobs(prefix=prefix)
+    blobs = [blob for blob in blobs if _RE_FILE.match(blob.name)]
+
+    if pattern:
+        re_pattern = re.compile(fnmatch.translate(pattern))
+        blobs = [blob for blob in blobs if re_pattern.match(blob.name)]
+
+    return blobs
 
 
 def _format_dirpath(path):
