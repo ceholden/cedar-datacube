@@ -147,7 +147,9 @@ def submit_ard(collection, tile, date_start, date_end, store,
             # Export & store
             logger.debug('Creating Task to calculate and store image...')
             task = store.store_image(image, name, path, **image_store_kwds)
-            logger.debug('Storing metadata...')
+            # Update metadata with task info and store
+            metadata['task'] = _task_metadata(task)
+            logger.debug(f'Storing metadata for task id "{task.id}"')
             metadata_ = store.store_metadata(metadata, name, path)
 
             out.append((task, metadata_, ))
@@ -180,3 +182,8 @@ def _parse_date_freq(start, end, freq=None):
     else:
         times = pd.date_range(start, end, freq=freq).to_pydatetime()
         return list(zip(times[:-1], times[1:]))
+
+
+def _task_metadata(task):
+    attrs = ['id']  # "config" seems a bit much to store
+    return {attr: getattr(task, attr) for attr in attrs}
