@@ -84,7 +84,7 @@ def export_path(collection, tile, d_start, d_end,
 
 
 def submit_ard(collection, tile, date_start, date_end, store,
-               filters=None, freq=None):
+               filters=None, freq=None, start=True):
     """ Submit a ee.Task to create ARD, and stores the ARD with metadata
 
     Parameters
@@ -105,6 +105,8 @@ def submit_ard(collection, tile, date_start, date_end, store,
         If provided, ``date_start``, ``date_end``, and ``freq`` are interpeted
         as the range for :py:func:`pandas.date_range` and one or more Tasks
         will be submitted
+    start : bool, optional
+        Start the Earth Engine task
 
     Returns
     -------
@@ -148,10 +150,14 @@ def submit_ard(collection, tile, date_start, date_end, store,
             # Export & store
             logger.debug('Creating Task to calculate and store image...')
             task = store.store_image(image, name, path, **image_store_kwds)
+
             # Update metadata with task info and store
             metadata['task'] = _task_metadata(task)
             logger.debug(f'Storing metadata for task id "{task.id}"')
             metadata_ = store.store_metadata(metadata, name, path)
+
+            if start:
+                task = task.start()
 
             out.append((task, metadata_, ))
 
