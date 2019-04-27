@@ -123,7 +123,7 @@ def create_ard(collection, tile, date_start, date_end, filters=None,
     prepped = []
     for udate in sorted(imgcol_udates):
         # Prepare and get metadata for unique date
-        img, meta = _prep_collection_image(imgcol, collection, tile, udate,
+        img, meta = _prep_collection_image(imgcol, collection, udate,
                                            validate=validate)
         # Add image and metadata
         prepped.append((img, meta))
@@ -165,8 +165,8 @@ def _imgcol_metadata(imgcol, keys):
     return meta
 
 
-def _prep_collection_image(imgcol, collection, tile, date, validate=False):
-    """ Prepare an image for ``tile`` and ``date`` from an ImageCollection
+def _prep_collection_image(imgcol, collection, date, validate=False):
+    """ Prepare an image for and ``date`` from an ImageCollection
     """
     # Filter for this date (day <-> day+1)
     date_end = (date + dt.timedelta(days=1))
