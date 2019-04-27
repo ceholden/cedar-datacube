@@ -57,7 +57,8 @@ METADATA = {
 }
 
 
-def create_ard(collection, tile, date_start, date_end, filters=None):
+def create_ard(collection, tile, date_start, date_end, filters=None,
+               validate=False):
     """ Create an ARD :py:class:`ee.Image`
 
     Parameters
@@ -70,8 +71,11 @@ def create_ard(collection, tile, date_start, date_end, filters=None):
         Starting period
     date_end : dt.datetime
         Ending period
-    filters : Sequence[ee.Filter]
+    filters : Sequence[ee.Filter], optional
         Additional filters to apply over image collection
+    validate : bool, optional
+        Perform validity checks at cost of submission speed (runs ``.getInfo``
+        on metadata, requiring us to wait on client-server communication)
 
     Returns
     -------
@@ -119,7 +123,8 @@ def create_ard(collection, tile, date_start, date_end, filters=None):
     prepped = []
     for udate in sorted(imgcol_udates):
         # Prepare and get metadata for unique date
-        img, meta = _prep_collection_image(imgcol, collection, tile, udate)
+        img, meta = _prep_collection_image(imgcol, collection, tile, udate,
+                                           validate=validate)
         # Add image and metadata
         prepped.append((img, meta))
 
@@ -160,17 +165,17 @@ def _imgcol_metadata(imgcol, keys):
     return meta
 
 
-def _prep_collection_image(imgcol, collection, tile, date):
+def _prep_collection_image(imgcol, collection, tile, date, validate=False):
     """ Prepare an image for ``tile`` and ``date`` from an ImageCollection
     """
     # Filter for this date (day <-> day+1)
     date_end = (date + dt.timedelta(days=1))
     imgcol_ = common.filter_collection_time(imgcol, date, date_end)
 
-    # TODO: make optional -- getInfo is a big slowdown!
-    # Check to make sure just 1 unique date
-    _ = common.get_collection_uniq_dates(imgcol_)
-    assert len(_) == 1
+    if validate:
+        # Check to make sure just 1 unique date
+        _ = common.get_collection_uniq_dates(imgcol_)
+        assert len(_) == 1
 
     # Prepare all images in this collection (i.e., 1 or 2, depending on overlap)
     img = imgcol_.mosaic()
