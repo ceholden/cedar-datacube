@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.gee.landsat &mdash; ardzilla 0+untagged.50.gaa6f472 documentation</title>
+  <title>ardzilla.gee.landsat &mdash; ardzilla 0+untagged.50.gd5d8df7 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.gaa6f472
+                0+untagged.50.gd5d8df7
               </div>
             
           
@@ -220,7 +220,8 @@
 <span class="p">}</span>
 
 
-<div class="viewcode-block" id="create_ard"><a class="viewcode-back" href="../../../ardzilla/ardzilla.gee.landsat.html#ardzilla.gee.landsat.create_ard">[docs]</a><span class="k">def</span> <span class="nf">create_ard</span><span class="p">(</span><span class="n">collection</span><span class="p">,</span> <span class="n">tile</span><span class="p">,</span> <span class="n">date_start</span><span class="p">,</span> <span class="n">date_end</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="create_ard"><a class="viewcode-back" href="../../../ardzilla/ardzilla.gee.landsat.html#ardzilla.gee.landsat.create_ard">[docs]</a><span class="k">def</span> <span class="nf">create_ard</span><span class="p">(</span><span class="n">collection</span><span class="p">,</span> <span class="n">tile</span><span class="p">,</span> <span class="n">date_start</span><span class="p">,</span> <span class="n">date_end</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+               <span class="n">validate</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Create an ARD :py:class:`ee.Image`</span>
 
 <span class="sd">    Parameters</span>
@@ -233,8 +234,11 @@
 <span class="sd">        Starting period</span>
 <span class="sd">    date_end : dt.datetime</span>
 <span class="sd">        Ending period</span>
-<span class="sd">    filters : Sequence[ee.Filter]</span>
+<span class="sd">    filters : Sequence[ee.Filter], optional</span>
 <span class="sd">        Additional filters to apply over image collection</span>
+<span class="sd">    validate : bool, optional</span>
+<span class="sd">        Perform validity checks at cost of submission speed (runs ``.getInfo``</span>
+<span class="sd">        on metadata, requiring us to wait on client-server communication)</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -282,7 +286,8 @@
     <span class="n">prepped</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">udate</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">imgcol_udates</span><span class="p">):</span>
         <span class="c1"># Prepare and get metadata for unique date</span>
-        <span class="n">img</span><span class="p">,</span> <span class="n">meta</span> <span class="o">=</span> <span class="n">_prep_collection_image</span><span class="p">(</span><span class="n">imgcol</span><span class="p">,</span> <span class="n">collection</span><span class="p">,</span> <span class="n">tile</span><span class="p">,</span> <span class="n">udate</span><span class="p">)</span>
+        <span class="n">img</span><span class="p">,</span> <span class="n">meta</span> <span class="o">=</span> <span class="n">_prep_collection_image</span><span class="p">(</span><span class="n">imgcol</span><span class="p">,</span> <span class="n">collection</span><span class="p">,</span> <span class="n">udate</span><span class="p">,</span>
+                                           <span class="n">validate</span><span class="o">=</span><span class="n">validate</span><span class="p">)</span>
         <span class="c1"># Add image and metadata</span>
         <span class="n">prepped</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">img</span><span class="p">,</span> <span class="n">meta</span><span class="p">))</span>
 
@@ -323,17 +328,17 @@
     <span class="k">return</span> <span class="n">meta</span>
 
 
-<span class="k">def</span> <span class="nf">_prep_collection_image</span><span class="p">(</span><span class="n">imgcol</span><span class="p">,</span> <span class="n">collection</span><span class="p">,</span> <span class="n">tile</span><span class="p">,</span> <span class="n">date</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Prepare an image for ``tile`` and ``date`` from an ImageCollection</span>
+<span class="k">def</span> <span class="nf">_prep_collection_image</span><span class="p">(</span><span class="n">imgcol</span><span class="p">,</span> <span class="n">collection</span><span class="p">,</span> <span class="n">date</span><span class="p">,</span> <span class="n">validate</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Prepare an image for and ``date`` from an ImageCollection</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Filter for this date (day &lt;-&gt; day+1)</span>
     <span class="n">date_end</span> <span class="o">=</span> <span class="p">(</span><span class="n">date</span> <span class="o">+</span> <span class="n">dt</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
     <span class="n">imgcol_</span> <span class="o">=</span> <span class="n">common</span><span class="o">.</span><span class="n">filter_collection_time</span><span class="p">(</span><span class="n">imgcol</span><span class="p">,</span> <span class="n">date</span><span class="p">,</span> <span class="n">date_end</span><span class="p">)</span>
 
-    <span class="c1"># TODO: make optional -- getInfo is a big slowdown!</span>
-    <span class="c1"># Check to make sure just 1 unique date</span>
-    <span class="n">_</span> <span class="o">=</span> <span class="n">common</span><span class="o">.</span><span class="n">get_collection_uniq_dates</span><span class="p">(</span><span class="n">imgcol_</span><span class="p">)</span>
-    <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">_</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+    <span class="k">if</span> <span class="n">validate</span><span class="p">:</span>
+        <span class="c1"># Check to make sure just 1 unique date</span>
+        <span class="n">_</span> <span class="o">=</span> <span class="n">common</span><span class="o">.</span><span class="n">get_collection_uniq_dates</span><span class="p">(</span><span class="n">imgcol_</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">_</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
 
     <span class="c1"># Prepare all images in this collection (i.e., 1 or 2, depending on overlap)</span>
     <span class="n">img</span> <span class="o">=</span> <span class="n">imgcol_</span><span class="o">.</span><span class="n">mosaic</span><span class="p">()</span>

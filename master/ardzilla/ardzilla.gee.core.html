@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.gee.core module &mdash; ardzilla 0+untagged.50.gaa6f472 documentation</title>
+  <title>ardzilla.gee.core module &mdash; ardzilla 0+untagged.50.gd5d8df7 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.gaa6f472
+                0+untagged.50.gd5d8df7
               </div>
             
           
@@ -224,7 +224,7 @@
 
 <dl class="function">
 <dt id="ardzilla.gee.core.submit_ard">
-<code class="descclassname">ardzilla.gee.core.</code><code class="descname">submit_ard</code><span class="sig-paren">(</span><em>collection</em>, <em>tile</em>, <em>date_start</em>, <em>date_end</em>, <em>store</em>, <em>filters=None</em>, <em>freq=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/core.html#submit_ard"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.core.submit_ard" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">ardzilla.gee.core.</code><code class="descname">submit_ard</code><span class="sig-paren">(</span><em>collection</em>, <em>tile</em>, <em>date_start</em>, <em>date_end</em>, <em>store</em>, <em>filters=None</em>, <em>freq=None</em>, <em>start=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/core.html#submit_ard"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.core.submit_ard" title="Permalink to this definition">¶</a></dt>
 <dd><p>Submit a ee.Task to create ARD, and stores the ARD with metadata</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -238,6 +238,7 @@
 <li><p><strong>freq</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – If provided, <code class="docutils literal notranslate"><span class="pre">date_start</span></code>, <code class="docutils literal notranslate"><span class="pre">date_end</span></code>, and <code class="docutils literal notranslate"><span class="pre">freq</span></code> are interpeted
 as the range for <a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.date_range.html#pandas.date_range" title="(in pandas v0.24.2)"><code class="xref py py-func docutils literal notranslate"><span class="pre">pandas.date_range()</span></code></a> and one or more Tasks
 will be submitted</p></li>
+<li><p><strong>start</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em>, </em><em>optional</em>) – Start the Earth Engine task</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>

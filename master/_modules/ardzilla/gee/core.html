@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.gee.core &mdash; ardzilla 0+untagged.50.gaa6f472 documentation</title>
+  <title>ardzilla.gee.core &mdash; ardzilla 0+untagged.50.gd5d8df7 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.gaa6f472
+                0+untagged.50.gd5d8df7
               </div>
             
           
@@ -247,7 +247,7 @@
 
 
 <div class="viewcode-block" id="submit_ard"><a class="viewcode-back" href="../../../ardzilla/ardzilla.gee.core.html#ardzilla.gee.core.submit_ard">[docs]</a><span class="k">def</span> <span class="nf">submit_ard</span><span class="p">(</span><span class="n">collection</span><span class="p">,</span> <span class="n">tile</span><span class="p">,</span> <span class="n">date_start</span><span class="p">,</span> <span class="n">date_end</span><span class="p">,</span> <span class="n">store</span><span class="p">,</span>
-               <span class="n">filters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+               <span class="n">filters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Submit a ee.Task to create ARD, and stores the ARD with metadata</span>
 
 <span class="sd">    Parameters</span>
@@ -268,6 +268,8 @@
 <span class="sd">        If provided, ``date_start``, ``date_end``, and ``freq`` are interpeted</span>
 <span class="sd">        as the range for :py:func:`pandas.date_range` and one or more Tasks</span>
 <span class="sd">        will be submitted</span>
+<span class="sd">    start : bool, optional</span>
+<span class="sd">        Start the Earth Engine task</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -311,10 +313,14 @@
             <span class="c1"># Export &amp; store</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Creating Task to calculate and store image...&#39;</span><span class="p">)</span>
             <span class="n">task</span> <span class="o">=</span> <span class="n">store</span><span class="o">.</span><span class="n">store_image</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="o">**</span><span class="n">image_store_kwds</span><span class="p">)</span>
+
             <span class="c1"># Update metadata with task info and store</span>
             <span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;task&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_task_metadata</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Storing metadata for task id &quot;</span><span class="si">{task.id}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
             <span class="n">metadata_</span> <span class="o">=</span> <span class="n">store</span><span class="o">.</span><span class="n">store_metadata</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">start</span><span class="p">:</span>
+                <span class="n">task</span> <span class="o">=</span> <span class="n">task</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
 
             <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">task</span><span class="p">,</span> <span class="n">metadata_</span><span class="p">,</span> <span class="p">))</span>
 
