@@ -1,0 +1,57 @@
+# ardzilla configuration file template
+# vi: ft=yaml
+
+
+#############
+# Tile Grid #
+#############
+tile_grid:
+  name: BU MEaSUREs - NA - V00
+  ul: [-7633670.0, 5076465.0]
+  crs: PROJCS["BU MEaSUREs Lambert Azimuthal Equal Area - NA - V00",GEOGCS["GCS_WGS_1984",DATUM["D_WGS_1984",SPHEROID["WGS_1984",6378137.0,298.257223563]],PRIMEM["Greenwich",0.0],UNIT["degree",0.0174532925199433]],PROJECTION["Lambert_Azimuthal_Equal_Area"],PARAMETER["false_easting",0.0],PARAMETER["false_northing",0.0],PARAMETER["longitude_of_center",-100],PARAMETER["latitude_of_center",50],UNIT["meter",1.0]]
+  res: [30, 30]
+  size: [5000, 5000]
+  limits:
+  - [0, 64]
+  - [0, 84]
+
+
+#######################
+# Google Earth Engine #
+#######################
+gee:
+  export: GCS
+  shardSize: 256
+  fileDimensions: 512
+  name: "{collection}_h{tile.horizontal:03d}v{tile.vertical:03d}_{date_start}_{date_end}"
+  path: "GEEARD/v01/{collection}/h{tile.horizontal:03d}v{tile.vertical:03d}/"
+
+
+########################
+# Google Cloud Storage #
+########################
+gcs:
+  bucket_name: gee_ard
+  credentials: GEEARD_service_account.json
+  project: GEEARD
+
+
+################
+# Google Drive #
+################
+gdrive:
+  client_secrets: client_secrets.json
+  credentials: credentials.json
+
+
+#######################
+# ARD Storage Options #
+#######################
+ard:
+  preard: preARD 
+  dest: ARD
+  chunks:
+    - x: 250
+    - y: 250
+    - time: -1
+  zlib: True
