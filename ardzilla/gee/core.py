@@ -1,10 +1,12 @@
 """ Core functions/etc for GEE ARD
 """
+import datetime as dt
 import logging
 import json
 
 import ee
 
+from .. import defaults
 from ..exceptions import EmptyCollectionError
 from . import common
 from . import landsat
@@ -14,20 +16,24 @@ logger = logging.getLogger(__name__)
 
 #: dict: Mapping of GEE collection to ARD creating function
 CREATE_ARD_COLLECTION = {}
-# Add function for Landsat collections
 CREATE_ARD_COLLECTION.update({
     k: landsat.create_ard for k in landsat.METADATA.keys()
 })
 
+#: tuple[str]: Names of data available for string formatting when creating
+#              export names or paths
+EXPORT_NAME_DATA = ('tile', 'collection', 'date_start', 'date_end')
+
 
 # TODO: replace export_name/export_path
-def export_name(collection, tile, d_start, d_end,
-                version='v01', prefix='GEEARD'):
+def format_export_string(template, collection, tile, date_start, date_end):
     """ Calculate a name/description for GEE ARD downloads
 
     Parameters
     ----------
-    imgcol : str
+    template : str
+        String template to use for formatting
+    collection : str
         GEE image collection name
     tile : stems.gis.grids.Tile
         STEMS TileGrid tile
@@ -41,49 +47,21 @@ def export_name(collection, tile, d_start, d_end,
     str
         Name for exported data
     """
-    # We need a LOT of metadata in the name...
-    collection_ = collection.replace('/', '-')
-    hv = f"h{tile.horizontal:03d}v{tile.vertical:03d}"
-    d_start_ = d_start.strftime('%Y-%m-%d')
-    d_end_ = d_end.strftime('%Y-%m-%d')
-
-    name = '_'.join([prefix, version, collection_, hv, d_start_, d_end_])
+    # Clean / guard input data
+    kwds = {
+        'collection': collection.replace('/', '-'),
+        'date_start': date_start.strftime(defaults.GEE_EXPORT_IMAGE_STRFTIME),
+        'date_end': date_end.strftime(defaults.GEE_EXPORT_IMAGE_STRFTIME),
+        'tile': tile,
+        'datetime': dt.datetime,
+    }
+    name = template.format(**kwds)
     return name
 
 
-def export_path(collection, tile, d_start, d_end,
-                version='v01', prefix='GEEARD'):
-    """ Generate a prefix/folder path for some data
-
-    Parameters
-    ----------
-    imgcol : str
-        GEE image collection name
-    tile : stems.gis.grids.Tile
-        STEMS TileGrid tile
-    date_start : dt.datetime
-        Starting period
-    date_end : dt.datetime
-        Ending period
-
-    Returns
-    -------
-    str
-        Name for prefix/folder path to exported data
-    """
-    collection_ = collection.replace('/', '-')
-    hv = f"h{tile.horizontal:03d}v{tile.vertical:03d}"
-
-    path = '/'.join([
-        prefix,
-        version,
-        collection_,
-        hv
-    ])
-    return path
-
-
 def submit_ard(collection, tile, date_start, date_end, store,
+               name_template=defaults.GEE_PREARD_NAME,
+               prefix_template=defaults.GEE_PREARD_PREFIX,
                filters=None, freq=None, start=True):
     """ Submit a ee.Task to create ARD, and stores the ARD with metadata
 
@@ -99,6 +77,10 @@ def submit_ard(collection, tile, date_start, date_end, store,
         Ending period
     store : gcs.GCSStore or gdrive.GDriveStore
         Data store helper object from this package
+    name_template : str, optional
+        String template for the export filename
+    prefix_template : str, optional
+        String template for the export prefix path
     filters : Sequence[ee.Filter]
         Additional filters to apply over image collection
     freq : str, optional
@@ -133,9 +115,10 @@ def submit_ard(collection, tile, date_start, date_end, store,
     out = []
     for start_, end_ in date_periods:
         logger.debug(f'Creating ARD between {start_}-{end_}')
-        # TODO: Better place/way of getting this... just outsourcing for now...
-        name = export_name(collection, tile, start_, end_)
-        path = export_path(collection, tile, start_, end_)
+        # Create export name and paths
+        _args = (collection, tile, start_, end_, )
+        name = format_export_string(name_template, *_args)
+        prefix = format_export_string(prefix_template, *_args)
 
         # Create image & metadata
         try:
@@ -149,15 +132,15 @@ def submit_ard(collection, tile, date_start, date_end, store,
         else:
             # Export & store
             logger.debug('Creating Task to calculate and store image...')
-            task = store.store_image(image, name, path, **image_store_kwds)
+            task = store.store_image(image, name, prefix, **image_store_kwds)
 
             # Update metadata with task info and store
             metadata['task'] = _task_metadata(task)
             logger.debug(f'Storing metadata for task id "{task.id}"')
-            metadata_ = store.store_metadata(metadata, name, path)
+            metadata_ = store.store_metadata(metadata, name, prefix)
 
             if start:
-                task = task.start()
+                task.start()
 
             out.append((task, metadata_, ))
 
@@ -165,10 +148,6 @@ def submit_ard(collection, tile, date_start, date_end, store,
 
 
 def _create_ard(collection, tile, date_start, date_end, **kwds):
-    # TODO: Better place/way of getting this... just outsourcing for now...
-    name = export_name(collection, tile, date_start, date_end)
-    path = export_path(collection, tile, date_start, date_end)
-
     # Determine which function should be used for ARD generation
     func_create_ard = CREATE_ARD_COLLECTION[collection]
     logger.debug(f'Using function {func_create_ard}')

@@ -96,7 +96,7 @@ def create_ard(collection, tile, date_start, date_end, filters=None,
         imgcol = ee.ImageCollection(collection)
 
     if not collection in BANDS.keys():
-        raise KeyError(f'Image collection "{collection}"')
+        raise KeyError(f'Image collection "{collection}" is unsupported')
 
     # Find images in tile
     imgcol = common.filter_collection_tile(imgcol, tile)

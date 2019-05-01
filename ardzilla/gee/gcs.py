@@ -6,6 +6,7 @@ import io
 import json
 import logging
 import os
+from pathlib import Path
 import re
 
 import ee
@@ -61,8 +62,7 @@ class GCSStore(object):
 
         Returns
         -------
-        str
-            Path to object uploaded
+        str Path to object uploaded
         """
         if not name.endswith('.json'):
             name += '.json'
@@ -114,6 +114,62 @@ class GCSStore(object):
             **kwds
         )
         return task
+
+    def retrieve_image(self, dest, name, path=None, overwrite=True):
+        """ Retrieve (pieces of) an image from the GCS
+
+        Parameters
+        ----------
+        dest : str
+            Destination folder to save image(s)
+        name : str
+            Name of stored file/object
+        path : str, optional
+            Parent directory for file/object stored on GCS
+
+        Returns
+        -------
+        Sequence[str]
+            Filename(s) corresponding to retrieved data
+        """
+        if not name.endswith('tif'):
+            name += '*tif'
+
+        blobs = list_blobs(self.bucket, prefix=path, pattern=name)
+        logger.debug('Found {len(blobs)} blobs matching image name/prefix')
+
+        dests = []
+        for blob in blobs:
+            dests.append(download_blob(blob, dest, overwrite=overwrite))
+        return dests
+
+    def retrieve_metadata(self, dest, name, path=None, overwrite=True):
+        """ Retrieve image metadata from the GCS
+
+        Parameters
+        ----------
+        dest : str
+            Destination folder to save metadata
+        name : str
+            Name of stored file/object
+        path : str, optional
+            Parent directory for file/object stored
+
+        Returns
+        -------
+        pathlib.Path
+            Filename corresponding to retrieved data
+        """
+        if not name.endswith('json'):
+            name += '*json'
+
+        blobs = list_blobs(self.bucket, prefix=path, pattern=name)
+        logger.debug('Found {len(blobs)} blobs matching metadata name/prefix')
+
+        dests = []
+        for blob in blobs:
+            dests.append(download_blob(blob, dest, overwrite=overwrite))
+        return dests
 
 
 def upload_json(bucket, data, path, check=False):
@@ -273,6 +329,36 @@ def list_blobs(bucket, prefix=None, pattern=None):
         blobs = [blob for blob in blobs if re_pattern.match(blob.name)]
 
     return blobs
+
+
+def download_blob(blob, dest, overwrite=True):
+    """ Download a blob to a destination directory
+
+    Parameters
+    ----------
+    blob : google.cloud.storage.blob.Blob
+        GCS blob to download
+    dest : str
+        Local directory to download blob into
+
+    Returns
+    -------
+    pathlib.Path
+        Filename written to
+    """
+    dest = Path(dest)
+    if not dest.exists():
+        dest.mkdir(parents=True, exist_ok=True)
+    assert dest.is_dir()
+
+    name = blob.name.split('/')[-1]
+    dest_ = dest.joinpath(name)
+
+    if dest_.exists() and not overwrite:
+        logger.debug(f'Not overwriting already downloaded file "{dest_}"')
+    else:
+        blob.download_to_filename(str(dest_))
+    return dest_
 
 
 def _format_dirpath(path):
