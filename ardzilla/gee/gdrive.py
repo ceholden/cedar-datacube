@@ -24,16 +24,14 @@ class GDriveStore(object):
 
     Parameters
     ----------
-    client : google.cloud.storage.client.Client
-        GCS client
-    bucket : google.cloud.storage.bucket.Bucket
-        GCS bucket
+    service : googleapiclient.discovery.Resource
+        Google Drive API service
     export_image_kwds : dict, optional
         Additional keyword arguments to pass onto ``toDrive``
     """
-    def __init__(self, gdrive, export_image_kwds=None):
-        assert isinstance(gdrive, Resource)
-        self.gdrive = gdrive
+    def __init__(self, service, export_image_kwds=None):
+        assert isinstance(service, Resource)
+        self.service = service
         self.export_image_kwds = export_image_kwds or {}
 
     @classmethod
@@ -65,10 +63,10 @@ class GDriveStore(object):
             name += '.json'
 
         if path is not None:
-            path_id = gdrive.mkdir_p(self.service, path)
+            path_id = mkdir_p(self.service, path)
 
-        meta_id = gdrive.upload_json(self.service, metadata, name,
-                                     dest=path, check=True)
+        meta_id = upload_json(self.service, metadata, name,
+                              dest=path, check=True)
         return meta_id
 
     def store_image(self, image, name, path=None, **kwds):
@@ -96,7 +94,7 @@ class GDriveStore(object):
         kwds_.update(self.export_image_kwds)
 
         # Make parent directory
-        path_ = mkdir_p(self.service,  path_)
+        path_ = mkdir_p(self.service,  path)
 
         # Canonicalized:
         #   folder -> driveFolder
