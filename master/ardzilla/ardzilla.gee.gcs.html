@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.gee.gcs module &mdash; ardzilla 0+untagged.50.gd5d8df7 documentation</title>
+  <title>ardzilla.gee.gcs module &mdash; ardzilla 0+untagged.50.gdab0206 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.gd5d8df7
+                0+untagged.50.gdab0206
               </div>
             
           
@@ -188,6 +188,48 @@
 </dd></dl>
 
 <dl class="method">
+<dt id="ardzilla.gee.gcs.GCSStore.retrieve_image">
+<code class="descname">retrieve_image</code><span class="sig-paren">(</span><em>self</em>, <em>dest</em>, <em>name</em>, <em>path=None</em>, <em>overwrite=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/gcs.html#GCSStore.retrieve_image"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.gcs.GCSStore.retrieve_image" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve (pieces of) an image from the GCS</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dest</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Destination folder to save image(s)</p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Name of stored file/object</p></li>
+<li><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Parent directory for file/object stored on GCS</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Filename(s) corresponding to retrieved data</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Sequence[<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="ardzilla.gee.gcs.GCSStore.retrieve_metadata">
+<code class="descname">retrieve_metadata</code><span class="sig-paren">(</span><em>self</em>, <em>dest</em>, <em>name</em>, <em>path=None</em>, <em>overwrite=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/gcs.html#GCSStore.retrieve_metadata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.gcs.GCSStore.retrieve_metadata" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve image metadata from the GCS</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dest</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Destination folder to save metadata</p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Name of stored file/object</p></li>
+<li><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Parent directory for file/object stored</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Filename corresponding to retrieved data</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/pathlib.html#pathlib.Path" title="(in Python v3.7)">pathlib.Path</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
 <dt id="ardzilla.gee.gcs.GCSStore.store_image">
 <code class="descname">store_image</code><span class="sig-paren">(</span><em>self</em>, <em>image</em>, <em>name</em>, <em>path=None</em>, <em>**kwds</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/gcs.html#GCSStore.store_image"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.gcs.GCSStore.store_image" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create ee.batch.Task to create and store “pre-ARD”</p>
@@ -224,14 +266,34 @@ be part of <code class="docutils literal notranslate"><span class="pre">name</sp
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Path to object uploaded</p>
+<dd class="field-even"><p></p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a></p>
+<dd class="field-odd"><p>str Path to object uploaded</p>
 </dd>
 </dl>
 </dd></dl>
 
+</dd></dl>
+
+<dl class="function">
+<dt id="ardzilla.gee.gcs.download_blob">
+<code class="descclassname">ardzilla.gee.gcs.</code><code class="descname">download_blob</code><span class="sig-paren">(</span><em>blob</em>, <em>dest</em>, <em>overwrite=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/gcs.html#download_blob"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.gcs.download_blob" title="Permalink to this definition">¶</a></dt>
+<dd><p>Download a blob to a destination directory</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>blob</strong> (<em>google.cloud.storage.blob.Blob</em>) – GCS blob to download</p></li>
+<li><p><strong>dest</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Local directory to download blob into</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Filename written to</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/pathlib.html#pathlib.Path" title="(in Python v3.7)">pathlib.Path</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">

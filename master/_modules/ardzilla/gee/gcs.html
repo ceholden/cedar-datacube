@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.gee.gcs &mdash; ardzilla 0+untagged.50.gd5d8df7 documentation</title>
+  <title>ardzilla.gee.gcs &mdash; ardzilla 0+untagged.50.gdab0206 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.gd5d8df7
+                0+untagged.50.gdab0206
               </div>
             
           
@@ -169,6 +169,7 @@
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="k">import</span> <span class="n">Path</span>
 <span class="kn">import</span> <span class="nn">re</span>
 
 <span class="kn">import</span> <span class="nn">ee</span>
@@ -224,8 +225,7 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        str</span>
-<span class="sd">            Path to object uploaded</span>
+<span class="sd">        str Path to object uploaded</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">name</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.json&#39;</span><span class="p">):</span>
             <span class="n">name</span> <span class="o">+=</span> <span class="s1">&#39;.json&#39;</span>
@@ -276,7 +276,63 @@
             <span class="n">fileNamePrefix</span><span class="o">=</span><span class="n">fullname</span><span class="p">,</span>
             <span class="o">**</span><span class="n">kwds</span>
         <span class="p">)</span>
-        <span class="k">return</span> <span class="n">task</span></div></div>
+        <span class="k">return</span> <span class="n">task</span></div>
+
+<div class="viewcode-block" id="GCSStore.retrieve_image"><a class="viewcode-back" href="../../../ardzilla/ardzilla.gee.gcs.html#ardzilla.gee.gcs.GCSStore.retrieve_image">[docs]</a>    <span class="k">def</span> <span class="nf">retrieve_image</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dest</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Retrieve (pieces of) an image from the GCS</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        dest : str</span>
+<span class="sd">            Destination folder to save image(s)</span>
+<span class="sd">        name : str</span>
+<span class="sd">            Name of stored file/object</span>
+<span class="sd">        path : str, optional</span>
+<span class="sd">            Parent directory for file/object stored on GCS</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Sequence[str]</span>
+<span class="sd">            Filename(s) corresponding to retrieved data</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">name</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;tif&#39;</span><span class="p">):</span>
+            <span class="n">name</span> <span class="o">+=</span> <span class="s1">&#39;*tif&#39;</span>
+
+        <span class="n">blobs</span> <span class="o">=</span> <span class="n">list_blobs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bucket</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="n">path</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Found {len(blobs)} blobs matching image name/prefix&#39;</span><span class="p">)</span>
+
+        <span class="n">dests</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">blob</span> <span class="ow">in</span> <span class="n">blobs</span><span class="p">:</span>
+            <span class="n">dests</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">download_blob</span><span class="p">(</span><span class="n">blob</span><span class="p">,</span> <span class="n">dest</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="n">overwrite</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">dests</span></div>
+
+<div class="viewcode-block" id="GCSStore.retrieve_metadata"><a class="viewcode-back" href="../../../ardzilla/ardzilla.gee.gcs.html#ardzilla.gee.gcs.GCSStore.retrieve_metadata">[docs]</a>    <span class="k">def</span> <span class="nf">retrieve_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dest</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Retrieve image metadata from the GCS</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        dest : str</span>
+<span class="sd">            Destination folder to save metadata</span>
+<span class="sd">        name : str</span>
+<span class="sd">            Name of stored file/object</span>
+<span class="sd">        path : str, optional</span>
+<span class="sd">            Parent directory for file/object stored</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        pathlib.Path</span>
+<span class="sd">            Filename corresponding to retrieved data</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">name</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;json&#39;</span><span class="p">):</span>
+            <span class="n">name</span> <span class="o">+=</span> <span class="s1">&#39;*json&#39;</span>
+
+        <span class="n">blobs</span> <span class="o">=</span> <span class="n">list_blobs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bucket</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="n">path</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Found {len(blobs)} blobs matching metadata name/prefix&#39;</span><span class="p">)</span>
+
+        <span class="n">dests</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">blob</span> <span class="ow">in</span> <span class="n">blobs</span><span class="p">:</span>
+            <span class="n">dests</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">download_blob</span><span class="p">(</span><span class="n">blob</span><span class="p">,</span> <span class="n">dest</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="n">overwrite</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">dests</span></div></div>
 
 
 <div class="viewcode-block" id="upload_json"><a class="viewcode-back" href="../../../ardzilla/ardzilla.gee.gcs.html#ardzilla.gee.gcs.upload_json">[docs]</a><span class="k">def</span> <span class="nf">upload_json</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
@@ -436,6 +492,36 @@
         <span class="n">blobs</span> <span class="o">=</span> <span class="p">[</span><span class="n">blob</span> <span class="k">for</span> <span class="n">blob</span> <span class="ow">in</span> <span class="n">blobs</span> <span class="k">if</span> <span class="n">re_pattern</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">blob</span><span class="o">.</span><span class="n">name</span><span class="p">)]</span>
 
     <span class="k">return</span> <span class="n">blobs</span></div>
+
+
+<div class="viewcode-block" id="download_blob"><a class="viewcode-back" href="../../../ardzilla/ardzilla.gee.gcs.html#ardzilla.gee.gcs.download_blob">[docs]</a><span class="k">def</span> <span class="nf">download_blob</span><span class="p">(</span><span class="n">blob</span><span class="p">,</span> <span class="n">dest</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Download a blob to a destination directory</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    blob : google.cloud.storage.blob.Blob</span>
+<span class="sd">        GCS blob to download</span>
+<span class="sd">    dest : str</span>
+<span class="sd">        Local directory to download blob into</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    pathlib.Path</span>
+<span class="sd">        Filename written to</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dest</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">dest</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">dest</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+        <span class="n">dest</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="n">dest</span><span class="o">.</span><span class="n">is_dir</span><span class="p">()</span>
+
+    <span class="n">name</span> <span class="o">=</span> <span class="n">blob</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">dest_</span> <span class="o">=</span> <span class="n">dest</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">dest_</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">overwrite</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Not overwriting already downloaded file &quot;</span><span class="si">{dest_}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">blob</span><span class="o">.</span><span class="n">download_to_filename</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">dest_</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">dest_</span></div>
 
 
 <span class="k">def</span> <span class="nf">_format_dirpath</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>

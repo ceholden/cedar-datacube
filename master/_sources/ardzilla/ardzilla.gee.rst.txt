@@ -12,6 +12,8 @@ Submodules
    ardzilla.gee.gcs
    ardzilla.gee.gdrive
    ardzilla.gee.landsat
+   ardzilla.gee.preard
+   ardzilla.gee.tracker
 
 Module contents
 ---------------

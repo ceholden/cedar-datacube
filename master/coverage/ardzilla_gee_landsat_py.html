@@ -355,7 +355,7 @@
 <p id="t96" class="stm mis">        <span class="nam">imgcol</span> <span class="op">=</span> <span class="nam">ee</span><span class="op">.</span><span class="nam">ImageCollection</span><span class="op">(</span><span class="nam">collection</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t97" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t98" class="stm mis">    <span class="key">if</span> <span class="key">not</span> <span class="nam">collection</span> <span class="key">in</span> <span class="nam">BANDS</span><span class="op">.</span><span class="nam">keys</span><span class="op">(</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t99" class="stm mis">        <span class="key">raise</span> <span class="nam">KeyError</span><span class="op">(</span><span class="str">f'Image collection "{collection}"'</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t99" class="stm mis">        <span class="key">raise</span> <span class="nam">KeyError</span><span class="op">(</span><span class="str">f'Image collection "{collection}" is unsupported'</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t100" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t101" class="pln">    <span class="com"># Find images in tile</span><span class="strut">&nbsp;</span></p>
 <p id="t102" class="stm mis">    <span class="nam">imgcol</span> <span class="op">=</span> <span class="nam">common</span><span class="op">.</span><span class="nam">filter_collection_tile</span><span class="op">(</span><span class="nam">imgcol</span><span class="op">,</span> <span class="nam">tile</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
@@ -454,7 +454,7 @@
     <div class="content">
         <p>
             <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.io">coverage.py v4.5.3</a>,
-            created at 2019-04-30 00:00
+            created at 2019-05-01 16:56
         </p>
     </div>
 </div>
