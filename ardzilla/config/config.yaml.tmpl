@@ -20,11 +20,19 @@ tile_grid:
 # Google Earth Engine #
 #######################
 gee:
-  export: GCS
-  shardSize: 256
-  fileDimensions: 512
-  name: "{collection}_h{tile.horizontal:03d}v{tile.vertical:03d}_{date_start}_{date_end}"
-  path: "GEEARD/v01/{collection}/h{tile.horizontal:03d}v{tile.vertical:03d}/"
+  store:
+    service: gcs
+    name: "{collection}_h{tile.horizontal:03d}v{tile.vertical:03d}_{date_start}_{date_end}"
+    prefix: "GEEARD/v00/NA/{collection}/h{tile.horizontal:03d}v{tile.vertical:03d}"
+  track:
+    prefix: "GEEARD_TRACKER"
+  filters:
+    - type: 'lte'
+      name: 'CLOUD_COVER_LAND'
+      value: 80.
+  export:
+    shardSize: 256
+    fileDimensions: 512
 
 
 ########################
