@@ -59,11 +59,13 @@ class GEEARDTracker(object):
         if isinstance(tile_cols, int):
             tile_cols = (tile_cols, )
 
+        # Create metadata about task submission process
         meta_submission = create_submission_metadata(
             self.name_template, self.prefix_template,
             self.store, self.filters)
-        meta_tasks = []
 
+        # Store metadata about each task submitted
+        meta_tasks = []
         # Loop over product of collections & tiles 
         iter_submit = itertools.product(collections, tile_rows, tile_cols)
         for collection, tile_row, tile_col in iter_submit:
@@ -78,37 +80,33 @@ class GEEARDTracker(object):
                 prefix_template=self.prefix_template,
                 filters=self.filters,
                 freq=freq,
-                start=False
-            )
+                start=False)
 
             # Common metadata for all tasks in this loop
-            task_meta = {
-                'collection': collection,
-                'tile_row': tile_row,
-                'tile_col': tile_col,
-                'tile_bounds': tile.bounds,
-                'tile_crs_wkt': tile.crs.wkt,
-                'date_start': _strftime_image(date_start),
-                'date_end': _strftime_image(date_end),
-            }
+            task_meta = _tracking_info_metadata(
+                collection, tile, date_start, date_end)
 
             # Start and get metadata for each task
             for task, metadata in tasks_metadata:
                 task.start()
                 task_meta_ = task_meta.copy()
-                task_meta_.update(_task_metadata(task))
+                task_meta_.update(_tracking_task_metadata(task))
                 meta_tasks.append(task_meta_)
 
         # Get tracking info name and store it
+        tracking_name = self._tracking_name(date_start, date_end)
         tracking_info = {'submission': meta_submission, 'tasks': meta_tasks}
-        tracking_name = self.tracking_template.format(**{
-            'date_start': _strftime_image(date_start),
-            'date_end': _strftime_image(date_end),
-            'today': _strftime_track(dt.datetime.today()),
-        })
         return self.store.store_metadata(tracking_info, tracking_name,
                                          path=TRACKER_DIRECTORY)
 
+    def _tracking_name(self, date_start, date_end):
+        infos = {
+            'date_start': _strftime_image(date_start),
+            'date_end': _strftime_image(date_end),
+            'today': _strftime_track(dt.datetime.today()),
+        }
+        tracking_name = self.tracking_template.format(**infos)
+        return tracking_name
 
 
 def create_submission_metadata(name, prefix, store, filters):
@@ -147,7 +145,22 @@ def create_task_metadata(collection, tile, date_start, date_end,
     }
 
 
-def _task_metadata(task):
+def _tracking_info_metadata(collection, tile, date_start, date_end):
+    """ Create general task tracking metadata
+    """
+    meta = {
+        'collection': collection,
+        'tile_row': tile.vertical,
+        'tile_col': tile.horizontal,
+        'tile_bounds': tile.bounds,
+        'tile_crs_wkt': tile.crs.wkt,
+        'date_start': _strftime_image(date_start),
+        'date_end': _strftime_image(date_end),
+    }
+    return meta
+
+
+def _tracking_task_metadata(task):
     """ Get task name/prefix/(bucket) and ID
     """
     # GDrive keys:
