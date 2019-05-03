@@ -48,6 +48,19 @@ class GCSStore(object):
         bucket = client.get_bucket(bucket_name)
         return cls(client, bucket, **kwds)
 
+    def list(self, name=None, path=None):
+        """ List stored images or metadata
+
+        Parameters
+        ----------
+        name : str, optional
+            Filename pattern
+        path : str, optional
+            Prefix to search within
+        """
+        blobs = list_blobs(self.bucket, prefix=path, pattern=name)
+        return [blob.name for blob in blobs]
+
     def store_metadata(self, metadata, name, path=None):
         """ Store JSON metadata
 
@@ -171,6 +184,15 @@ class GCSStore(object):
         for blob in blobs:
             dests.append(download_blob(blob, dest, overwrite=overwrite))
         return dests
+
+    def read_metadata(self, name):
+        """ Read and parse JSON metadata into a dict
+        """
+        blob = self.bucket.get_blob(name)
+        if not blob:
+            raise ValueError(f'No stored metadata named {name}')
+        data_str = read_blob(blob, encoding=METADATA_ENCODING)
+        return json.loads(data_str)
 
 
 def upload_json(bucket, data, path, check=False, encoding=METADATA_ENCODING):
@@ -362,6 +384,24 @@ def download_blob(blob, dest, overwrite=True):
     else:
         blob.download_to_filename(str(dest_))
     return dest_
+
+
+def read_blob(blob, encoding=METADATA_ENCODING):
+    """ Read a blob as a string
+
+    Parameters
+    ----------
+    blob : google.cloud.storage.blob.Blob
+        Blob to read
+    encoding : str, optional
+        Metadata encoding
+
+    Returns
+    -------
+    str
+        Blob read and decoded as a string
+    """
+    return blob.download_as_string().decode(encoding)
 
 
 def _format_dirpath(path):
