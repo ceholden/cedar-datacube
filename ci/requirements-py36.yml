@@ -29,6 +29,8 @@ dependencies:
   - numpydoc
   - ipython
   - pip:
+    # STEMS - private repo url for now...
+    - git+ssh://git@github.com/ceholden/stems.git
     # EarthEngine
     - earthengine-api
     # Google Drive
