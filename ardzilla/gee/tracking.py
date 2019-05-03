@@ -3,6 +3,7 @@
 import datetime as dt
 import itertools
 import logging
+from pathlib import Path
 import string
 
 import ee
@@ -28,7 +29,8 @@ class GEEARDTracker(object):
                  name_template=defaults.GEE_PREARD_NAME,
                  prefix_template=defaults.GEE_PREARD_PREFIX,
                  tracking_template=defaults.GEE_PREARD_TRACKING,
-                 filters=None):
+                 filters=None,
+                 overwrite=False):
         assert isinstance(tile_grid, TileGrid)
         assert isinstance(store, (gcs.GCSStore, gdrive.GDriveStore))
         self.tile_grid = tile_grid
@@ -37,6 +39,7 @@ class GEEARDTracker(object):
         self.prefix_template = prefix_template
         self.tracking_template = tracking_template
         self.filters = filters or []
+        self.overwrite = overwrite
 
     def submit_ard(self, collections, tile_rows, tile_cols,
                    date_start, date_end, freq=defaults.GEE_PREARD_FREQ):
@@ -125,7 +128,7 @@ class GEEARDTracker(object):
         dict
         """
         tracking_info = self.get_tracking(tracking_name)
-        return download_tracked_info(tracking_info)
+        return download_tracked_info(tracking_info, self.store, dest)
 
     def list_tracking(self, pattern=None):
         """ Return a list of all tracking metadata
@@ -214,14 +217,27 @@ def download_tracked_info(tracking_info, store, dest):
     dict[str, list[str]]
         Name of downloaded data, organized according to GEE task ID
     """
-    dest_ = pathlib.Path(str(dest))
+    dest_ = Path(str(dest))
     if not dest_.exists():
         dest_.mkdir(exist_ok=True, parents=True)
     else:
         assert dest_.is_dir()
 
-    breakpoint()
+    tasks = tracking_info['tasks']
+    retrieved = {}
+    for task in tasks:
+        id_, name, prefix = task['id'], task['name'], task['prefix']
+        logger.debug(f'Retrieving image and metadata for id={id_}, '
+                     f'name="{name}", prefix="{prefix}"')
+        # Retrieve image and metadata
+        dst_imgs = store.retrieve_image(dest, name, prefix,
+                                        overwrite=self.overwrite)
+        dst_meta = store.retrieve_metadata(dest, name, prefix,
+                                           overwrite=self.overwrite)
 
+        retrieved[id_] = list(dst_meta) + list(dst_imgs)
+
+    return retrieved
 
 
 def update_tracking_info(tracking_info):
