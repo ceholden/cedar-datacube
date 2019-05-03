@@ -351,7 +351,8 @@ def list_blobs(bucket, prefix=None, pattern=None):
 
     if pattern:
         re_pattern = re.compile(fnmatch.translate(pattern))
-        blobs = [blob for blob in blobs if re_pattern.match(blob.name)]
+        blobs = [blob for blob in blobs
+                 if re_pattern.match(_blob_basename(blob, prefix))]
 
     return blobs
 
@@ -406,6 +407,13 @@ def read_blob(blob, encoding=METADATA_ENCODING):
 
 def _format_dirpath(path):
     return path if path.endswith('/') else path + '/'
+
+
+def _blob_basename(blob, prefix):
+    if prefix and blob.name.startswith(prefix):
+        return blob.name[len(prefix):]
+    else:
+        return blob.name
 
 
 def _combine_name_path(name, prefix=None):
