@@ -6,8 +6,13 @@ dependencies:
   - python>=3.7
   - pip
   # core
+  - dask
+  - distributed
+  - netCDF4
+  - numpy
   - pandas
   - shapely
+  - xarray
   # EarthEngine
   - pycrypto
   - pyopenssl
