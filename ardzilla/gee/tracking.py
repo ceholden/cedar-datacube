@@ -2,6 +2,8 @@
 """
 import datetime as dt
 import itertools
+import logging
+import string
 
 import ee
 import pandas as pd
@@ -11,13 +13,17 @@ from stems.gis.grids import TileGrid, Tile
 from .. import defaults
 from . import core, gcs, gdrive
 
+logger = logging.getLogger(__name__)
 
-TRACKER_DIRECTORY = 'TRACKER'
+_STR_FORMATTER = string.Formatter()
 
 
 class GEEARDTracker(object):
     """ Tracker for GEE ARD task submission
     """
+
+    TRACKING_DIRECTORY = 'TRACKING'
+
     def __init__(self, tile_grid, store,
                  name_template=defaults.GEE_PREARD_NAME,
                  prefix_template=defaults.GEE_PREARD_PREFIX,
@@ -51,6 +57,11 @@ class GEEARDTracker(object):
         freq : str, optional
             Submit pre-ARD tasks for periods between ``date_start`` and
             ``date_end`` with this frequency
+
+        Returns
+        -------
+        str
+            Path to stored task metadata information
         """
         if isinstance(collections, str):
             collections = (collections, )
@@ -97,7 +108,79 @@ class GEEARDTracker(object):
         tracking_name = self._tracking_name(date_start, date_end)
         tracking_info = {'submission': meta_submission, 'tasks': meta_tasks}
         return self.store.store_metadata(tracking_info, tracking_name,
-                                         path=TRACKER_DIRECTORY)
+                                         path=self.TRACKING_DIRECTORY)
+
+    def download_ard(self, tracking_name, dest):
+        """ Download "pre-ARD" and metadata to a directory
+
+        Parameters
+        ----------
+        tracking_name : str
+            Name of stored tracking information
+        dest : str or pathlib.Path
+            Destination download directory
+
+        Returns
+        -------
+        dict
+        """
+        tracking_info = self.get_tracking(tracking_name)
+        return download_tracked_info(tracking_info)
+
+    def list_tracking(self, pattern=None):
+        """ Return a list of all tracking metadata
+
+        Parameters
+        ----------
+        pattern : str, optional
+            Search pattern for tracking info. Specify to subset to specific
+            tracking info (e.g., from some date). If ``None`` provided,
+            looks for tracking information matching
+            :func:`~GEEARDTracker.tracking_template`
+
+        Returns
+        -------
+        list[str]
+            Name of stored tracking information
+        """
+        return self.store.list(name=pattern, path=self.TRACKING_DIRECTORY)
+
+    def get_tracking(self, name):
+        """ Returns stored tracking information as dict
+
+        Parameters
+        ----------
+        name : str
+            Name of tracking metadata (e.g., taken from running
+            :func:`~GEEARDTracker.list_tracking`)
+
+        Returns
+        -------
+        dict
+            JSON tracking info data as a dict
+        """
+        if not name.startswith(self.TRACKING_DIRECTORY):
+            name = '/'.join([self.TRACKING_DIRECTORY, name])
+        return self.store.read_metadata(name)
+
+    def refresh_tracking(self, name):
+        """ Refresh and reupload tracking information by checking with the GEE
+
+        Parameters
+        ----------
+        name : str
+            Name of tracking metadata (e.g., taken from running
+            :func:`~GEEARDTracker.list_tracking`)
+
+        Returns
+        -------
+        dict
+            JSON tracking info data as a dict
+        """
+        tracking_info = self.get_tracking(name)
+        tracking_info_update = update_tracking_info(tracking_info)
+        name_ = self.store.store_metadata(tracking_info, name)
+        return tracking_info_update
 
     def _tracking_name(self, date_start, date_end):
         infos = {
@@ -107,6 +190,72 @@ class GEEARDTracker(object):
         }
         tracking_name = self.tracking_template.format(**infos)
         return tracking_name
+
+    @property
+    def _tracking_template_findall(self):
+        keys = [i[1] for i in _STR_FORMATTER.parse(self.tracking_template)]
+        return self.tracking_template.format(**{k: '*' for k in keys})
+
+
+def download_tracked_info(tracking_info, store, dest):
+    """ Download stored "pre-ARD" and metadata described by tracking info
+
+    Parameters
+    ----------
+    tracking_info : dict
+        Tracking information
+    store : ardzilla.gee.gcs.GCSStore or ardzilla.gee.gdrive.GDriveStore
+        ARDzilla store class
+    dest : str or pathlib.Path
+        Destination download directory
+
+    Returns
+    -------
+    dict[str, list[str]]
+        Name of downloaded data, organized according to GEE task ID
+    """
+    dest_ = pathlib.Path(str(dest))
+    if not dest_.exists():
+        dest_.mkdir(exist_ok=True, parents=True)
+    else:
+        assert dest_.is_dir()
+
+    breakpoint()
+
+
+
+def update_tracking_info(tracking_info):
+    """ Try to update tracking information with current task status from GEE
+
+    Parameters
+    ----------
+    tracking_info : dict
+        Tracking information stored from a past submission
+
+    Returns
+    -------
+    dict
+        Input tracking info updated with GEE task status
+    """
+    tracking_info = tracking_info.copy()
+    tracked_tasks = tracking_info['tasks']
+
+    ee_tasks = get_tasks()
+
+    updated = []
+    for info in tracked_tasks:
+        id_ = info['id']
+        task = ee_tasks.get(id_, None)
+        if task:
+            info_ = _tracking_task_metadata(task)
+            info.update(info_)
+        else:
+            logger.debug('Could not update information for task id="{id_}"')
+        updated.append(info)
+
+    tracking_info['tasks'] = updated
+
+    return tracking_info
 
 
 def create_submission_metadata(name, prefix, store, filters):
@@ -163,6 +312,8 @@ def _tracking_info_metadata(collection, tile, date_start, date_end):
 def _tracking_task_metadata(task):
     """ Get task name/prefix/(bucket) and ID
     """
+    info = {}
+    # When active, task config information has:
     # GDrive keys:
     #    description, dimensions, crs, fileFormat, driveFolder, crs_transform,
     #    driveFileNamePrefix, json
@@ -171,21 +322,25 @@ def _tracking_task_metadata(task):
     #    outputPrefix, json
     bucket = task.config.get('outputBucket', '')
     if bucket:  # GCS
-        name = task.config['description']
-        prefix = task.config['outputPrefix'].rstrip(name)
-    else:  # GDrive
-        name = task.config['driveFileNamePrefix']
-        prefix = task.config['driveFolder']
+        info['name'] = task.config['description']
+        info['prefix'] = task.config['outputPrefix'].rstrip(name)
+    elif 'driveFolder' in task.config:  # GDrive
+        info['name'] = task.config['driveFileNamePrefix']
+        info['prefix'] = task.config['driveFolder']
+    # Otherwise we're updating something a task
 
     status = task.status()
-
-    return {
-        'name': name,
-        'prefix': prefix,
+    info.update({
         'bucket_name': bucket,
         'id': status['id'],
-        'state': status['state']
-    }
+        'state': status['state'],
+        # Attributes available post-run
+        'creation_timestamp_ms': status.get('creation_timestamp_ms', ''),
+        'update_timestamp_ms': status.get('update_timestamp_ms', ''),
+        'start_timestamp_ms': status.get('start_timestamp_ms', ''),
+        'output_url': status.get('output_url', [])
+    })
+    return info
 
 
 def get_tasks():
