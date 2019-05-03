@@ -17,6 +17,7 @@ from .gauth import build_gcs_client
 logger = logging.getLogger(__name__)
 
 _RE_FILE = re.compile(r'.*(?<!\/)$')
+METADATA_ENCODING = 'utf-8'
 
 
 class GCSStore(object):
@@ -136,7 +137,7 @@ class GCSStore(object):
             name += '*tif'
 
         blobs = list_blobs(self.bucket, prefix=path, pattern=name)
-        logger.debug('Found {len(blobs)} blobs matching image name/prefix')
+        logger.debug(f'Found {len(blobs)} blobs matching image name/prefix')
 
         dests = []
         for blob in blobs:
@@ -172,7 +173,7 @@ class GCSStore(object):
         return dests
 
 
-def upload_json(bucket, data, path, check=False):
+def upload_json(bucket, data, path, check=False, encoding=METADATA_ENCODING):
     """ Upload data as JSON to GCS
 
     Parameters
@@ -186,6 +187,8 @@ def upload_json(bucket, data, path, check=False):
     check : bool, optional
         Check to see if the file already exists first. If so, will
         overwrite (or "update" instead of "create")
+    encoding : str, optional
+        Metadata encoding
 
     Returns
     -------
@@ -196,7 +199,7 @@ def upload_json(bucket, data, path, check=False):
     if not isinstance(data, str):
         data = json.dumps(data, indent=2)
     blob = bucket.blob(path)
-    blob.upload_from_string(data.encode('utf-8'),
+    blob.upload_from_string(data.encode(encoding),
                             content_type='application/json')
     return path
 
