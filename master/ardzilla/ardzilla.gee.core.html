@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.gee.core module &mdash; ardzilla 0+untagged.50.gdab0206 documentation</title>
+  <title>ardzilla.gee.core module &mdash; ardzilla 0+untagged.50.g514112f documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.gdab0206
+                0+untagged.50.g514112f
               </div>
             
           
@@ -91,7 +91,6 @@
 <p class="caption"><span class="caption-text">User Guide</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../gee.html">Source - Google Earth Engine (GEE)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../usgs.html">Source - USGS</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../netcdf4.html">Destination - NetCDF4</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Help and Reference</span></p>
@@ -179,13 +178,14 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="ardzilla.gee.core.export_name">
-<code class="descclassname">ardzilla.gee.core.</code><code class="descname">export_name</code><span class="sig-paren">(</span><em>collection</em>, <em>tile</em>, <em>d_start</em>, <em>d_end</em>, <em>version='v01'</em>, <em>prefix='GEEARD'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/core.html#export_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.core.export_name" title="Permalink to this definition">¶</a></dt>
+<dt id="ardzilla.gee.core.format_export_string">
+<code class="descclassname">ardzilla.gee.core.</code><code class="descname">format_export_string</code><span class="sig-paren">(</span><em>template</em>, <em>collection</em>, <em>tile</em>, <em>date_start</em>, <em>date_end</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/core.html#format_export_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.core.format_export_string" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate a name/description for GEE ARD downloads</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>imgcol</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – GEE image collection name</p></li>
+<li><p><strong>template</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – String template to use for formatting</p></li>
+<li><p><strong>collection</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – GEE image collection name</p></li>
 <li><p><strong>tile</strong> (<em>stems.gis.grids.Tile</em>) – STEMS TileGrid tile</p></li>
 <li><p><strong>date_start</strong> (<em>dt.datetime</em>) – Starting period</p></li>
 <li><p><strong>date_end</strong> (<em>dt.datetime</em>) – Ending period</p></li>
@@ -201,30 +201,8 @@
 </dd></dl>
 
 <dl class="function">
-<dt id="ardzilla.gee.core.export_path">
-<code class="descclassname">ardzilla.gee.core.</code><code class="descname">export_path</code><span class="sig-paren">(</span><em>collection</em>, <em>tile</em>, <em>d_start</em>, <em>d_end</em>, <em>version='v01'</em>, <em>prefix='GEEARD'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/core.html#export_path"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.core.export_path" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generate a prefix/folder path for some data</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>imgcol</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – GEE image collection name</p></li>
-<li><p><strong>tile</strong> (<em>stems.gis.grids.Tile</em>) – STEMS TileGrid tile</p></li>
-<li><p><strong>date_start</strong> (<em>dt.datetime</em>) – Starting period</p></li>
-<li><p><strong>date_end</strong> (<em>dt.datetime</em>) – Ending period</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Name for prefix/folder path to exported data</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
 <dt id="ardzilla.gee.core.submit_ard">
-<code class="descclassname">ardzilla.gee.core.</code><code class="descname">submit_ard</code><span class="sig-paren">(</span><em>collection</em>, <em>tile</em>, <em>date_start</em>, <em>date_end</em>, <em>store</em>, <em>filters=None</em>, <em>freq=None</em>, <em>start=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/core.html#submit_ard"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.core.submit_ard" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">ardzilla.gee.core.</code><code class="descname">submit_ard</code><span class="sig-paren">(</span><em>collection</em>, <em>tile</em>, <em>date_start</em>, <em>date_end</em>, <em>store</em>, <em>name_template='{collection}_h{tile.horizontal:03d}v{tile.vertical:03d}_{date_start}_{date_end}'</em>, <em>prefix_template='GEEARD/{collection}/h{tile.horizontal:03d}v{tile.vertical:03d}'</em>, <em>filters=None</em>, <em>freq=None</em>, <em>start=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/core.html#submit_ard"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.core.submit_ard" title="Permalink to this definition">¶</a></dt>
 <dd><p>Submit a ee.Task to create ARD, and stores the ARD with metadata</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -233,7 +211,9 @@
 <li><p><strong>tile</strong> (<em>stems.gis.grids.Tile</em>) – STEMS TileGrid tile</p></li>
 <li><p><strong>date_start</strong> (<em>dt.datetime</em>) – Starting period</p></li>
 <li><p><strong>date_end</strong> (<em>dt.datetime</em>) – Ending period</p></li>
-<li><p><strong>store</strong> (<a class="reference internal" href="ardzilla.gee.gcs.html#ardzilla.gee.gcs.GCSStore" title="ardzilla.gee.gcs.GCSStore"><em>gcs.GCSStore</em></a><em> or </em><a class="reference internal" href="ardzilla.gee.gdrive.html#ardzilla.gee.gdrive.GDriveStore" title="ardzilla.gee.gdrive.GDriveStore"><em>gdrive.GDriveStore</em></a>) – Data store helper object from this package</p></li>
+<li><p><strong>store</strong> (<a class="reference internal" href="../gee_storage.html#ardzilla.gee.gcs.GCSStore" title="ardzilla.gee.gcs.GCSStore"><em>gcs.GCSStore</em></a><em> or </em><a class="reference internal" href="ardzilla.gee.gdrive.html#ardzilla.gee.gdrive.GDriveStore" title="ardzilla.gee.gdrive.GDriveStore"><em>gdrive.GDriveStore</em></a>) – Data store helper object from this package</p></li>
+<li><p><strong>name_template</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – String template for the export filename</p></li>
+<li><p><strong>prefix_template</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – String template for the export prefix path</p></li>
 <li><p><strong>filters</strong> (<em>Sequence</em><em>[</em><em>ee.Filter</em><em>]</em>) – Additional filters to apply over image collection</p></li>
 <li><p><strong>freq</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – If provided, <code class="docutils literal notranslate"><span class="pre">date_start</span></code>, <code class="docutils literal notranslate"><span class="pre">date_end</span></code>, and <code class="docutils literal notranslate"><span class="pre">freq</span></code> are interpeted
 as the range for <a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.date_range.html#pandas.date_range" title="(in pandas v0.24.2)"><code class="xref py py-func docutils literal notranslate"><span class="pre">pandas.date_range()</span></code></a> and one or more Tasks

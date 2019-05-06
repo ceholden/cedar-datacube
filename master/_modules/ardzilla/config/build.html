@@ -1,0 +1,366 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ardzilla.config.build &mdash; ardzilla 0+untagged.50.g514112f documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> ardzilla
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0+untagged.50.g514112f
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../faq.html">Frequently Asked Questions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../gee.html">Source - Google Earth Engine (GEE)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../netcdf4.html">Destination - NetCDF4</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Help and Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../dev.html">Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">ardzilla</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>ardzilla.config.build</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for ardzilla.config.build</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot; Build configuration files for :py:mod:`ardzilla`</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="k">import</span> <span class="n">Path</span>
+<span class="kn">import</span> <span class="nn">yaml</span>
+
+<span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">defaults</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<span class="n">TEMPLATE_FILENAME</span> <span class="o">=</span> <span class="s1">&#39;config.yaml.tmpl&#39;</span>
+<span class="n">TEMPLATE_FILE</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="n">TEMPLATE_FILENAME</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="build_config"><a class="viewcode-back" href="../../../ardzilla/ardzilla.config.build.html#ardzilla.config.build.build_config">[docs]</a><span class="k">def</span> <span class="nf">build_config</span><span class="p">(</span><span class="n">tile_grid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">gee</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">gcs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">gdrive</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ard</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Build a config using minimal data</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">tile_grid_</span> <span class="o">=</span> <span class="n">build_tile_grid</span><span class="p">(</span><span class="o">**</span><span class="p">(</span><span class="n">tile_grid</span> <span class="ow">or</span> <span class="p">{}))</span>
+
+    <span class="n">gee_</span> <span class="o">=</span> <span class="n">build_gee</span><span class="p">(</span><span class="o">**</span><span class="p">(</span><span class="n">gee</span> <span class="ow">or</span> <span class="p">{}))</span>
+    <span class="n">store_kwd</span> <span class="o">=</span> <span class="n">gee_</span><span class="p">[</span><span class="s1">&#39;store&#39;</span><span class="p">][</span><span class="s1">&#39;service&#39;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">store_kwd</span> <span class="o">==</span> <span class="s1">&#39;gcs&#39;</span><span class="p">:</span>
+        <span class="n">store_</span> <span class="o">=</span> <span class="n">build_store_gcs</span><span class="p">(</span><span class="o">**</span><span class="p">(</span><span class="n">gcs</span> <span class="ow">or</span> <span class="p">{}))</span>
+    <span class="k">elif</span> <span class="n">store_kwd</span> <span class="o">==</span> <span class="s1">&#39;gdrive&#39;</span><span class="p">:</span>
+        <span class="n">store_</span> <span class="o">=</span> <span class="n">build_store_gdrive</span><span class="p">(</span><span class="o">**</span><span class="p">(</span><span class="n">gdrive</span> <span class="ow">or</span> <span class="p">{}))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Unknown storage service &quot;</span><span class="si">{store_kwd}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
+
+    <span class="n">ard_</span> <span class="o">=</span> <span class="n">build_ard</span><span class="p">(</span><span class="o">**</span><span class="p">(</span><span class="n">ard</span> <span class="ow">or</span> <span class="p">{}))</span>
+
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s1">&#39;tile_grid&#39;</span><span class="p">:</span> <span class="n">tile_grid_</span><span class="p">,</span>
+        <span class="s1">&#39;gee&#39;</span><span class="p">:</span> <span class="n">gee_</span><span class="p">,</span>
+        <span class="n">store_kwd</span><span class="p">:</span> <span class="n">store_</span><span class="p">,</span>
+        <span class="s1">&#39;ard&#39;</span><span class="p">:</span> <span class="n">ard_</span>
+    <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="build_tile_grid"><a class="viewcode-back" href="../../../ardzilla/ardzilla.config.build.html#ardzilla.config.build.build_tile_grid">[docs]</a><span class="k">def</span> <span class="nf">build_tile_grid</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">definitions</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Build the ``tile_grid`` section</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    name : str</span>
+<span class="sd">        Name of the grid to use. If using a custom grid, specify the parameters</span>
+<span class="sd">        for it either by passing the filename of a grid definition file, or by</span>
+<span class="sd">        passing all the necessary keywords to create a</span>
+<span class="sd">        :py:class:`stems.gis.grids.TileGrid`.</span>
+<span class="sd">    definitions : str or pathlib.Path, optional</span>
+<span class="sd">        Custom tile grid definition file. Should be loadable using</span>
+<span class="sd">        :py:func:`stems.gis.grids.load_grids`.</span>
+<span class="sd">    ul : tuple, optional</span>
+<span class="sd">        Upper left X/Y coordinates</span>
+<span class="sd">    crs : rasterio.crs.CRS, optional</span>
+<span class="sd">        Coordinate system information</span>
+<span class="sd">    res : tuple, optional</span>
+<span class="sd">        Pixel X/Y resolution</span>
+<span class="sd">    size : tuple, optional</span>
+<span class="sd">        Number of pixels in X/Y dimensions for each tile</span>
+<span class="sd">    limits : tuple[tuple, tuple], optional</span>
+<span class="sd">        Maximum and minimum rows (vertical) and columns (horizontal)</span>
+<span class="sd">        given as ((row_start, row_stop), (col_start, col_stop)). Used</span>
+<span class="sd">        to limit access to Tiles beyond domain.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict</span>
+<span class="sd">        The ``tile_grid`` parameter section</span>
+
+<span class="sd">    See Also</span>
+<span class="sd">    --------</span>
+<span class="sd">    stems.gis.grids.TileGrid</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">stems.gis</span> <span class="k">import</span> <span class="n">grids</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">kwds</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Either pass ``name`` to load a grid, or pass &#39;</span>
+                         <span class="s1">&#39;the parameters required to create one&#39;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">kwds</span><span class="p">:</span>
+        <span class="c1"># Assume a &quot;named&quot; grid -- load and try to use</span>
+        <span class="n">tile_grids</span> <span class="o">=</span> <span class="n">grids</span><span class="o">.</span><span class="n">load_grids</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">definitions</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">tile_grids</span><span class="p">:</span>
+            <span class="n">known</span> <span class="o">=</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tile_grids</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Unknown grid named &quot;</span><span class="si">{name}</span><span class="s1">&quot; (known: </span><span class="si">{known}</span><span class="s1">)&#39;</span><span class="p">)</span>
+        <span class="n">tile_grid</span> <span class="o">=</span> <span class="n">tile_grids</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># TODO: don&#39;t leave so much of the error processing up to __init__</span>
+        <span class="n">tile_grid</span> <span class="o">=</span> <span class="n">grids</span><span class="o">.</span><span class="n">TileGrid</span><span class="p">(</span><span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">tile_grid</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="build_gee"><a class="viewcode-back" href="../../../ardzilla/ardzilla.config.build.html#ardzilla.config.build.build_gee">[docs]</a><span class="k">def</span> <span class="nf">build_gee</span><span class="p">(</span><span class="n">store_service</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">store</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">track</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+              <span class="n">filters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">export</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Build Google Earth Engine configuration info</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Must provide _something_ about the store</span>
+    <span class="k">assert</span> <span class="n">store_service</span> <span class="ow">or</span> <span class="n">store</span>
+
+    <span class="c1"># Load template to get defaults, which are OK in this case</span>
+    <span class="n">template</span> <span class="o">=</span> <span class="n">_load_template</span><span class="p">()[</span><span class="s1">&#39;gee&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+
+    <span class="c1"># Build store subsection</span>
+    <span class="n">store_</span> <span class="o">=</span> <span class="n">template</span><span class="p">[</span><span class="s1">&#39;store&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">store_service</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="n">store_service</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;gcs&#39;</span><span class="p">,</span> <span class="s1">&#39;gdrive&#39;</span><span class="p">)</span>
+        <span class="n">store_</span><span class="p">[</span><span class="s1">&#39;service&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">store_service</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">store_</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">store</span><span class="p">)</span>
+
+    <span class="c1"># Build tracking, filters, &amp; export info</span>
+    <span class="n">track_</span> <span class="o">=</span> <span class="n">track</span> <span class="k">if</span> <span class="n">track</span> <span class="k">else</span> <span class="n">template</span><span class="p">[</span><span class="s1">&#39;track&#39;</span><span class="p">]</span>
+    <span class="n">filters_</span> <span class="o">=</span> <span class="n">filters</span> <span class="k">if</span> <span class="n">filters</span> <span class="k">else</span> <span class="p">[]</span>
+    <span class="n">export_</span> <span class="o">=</span> <span class="n">export</span> <span class="k">if</span> <span class="n">export</span> <span class="k">else</span> <span class="n">template</span><span class="p">[</span><span class="s1">&#39;export&#39;</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s1">&#39;store&#39;</span><span class="p">:</span> <span class="n">store_</span><span class="p">,</span>
+        <span class="s1">&#39;track&#39;</span><span class="p">:</span> <span class="n">track_</span><span class="p">,</span>
+        <span class="s1">&#39;filters&#39;</span><span class="p">:</span> <span class="n">filters_</span><span class="p">,</span>
+        <span class="s1">&#39;export&#39;</span><span class="p">:</span> <span class="n">export_</span>
+    <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="build_store_gcs"><a class="viewcode-back" href="../../../ardzilla/ardzilla.config.build.html#ardzilla.config.build.build_store_gcs">[docs]</a><span class="k">def</span> <span class="nf">build_store_gcs</span><span class="p">(</span><span class="n">bucket_name</span><span class="p">,</span> <span class="n">credentials</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">project</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Build Google Cloud Storage configuration info</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Credentials/project might come from environment so no defaults</span>
+    <span class="n">gcs_</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;bucket_name&#39;</span><span class="p">:</span> <span class="n">bucket_name</span><span class="p">}</span>
+    <span class="k">if</span> <span class="n">credentials</span><span class="p">:</span>
+        <span class="n">gcs_</span><span class="p">[</span><span class="s1">&#39;credentials&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">credentials</span>
+    <span class="k">if</span> <span class="n">project</span><span class="p">:</span>
+        <span class="n">gcs_</span><span class="p">[</span><span class="s1">&#39;project&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">project</span>
+    <span class="k">return</span> <span class="n">gcs_</span></div>
+
+
+<div class="viewcode-block" id="build_store_gdrive"><a class="viewcode-back" href="../../../ardzilla/ardzilla.config.build.html#ardzilla.config.build.build_store_gdrive">[docs]</a><span class="k">def</span> <span class="nf">build_store_gdrive</span><span class="p">(</span><span class="n">client_secrets</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">credentials</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Build Google Cloud Storage configuration info</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Credentials/project might come from environment so no defaults</span>
+    <span class="n">gdrive_</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">if</span> <span class="n">client_secrets</span><span class="p">:</span>
+        <span class="n">gdrive_</span><span class="p">[</span><span class="s1">&#39;client_secrets&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">client_secrets</span>
+    <span class="k">if</span> <span class="n">credentials</span><span class="p">:</span>
+        <span class="n">gdrive_</span><span class="p">[</span><span class="s1">&#39;credentials&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">credentials</span>
+    <span class="k">return</span> <span class="n">gdrive_</span></div>
+
+
+<div class="viewcode-block" id="build_ard"><a class="viewcode-back" href="../../../ardzilla/ardzilla.config.build.html#ardzilla.config.build.build_ard">[docs]</a><span class="k">def</span> <span class="nf">build_ard</span><span class="p">(</span><span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">kwds</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;Just returning defaults for now...&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">_load_template</span><span class="p">()[</span><span class="s1">&#39;ard&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span></div>
+
+
+<span class="n">_TEMPLATE</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="k">def</span> <span class="nf">_load_template</span><span class="p">():</span>
+    <span class="k">global</span> <span class="n">_TEMPLATE</span>
+    <span class="k">if</span> <span class="n">_TEMPLATE</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">TEMPLATE_FILE</span><span class="p">))</span> <span class="k">as</span> <span class="n">src</span><span class="p">:</span>
+            <span class="n">_TEMPLATE</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">src</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">_TEMPLATE</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Chris Holden
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

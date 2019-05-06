@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.gee.gcs module &mdash; ardzilla 0+untagged.50.gdab0206 documentation</title>
+  <title>ardzilla.gee.gcs module &mdash; ardzilla 0+untagged.50.g514112f documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.gdab0206
+                0+untagged.50.g514112f
               </div>
             
           
@@ -91,7 +91,6 @@
 <p class="caption"><span class="caption-text">User Guide</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../gee.html">Source - Google Earth Engine (GEE)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../usgs.html">Source - USGS</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../netcdf4.html">Destination - NetCDF4</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Help and Reference</span></p>
@@ -185,6 +184,26 @@
 <dt id="ardzilla.gee.gcs.GCSStore.from_credentials">
 <em class="property">classmethod </em><code class="descname">from_credentials</code><span class="sig-paren">(</span><em>bucket_name</em>, <em>credentials=None</em>, <em>project=None</em>, <em>**kwds</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/gcs.html#GCSStore.from_credentials"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.gcs.GCSStore.from_credentials" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load Google Cloud Storage credentials and create store</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ardzilla.gee.gcs.GCSStore.list">
+<code class="descname">list</code><span class="sig-paren">(</span><em>self</em>, <em>name=None</em>, <em>path=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/gcs.html#GCSStore.list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.gcs.GCSStore.list" title="Permalink to this definition">¶</a></dt>
+<dd><p>List stored images or metadata</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Filename pattern</p></li>
+<li><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Prefix to search within</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="ardzilla.gee.gcs.GCSStore.read_metadata">
+<code class="descname">read_metadata</code><span class="sig-paren">(</span><em>self</em>, <em>name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/gcs.html#GCSStore.read_metadata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.gcs.GCSStore.read_metadata" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read and parse JSON metadata into a dict</p>
 </dd></dl>
 
 <dl class="method">
@@ -406,8 +425,28 @@ be part of <code class="docutils literal notranslate"><span class="pre">name</sp
 </dd></dl>
 
 <dl class="function">
+<dt id="ardzilla.gee.gcs.read_blob">
+<code class="descclassname">ardzilla.gee.gcs.</code><code class="descname">read_blob</code><span class="sig-paren">(</span><em>blob</em>, <em>encoding='utf-8'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/gcs.html#read_blob"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.gcs.read_blob" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read a blob as a string</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>blob</strong> (<em>google.cloud.storage.blob.Blob</em>) – Blob to read</p></li>
+<li><p><strong>encoding</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Metadata encoding</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Blob read and decoded as a string</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
 <dt id="ardzilla.gee.gcs.upload_json">
-<code class="descclassname">ardzilla.gee.gcs.</code><code class="descname">upload_json</code><span class="sig-paren">(</span><em>bucket</em>, <em>data</em>, <em>path</em>, <em>check=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/gcs.html#upload_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.gcs.upload_json" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">ardzilla.gee.gcs.</code><code class="descname">upload_json</code><span class="sig-paren">(</span><em>bucket</em>, <em>data</em>, <em>path</em>, <em>check=False</em>, <em>encoding='utf-8'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/gcs.html#upload_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.gcs.upload_json" title="Permalink to this definition">¶</a></dt>
 <dd><p>Upload data as JSON to GCS</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -417,6 +456,7 @@ be part of <code class="docutils literal notranslate"><span class="pre">name</sp
 <li><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Destination path on GCS for data</p></li>
 <li><p><strong>check</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em>, </em><em>optional</em>) – Check to see if the file already exists first. If so, will
 overwrite (or “update” instead of “create”)</p></li>
+<li><p><strong>encoding</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Metadata encoding</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>

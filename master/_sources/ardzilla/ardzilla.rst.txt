@@ -16,7 +16,9 @@ Submodules
 
 .. toctree::
 
+   ardzilla.defaults
    ardzilla.exceptions
+   ardzilla.preard
 
 Module contents
 ---------------

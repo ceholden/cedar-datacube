@@ -1,0 +1,388 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ardzilla.gee.tracking module &mdash; ardzilla 0+untagged.50.g514112f documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> ardzilla
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0+untagged.50.g514112f
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequently Asked Questions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../gee.html">Source - Google Earth Engine (GEE)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../netcdf4.html">Destination - NetCDF4</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Help and Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../dev.html">Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ardzilla</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>ardzilla.gee.tracking module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/ceholden/ardzilla/blob/master/docs/source/ardzilla/ardzilla.gee.tracking.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-ardzilla.gee.tracking">
+<span id="ardzilla-gee-tracking-module"></span><h1>ardzilla.gee.tracking module<a class="headerlink" href="#module-ardzilla.gee.tracking" title="Permalink to this headline">¶</a></h1>
+<p>Tracker to submit and download GEE pre-ARD tasks</p>
+<dl class="class">
+<dt id="ardzilla.gee.tracking.GEEARDTracker">
+<em class="property">class </em><code class="descclassname">ardzilla.gee.tracking.</code><code class="descname">GEEARDTracker</code><span class="sig-paren">(</span><em>tile_grid</em>, <em>store</em>, <em>name_template='{collection}_h{tile.horizontal:03d}v{tile.vertical:03d}_{date_start}_{date_end}'</em>, <em>prefix_template='GEEARD/{collection}/h{tile.horizontal:03d}v{tile.vertical:03d}'</em>, <em>tracking_template='TRACKING_PERIOD{date_start}-{date_end}_TASK{today}'</em>, <em>filters=None</em>, <em>overwrite=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/tracking.html#GEEARDTracker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.tracking.GEEARDTracker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.7/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Tracker for GEE ARD task submission</p>
+<dl class="attribute">
+<dt id="ardzilla.gee.tracking.GEEARDTracker.TRACKING_DIRECTORY">
+<code class="descname">TRACKING_DIRECTORY</code><em class="property"> = 'TRACKING'</em><a class="headerlink" href="#ardzilla.gee.tracking.GEEARDTracker.TRACKING_DIRECTORY" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="ardzilla.gee.tracking.GEEARDTracker.download_ard">
+<code class="descname">download_ard</code><span class="sig-paren">(</span><em>self</em>, <em>tracking_name</em>, <em>dest</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/tracking.html#GEEARDTracker.download_ard"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.tracking.GEEARDTracker.download_ard" title="Permalink to this definition">¶</a></dt>
+<dd><p>Download “pre-ARD” and metadata to a directory</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tracking_name</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Name of stored tracking information</p></li>
+<li><p><strong>dest</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3.7/library/pathlib.html#pathlib.Path" title="(in Python v3.7)"><em>pathlib.Path</em></a>) – Destination download directory</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="ardzilla.gee.tracking.GEEARDTracker.get_tracking">
+<code class="descname">get_tracking</code><span class="sig-paren">(</span><em>self</em>, <em>name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/tracking.html#GEEARDTracker.get_tracking"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.tracking.GEEARDTracker.get_tracking" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns stored tracking information as dict</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Name of tracking metadata (e.g., taken from running
+<a class="reference internal" href="#ardzilla.gee.tracking.GEEARDTracker.list_tracking" title="ardzilla.gee.tracking.GEEARDTracker.list_tracking"><code class="xref py py-func docutils literal notranslate"><span class="pre">list_tracking()</span></code></a>)</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>JSON tracking info data as a dict</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="ardzilla.gee.tracking.GEEARDTracker.list_tracking">
+<code class="descname">list_tracking</code><span class="sig-paren">(</span><em>self</em>, <em>pattern=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/tracking.html#GEEARDTracker.list_tracking"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.tracking.GEEARDTracker.list_tracking" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list of all tracking metadata</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>pattern</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Search pattern for tracking info. Specify to subset to specific
+tracking info (e.g., from some date). If <code class="docutils literal notranslate"><span class="pre">None</span></code> provided,
+looks for tracking information matching
+<code class="xref py py-func docutils literal notranslate"><span class="pre">tracking_template()</span></code></p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Name of stored tracking information</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#list" title="(in Python v3.7)">list</a>[<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="ardzilla.gee.tracking.GEEARDTracker.refresh_tracking">
+<code class="descname">refresh_tracking</code><span class="sig-paren">(</span><em>self</em>, <em>name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/tracking.html#GEEARDTracker.refresh_tracking"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.tracking.GEEARDTracker.refresh_tracking" title="Permalink to this definition">¶</a></dt>
+<dd><p>Refresh and reupload tracking information by checking with the GEE</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Name of tracking metadata (e.g., taken from running
+<a class="reference internal" href="#ardzilla.gee.tracking.GEEARDTracker.list_tracking" title="ardzilla.gee.tracking.GEEARDTracker.list_tracking"><code class="xref py py-func docutils literal notranslate"><span class="pre">list_tracking()</span></code></a>)</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>JSON tracking info data as a dict</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="ardzilla.gee.tracking.GEEARDTracker.submit_ard">
+<code class="descname">submit_ard</code><span class="sig-paren">(</span><em>self</em>, <em>collections</em>, <em>tile_rows</em>, <em>tile_cols</em>, <em>date_start</em>, <em>date_end</em>, <em>freq='1YS'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/tracking.html#GEEARDTracker.submit_ard"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.tracking.GEEARDTracker.submit_ard" title="Permalink to this definition">¶</a></dt>
+<dd><p>Submit and track GEE pre-ARD tasks</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>collections</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em> or </em><em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>]</em>) – GEE image collection name(s)</p></li>
+<li><p><strong>tile_rows</strong> (<em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3.7/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a><em>]</em>) – Row(s) in TileGrid to process</p></li>
+<li><p><strong>tile_cols</strong> (<em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3.7/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a><em>]</em>) – Column(s) in TileGrid to process</p></li>
+<li><p><strong>date_start</strong> (<em>dt.datetime</em>) – Starting period</p></li>
+<li><p><strong>date_end</strong> (<em>dt.datetime</em>) – Ending period</p></li>
+<li><p><strong>freq</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Submit pre-ARD tasks for periods between <code class="docutils literal notranslate"><span class="pre">date_start</span></code> and
+<code class="docutils literal notranslate"><span class="pre">date_end</span></code> with this frequency</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Path to stored task metadata information</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="ardzilla.gee.tracking.create_submission_metadata">
+<code class="descclassname">ardzilla.gee.tracking.</code><code class="descname">create_submission_metadata</code><span class="sig-paren">(</span><em>name</em>, <em>prefix</em>, <em>store</em>, <em>filters</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/tracking.html#create_submission_metadata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.tracking.create_submission_metadata" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build up task submission tracking metadata</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="ardzilla.gee.tracking.create_task_metadata">
+<code class="descclassname">ardzilla.gee.tracking.</code><code class="descname">create_task_metadata</code><span class="sig-paren">(</span><em>collection</em>, <em>tile</em>, <em>date_start</em>, <em>date_end</em>, <em>task</em>, <em>metadata_dst</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/tracking.html#create_task_metadata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.tracking.create_task_metadata" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build up image data processing tracking metadata</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="ardzilla.gee.tracking.download_tracked_info">
+<code class="descclassname">ardzilla.gee.tracking.</code><code class="descname">download_tracked_info</code><span class="sig-paren">(</span><em>tracking_info</em>, <em>store</em>, <em>dest</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/tracking.html#download_tracked_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.tracking.download_tracked_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Download stored “pre-ARD” and metadata described by tracking info</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tracking_info</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – Tracking information</p></li>
+<li><p><strong>store</strong> (<a class="reference internal" href="../gee_storage.html#ardzilla.gee.gcs.GCSStore" title="ardzilla.gee.gcs.GCSStore"><em>ardzilla.gee.gcs.GCSStore</em></a><em> or </em><a class="reference internal" href="ardzilla.gee.gdrive.html#ardzilla.gee.gdrive.GDriveStore" title="ardzilla.gee.gdrive.GDriveStore"><em>ardzilla.gee.gdrive.GDriveStore</em></a>) – ARDzilla store class</p></li>
+<li><p><strong>dest</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3.7/library/pathlib.html#pathlib.Path" title="(in Python v3.7)"><em>pathlib.Path</em></a>) – Destination download directory</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Name of downloaded data, organized according to GEE task ID</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a>[<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a>, <a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#list" title="(in Python v3.7)">list</a>[<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a>]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ardzilla.gee.tracking.get_tasks">
+<code class="descclassname">ardzilla.gee.tracking.</code><code class="descname">get_tasks</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/tracking.html#get_tasks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.tracking.get_tasks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return GEE tasks (task ID: task)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>GEE tasks</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a>[<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a>, ee.batch.task.Task]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ardzilla.gee.tracking.update_tracking_info">
+<code class="descclassname">ardzilla.gee.tracking.</code><code class="descname">update_tracking_info</code><span class="sig-paren">(</span><em>tracking_info</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/tracking.html#update_tracking_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.tracking.update_tracking_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Try to update tracking information with current task status from GEE</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>tracking_info</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – Tracking information stored from a past submission</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Input tracking info updated with GEE task status</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Chris Holden
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

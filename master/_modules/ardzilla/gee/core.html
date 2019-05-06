@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.gee.core &mdash; ardzilla 0+untagged.50.gdab0206 documentation</title>
+  <title>ardzilla.gee.core &mdash; ardzilla 0+untagged.50.g514112f documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.gdab0206
+                0+untagged.50.g514112f
               </div>
             
           
@@ -91,7 +91,6 @@
 <p class="caption"><span class="caption-text">User Guide</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../gee.html">Source - Google Earth Engine (GEE)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../usgs.html">Source - USGS</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../netcdf4.html">Destination - NetCDF4</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Help and Reference</span></p>
@@ -163,11 +162,13 @@
   <h1>Source code for ardzilla.gee.core</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot; Core functions/etc for GEE ARD</span>
 <span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">datetime</span> <span class="k">as</span> <span class="nn">dt</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">json</span>
 
 <span class="kn">import</span> <span class="nn">ee</span>
 
+<span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">defaults</span>
 <span class="kn">from</span> <span class="nn">..exceptions</span> <span class="k">import</span> <span class="n">EmptyCollectionError</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">common</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">landsat</span>
@@ -177,20 +178,24 @@
 
 <span class="c1">#: dict: Mapping of GEE collection to ARD creating function</span>
 <span class="n">CREATE_ARD_COLLECTION</span> <span class="o">=</span> <span class="p">{}</span>
-<span class="c1"># Add function for Landsat collections</span>
 <span class="n">CREATE_ARD_COLLECTION</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
     <span class="n">k</span><span class="p">:</span> <span class="n">landsat</span><span class="o">.</span><span class="n">create_ard</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">landsat</span><span class="o">.</span><span class="n">METADATA</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
 <span class="p">})</span>
 
+<span class="c1">#: tuple[str]: Names of data available for string formatting when creating</span>
+<span class="c1">#              export names or paths</span>
+<span class="n">EXPORT_NAME_DATA</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;tile&#39;</span><span class="p">,</span> <span class="s1">&#39;collection&#39;</span><span class="p">,</span> <span class="s1">&#39;date_start&#39;</span><span class="p">,</span> <span class="s1">&#39;date_end&#39;</span><span class="p">)</span>
+
 
 <span class="c1"># TODO: replace export_name/export_path</span>
-<div class="viewcode-block" id="export_name"><a class="viewcode-back" href="../../../ardzilla/ardzilla.gee.core.html#ardzilla.gee.core.export_name">[docs]</a><span class="k">def</span> <span class="nf">export_name</span><span class="p">(</span><span class="n">collection</span><span class="p">,</span> <span class="n">tile</span><span class="p">,</span> <span class="n">d_start</span><span class="p">,</span> <span class="n">d_end</span><span class="p">,</span>
-                <span class="n">version</span><span class="o">=</span><span class="s1">&#39;v01&#39;</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s1">&#39;GEEARD&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="format_export_string"><a class="viewcode-back" href="../../../ardzilla/ardzilla.gee.core.html#ardzilla.gee.core.format_export_string">[docs]</a><span class="k">def</span> <span class="nf">format_export_string</span><span class="p">(</span><span class="n">template</span><span class="p">,</span> <span class="n">collection</span><span class="p">,</span> <span class="n">tile</span><span class="p">,</span> <span class="n">date_start</span><span class="p">,</span> <span class="n">date_end</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Calculate a name/description for GEE ARD downloads</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    imgcol : str</span>
+<span class="sd">    template : str</span>
+<span class="sd">        String template to use for formatting</span>
+<span class="sd">    collection : str</span>
 <span class="sd">        GEE image collection name</span>
 <span class="sd">    tile : stems.gis.grids.Tile</span>
 <span class="sd">        STEMS TileGrid tile</span>
@@ -204,49 +209,21 @@
 <span class="sd">    str</span>
 <span class="sd">        Name for exported data</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># We need a LOT of metadata in the name...</span>
-    <span class="n">collection_</span> <span class="o">=</span> <span class="n">collection</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">)</span>
-    <span class="n">hv</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;h</span><span class="si">{tile.horizontal:03d}</span><span class="s2">v</span><span class="si">{tile.vertical:03d}</span><span class="s2">&quot;</span>
-    <span class="n">d_start_</span> <span class="o">=</span> <span class="n">d_start</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span>
-    <span class="n">d_end_</span> <span class="o">=</span> <span class="n">d_end</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">)</span>
-
-    <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;_&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">prefix</span><span class="p">,</span> <span class="n">version</span><span class="p">,</span> <span class="n">collection_</span><span class="p">,</span> <span class="n">hv</span><span class="p">,</span> <span class="n">d_start_</span><span class="p">,</span> <span class="n">d_end_</span><span class="p">])</span>
+    <span class="c1"># Clean / guard input data</span>
+    <span class="n">kwds</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;collection&#39;</span><span class="p">:</span> <span class="n">collection</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;date_start&#39;</span><span class="p">:</span> <span class="n">date_start</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">defaults</span><span class="o">.</span><span class="n">GEE_EXPORT_IMAGE_STRFTIME</span><span class="p">),</span>
+        <span class="s1">&#39;date_end&#39;</span><span class="p">:</span> <span class="n">date_end</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">defaults</span><span class="o">.</span><span class="n">GEE_EXPORT_IMAGE_STRFTIME</span><span class="p">),</span>
+        <span class="s1">&#39;tile&#39;</span><span class="p">:</span> <span class="n">tile</span><span class="p">,</span>
+        <span class="s1">&#39;datetime&#39;</span><span class="p">:</span> <span class="n">dt</span><span class="o">.</span><span class="n">datetime</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">template</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">name</span></div>
 
 
-<div class="viewcode-block" id="export_path"><a class="viewcode-back" href="../../../ardzilla/ardzilla.gee.core.html#ardzilla.gee.core.export_path">[docs]</a><span class="k">def</span> <span class="nf">export_path</span><span class="p">(</span><span class="n">collection</span><span class="p">,</span> <span class="n">tile</span><span class="p">,</span> <span class="n">d_start</span><span class="p">,</span> <span class="n">d_end</span><span class="p">,</span>
-                <span class="n">version</span><span class="o">=</span><span class="s1">&#39;v01&#39;</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s1">&#39;GEEARD&#39;</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Generate a prefix/folder path for some data</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    imgcol : str</span>
-<span class="sd">        GEE image collection name</span>
-<span class="sd">    tile : stems.gis.grids.Tile</span>
-<span class="sd">        STEMS TileGrid tile</span>
-<span class="sd">    date_start : dt.datetime</span>
-<span class="sd">        Starting period</span>
-<span class="sd">    date_end : dt.datetime</span>
-<span class="sd">        Ending period</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    str</span>
-<span class="sd">        Name for prefix/folder path to exported data</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">collection_</span> <span class="o">=</span> <span class="n">collection</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">)</span>
-    <span class="n">hv</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;h</span><span class="si">{tile.horizontal:03d}</span><span class="s2">v</span><span class="si">{tile.vertical:03d}</span><span class="s2">&quot;</span>
-
-    <span class="n">path</span> <span class="o">=</span> <span class="s1">&#39;/&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
-        <span class="n">prefix</span><span class="p">,</span>
-        <span class="n">version</span><span class="p">,</span>
-        <span class="n">collection_</span><span class="p">,</span>
-        <span class="n">hv</span>
-    <span class="p">])</span>
-    <span class="k">return</span> <span class="n">path</span></div>
-
-
 <div class="viewcode-block" id="submit_ard"><a class="viewcode-back" href="../../../ardzilla/ardzilla.gee.core.html#ardzilla.gee.core.submit_ard">[docs]</a><span class="k">def</span> <span class="nf">submit_ard</span><span class="p">(</span><span class="n">collection</span><span class="p">,</span> <span class="n">tile</span><span class="p">,</span> <span class="n">date_start</span><span class="p">,</span> <span class="n">date_end</span><span class="p">,</span> <span class="n">store</span><span class="p">,</span>
+               <span class="n">name_template</span><span class="o">=</span><span class="n">defaults</span><span class="o">.</span><span class="n">GEE_PREARD_NAME</span><span class="p">,</span>
+               <span class="n">prefix_template</span><span class="o">=</span><span class="n">defaults</span><span class="o">.</span><span class="n">GEE_PREARD_PREFIX</span><span class="p">,</span>
                <span class="n">filters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Submit a ee.Task to create ARD, and stores the ARD with metadata</span>
 
@@ -262,6 +239,10 @@
 <span class="sd">        Ending period</span>
 <span class="sd">    store : gcs.GCSStore or gdrive.GDriveStore</span>
 <span class="sd">        Data store helper object from this package</span>
+<span class="sd">    name_template : str, optional</span>
+<span class="sd">        String template for the export filename</span>
+<span class="sd">    prefix_template : str, optional</span>
+<span class="sd">        String template for the export prefix path</span>
 <span class="sd">    filters : Sequence[ee.Filter]</span>
 <span class="sd">        Additional filters to apply over image collection</span>
 <span class="sd">    freq : str, optional</span>
@@ -296,9 +277,10 @@
     <span class="n">out</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">start_</span><span class="p">,</span> <span class="n">end_</span> <span class="ow">in</span> <span class="n">date_periods</span><span class="p">:</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Creating ARD between </span><span class="si">{start_}</span><span class="s1">-</span><span class="si">{end_}</span><span class="s1">&#39;</span><span class="p">)</span>
-        <span class="c1"># TODO: Better place/way of getting this... just outsourcing for now...</span>
-        <span class="n">name</span> <span class="o">=</span> <span class="n">export_name</span><span class="p">(</span><span class="n">collection</span><span class="p">,</span> <span class="n">tile</span><span class="p">,</span> <span class="n">start_</span><span class="p">,</span> <span class="n">end_</span><span class="p">)</span>
-        <span class="n">path</span> <span class="o">=</span> <span class="n">export_path</span><span class="p">(</span><span class="n">collection</span><span class="p">,</span> <span class="n">tile</span><span class="p">,</span> <span class="n">start_</span><span class="p">,</span> <span class="n">end_</span><span class="p">)</span>
+        <span class="c1"># Create export name and paths</span>
+        <span class="n">_args</span> <span class="o">=</span> <span class="p">(</span><span class="n">collection</span><span class="p">,</span> <span class="n">tile</span><span class="p">,</span> <span class="n">start_</span><span class="p">,</span> <span class="n">end_</span><span class="p">,</span> <span class="p">)</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">format_export_string</span><span class="p">(</span><span class="n">name_template</span><span class="p">,</span> <span class="o">*</span><span class="n">_args</span><span class="p">)</span>
+        <span class="n">prefix</span> <span class="o">=</span> <span class="n">format_export_string</span><span class="p">(</span><span class="n">prefix_template</span><span class="p">,</span> <span class="o">*</span><span class="n">_args</span><span class="p">)</span>
 
         <span class="c1"># Create image &amp; metadata</span>
         <span class="k">try</span><span class="p">:</span>
@@ -312,15 +294,15 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># Export &amp; store</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Creating Task to calculate and store image...&#39;</span><span class="p">)</span>
-            <span class="n">task</span> <span class="o">=</span> <span class="n">store</span><span class="o">.</span><span class="n">store_image</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="o">**</span><span class="n">image_store_kwds</span><span class="p">)</span>
+            <span class="n">task</span> <span class="o">=</span> <span class="n">store</span><span class="o">.</span><span class="n">store_image</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="o">**</span><span class="n">image_store_kwds</span><span class="p">)</span>
 
             <span class="c1"># Update metadata with task info and store</span>
             <span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;task&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_task_metadata</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Storing metadata for task id &quot;</span><span class="si">{task.id}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
-            <span class="n">metadata_</span> <span class="o">=</span> <span class="n">store</span><span class="o">.</span><span class="n">store_metadata</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+            <span class="n">metadata_</span> <span class="o">=</span> <span class="n">store</span><span class="o">.</span><span class="n">store_metadata</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">prefix</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="n">start</span><span class="p">:</span>
-                <span class="n">task</span> <span class="o">=</span> <span class="n">task</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+                <span class="n">task</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
 
             <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">task</span><span class="p">,</span> <span class="n">metadata_</span><span class="p">,</span> <span class="p">))</span>
 
@@ -328,10 +310,6 @@
 
 
 <span class="k">def</span> <span class="nf">_create_ard</span><span class="p">(</span><span class="n">collection</span><span class="p">,</span> <span class="n">tile</span><span class="p">,</span> <span class="n">date_start</span><span class="p">,</span> <span class="n">date_end</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
-    <span class="c1"># TODO: Better place/way of getting this... just outsourcing for now...</span>
-    <span class="n">name</span> <span class="o">=</span> <span class="n">export_name</span><span class="p">(</span><span class="n">collection</span><span class="p">,</span> <span class="n">tile</span><span class="p">,</span> <span class="n">date_start</span><span class="p">,</span> <span class="n">date_end</span><span class="p">)</span>
-    <span class="n">path</span> <span class="o">=</span> <span class="n">export_path</span><span class="p">(</span><span class="n">collection</span><span class="p">,</span> <span class="n">tile</span><span class="p">,</span> <span class="n">date_start</span><span class="p">,</span> <span class="n">date_end</span><span class="p">)</span>
-
     <span class="c1"># Determine which function should be used for ARD generation</span>
     <span class="n">func_create_ard</span> <span class="o">=</span> <span class="n">CREATE_ARD_COLLECTION</span><span class="p">[</span><span class="n">collection</span><span class="p">]</span>
     <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Using function </span><span class="si">{func_create_ard}</span><span class="s1">&#39;</span><span class="p">)</span>

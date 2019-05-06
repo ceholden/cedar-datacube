@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.gee.gauth &mdash; ardzilla 0+untagged.50.gdab0206 documentation</title>
+  <title>ardzilla.gee.gauth &mdash; ardzilla 0+untagged.50.g514112f documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.gdab0206
+                0+untagged.50.g514112f
               </div>
             
           
@@ -91,7 +91,6 @@
 <p class="caption"><span class="caption-text">User Guide</span></p>
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="../../../gee.html">Source - Google Earth Engine (GEE)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../../usgs.html">Source - USGS</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../../netcdf4.html">Destination - NetCDF4</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Help and Reference</span></p>
@@ -221,7 +220,31 @@
 
 
 <div class="viewcode-block" id="build_gcs_client"><a class="viewcode-back" href="../../../gee_credentials.html#ardzilla.gee.gauth.build_gcs_client">[docs]</a><span class="k">def</span> <span class="nf">build_gcs_client</span><span class="p">(</span><span class="n">credentials</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">project</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="c1"># TODO: add dep -- `pip install --upgrade google-cloud-storage`</span>
+    <span class="sd">&quot;&quot;&quot; Return a Google Cloud Store API service client</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    credentials : str, optional</span>
+<span class="sd">        File name of Google Cloud Store credentials (typically from a service</span>
+<span class="sd">        account)</span>
+<span class="sd">    project : str, optional</span>
+<span class="sd">        Google Cloud Platform project to use</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    google.cloud.storage.Client</span>
+<span class="sd">        Client for the Google Cloud Storage client library</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    You might consider setting the envirnment variable</span>
+<span class="sd">    ``GOOGLE_APPLICATION_CREDENTIALS`` with the path to your service account</span>
+<span class="sd">    credentials file [1]_.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [1] https://cloud.google.com/storage/docs/reference/libraries#setting_up_authentication</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">from</span> <span class="nn">google.cloud</span> <span class="k">import</span> <span class="n">storage</span>
     <span class="kn">from</span> <span class="nn">google.oauth2</span> <span class="k">import</span> <span class="n">service_account</span>
 

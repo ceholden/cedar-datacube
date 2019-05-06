@@ -1,6 +1,13 @@
 ardzilla.config package
 =======================
 
+Submodules
+----------
+
+.. toctree::
+
+   ardzilla.config.build
+
 Module contents
 ---------------
 
