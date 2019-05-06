@@ -27,7 +27,6 @@ working with N-dimensional data (netCDF4_ and xarray_), and parallelization
    :caption: User Guide
 
    gee
-   usgs
    netcdf4
 
 

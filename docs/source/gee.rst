@@ -11,3 +11,4 @@ Get ARD from the GEE.
    :caption: Overview
 
    gee_credentials
+   gee_storage

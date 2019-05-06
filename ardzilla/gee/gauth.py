@@ -58,7 +58,31 @@ def build_gdrive_service(client_secrets=None, credentials=None):
 
 
 def build_gcs_client(credentials=None, project=None):
-    # TODO: add dep -- `pip install --upgrade google-cloud-storage`
+    """ Return a Google Cloud Store API service client
+
+    Parameters
+    ----------
+    credentials : str, optional
+        File name of Google Cloud Store credentials (typically from a service
+        account)
+    project : str, optional
+        Google Cloud Platform project to use
+
+    Returns
+    -------
+    google.cloud.storage.Client
+        Client for the Google Cloud Storage client library
+
+    Notes
+    -----
+    You might consider setting the envirnment variable
+    ``GOOGLE_APPLICATION_CREDENTIALS`` with the path to your service account
+    credentials file [1]_.
+
+    References
+    ----------
+    .. [1] https://cloud.google.com/storage/docs/reference/libraries#setting_up_authentication
+    """
     from google.cloud import storage
     from google.oauth2 import service_account
 
