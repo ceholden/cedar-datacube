@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.gee.gdrive &mdash; ardzilla 0+untagged.50.g514112f documentation</title>
+  <title>ardzilla.gee.gdrive &mdash; ardzilla 0+untagged.50.g439e891 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.g514112f
+                0+untagged.50.g439e891
               </div>
             
           
@@ -181,7 +181,7 @@
 <span class="n">MIME_TYPE_FILE</span> <span class="o">=</span> <span class="s1">&#39;application/vnd.google-apps.file&#39;</span>
 
 
-<div class="viewcode-block" id="GDriveStore"><a class="viewcode-back" href="../../../ardzilla/ardzilla.gee.gdrive.html#ardzilla.gee.gdrive.GDriveStore">[docs]</a><span class="k">class</span> <span class="nc">GDriveStore</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="GDriveStore"><a class="viewcode-back" href="../../../gee_storage.html#ardzilla.gee.gdrive.GDriveStore">[docs]</a><span class="k">class</span> <span class="nc">GDriveStore</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Store GEE &quot;pre-ARD&quot; images and metadata on Google Drive</span>
 
 <span class="sd">    Parameters</span>
@@ -196,7 +196,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">service</span> <span class="o">=</span> <span class="n">service</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">export_image_kwds</span> <span class="o">=</span> <span class="n">export_image_kwds</span> <span class="ow">or</span> <span class="p">{}</span>
 
-<div class="viewcode-block" id="GDriveStore.from_credentials"><a class="viewcode-back" href="../../../ardzilla/ardzilla.gee.gdrive.html#ardzilla.gee.gdrive.GDriveStore.from_credentials">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="GDriveStore.from_credentials"><a class="viewcode-back" href="../../../gee_storage.html#ardzilla.gee.gdrive.GDriveStore.from_credentials">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_credentials</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">client_secrets</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">credentials</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                          <span class="n">export_image_kwds</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Load credentials and create the store</span>
@@ -204,7 +204,7 @@
         <span class="n">gdrive</span> <span class="o">=</span> <span class="n">gauth</span><span class="o">.</span><span class="n">build_gdrive_service</span><span class="p">(</span><span class="n">client_secrets</span><span class="p">,</span> <span class="n">credentials</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">gdrive</span><span class="p">,</span> <span class="n">export_image_kwds</span><span class="o">=</span><span class="n">export_image_kwds</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="GDriveStore.store_metadata"><a class="viewcode-back" href="../../../ardzilla/ardzilla.gee.gdrive.html#ardzilla.gee.gdrive.GDriveStore.store_metadata">[docs]</a>    <span class="k">def</span> <span class="nf">store_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="GDriveStore.store_metadata"><a class="viewcode-back" href="../../../gee_storage.html#ardzilla.gee.gdrive.GDriveStore.store_metadata">[docs]</a>    <span class="k">def</span> <span class="nf">store_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Store JSON metadata</span>
 
 <span class="sd">        Parameters</span>
@@ -231,7 +231,7 @@
                               <span class="n">dest</span><span class="o">=</span><span class="n">path</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">meta_id</span></div>
 
-<div class="viewcode-block" id="GDriveStore.store_image"><a class="viewcode-back" href="../../../ardzilla/ardzilla.gee.gdrive.html#ardzilla.gee.gdrive.GDriveStore.store_image">[docs]</a>    <span class="k">def</span> <span class="nf">store_image</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+<div class="viewcode-block" id="GDriveStore.store_image"><a class="viewcode-back" href="../../../gee_storage.html#ardzilla.gee.gdrive.GDriveStore.store_image">[docs]</a>    <span class="k">def</span> <span class="nf">store_image</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Create ee.batch.Task to create and store &quot;pre-ARD&quot;</span>
 
 <span class="sd">        Parameters</span>

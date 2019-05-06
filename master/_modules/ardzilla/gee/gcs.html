@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.gee.gcs &mdash; ardzilla 0+untagged.50.g514112f documentation</title>
+  <title>ardzilla.gee.gcs &mdash; ardzilla 0+untagged.50.g439e891 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.g514112f
+                0+untagged.50.g439e891
               </div>
             
           
@@ -192,7 +192,8 @@
 <span class="sd">    bucket : google.cloud.storage.bucket.Bucket</span>
 <span class="sd">        GCS bucket</span>
 <span class="sd">    export_image_kwds : dict, optional</span>
-<span class="sd">        Additional keyword arguments to pass onto ``toCloudStorage``</span>
+<span class="sd">        Additional keyword arguments to pass onto</span>
+<span class="sd">        :py:meth:`ee.batch.Export.image.toCloudStorage`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="n">export_image_kwds</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">storage</span><span class="o">.</span><span class="n">Client</span><span class="p">)</span>
@@ -201,7 +202,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">bucket</span> <span class="o">=</span> <span class="n">bucket</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">export_image_kwds</span> <span class="o">=</span> <span class="n">export_image_kwds</span> <span class="ow">or</span> <span class="p">{}</span>
 
-<div class="viewcode-block" id="GCSStore.from_credentials"><a class="viewcode-back" href="../../../ardzilla/ardzilla.gee.gcs.html#ardzilla.gee.gcs.GCSStore.from_credentials">[docs]</a>    <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="GCSStore.from_credentials"><a class="viewcode-back" href="../../../gee_storage.html#ardzilla.gee.gcs.GCSStore.from_credentials">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_credentials</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">bucket_name</span><span class="p">,</span> <span class="n">credentials</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">project</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                          <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Load Google Cloud Storage credentials and create store</span>
@@ -210,20 +211,25 @@
         <span class="n">bucket</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_bucket</span><span class="p">(</span><span class="n">bucket_name</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">bucket</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="GCSStore.list"><a class="viewcode-back" href="../../../ardzilla/ardzilla.gee.gcs.html#ardzilla.gee.gcs.GCSStore.list">[docs]</a>    <span class="k">def</span> <span class="nf">list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="GCSStore.list"><a class="viewcode-back" href="../../../gee_storage.html#ardzilla.gee.gcs.GCSStore.list">[docs]</a>    <span class="k">def</span> <span class="nf">list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; List stored images or metadata</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        name : str, optional</span>
-<span class="sd">            Filename pattern</span>
 <span class="sd">        path : str, optional</span>
-<span class="sd">            Prefix to search within</span>
+<span class="sd">            Prefix path to search within</span>
+<span class="sd">        pattern : str, optional</span>
+<span class="sd">            Filename pattern</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        list[str]</span>
+<span class="sd">            Names of stored data</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">blobs</span> <span class="o">=</span> <span class="n">list_blobs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bucket</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="n">path</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">blobs</span> <span class="o">=</span> <span class="n">list_blobs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bucket</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="n">path</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="n">pattern</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">blob</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">blob</span> <span class="ow">in</span> <span class="n">blobs</span><span class="p">]</span></div>
 
-<div class="viewcode-block" id="GCSStore.store_metadata"><a class="viewcode-back" href="../../../ardzilla/ardzilla.gee.gcs.html#ardzilla.gee.gcs.GCSStore.store_metadata">[docs]</a>    <span class="k">def</span> <span class="nf">store_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="GCSStore.store_metadata"><a class="viewcode-back" href="../../../gee_storage.html#ardzilla.gee.gcs.GCSStore.store_metadata">[docs]</a>    <span class="k">def</span> <span class="nf">store_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Store JSON metadata</span>
 
 <span class="sd">        Parameters</span>
@@ -238,7 +244,8 @@
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
-<span class="sd">        str Path to object uploaded</span>
+<span class="sd">        str</span>
+<span class="sd">            Path to uploaded object</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">name</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.json&#39;</span><span class="p">):</span>
             <span class="n">name</span> <span class="o">+=</span> <span class="s1">&#39;.json&#39;</span>
@@ -246,11 +253,11 @@
 
         <span class="n">path_</span> <span class="o">=</span> <span class="n">mkdir_p</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bucket</span><span class="p">,</span> <span class="n">path_</span><span class="p">)</span>
 
-        <span class="n">name_</span> <span class="o">=</span> <span class="n">upload_json</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bucket</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span> <span class="n">fullname</span><span class="p">,</span>
-                            <span class="n">check</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">name_</span></div>
+        <span class="n">blob</span> <span class="o">=</span> <span class="n">upload_json</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bucket</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span> <span class="n">fullname</span><span class="p">,</span>
+                           <span class="n">check</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">blob</span><span class="o">.</span><span class="n">name</span></div>
 
-<div class="viewcode-block" id="GCSStore.store_image"><a class="viewcode-back" href="../../../ardzilla/ardzilla.gee.gcs.html#ardzilla.gee.gcs.GCSStore.store_image">[docs]</a>    <span class="k">def</span> <span class="nf">store_image</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+<div class="viewcode-block" id="GCSStore.store_image"><a class="viewcode-back" href="../../../gee_storage.html#ardzilla.gee.gcs.GCSStore.store_image">[docs]</a>    <span class="k">def</span> <span class="nf">store_image</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Create ee.batch.Task to create and store &quot;pre-ARD&quot;</span>
 
 <span class="sd">        Parameters</span>
@@ -291,7 +298,19 @@
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">task</span></div>
 
-<div class="viewcode-block" id="GCSStore.retrieve_image"><a class="viewcode-back" href="../../../ardzilla/ardzilla.gee.gcs.html#ardzilla.gee.gcs.GCSStore.retrieve_image">[docs]</a>    <span class="k">def</span> <span class="nf">retrieve_image</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dest</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">_retrieve_extension</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dest</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">ext</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">name</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="n">ext</span><span class="p">):</span>
+            <span class="n">name</span> <span class="o">+=</span> <span class="n">f</span><span class="s1">&#39;*</span><span class="si">{ext}</span><span class="s1">&#39;</span>
+
+        <span class="n">blobs</span> <span class="o">=</span> <span class="n">list_blobs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bucket</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="n">path</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Found {len(blobs)} blobs matching image name/prefix&#39;</span><span class="p">)</span>
+
+        <span class="n">dests</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">blob</span> <span class="ow">in</span> <span class="n">blobs</span><span class="p">:</span>
+            <span class="n">dests</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">download_blob</span><span class="p">(</span><span class="n">blob</span><span class="p">,</span> <span class="n">dest</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="n">overwrite</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">dests</span>
+
+<div class="viewcode-block" id="GCSStore.retrieve_image"><a class="viewcode-back" href="../../../gee_storage.html#ardzilla.gee.gcs.GCSStore.retrieve_image">[docs]</a>    <span class="k">def</span> <span class="nf">retrieve_image</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dest</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Retrieve (pieces of) an image from the GCS</span>
 
 <span class="sd">        Parameters</span>
@@ -308,18 +327,10 @@
 <span class="sd">        Sequence[str]</span>
 <span class="sd">            Filename(s) corresponding to retrieved data</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">name</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;tif&#39;</span><span class="p">):</span>
-            <span class="n">name</span> <span class="o">+=</span> <span class="s1">&#39;*tif&#39;</span>
+        <span class="k">return</span> <span class="n">_retrieve_extension</span><span class="p">(</span><span class="n">dest</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="s1">&#39;tif&#39;</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">,</span>
+                                   <span class="n">overwrite</span><span class="o">=</span><span class="n">overwrite</span><span class="p">)</span></div>
 
-        <span class="n">blobs</span> <span class="o">=</span> <span class="n">list_blobs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bucket</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="n">path</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Found {len(blobs)} blobs matching image name/prefix&#39;</span><span class="p">)</span>
-
-        <span class="n">dests</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">blob</span> <span class="ow">in</span> <span class="n">blobs</span><span class="p">:</span>
-            <span class="n">dests</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">download_blob</span><span class="p">(</span><span class="n">blob</span><span class="p">,</span> <span class="n">dest</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="n">overwrite</span><span class="p">))</span>
-        <span class="k">return</span> <span class="n">dests</span></div>
-
-<div class="viewcode-block" id="GCSStore.retrieve_metadata"><a class="viewcode-back" href="../../../ardzilla/ardzilla.gee.gcs.html#ardzilla.gee.gcs.GCSStore.retrieve_metadata">[docs]</a>    <span class="k">def</span> <span class="nf">retrieve_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dest</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="GCSStore.retrieve_metadata"><a class="viewcode-back" href="../../../gee_storage.html#ardzilla.gee.gcs.GCSStore.retrieve_metadata">[docs]</a>    <span class="k">def</span> <span class="nf">retrieve_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dest</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Retrieve image metadata from the GCS</span>
 
 <span class="sd">        Parameters</span>
@@ -336,25 +347,45 @@
 <span class="sd">        pathlib.Path</span>
 <span class="sd">            Filename corresponding to retrieved data</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">name</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;json&#39;</span><span class="p">):</span>
-            <span class="n">name</span> <span class="o">+=</span> <span class="s1">&#39;*json&#39;</span>
+        <span class="k">return</span> <span class="n">_retrieve_extension</span><span class="p">(</span><span class="n">dest</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="s1">&#39;json&#39;</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">,</span>
+                                   <span class="n">overwrite</span><span class="o">=</span><span class="n">overwrite</span><span class="p">)</span></div>
 
-        <span class="n">blobs</span> <span class="o">=</span> <span class="n">list_blobs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bucket</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="n">path</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Found {len(blobs)} blobs matching metadata name/prefix&#39;</span><span class="p">)</span>
-
-        <span class="n">dests</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">blob</span> <span class="ow">in</span> <span class="n">blobs</span><span class="p">:</span>
-            <span class="n">dests</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">download_blob</span><span class="p">(</span><span class="n">blob</span><span class="p">,</span> <span class="n">dest</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="n">overwrite</span><span class="p">))</span>
-        <span class="k">return</span> <span class="n">dests</span></div>
-
-<div class="viewcode-block" id="GCSStore.read_metadata"><a class="viewcode-back" href="../../../ardzilla/ardzilla.gee.gcs.html#ardzilla.gee.gcs.GCSStore.read_metadata">[docs]</a>    <span class="k">def</span> <span class="nf">read_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+<div class="viewcode-block" id="GCSStore.read_metadata"><a class="viewcode-back" href="../../../gee_storage.html#ardzilla.gee.gcs.GCSStore.read_metadata">[docs]</a>    <span class="k">def</span> <span class="nf">read_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Read and parse JSON metadata into a dict</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        name : str</span>
+<span class="sd">            Filename of metadata blob to read</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dict</span>
+<span class="sd">            JSON metadata blob</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">blob</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bucket</span><span class="o">.</span><span class="n">get_blob</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">blob</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;No stored metadata named </span><span class="si">{name}</span><span class="s1">&#39;</span><span class="p">)</span>
-        <span class="n">data_str</span> <span class="o">=</span> <span class="n">read_blob</span><span class="p">(</span><span class="n">blob</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="n">METADATA_ENCODING</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">data_str</span><span class="p">)</span></div></div>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">read_json</span><span class="p">(</span><span class="n">blob</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="n">METADATA_ENCODING</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">data</span></div>
+
+<div class="viewcode-block" id="GCSStore.remove"><a class="viewcode-back" href="../../../gee_storage.html#ardzilla.gee.gcs.GCSStore.remove">[docs]</a>    <span class="k">def</span> <span class="nf">remove</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Remove a file from GCS</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        name : str</span>
+<span class="sd">            Name of stored file/object</span>
+<span class="sd">        path : str, optional</span>
+<span class="sd">            Parent directory for file/object stored</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        str</span>
+<span class="sd">            Name of file removed</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">fullname</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">_combine_name_path</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">delete_blob</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bucket</span><span class="p">,</span> <span class="n">fullname</span><span class="p">)</span></div></div>
 
 
 <div class="viewcode-block" id="upload_json"><a class="viewcode-back" href="../../../ardzilla/ardzilla.gee.gcs.html#ardzilla.gee.gcs.upload_json">[docs]</a><span class="k">def</span> <span class="nf">upload_json</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="n">METADATA_ENCODING</span><span class="p">):</span>
@@ -376,16 +407,36 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    str</span>
-<span class="sd">        Filename uploaded</span>
+<span class="sd">    google.cloud.storage.blob.Blob</span>
+<span class="sd">        JSON as GCS blob</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Dump to JSON if needed</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
     <span class="n">blob</span> <span class="o">=</span> <span class="n">bucket</span><span class="o">.</span><span class="n">blob</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
-    <span class="n">blob</span><span class="o">.</span><span class="n">upload_from_string</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">encoding</span><span class="p">),</span>
-                            <span class="n">content_type</span><span class="o">=</span><span class="s1">&#39;application/json&#39;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">path</span></div>
+    <span class="c1"># Dump dict to JSON str and/or encode if needed</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">encoding</span><span class="p">)</span>
+    <span class="n">blob</span><span class="o">.</span><span class="n">upload_from_string</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">content_type</span><span class="o">=</span><span class="s1">&#39;application/json&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">blob</span></div>
+
+
+<div class="viewcode-block" id="read_json"><a class="viewcode-back" href="../../../ardzilla/ardzilla.gee.gcs.html#ardzilla.gee.gcs.read_json">[docs]</a><span class="k">def</span> <span class="nf">read_json</span><span class="p">(</span><span class="n">blob</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="n">METADATA_ENCODING</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Read a blob of JSON string data into a dict</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    blob : google.cloud.storage.blob.Blob</span>
+<span class="sd">        Blob to read, decode, and load</span>
+<span class="sd">    encoding : str, optional</span>
+<span class="sd">        Metadata encoding</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict</span>
+<span class="sd">        Blob read, decoded, and loaded as a dict</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">blob</span><span class="o">.</span><span class="n">download_as_string</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">encoding</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="mkdir_p"><a class="viewcode-back" href="../../../ardzilla/ardzilla.gee.gcs.html#ardzilla.gee.gcs.mkdir_p">[docs]</a><span class="k">def</span> <span class="nf">mkdir_p</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
@@ -401,8 +452,8 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    str</span>
-<span class="sd">        Path to directory on GCS bucket</span>
+<span class="sd">    google.cloud.storage.blob.Blob</span>
+<span class="sd">        GCS blob for directory created</span>
 
 <span class="sd">    Notes</span>
 <span class="sd">    -----</span>
@@ -413,15 +464,16 @@
 <span class="sd">    .. [1] https://cloud.google.com/storage/docs/gsutil/addlhelp/HowSubdirectoriesWork</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">paths</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+    <span class="n">blob_dir</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">paths</span><span class="p">)):</span>
         <span class="n">path_</span> <span class="o">=</span> <span class="n">_format_dirpath</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">paths</span><span class="p">[:</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]))</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">exists</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">path_</span><span class="p">):</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Creating &quot;directory&quot; on GCS &quot;</span><span class="si">{path_}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
-            <span class="n">mkdir</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">path_</span><span class="p">)</span>
+            <span class="n">blob_dir</span> <span class="o">=</span> <span class="n">mkdir</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">path_</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Path </span><span class="si">{path_}</span><span class="s1"> already exists...&#39;</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">_format_dirpath</span><span class="p">(</span><span class="n">path</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">blob_dir</span></div>
 
 
 <div class="viewcode-block" id="mkdir"><a class="viewcode-back" href="../../../ardzilla/ardzilla.gee.gcs.html#ardzilla.gee.gcs.mkdir">[docs]</a><span class="k">def</span> <span class="nf">mkdir</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
@@ -436,8 +488,8 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    str</span>
-<span class="sd">        GCS for directory created (or already existing)</span>
+<span class="sd">    google.cloud.storage.blob.Blob</span>
+<span class="sd">        GCS blob for directory created</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">path_</span> <span class="o">=</span> <span class="n">_format_dirpath</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
     <span class="n">blob</span> <span class="o">=</span> <span class="n">bucket</span><span class="o">.</span><span class="n">blob</span><span class="p">(</span><span class="n">path_</span><span class="p">)</span>
@@ -463,6 +515,26 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">blob</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">Blob</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">bucket</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">blob</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="delete_blob"><a class="viewcode-back" href="../../../ardzilla/ardzilla.gee.gcs.html#ardzilla.gee.gcs.delete_blob">[docs]</a><span class="k">def</span> <span class="nf">delete_blob</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Delete a GCS blob</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    bucket : str or google.cloud.storage.bucket.Bucket</span>
+<span class="sd">        Bucket or bucket name</span>
+<span class="sd">    path : str</span>
+<span class="sd">        Path to file/folder</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    path</span>
+<span class="sd">        Name of deleted blob</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">blob</span> <span class="o">=</span> <span class="n">bucket</span><span class="o">.</span><span class="n">blob</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="n">blob</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">blob</span><span class="o">.</span><span class="n">name</span></div>
 
 
 <div class="viewcode-block" id="list_dirs"><a class="viewcode-back" href="../../../ardzilla/ardzilla.gee.gcs.html#ardzilla.gee.gcs.list_dirs">[docs]</a><span class="k">def</span> <span class="nf">list_dirs</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -502,7 +574,7 @@
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
-<span class="sd">    Sequence[google.cloud.storage.blob.Blob]</span>
+<span class="sd">    list[google.cloud.storage.blob.Blob]</span>
 <span class="sd">        List of blob files inside at ``prefix``</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">prefix</span><span class="p">:</span>
@@ -547,24 +619,6 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="n">blob</span><span class="o">.</span><span class="n">download_to_filename</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">dest_</span><span class="p">))</span>
     <span class="k">return</span> <span class="n">dest_</span></div>
-
-
-<div class="viewcode-block" id="read_blob"><a class="viewcode-back" href="../../../ardzilla/ardzilla.gee.gcs.html#ardzilla.gee.gcs.read_blob">[docs]</a><span class="k">def</span> <span class="nf">read_blob</span><span class="p">(</span><span class="n">blob</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="n">METADATA_ENCODING</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Read a blob as a string</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    blob : google.cloud.storage.blob.Blob</span>
-<span class="sd">        Blob to read</span>
-<span class="sd">    encoding : str, optional</span>
-<span class="sd">        Metadata encoding</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    str</span>
-<span class="sd">        Blob read and decoded as a string</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">blob</span><span class="o">.</span><span class="n">download_as_string</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">encoding</span><span class="p">)</span></div>
 
 
 <span class="k">def</span> <span class="nf">_format_dirpath</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>

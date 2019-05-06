@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.gee.gcs module &mdash; ardzilla 0+untagged.50.g514112f documentation</title>
+  <title>ardzilla.gee.gcs module &mdash; ardzilla 0+untagged.50.g439e891 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.g514112f
+                0+untagged.50.g439e891
               </div>
             
           
@@ -176,7 +176,8 @@
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>client</strong> (<em>google.cloud.storage.client.Client</em>) – GCS client</p></li>
 <li><p><strong>bucket</strong> (<em>google.cloud.storage.bucket.Bucket</em>) – GCS bucket</p></li>
-<li><p><strong>export_image_kwds</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a><em>, </em><em>optional</em>) – Additional keyword arguments to pass onto <code class="docutils literal notranslate"><span class="pre">toCloudStorage</span></code></p></li>
+<li><p><strong>export_image_kwds</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a><em>, </em><em>optional</em>) – Additional keyword arguments to pass onto
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">ee.batch.Export.image.toCloudStorage()</span></code></p></li>
 </ul>
 </dd>
 </dl>
@@ -188,14 +189,20 @@
 
 <dl class="method">
 <dt id="ardzilla.gee.gcs.GCSStore.list">
-<code class="descname">list</code><span class="sig-paren">(</span><em>self</em>, <em>name=None</em>, <em>path=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/gcs.html#GCSStore.list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.gcs.GCSStore.list" title="Permalink to this definition">¶</a></dt>
+<code class="descname">list</code><span class="sig-paren">(</span><em>self</em>, <em>path=None</em>, <em>pattern=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/gcs.html#GCSStore.list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.gcs.GCSStore.list" title="Permalink to this definition">¶</a></dt>
 <dd><p>List stored images or metadata</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Filename pattern</p></li>
-<li><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Prefix to search within</p></li>
+<li><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Prefix path to search within</p></li>
+<li><p><strong>pattern</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Filename pattern</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Names of stored data</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#list" title="(in Python v3.7)">list</a>[<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a>]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -204,6 +211,37 @@
 <dt id="ardzilla.gee.gcs.GCSStore.read_metadata">
 <code class="descname">read_metadata</code><span class="sig-paren">(</span><em>self</em>, <em>name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/gcs.html#GCSStore.read_metadata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.gcs.GCSStore.read_metadata" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read and parse JSON metadata into a dict</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Filename of metadata blob to read</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>JSON metadata blob</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="ardzilla.gee.gcs.GCSStore.remove">
+<code class="descname">remove</code><span class="sig-paren">(</span><em>self</em>, <em>name</em>, <em>path=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/gcs.html#GCSStore.remove"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.gcs.GCSStore.remove" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove a file from GCS</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Name of stored file/object</p></li>
+<li><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Parent directory for file/object stored</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Name of file removed</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
@@ -285,14 +323,34 @@ be part of <code class="docutils literal notranslate"><span class="pre">name</sp
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p></p>
+<dd class="field-even"><p>Path to uploaded object</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>str Path to object uploaded</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a></p>
 </dd>
 </dl>
 </dd></dl>
 
+</dd></dl>
+
+<dl class="function">
+<dt id="ardzilla.gee.gcs.delete_blob">
+<code class="descclassname">ardzilla.gee.gcs.</code><code class="descname">delete_blob</code><span class="sig-paren">(</span><em>bucket</em>, <em>path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/gcs.html#delete_blob"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.gcs.delete_blob" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete a GCS blob</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bucket</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em> or </em><em>google.cloud.storage.bucket.Bucket</em>) – Bucket or bucket name</p></li>
+<li><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Path to file/folder</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Name of deleted blob</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>path</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
@@ -351,7 +409,7 @@ be part of <code class="docutils literal notranslate"><span class="pre">name</sp
 <dd class="field-even"><p>List of blob files inside at <code class="docutils literal notranslate"><span class="pre">prefix</span></code></p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>Sequence[google.cloud.storage.blob.Blob]</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#list" title="(in Python v3.7)">list</a>[google.cloud.storage.blob.Blob]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -388,10 +446,10 @@ be part of <code class="docutils literal notranslate"><span class="pre">name</sp
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>GCS for directory created (or already existing)</p>
+<dd class="field-even"><p>GCS blob for directory created</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a></p>
+<dd class="field-odd"><p>google.cloud.storage.blob.Blob</p>
 </dd>
 </dl>
 </dd></dl>
@@ -408,10 +466,10 @@ be part of <code class="docutils literal notranslate"><span class="pre">name</sp
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Path to directory on GCS bucket</p>
+<dd class="field-even"><p>GCS blob for directory created</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a></p>
+<dd class="field-odd"><p>google.cloud.storage.blob.Blob</p>
 </dd>
 </dl>
 <p class="rubric">Notes</p>
@@ -425,21 +483,21 @@ be part of <code class="docutils literal notranslate"><span class="pre">name</sp
 </dd></dl>
 
 <dl class="function">
-<dt id="ardzilla.gee.gcs.read_blob">
-<code class="descclassname">ardzilla.gee.gcs.</code><code class="descname">read_blob</code><span class="sig-paren">(</span><em>blob</em>, <em>encoding='utf-8'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/gcs.html#read_blob"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.gcs.read_blob" title="Permalink to this definition">¶</a></dt>
-<dd><p>Read a blob as a string</p>
+<dt id="ardzilla.gee.gcs.read_json">
+<code class="descclassname">ardzilla.gee.gcs.</code><code class="descname">read_json</code><span class="sig-paren">(</span><em>blob</em>, <em>encoding='utf-8'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/gcs.html#read_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.gcs.read_json" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read a blob of JSON string data into a dict</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>blob</strong> (<em>google.cloud.storage.blob.Blob</em>) – Blob to read</p></li>
+<li><p><strong>blob</strong> (<em>google.cloud.storage.blob.Blob</em>) – Blob to read, decode, and load</p></li>
 <li><p><strong>encoding</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Metadata encoding</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Blob read and decoded as a string</p>
+<dd class="field-even"><p>Blob read, decoded, and loaded as a dict</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -460,10 +518,10 @@ overwrite (or “update” instead of “create”)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Filename uploaded</p>
+<dd class="field-even"><p>JSON as GCS blob</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a></p>
+<dd class="field-odd"><p>google.cloud.storage.blob.Blob</p>
 </dd>
 </dl>
 </dd></dl>
