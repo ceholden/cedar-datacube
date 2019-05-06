@@ -23,6 +23,7 @@ Google Cloud Storage
 ====================
 
 .. autoclass:: ardzilla.gee.gcs.GCSStore
+   :members:
 
 
 .. _gee_storage_gdrive:
@@ -30,4 +31,5 @@ Google Cloud Storage
 Google Drive
 ============
 
-.. autoclass:: ardzilla.gee.gcs.GCSStore
+.. autoclass:: ardzilla.gee.gdrive.GDriveStore
+   :members:
