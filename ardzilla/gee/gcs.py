@@ -30,7 +30,8 @@ class GCSStore(object):
     bucket : google.cloud.storage.bucket.Bucket
         GCS bucket
     export_image_kwds : dict, optional
-        Additional keyword arguments to pass onto ``toCloudStorage``
+        Additional keyword arguments to pass onto
+        :py:meth:`ee.batch.Export.image.toCloudStorage`
     """
     def __init__(self, client, bucket, export_image_kwds=None):
         assert isinstance(client, storage.Client)
@@ -48,17 +49,22 @@ class GCSStore(object):
         bucket = client.get_bucket(bucket_name)
         return cls(client, bucket, **kwds)
 
-    def list(self, name=None, path=None):
+    def list(self, path=None, pattern=None):
         """ List stored images or metadata
 
         Parameters
         ----------
-        name : str, optional
-            Filename pattern
         path : str, optional
-            Prefix to search within
+            Prefix path to search within
+        pattern : str, optional
+            Filename pattern
+
+        Returns
+        -------
+        list[str]
+            Names of stored data
         """
-        blobs = list_blobs(self.bucket, prefix=path, pattern=name)
+        blobs = list_blobs(self.bucket, prefix=path, pattern=pattern)
         return [blob.name for blob in blobs]
 
     def store_metadata(self, metadata, name, path=None):
@@ -76,7 +82,8 @@ class GCSStore(object):
 
         Returns
         -------
-        str Path to object uploaded
+        str
+            Path to uploaded object
         """
         if not name.endswith('.json'):
             name += '.json'
@@ -129,6 +136,18 @@ class GCSStore(object):
         )
         return task
 
+    def _retrieve_extension(self, dest, name, ext, path=None, overwrite=True):
+        if not name.endswith(ext):
+            name += f'*{ext}'
+
+        blobs = list_blobs(self.bucket, prefix=path, pattern=name)
+        logger.debug(f'Found {len(blobs)} blobs matching image name/prefix')
+
+        dests = []
+        for blob in blobs:
+            dests.append(download_blob(blob, dest, overwrite=overwrite))
+        return dests
+
     def retrieve_image(self, dest, name, path=None, overwrite=True):
         """ Retrieve (pieces of) an image from the GCS
 
@@ -146,16 +165,8 @@ class GCSStore(object):
         Sequence[str]
             Filename(s) corresponding to retrieved data
         """
-        if not name.endswith('tif'):
-            name += '*tif'
-
-        blobs = list_blobs(self.bucket, prefix=path, pattern=name)
-        logger.debug(f'Found {len(blobs)} blobs matching image name/prefix')
-
-        dests = []
-        for blob in blobs:
-            dests.append(download_blob(blob, dest, overwrite=overwrite))
-        return dests
+        return _retrieve_extension(dest, name, 'tif', path=path,
+                                   overwrite=overwrite)
 
     def retrieve_metadata(self, dest, name, path=None, overwrite=True):
         """ Retrieve image metadata from the GCS
@@ -174,25 +185,45 @@ class GCSStore(object):
         pathlib.Path
             Filename corresponding to retrieved data
         """
-        if not name.endswith('json'):
-            name += '*json'
-
-        blobs = list_blobs(self.bucket, prefix=path, pattern=name)
-        logger.debug('Found {len(blobs)} blobs matching metadata name/prefix')
-
-        dests = []
-        for blob in blobs:
-            dests.append(download_blob(blob, dest, overwrite=overwrite))
-        return dests
+        return _retrieve_extension(dest, name, 'json', path=path,
+                                   overwrite=overwrite)
 
     def read_metadata(self, name):
         """ Read and parse JSON metadata into a dict
+
+        Parameters
+        ----------
+        name : str
+            Filename of metadata blob to read
+
+        Returns
+        -------
+        dict
+            JSON metadata blob
         """
         blob = self.bucket.get_blob(name)
         if not blob:
             raise ValueError(f'No stored metadata named {name}')
-        data_str = read_blob(blob, encoding=METADATA_ENCODING)
-        return json.loads(data_str)
+        data = read_json(blob, encoding=METADATA_ENCODING)
+        return data
+
+    def remove(self, name, path=None):
+        """ Remove a file from GCS
+
+        Parameters
+        ----------
+        name : str
+            Name of stored file/object
+        path : str, optional
+            Parent directory for file/object stored
+
+        Returns
+        -------
+        str
+            Name of file removed
+        """
+        fullname, _, _ = _combine_name_path(name, path)
+        return delete_blob(self.bucket, fullname)
 
 
 def upload_json(bucket, data, path, check=False, encoding=METADATA_ENCODING):
@@ -214,16 +245,36 @@ def upload_json(bucket, data, path, check=False, encoding=METADATA_ENCODING):
 
     Returns
     -------
-    str
-        Filename uploaded
+    google.cloud.storage.blob.Blob
+        JSON as GCS blob
     """
-    # Dump to JSON if needed
-    if not isinstance(data, str):
-        data = json.dumps(data, indent=2)
     blob = bucket.blob(path)
-    blob.upload_from_string(data.encode(encoding),
-                            content_type='application/json')
-    return path
+    # Dump dict to JSON str and/or encode if needed
+    if isinstance(data, dict):
+        data = json.dumps(data, indent=2)
+    if not isinstance(data, bytes):
+        data = data.encode(encoding)
+    blob.upload_from_string(data, content_type='application/json')
+    return blob
+
+
+def read_json(blob, encoding=METADATA_ENCODING):
+    """ Read a blob of JSON string data into a dict
+
+    Parameters
+    ----------
+    blob : google.cloud.storage.blob.Blob
+        Blob to read, decode, and load
+    encoding : str, optional
+        Metadata encoding
+
+    Returns
+    -------
+    dict
+        Blob read, decoded, and loaded as a dict
+    """
+    data = blob.download_as_string().decode(encoding)
+    return json.loads(data)
 
 
 def mkdir_p(bucket, path):
@@ -239,8 +290,8 @@ def mkdir_p(bucket, path):
 
     Returns
     -------
-    str
-        Path to directory on GCS bucket
+    google.cloud.storage.blob.Blob
+        GCS blob for directory created
 
     Notes
     -----
@@ -251,15 +302,16 @@ def mkdir_p(bucket, path):
     .. [1] https://cloud.google.com/storage/docs/gsutil/addlhelp/HowSubdirectoriesWork
     """
     paths = path.rstrip('/').split('/')
+    blob_dir = None
     for i in range(len(paths)):
         path_ = _format_dirpath('/'.join(paths[:i + 1]))
         if not exists(bucket, path_):
             logger.debug(f'Creating "directory" on GCS "{path_}"')
-            mkdir(bucket, path_)
+            blob_dir = mkdir(bucket, path_)
         else:
             logger.debug(f'Path {path_} already exists...')
 
-    return _format_dirpath(path)
+    return blob_dir
 
 
 def mkdir(bucket, path):
@@ -274,8 +326,8 @@ def mkdir(bucket, path):
 
     Returns
     -------
-    str
-        GCS for directory created (or already existing)
+    google.cloud.storage.blob.Blob
+        GCS blob for directory created
     """
     path_ = _format_dirpath(path)
     blob = bucket.blob(path_)
@@ -301,6 +353,26 @@ def exists(bucket, path):
     """
     blob = storage.Blob(path, bucket)
     return blob.exists()
+
+
+def delete_blob(bucket, path):
+    """ Delete a GCS blob
+
+    Parameters
+    ----------
+    bucket : str or google.cloud.storage.bucket.Bucket
+        Bucket or bucket name
+    path : str
+        Path to file/folder
+
+    Returns
+    -------
+    path
+        Name of deleted blob
+    """
+    blob = bucket.blob(path)
+    blob.delete()
+    return blob.name
 
 
 def list_dirs(bucket, prefix=None):
@@ -340,7 +412,7 @@ def list_blobs(bucket, prefix=None, pattern=None):
 
     Returns
     -------
-    Sequence[google.cloud.storage.blob.Blob]
+    list[google.cloud.storage.blob.Blob]
         List of blob files inside at ``prefix``
     """
     if prefix:
@@ -385,24 +457,6 @@ def download_blob(blob, dest, overwrite=True):
     else:
         blob.download_to_filename(str(dest_))
     return dest_
-
-
-def read_blob(blob, encoding=METADATA_ENCODING):
-    """ Read a blob as a string
-
-    Parameters
-    ----------
-    blob : google.cloud.storage.blob.Blob
-        Blob to read
-    encoding : str, optional
-        Metadata encoding
-
-    Returns
-    -------
-    str
-        Blob read and decoded as a string
-    """
-    return blob.download_as_string().decode(encoding)
 
 
 def _format_dirpath(path):
