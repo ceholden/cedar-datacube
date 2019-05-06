@@ -1,5 +1,6 @@
 """ Tracker to submit and download GEE pre-ARD tasks
 """
+from collections import defaultdict
 import datetime as dt
 import itertools
 import logging
@@ -41,8 +42,8 @@ class GEEARDTracker(object):
         self.filters = filters or []
         self.overwrite = overwrite
 
-    def submit_ard(self, collections, tile_rows, tile_cols,
-                   date_start, date_end, freq=defaults.GEE_PREARD_FREQ):
+    def submit(self, collections, tile_rows, tile_cols,
+               date_start, date_end, freq=defaults.GEE_PREARD_FREQ):
         """ Submit and track GEE pre-ARD tasks
 
         Parameters
@@ -87,7 +88,7 @@ class GEEARDTracker(object):
             tile = self.tile_grid[tile_row, tile_col]
 
             # Create, returning the task and stored metadata name
-            tasks_metadata = core.submit_ard(
+            tasks_and_metadata = core.submit_ard(
                 collection, tile, date_start, date_end,
                 self.store,
                 name_template=self.name_template,
@@ -101,7 +102,7 @@ class GEEARDTracker(object):
                 collection, tile, date_start, date_end)
 
             # Start and get metadata for each task
-            for task, metadata in tasks_metadata:
+            for task, _ in tasks_and_metadata:
                 task.start()
                 task_meta_ = task_meta.copy()
                 task_meta_.update(_tracking_task_metadata(task))
@@ -112,23 +113,6 @@ class GEEARDTracker(object):
         tracking_info = {'submission': meta_submission, 'tasks': meta_tasks}
         return self.store.store_metadata(tracking_info, tracking_name,
                                          path=self.TRACKING_DIRECTORY)
-
-    def download_ard(self, tracking_name, dest):
-        """ Download "pre-ARD" and metadata to a directory
-
-        Parameters
-        ----------
-        tracking_name : str
-            Name of stored tracking information
-        dest : str or pathlib.Path
-            Destination download directory
-
-        Returns
-        -------
-        dict
-        """
-        tracking_info = self.get_tracking(tracking_name)
-        return download_tracked_info(tracking_info, self.store, dest)
 
     def list_tracking(self, pattern=None):
         """ Return a list of all tracking metadata
@@ -146,9 +130,9 @@ class GEEARDTracker(object):
         list[str]
             Name of stored tracking information
         """
-        return self.store.list(name=pattern, path=self.TRACKING_DIRECTORY)
+        return self.store.list(path=self.TRACKING_DIRECTORY, pattern=pattern)
 
-    def get_tracking(self, name):
+    def read_tracking(self, name):
         """ Returns stored tracking information as dict
 
         Parameters
@@ -166,7 +150,7 @@ class GEEARDTracker(object):
             name = '/'.join([self.TRACKING_DIRECTORY, name])
         return self.store.read_metadata(name)
 
-    def refresh_tracking(self, name):
+    def update_tracking(self, name):
         """ Refresh and reupload tracking information by checking with the GEE
 
         Parameters
@@ -180,10 +164,42 @@ class GEEARDTracker(object):
         dict
             JSON tracking info data as a dict
         """
-        tracking_info = self.get_tracking(name)
-        tracking_info_update = update_tracking_info(tracking_info)
+        tracking_info = self.read_tracking(name)
+        tracking_info_updated = update_tracking(tracking_info)
         name_ = self.store.store_metadata(tracking_info, name)
-        return tracking_info_update
+        return tracking_info_updated
+
+    def download(self, tracking_name, dest):
+        """ Download "pre-ARD" and metadata to a directory
+
+        Parameters
+        ----------
+        tracking_name : str
+            Name of stored tracking information
+        dest : str or pathlib.Path
+            Destination download directory
+
+        Returns
+        -------
+        dict
+        """
+        tracking_info = self.read_tracking(tracking_name)
+        return download_tracked(tracking_info, self.store, dest)
+
+    def clean(self, tracking_name):
+        """ Clean "pre-ARD" imagery, metadata, and tracking metadata off GCS
+
+        Parameters
+        ----------
+        tracking_name : str
+            Name of stored tracking information
+
+        Returns
+        -------
+        dict[str, list[str]]
+        """
+        tracking_info = self.read_tracking(tracking_name)
+        return clean_tracked(tracking_info, self.store)
 
     def _tracking_name(self, date_start, date_end):
         infos = {
@@ -200,7 +216,7 @@ class GEEARDTracker(object):
         return self.tracking_template.format(**{k: '*' for k in keys})
 
 
-def download_tracked_info(tracking_info, store, dest):
+def download_tracked(tracking_info, store, dest):
     """ Download stored "pre-ARD" and metadata described by tracking info
 
     Parameters
@@ -238,6 +254,34 @@ def download_tracked_info(tracking_info, store, dest):
         retrieved[id_] = list(dst_meta) + list(dst_imgs)
 
     return retrieved
+
+
+def clean_tracked(tracking_info, store):
+    """ Delete stored "pre-ARD" and metadata described by tracking info
+
+    Parameters
+    ----------
+    tracking_info : dict
+        Tracking information
+    store : ardzilla.gee.gcs.GCSStore or ardzilla.gee.gdrive.GDriveStore
+        ARDzilla store class
+
+    Returns
+    -------
+    dict[str, list[str]]
+        Name of deleted data, organized according to GEE task ID
+    """
+    tasks = tracking_info['tasks']
+    deleted = defaultdict(list)
+    for task in tasks:
+        id_, name, prefix = task['id'], task['name'], task['prefix']
+        logger.debug(f'Deleting image and metadata for id={id_}, '
+                     f'name="{name}", prefix="{prefix}"')
+        # Retrieve image and metadata
+        names = store.list(path=prefix, pattern=name + '*')
+        for name in names:
+            deleted[id_].append(store.remove(name))
+    return deleted
 
 
 def update_tracking_info(tracking_info):

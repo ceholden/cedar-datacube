@@ -91,9 +91,9 @@ class GCSStore(object):
 
         path_ = mkdir_p(self.bucket, path_)
 
-        name_ = upload_json(self.bucket, metadata, fullname,
-                            check=False)
-        return name_
+        blob = upload_json(self.bucket, metadata, fullname,
+                           check=False)
+        return blob.name
 
     def store_image(self, image, name, path=None, **kwds):
         """ Create ee.batch.Task to create and store "pre-ARD"
