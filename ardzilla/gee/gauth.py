@@ -6,15 +6,6 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-try:
-    from googleapiclient.discovery import build
-    from google_auth_oauthlib.flow import InstalledAppFlow
-    from google.auth.transport.requests import Request
-    from google.oauth2.credentials import Credentials
-except ImportError:
-    logger.exception('Please install libraries required for Google Drive API')
-    raise
-
 
 _GDRIVE_SCOPES = [
     'https://www.googleapis.com/auth/drive',
@@ -51,6 +42,8 @@ def build_gdrive_service(client_secrets=None, credentials=None):
     ValueError
         Raised if service can't be built
     """
+    from googleapiclient.discovery import build
+
     creds = get_gdrive_credentials(client_secrets, credentials)
     service = build('drive', 'v3', credentials=creds)
 
@@ -116,6 +109,9 @@ def get_gdrive_credentials(client_secrets=None, credentials=None):
     ValueError
         Raised if `client_secrets` file is needed but missing
     """
+    from google_auth_oauthlib.flow import InstalledAppFlow
+    from google.auth.transport.requests import Request
+
     client_secrets_ = _get_file(client_secrets, _CLIENT_SECRETS)
     credentials_ = _get_file(credentials, _USER_CREDS, False)
 
@@ -153,6 +149,7 @@ def get_gdrive_credentials(client_secrets=None, credentials=None):
 
 
 def _dict_to_creds(d):
+    from google.oauth2.credentials import Credentials
     assert isinstance(d, dict)
     token = d['token']
     kwds = {k: v for k, v in d.items() if k != 'token'}
@@ -161,7 +158,6 @@ def _dict_to_creds(d):
 
 
 def _creds_to_dict(creds):
-    assert isinstance(creds, Credentials)
     creds_ = {
         k: getattr(creds, k, None) for k in _OAUTH2_CREDS
     }
