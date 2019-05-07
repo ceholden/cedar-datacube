@@ -21,35 +21,6 @@ _CLIENT_SECRETS = ['client_secrets.json']
 _USER_CREDS = ['credentials.json']
 
 
-def build_gdrive_service(client_secrets=None, credentials=None):
-    """ Return a Google Drive API service
-
-    Parameters
-    ----------
-    client_secrets : str, optional
-        Location of "client_secrets.json" used to authenticate a user for the
-        application. Needed for initially authenticating the user.
-    credentails : str, optional
-        User credentials, including access token, for using the application.
-
-    Returns
-    -------
-    googleapiclient.discovery.Resource
-        GDrive v3 API resource
-
-    Raises
-    ------
-    ValueError
-        Raised if service can't be built
-    """
-    from googleapiclient.discovery import build
-
-    creds = get_gdrive_credentials(client_secrets, credentials)
-    service = build('drive', 'v3', credentials=creds)
-
-    return service
-
-
 def build_gcs_client(credentials=None, project=None):
     """ Return a Google Cloud Store API service client
 
@@ -86,6 +57,35 @@ def build_gcs_client(credentials=None, project=None):
 
     client = storage.Client(project=project, credentials=credentials)
     return client
+
+
+def build_gdrive_service(client_secrets=None, credentials=None):
+    """ Return a Google Drive API service
+
+    Parameters
+    ----------
+    client_secrets : str, optional
+        Location of "client_secrets.json" used to authenticate a user for the
+        application. Needed for initially authenticating the user.
+    credentails : str, optional
+        User credentials, including access token, for using the application.
+
+    Returns
+    -------
+    googleapiclient.discovery.Resource
+        GDrive v3 API resource
+
+    Raises
+    ------
+    ValueError
+        Raised if service can't be built
+    """
+    from googleapiclient.discovery import build
+
+    creds = get_gdrive_credentials(client_secrets, credentials)
+    service = build('drive', 'v3', credentials=creds)
+
+    return service
 
 
 def get_gdrive_credentials(client_secrets=None, credentials=None):
