@@ -188,22 +188,25 @@ class GCSStore(object):
         return _retrieve_extension(dest, name, 'json', path=path,
                                    overwrite=overwrite)
 
-    def read_metadata(self, name):
+    def read_metadata(self, name, path=None):
         """ Read and parse JSON metadata into a dict
 
         Parameters
         ----------
         name : str
             Filename of metadata blob to read
+        path : str, optional
+            Parent directory for file/object stored
 
         Returns
         -------
         dict
             JSON metadata blob
         """
-        blob = self.bucket.get_blob(name)
+        fullname, _, _ = _combine_name_path(name, path)
+        blob = self.bucket.get_blob(fullname)
         if not blob:
-            raise ValueError(f'No stored metadata named {name}')
+            raise ValueError(f'No stored metadata named {fullname}')
         data = read_json(blob, encoding=METADATA_ENCODING)
         return data
 
