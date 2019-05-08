@@ -185,6 +185,54 @@ def upload_json(service, data, name, dest=None, check=False):
     return meta['id']
 
 
+def download_file_id(service, file_id, name, dest, overwrite=True):
+    """ Download a file to a destination directory using its ID
+
+    Parameters
+    ----------
+    service : googleapiclient.discovery.Resource
+        Google API resource for GDrive v3
+    file_id : str
+        ID of file on Google Drive
+    name : str
+        Name of file. Only used for destination filename.
+    dest : str
+        Local directory to download file into
+
+    Returns
+    -------
+    pathlib.Path
+        Filename written to
+
+    Raises
+    ------
+    FileExistsError
+        Raised if file exists in destination but not allowed to overwrite,
+    ValueError
+        Raised if the file given does not exist in Google Drive
+    """
+    # Create destination if needed
+    dest = Path(dest)
+    if not dest.exists():
+        dest.mkdir(parents=True, exist_ok=True)
+    assert dest.is_dir()
+
+    # Check overwrite
+    dest_ = dest.joinpath(name)
+    if not overwrite and dest_.exists():
+        raise FileExistsError(f'Not overwriting destination file {dest_}')
+
+    # Download...
+    request = service.files().get_media(fileId=file_id)
+    with open(str(dest_), 'wb') as dst:
+        downloader = MediaIoBaseDownload(dst, request)
+        done = False
+        while done is False:
+            status, done = downloader.next_chunk()
+
+    return dest_
+
+
 def download_file(service, name, dest, parent_id=None, overwrite=True):
     """ Download a file to a destination directory
 
@@ -211,31 +259,12 @@ def download_file(service, name, dest, parent_id=None, overwrite=True):
     ValueError
         Raised if the file given does not exist in Google Drive
     """
-    # Create destination if needed
-    dest = Path(dest)
-    if not dest.exists():
-        dest.mkdir(parents=True, exist_ok=True)
-    assert dest.is_dir()
-
-    # Check overwrite
-    dest_ = dest.joinpath(name)
-    if not overwrite and dest_.exists():
-        raise FileExistsError(f'Not overwriting destination file {dest_}')
-
     # Find the file
     name_id = exists(service, name, parent_id=parent_id)
     if not name_id:
         raise ValueError(f'File "{name}" not found on Google Drive')
 
-    # Download...
-    request = service.files().get_media(fileId=name_id)
-    with open(str(dest_), 'wb') as dst:
-        downloader = MediaIoBaseDownload(dst, request)
-        done = False
-        while done is False:
-            status, done = downloader.next_chunk()
-
-    return dest_
+    return download_file_id(service, name_id, name, dest, overwrite=overwrite)
 
 
 def mkdir_p(service, dest, parent_id=None):
