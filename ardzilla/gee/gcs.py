@@ -446,6 +446,11 @@ def download_blob(blob, dest, overwrite=True):
     -------
     pathlib.Path
         Filename written to
+
+    Raises
+    ------
+    FileExistsError
+        Raised if file exists in destination but not allowed to overwrite,
     """
     dest = Path(dest)
     if not dest.exists():
@@ -456,9 +461,10 @@ def download_blob(blob, dest, overwrite=True):
     dest_ = dest.joinpath(name)
 
     if dest_.exists() and not overwrite:
-        logger.debug(f'Not overwriting already downloaded file "{dest_}"')
+        raise ValueError(f'Not overwriting existing file "{dest_}"')
     else:
         blob.download_to_filename(str(dest_))
+
     return dest_
 
 
