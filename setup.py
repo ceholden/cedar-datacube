@@ -48,7 +48,7 @@ INSTALL_REQUIRES = [
 ]
 INSTALL_REQUIRES.extend(['click>=6.0', 'click-plugins', 'cligj>=0.5'])
 SETUP_REQUIRES = ['pytest-runner',]
-TESTS_REQUIRE = ['pytest',]
+TESTS_REQUIRE = ['pytest', 'mock']
 EXTRAS_REQUIRE = {
     'core': INSTALL_REQUIRES,
     'tests': TESTS_REQUIRE,
