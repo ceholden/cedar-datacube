@@ -20,6 +20,7 @@ logger = logging.getLogger(__name__)
 MIME_TYPE_DIRECTORY = 'application/vnd.google-apps.folder'
 MIME_TYPE_FILE = 'application/vnd.google-apps.file'
 _ORDER_BY = 'folder,modifiedTime,name'
+METADATA_ENCODING = 'utf-8'
 
 
 class GDriveStore(object):
@@ -46,7 +47,23 @@ class GDriveStore(object):
         return cls(gdrive, export_image_kwds=export_image_kwds)
 
     def list(self, path=None, pattern=None):
-        pass
+        """ List stored images or metadata
+
+        Parameters
+        ----------
+        path : str, optional
+            Prefix path to search within
+        pattern : str, optional
+            Filename pattern
+
+        Returns
+        -------
+        list[str]
+            Names of stored data
+        """
+        parent_id = _path_to_parent_id(self.service, path)
+        info = list_objects(self.service, parent_id=parent_id, name=pattern)
+        return [i['name'] for i in info]
 
     def store_metadata(self, metadata, name, path=None):
         """ Store JSON metadata
@@ -99,7 +116,12 @@ class GDriveStore(object):
         kwds_ = kwds.copy()
         kwds_.update(self.export_image_kwds)
 
-        # Make parent directory
+        # TODO: warn / fail if `path` looks nested...
+        # Make sure to append "-" so subfiles get separated for search query
+        if not name.endswith('-'):
+            logger.debug('Appending "-" to name so we can find it later')
+            name += '-'
+
         path_ = mkdir_p(self.service,  path)
 
         # Canonicalized:
@@ -114,17 +136,101 @@ class GDriveStore(object):
         )
         return task
 
+    def _retrieve_extension(self, dest, name, ext, path=None, overwrite=True):
+        # Find parent ID if provided & list objects
+        parent_id = _path_to_parent_id(self.service, path)
+        query = list(list_objects(self.service,
+                                  parent_id=parent_id,
+                                  name=name))
+
+        # Can't pattern search on GDrive, so limit by extension
+        query_ = [q for q in query if q['name'].endswith(ext)]
+
+        dests = []
+        for result in query_:
+            dst = download_file_id(self.service,
+                                   result['id'], result['name'],
+                                   dest, overwrite=overwrite)
+            dests.append(dst)
+
+        return dests
+
+
     def retrieve_image(self, dest, name, path=None, overwrite=True):
-        pass
+        """ Retrieve (pieces of) an image from the Google Drive
+
+        Parameters
+        ----------
+        dest : str
+            Destination folder to save image(s)
+        name : str
+            Name of stored file/object
+        path : str, optional
+            Parent directory for file/object stored on Google Drive
+
+        Returns
+        -------
+        Sequence[str]
+            Filename(s) corresponding to retrieved data
+        """
+        return _retrieve_extension(dest, name, '.tif', path=path,
+                                   overwrite=overwrite)
 
     def retrieve_metadata(self, dest, name, path=None, overwrite=True):
-        pass
+        """ Retrieve image metadata from the GCS
+
+        Parameters
+        ----------
+        dest : str
+            Destination folder to save metadata
+        name : str
+            Name of stored file/object
+        path : str, optional
+            Parent directory for file/object stored
+
+        Returns
+        -------
+        pathlib.Path
+            Filename corresponding to retrieved data
+        """
+        return _retrieve_extension(dest, name, '.json', path=path,
+                                   overwrite=overwrite)
 
     def read_metadata(self, name, path=None):
-        pass
+        """ Read and parse JSON metadata into a dict
+
+        Parameters
+        ----------
+        name : str
+            Filename of metadata to read
+        path : str, optional
+            Parent directory for file/object stored
+
+        Returns
+        -------
+        dict
+            JSON metadata
+        """
+        parent_id = _path_to_parent_id(self.service, path)
+        return read_json(self.service, name, parent_id=parent_id)
 
     def remove(self, name, path=None):
-        pass
+        """ Remove a file from Google Drive
+
+        Parameters
+        ----------
+        name : str
+            Name of stored file/object
+        path : str, optional
+            Parent directory for file/object stored
+
+        Returns
+        -------
+        str
+            Name of file removed
+        """
+        parent_id = _path_to_parent_id(self.service, path)
+        return delete(self.service, name, parent_id=parent_id)
 
 
 def upload_json(service, data, name, dest=None, check=False):
@@ -166,7 +272,7 @@ def upload_json(service, data, name, dest=None, check=False):
         'parents': [dest_id],
         'mimeType': 'text/plain',
     }
-    content = io.BytesIO(data.encode('utf-8'))
+    content = io.BytesIO(data.encode(METADATA_ENCODING))
     media = MediaIoBaseUpload(content, 'text/plain', resumable=True)
 
     # Check to see if file already exists...
@@ -265,6 +371,41 @@ def download_file(service, name, dest, parent_id=None, overwrite=True):
         raise ValueError(f'File "{name}" not found on Google Drive')
 
     return download_file_id(service, name_id, name, dest, overwrite=overwrite)
+
+
+def _read_json_id(service, file_id):
+    request = service.files().get_media(fileId=file_id)
+    with io.BytesIO() as fh:
+        downloader = MediaIoBaseDownload(fh, request)
+        done = False
+        while done is False:
+            status, done = downloader.next_chunk()
+        fh.seek(0)
+        data = fh.read()
+        return json.loads(data, encoding=METADATA_ENCODING)
+
+
+def read_json(service, name, parent_id=None):
+    """ Reads and returns a JSON file from Google Drive
+
+    Parameters
+    ----------
+    service : googleapiclient.discovery.Resource
+        Google API resource for GDrive v3
+    name : str
+        Name of file/folder
+    parent_id : str, optional
+        Parent ID of folder containing file (to narrow search)
+
+    Returns
+    -------
+    dict
+        JSON data as a dict
+    """
+    name_id = exists(service, name, parent_id=parent_id)
+    if not name_id:
+        raise ValueError(f'File "{name}" not found on Google Drive')
+    return _read_json_id(service, name_id)
 
 
 def mkdir_p(service, dest, parent_id=None):
@@ -371,7 +512,7 @@ def exists(service, name, parent_id=None, directory=False, trashed=False):
 
     if query:
         if len(query) > 1:
-            logger.debug('Found more than 1 result -- returning first')
+            logger.debug(f'Found {len(query)} results -- returning first')
         return query[0]['id']
     else:
         return ''
@@ -471,3 +612,14 @@ def delete(service, name, parent_id=None):
     name_id = exists(service, name, parent_id=parent_id)
     resp = service.files().delete(fileId=name_id).execute()
     return name_id
+
+
+def _path_to_parent_id(service, path):
+    if path is None:
+        return None
+    else:
+        parent_id = exists(service, path, directory=True)
+        if not parent_id:
+            raise ValueError(f'Cannot find prefix path provided "{path}" '
+                             'on Google Drive')
+        return parent_id
