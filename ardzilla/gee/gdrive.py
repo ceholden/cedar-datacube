@@ -5,9 +5,11 @@ import io
 import json
 import logging
 import os
+from pathlib import Path
 
-from apiclient.http import MediaIoBaseUpload
+from apiclient.http import MediaIoBaseDownload
 from googleapiclient.discovery import Resource
+from googleapiclient.http import MediaIoBaseUpload
 import ee
 
 from . import gauth
@@ -17,6 +19,7 @@ logger = logging.getLogger(__name__)
 
 MIME_TYPE_DIRECTORY = 'application/vnd.google-apps.folder'
 MIME_TYPE_FILE = 'application/vnd.google-apps.file'
+_ORDER_BY = 'folder,modifiedTime,name'
 
 
 class GDriveStore(object):
@@ -41,6 +44,9 @@ class GDriveStore(object):
         """
         gdrive = gauth.build_gdrive_service(client_secrets, credentials)
         return cls(gdrive, export_image_kwds=export_image_kwds)
+
+    def list(self, path=None, pattern=None):
+        pass
 
     def store_metadata(self, metadata, name, path=None):
         """ Store JSON metadata
@@ -108,6 +114,18 @@ class GDriveStore(object):
         )
         return task
 
+    def retrieve_image(self, dest, name, path=None, overwrite=True):
+        pass
+
+    def retrieve_metadata(self, dest, name, path=None, overwrite=True):
+        pass
+
+    def read_metadata(self, name, path=None):
+        pass
+
+    def remove(self, name, path=None):
+        pass
+
 
 def upload_json(service, data, name, dest=None, check=False):
     """ Upload JSON data to Google Drive
@@ -167,6 +185,59 @@ def upload_json(service, data, name, dest=None, check=False):
     return meta['id']
 
 
+def download_file(service, name, dest, parent_id=None, overwrite=True):
+    """ Download a file to a destination directory
+
+    Parameters
+    ----------
+    service : googleapiclient.discovery.Resource
+        Google API resource for GDrive v3
+    name : str
+        Name of file/folder
+    dest : str
+        Local directory to download file into
+    parent_id : str, optional
+        Parent ID of folder containing file (to narrow search)
+
+    Returns
+    -------
+    pathlib.Path
+        Filename written to
+
+    Raises
+    ------
+    FileExistsError
+        Raised if file exists in destination but not allowed to overwrite,
+    ValueError
+        Raised if the file given does not exist in Google Drive
+    """
+    # Create destination if needed
+    dest = Path(dest)
+    if not dest.exists():
+        dest.mkdir(parents=True, exist_ok=True)
+    assert dest.is_dir()
+
+    # Check overwrite
+    dest_ = dest.joinpath(name)
+    if not overwrite and dest_.exists():
+        raise FileExistsError(f'Not overwriting destination file {dest_}')
+
+    # Find the file
+    name_id = exists(service, name, parent_id=parent_id)
+    if not name_id:
+        raise ValueError(f'File "{name}" not found on Google Drive')
+
+    # Download...
+    request = service.files().get_media(fileId=name_id)
+    with open(str(dest_), 'wb') as dst:
+        downloader = MediaIoBaseDownload(dst, request)
+        done = False
+        while done is False:
+            status, done = downloader.next_chunk()
+
+    return dest_
+
+
 def mkdir_p(service, dest, parent_id=None):
     """ Make a directory, recursively
 
@@ -212,6 +283,7 @@ def mkdir(service, name, parent_id=None):
     return dir_['id']
 
 
+# TODO: maybe also make this have a timeout for memoized keys
 def _memoize_exists(func):
     cache = {}
     @functools.wraps(func)
@@ -274,3 +346,99 @@ def exists(service, name, parent_id=None, directory=False, trashed=False):
         return query[0]['id']
     else:
         return ''
+
+
+def list_objects(service, parent_id=None, name=None, q=None):
+    """ List files/folders on Google Drive
+
+    Parameters
+    ----------
+    service : googleapiclient.discovery.Resource
+        Google API resource for GDrive v3
+    parent_id : str, optional
+        Parent ID of folder to list (to narrow search)
+    name : str, optional
+        Name to search for (don't include asterisks)
+    q : str or Sequence[str], optional
+        Additional search query parameters
+
+    Yields
+    ------
+    list[dict]
+        Info about objects stored on Google Drive (keys=('id', 'name', ))
+    """
+    # Check for passed query
+    if isinstance(q, str):
+        query = [q]
+    elif isinstance(q, (list, tuple)):
+        query = list(q)
+    else:
+        query = []
+
+    # Build up query
+    query.append("trashed = false")
+    if parent_id:
+        query.append(f"'{parent_id}' in parents")
+    if name:
+        query.append(f"name contains '{name}'")
+
+    # Combine
+    query_ = ' and '.join(query)
+    logger.debug(f'Searching for query: "{query_}"')
+
+    # Execute in pages
+    page_token = None
+    while True:
+        resp = service.files().list(q=query_,
+                                    spaces='drive',
+                                    orderBy=_ORDER_BY,
+                                    fields='nextPageToken, files(id, name)',
+                                    pageToken=page_token).execute()
+        for file_ in resp.get('files', []):
+            yield file_
+        page_token = resp.get('nextPageToken', None)
+        if page_token is None:
+            break
+
+
+def list_dirs(service, parent_id=None, name=None):
+    """ List folders on Google Drive
+
+    Parameters
+    ----------
+    service : googleapiclient.discovery.Resource
+        Google API resource for GDrive v3
+    parent_id : str, optional
+        Parent ID of folder to list (to narrow search)
+    name : str, optional
+        Name to search for (don't include asterisks)
+
+    Yields
+    ------
+    list[dict]
+        Info about objects stored on Google Drive (keys=('id', 'name', ))
+    """
+    q = [f'mimeType = "{MIME_TYPE_DIRECTORY}"']
+    return list_objects(service, parent_id=parent_id, name=name, q=q)
+
+
+def delete(service, name, parent_id=None):
+    """ Delete a file/folder on Google Drive
+
+    Parameters
+    ----------
+    service : googleapiclient.discovery.Resource
+        Google API resource for GDrive v3
+    name : str
+        Name of file/folder
+    parent_id : str, optional
+        Parent ID of folder containing file (to narrow search)
+
+    Returns
+    -------
+    str
+        ID of deleted file/folder
+    """
+    name_id = exists(service, name, parent_id=parent_id)
+    resp = service.files().delete(fileId=name_id).execute()
+    return name_id
