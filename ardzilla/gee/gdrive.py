@@ -86,7 +86,7 @@ class GDriveStore(object):
             name += '.json'
 
         if path is not None:
-            path_id = mkdir_p(self.service, path)
+            path_id = mkdir(self.service, path)
 
         meta_id = upload_json(self.service, metadata, name,
                               dest=path, check=True)
@@ -122,6 +122,7 @@ class GDriveStore(object):
             logger.debug('Appending "-" to name so we can find it later')
             name += '-'
 
+        # Make parent directory -- CANNOT BE NESTED
         path_ = mkdir_p(self.service,  path)
 
         # Canonicalized:
@@ -233,7 +234,8 @@ class GDriveStore(object):
         return delete(self.service, name, parent_id=parent_id)
 
 
-def upload_json(service, data, name, dest=None, check=False):
+def upload_json(service, data, name, path=None, check=False,
+                encoding=METADATA_ENCODING):
     """ Upload JSON data to Google Drive
 
     Parameters
@@ -244,12 +246,14 @@ def upload_json(service, data, name, dest=None, check=False):
         JSON, either already dumped to str or as a dict
     name : str
         Filename for data
-    dest : str, optional
+    path : str, optional
         Parent directory to put file. If ``None``, stores in
         root of Google Drive
     check : bool, optional
         Check to see if the file already exists first. If so, will
         overwrite (or "update" instead of "create")
+    encoding : str, optional
+        Metadata encoding
 
     Returns
     -------
@@ -257,27 +261,26 @@ def upload_json(service, data, name, dest=None, check=False):
         ID of file uploaded
     """
     # Dump to JSON if needed
-    if not isinstance(data, str):
+    if isinstance(data, dict):
         data = json.dumps(data, indent=2)
+    if not isinstance(data, bytes):
+        data = data.encode(encoding)
 
     # Find folder ID for parent directory
-    if dest:
-        dest_id = mkdir_p(service, dest)
-    else:
-        dest_id = None
+    parent_id = _path_to_parent_id(service, path)
 
     # Prepare metadata body & data
     body = {
         'name': name,
-        'parents': [dest_id],
+        'parents': [parent_id],
         'mimeType': 'text/plain',
     }
-    content = io.BytesIO(data.encode(METADATA_ENCODING))
+    content = io.BytesIO(data)
     media = MediaIoBaseUpload(content, 'text/plain', resumable=True)
 
     # Check to see if file already exists...
     if check:
-        file_id = exists(service, name, parent_id=dest_id)
+        file_id = exists(service, name, parent_id=parent_id)
     else:
         file_id = ''
 
@@ -441,6 +444,18 @@ def mkdir_p(service, dest, parent_id=None):
 
 def mkdir(service, name, parent_id=None):
     """ Make a directory on GDrive
+
+    Parameters
+    ----------
+    service : googleapiclient.discovery.Resource
+        Google API resource for GDrive v3
+    dest : str
+        Directory to create
+
+    Returns
+    -------
+    str
+        Google Drive ID for directory created (or already existing)
     """
     meta = {
         'name': name,
