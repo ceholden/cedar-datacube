@@ -86,7 +86,7 @@ class GDriveStore(object):
             name += '.json'
 
         if path is not None:
-            path_id = mkdir(self.service, path)
+            parent_id = mkdir(self.service, path, check=True)
 
         meta_id = upload_json(self.service, metadata, name,
                               path=path, check=True)
@@ -122,8 +122,13 @@ class GDriveStore(object):
             logger.debug('Appending "-" to name so we can find it later')
             name += '-'
 
-        # Make parent directory -- CANNOT BE NESTED
-        path_ = mkdir_p(self.service,  path)
+        # Make parent directory -- currently GEE interprets this directory as
+        # a single, non-nested directory. So, "GEEARD/LT05" and "GEEARD/LE07"
+        # won't be separate directories under "GEEARD/", but two directories
+        # stored in the root of your drive.
+        # As such, we use mkdir here (for now?)
+        if path is not None:
+            parent_id = mkdir(self.service,  path, check=True)
 
         # Canonicalized:
         #   folder -> driveFolder
@@ -442,28 +447,37 @@ def mkdir_p(service, dest, parent_id=None):
         return mkdir_p(service, dest_, parent_id=name_id)
 
 
-def mkdir(service, name, parent_id=None):
+def mkdir(service, name, parent_id=None, check=False):
     """ Make a directory on GDrive
 
     Parameters
     ----------
     service : googleapiclient.discovery.Resource
         Google API resource for GDrive v3
-    dest : str
+    name : str
         Directory to create
+    parent_id : str, optional
+        ID of parent directory
+    check : bool, optional
+        Check if directory exists before creating. If exists, will not
+        create a new directory and instead return the ID of this directory
 
     Returns
     -------
     str
         Google Drive ID for directory created (or already existing)
     """
-    meta = {
-        'name': name,
-        'mimeType': MIME_TYPE_DIRECTORY,
-    }
+    if check:
+        name_id = exists(service, name, parent_id=parent_id, directory=True)
+        if name_id:
+            logger.debug('Not creating new directory; already exists')
+            return name_id
+
+    logger.debug(f'Creating directory {name}')
+    meta = {'name': name, 'mimeType': MIME_TYPE_DIRECTORY}
     if parent_id is not None:
         meta['parents'] = [parent_id]
-    logger.debug(f'Creating directory {name}')
+
     dir_ = service.files().create(body=meta, fields='id').execute()
     return dir_['id']
 
