@@ -534,15 +534,16 @@ def exists(service, name, parent_id=None, directory=False, trashed=False):
         q.append(f'mimeType = "{MIME_TYPE_DIRECTORY}"')
     if parent_id is not None:
         q.append(f'"{parent_id}" in parents')
-
     q_ = ' and '.join(q)
     logger.debug(f'Searching for query: "{q_}"')
-    query = service.files().list(q=q_).execute().get('files', [])
 
-    if query:
-        if len(query) > 1:
-            logger.debug(f'Found {len(query)} results -- returning first')
-        return query[0]['id']
+    resp = service.files().list(q=q_, orderBy=_ORDER_BY).execute()
+    results = resp.get('files', [])
+
+    if results:
+        if len(results) > 1:
+            logger.debug(f'Found {len(results)} results -- returning first')
+        return results[0]['id']
     else:
         return ''
 
