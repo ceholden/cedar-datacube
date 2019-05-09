@@ -24,7 +24,7 @@ class GEEARDTracker(object):
     """ Tracker for GEE ARD task submission
     """
 
-    TRACKING_DIRECTORY = 'TRACKING'
+    TRACKING_DIRECTORY = 'GEEARD_TRACKING'
 
     def __init__(self, tile_grid, store,
                  name_template=defaults.GEE_PREARD_NAME,
@@ -146,9 +146,7 @@ class GEEARDTracker(object):
         dict
             JSON tracking info data as a dict
         """
-        if not name.startswith(self.TRACKING_DIRECTORY):
-            name = '/'.join([self.TRACKING_DIRECTORY, name])
-        return self.store.read_metadata(name)
+        return self.store.read_metadata(name, path=self.TRACKING_DIRECTORY)
 
     def update_tracking(self, name):
         """ Refresh and reupload tracking information by checking with the GEE
