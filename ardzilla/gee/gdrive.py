@@ -89,7 +89,7 @@ class GDriveStore(object):
             path_id = mkdir(self.service, path)
 
         meta_id = upload_json(self.service, metadata, name,
-                              dest=path, check=True)
+                              path=path, check=True)
         return meta_id
 
     def store_image(self, image, name, path=None, **kwds):
