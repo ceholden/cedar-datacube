@@ -42,7 +42,7 @@ class GEEARDTracker(object):
         self.filters = filters or []
         self.overwrite = overwrite
 
-    def submit(self, collections, tile_rows, tile_cols,
+    def submit(self, collections, tile_indices,
                date_start, date_end, freq=defaults.GEE_PREARD_FREQ):
         """ Submit and track GEE pre-ARD tasks
 
@@ -50,10 +50,8 @@ class GEEARDTracker(object):
         ----------
         collections: str or Sequence[str]
             GEE image collection name(s)
-        tile_rows : Sequence[int]
-            Row(s) in TileGrid to process
-        tile_cols : Sequence[int]
-            Column(s) in TileGrid to process
+        tile_indices : Sequence[(int, int)]
+            Tuple(s) of rows/columns in TileGrid to process
         date_start : dt.datetime
             Starting period
         date_end : dt.datetime
@@ -67,12 +65,12 @@ class GEEARDTracker(object):
         str
             Path to stored task metadata information
         """
+        # TODO: eventually allow start/end to be None (use limits of data)
         if isinstance(collections, str):
             collections = (collections, )
-        if isinstance(tile_rows, int):
-            tile_rows = (tile_rows, )
-        if isinstance(tile_cols, int):
-            tile_cols = (tile_cols, )
+        assert len(tile_indices) >= 1
+        if isinstance(tile_indices[0], int):
+            tile_indices = [tile_indices]
 
         # Create metadata about task submission process
         meta_submission = create_submission_metadata(
@@ -82,10 +80,11 @@ class GEEARDTracker(object):
         # Store metadata about each task submitted
         meta_tasks = []
         # Loop over product of collections & tiles 
-        iter_submit = itertools.product(collections, tile_rows, tile_cols)
-        for collection, tile_row, tile_col in iter_submit:
+        iter_submit = itertools.product(collections, tile_indices)
+        for collection, tile_index in iter_submit:
+            logger.debug(f'Submitting "{collection}" - "{tile_index}"')
             # Find the tile
-            tile = self.tile_grid[tile_row, tile_col]
+            tile = self.tile_grid[tile_index]
 
             # Create, returning the task and stored metadata name
             tasks_and_metadata = core.submit_ard(
