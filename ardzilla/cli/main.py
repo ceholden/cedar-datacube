@@ -28,6 +28,7 @@ def main(ctx, verbose, quiet):
 
     Home: https://github.com/ceholden/ardzilla
     """
+    from stems.logging_ import setup_logger
     verbosity = verbose - quiet
     log_level = max(logging.DEBUG, logging.WARNING - verbosity * 10)
     logger = setup_logger('ardzilla', level=log_level)

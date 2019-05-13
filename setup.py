@@ -37,6 +37,9 @@ with open('CHANGELOG.rst') as f:
 ENTRY_POINTS = {
     'console_scripts': [
         'ardzilla=ardzilla.cli.main:main'
+    ],
+    'ardzilla.cli': [
+        'gee=ardzilla.cli.cli_gee:group_gee',
     ]
 }
 
