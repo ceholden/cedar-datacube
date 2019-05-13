@@ -5,6 +5,9 @@
 client_secret*.json
 credentials*.json
 
+
+.tags
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
