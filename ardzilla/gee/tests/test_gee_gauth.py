@@ -21,7 +21,6 @@ def test_build_gdrive_service():
 # Google Cloud Storage
 @requires_gcs
 def test_build_gcs_client(mock_client, mock_bucket):
-    breakpoint()
     pass
 
 
