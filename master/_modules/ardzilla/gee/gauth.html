@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.gee.gauth &mdash; ardzilla 0+untagged.50.g439e891 documentation</title>
+  <title>ardzilla.gee.gauth &mdash; ardzilla 0+untagged.50.ga19ed8f documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.g439e891
+                0+untagged.50.ga19ed8f
               </div>
             
           
@@ -168,15 +168,6 @@
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
-<span class="k">try</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">googleapiclient.discovery</span> <span class="k">import</span> <span class="n">build</span>
-    <span class="kn">from</span> <span class="nn">google_auth_oauthlib.flow</span> <span class="k">import</span> <span class="n">InstalledAppFlow</span>
-    <span class="kn">from</span> <span class="nn">google.auth.transport.requests</span> <span class="k">import</span> <span class="n">Request</span>
-    <span class="kn">from</span> <span class="nn">google.oauth2.credentials</span> <span class="k">import</span> <span class="n">Credentials</span>
-<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
-    <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s1">&#39;Please install libraries required for Google Drive API&#39;</span><span class="p">)</span>
-    <span class="k">raise</span>
-
 
 <span class="n">_GDRIVE_SCOPES</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s1">&#39;https://www.googleapis.com/auth/drive&#39;</span><span class="p">,</span>
@@ -190,33 +181,6 @@
 <span class="c1"># TODO: rehash what these should be and document</span>
 <span class="n">_CLIENT_SECRETS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;client_secrets.json&#39;</span><span class="p">]</span>
 <span class="n">_USER_CREDS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;credentials.json&#39;</span><span class="p">]</span>
-
-
-<div class="viewcode-block" id="build_gdrive_service"><a class="viewcode-back" href="../../../gee_credentials.html#ardzilla.gee.gauth.build_gdrive_service">[docs]</a><span class="k">def</span> <span class="nf">build_gdrive_service</span><span class="p">(</span><span class="n">client_secrets</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">credentials</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Return a Google Drive API service</span>
-
-<span class="sd">    Parameters</span>
-<span class="sd">    ----------</span>
-<span class="sd">    client_secrets : str, optional</span>
-<span class="sd">        Location of &quot;client_secrets.json&quot; used to authenticate a user for the</span>
-<span class="sd">        application. Needed for initially authenticating the user.</span>
-<span class="sd">    credentails : str, optional</span>
-<span class="sd">        User credentials, including access token, for using the application.</span>
-
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    googleapiclient.discovery.Resource</span>
-<span class="sd">        GDrive v3 API resource</span>
-
-<span class="sd">    Raises</span>
-<span class="sd">    ------</span>
-<span class="sd">    ValueError</span>
-<span class="sd">        Raised if service can&#39;t be built</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">creds</span> <span class="o">=</span> <span class="n">get_gdrive_credentials</span><span class="p">(</span><span class="n">client_secrets</span><span class="p">,</span> <span class="n">credentials</span><span class="p">)</span>
-    <span class="n">service</span> <span class="o">=</span> <span class="n">build</span><span class="p">(</span><span class="s1">&#39;drive&#39;</span><span class="p">,</span> <span class="s1">&#39;v3&#39;</span><span class="p">,</span> <span class="n">credentials</span><span class="o">=</span><span class="n">creds</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">service</span></div>
 
 
 <div class="viewcode-block" id="build_gcs_client"><a class="viewcode-back" href="../../../gee_credentials.html#ardzilla.gee.gauth.build_gcs_client">[docs]</a><span class="k">def</span> <span class="nf">build_gcs_client</span><span class="p">(</span><span class="n">credentials</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">project</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -257,6 +221,35 @@
     <span class="k">return</span> <span class="n">client</span></div>
 
 
+<div class="viewcode-block" id="build_gdrive_service"><a class="viewcode-back" href="../../../gee_credentials.html#ardzilla.gee.gauth.build_gdrive_service">[docs]</a><span class="k">def</span> <span class="nf">build_gdrive_service</span><span class="p">(</span><span class="n">client_secrets</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">credentials</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Return a Google Drive API service</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    client_secrets : str, optional</span>
+<span class="sd">        Location of &quot;client_secrets.json&quot; used to authenticate a user for the</span>
+<span class="sd">        application. Needed for initially authenticating the user.</span>
+<span class="sd">    credentails : str, optional</span>
+<span class="sd">        User credentials, including access token, for using the application.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    googleapiclient.discovery.Resource</span>
+<span class="sd">        GDrive v3 API resource</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ValueError</span>
+<span class="sd">        Raised if service can&#39;t be built</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">googleapiclient.discovery</span> <span class="k">import</span> <span class="n">build</span>
+
+    <span class="n">creds</span> <span class="o">=</span> <span class="n">get_gdrive_credentials</span><span class="p">(</span><span class="n">client_secrets</span><span class="p">,</span> <span class="n">credentials</span><span class="p">)</span>
+    <span class="n">service</span> <span class="o">=</span> <span class="n">build</span><span class="p">(</span><span class="s1">&#39;drive&#39;</span><span class="p">,</span> <span class="s1">&#39;v3&#39;</span><span class="p">,</span> <span class="n">credentials</span><span class="o">=</span><span class="n">creds</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">service</span></div>
+
+
 <div class="viewcode-block" id="get_gdrive_credentials"><a class="viewcode-back" href="../../../gee_credentials.html#ardzilla.gee.gauth.get_gdrive_credentials">[docs]</a><span class="k">def</span> <span class="nf">get_gdrive_credentials</span><span class="p">(</span><span class="n">client_secrets</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">credentials</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Return Google Drive credentials</span>
 
@@ -278,6 +271,9 @@
 <span class="sd">    ValueError</span>
 <span class="sd">        Raised if `client_secrets` file is needed but missing</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">google_auth_oauthlib.flow</span> <span class="k">import</span> <span class="n">InstalledAppFlow</span>
+    <span class="kn">from</span> <span class="nn">google.auth.transport.requests</span> <span class="k">import</span> <span class="n">Request</span>
+
     <span class="n">client_secrets_</span> <span class="o">=</span> <span class="n">_get_file</span><span class="p">(</span><span class="n">client_secrets</span><span class="p">,</span> <span class="n">_CLIENT_SECRETS</span><span class="p">)</span>
     <span class="n">credentials_</span> <span class="o">=</span> <span class="n">_get_file</span><span class="p">(</span><span class="n">credentials</span><span class="p">,</span> <span class="n">_USER_CREDS</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
 
@@ -315,6 +311,7 @@
 
 
 <span class="k">def</span> <span class="nf">_dict_to_creds</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
+    <span class="kn">from</span> <span class="nn">google.oauth2.credentials</span> <span class="k">import</span> <span class="n">Credentials</span>
     <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span>
     <span class="n">token</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;token&#39;</span><span class="p">]</span>
     <span class="n">kwds</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="o">!=</span> <span class="s1">&#39;token&#39;</span><span class="p">}</span>
@@ -323,7 +320,6 @@
 
 
 <span class="k">def</span> <span class="nf">_creds_to_dict</span><span class="p">(</span><span class="n">creds</span><span class="p">):</span>
-    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">creds</span><span class="p">,</span> <span class="n">Credentials</span><span class="p">)</span>
     <span class="n">creds_</span> <span class="o">=</span> <span class="p">{</span>
         <span class="n">k</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">creds</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">_OAUTH2_CREDS</span>
     <span class="p">}</span>

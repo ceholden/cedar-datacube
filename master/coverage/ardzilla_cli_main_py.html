@@ -30,9 +30,9 @@
         <img id="keyboard_icon" src="keybd_closed.png" alt="Show keyboard shortcuts" />
 
         <h2 class="stats">
-            17 statements &nbsp;
+            18 statements &nbsp;
             <span class="run hide_run shortkey_r button_toggle_run">0 run</span>
-            <span class="mis shortkey_m button_toggle_mis">17 missing</span>
+            <span class="mis shortkey_m button_toggle_mis">18 missing</span>
             <span class="exc shortkey_x button_toggle_exc">0 excluded</span>
 
             
@@ -100,9 +100,10 @@
 <p id="n31" class="stm mis"><a href="#n31">31</a></p>
 <p id="n32" class="stm mis"><a href="#n32">32</a></p>
 <p id="n33" class="stm mis"><a href="#n33">33</a></p>
-<p id="n34" class="pln"><a href="#n34">34</a></p>
-<p id="n35" class="stm mis"><a href="#n35">35</a></p>
+<p id="n34" class="stm mis"><a href="#n34">34</a></p>
+<p id="n35" class="pln"><a href="#n35">35</a></p>
 <p id="n36" class="stm mis"><a href="#n36">36</a></p>
+<p id="n37" class="stm mis"><a href="#n37">37</a></p>
 
             </td>
             <td class="text">
@@ -136,12 +137,13 @@
 <p id="t28" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t29" class="pln"><span class="str">    Home: https://github.com/ceholden/ardzilla</span><span class="strut">&nbsp;</span></p>
 <p id="t30" class="pln"><span class="str">    """</span><span class="strut">&nbsp;</span></p>
-<p id="t31" class="stm mis">    <span class="nam">verbosity</span> <span class="op">=</span> <span class="nam">verbose</span> <span class="op">-</span> <span class="nam">quiet</span><span class="strut">&nbsp;</span></p>
-<p id="t32" class="stm mis">    <span class="nam">log_level</span> <span class="op">=</span> <span class="nam">max</span><span class="op">(</span><span class="nam">logging</span><span class="op">.</span><span class="nam">DEBUG</span><span class="op">,</span> <span class="nam">logging</span><span class="op">.</span><span class="nam">WARNING</span> <span class="op">-</span> <span class="nam">verbosity</span> <span class="op">*</span> <span class="num">10</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
-<p id="t33" class="stm mis">    <span class="nam">logger</span> <span class="op">=</span> <span class="nam">setup_logger</span><span class="op">(</span><span class="str">'ardzilla'</span><span class="op">,</span> <span class="nam">level</span><span class="op">=</span><span class="nam">log_level</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
-<p id="t34" class="pln"><span class="strut">&nbsp;</span></p>
-<p id="t35" class="stm mis">    <span class="nam">ctx</span><span class="op">.</span><span class="nam">obj</span> <span class="op">=</span> <span class="op">{</span><span class="op">}</span><span class="strut">&nbsp;</span></p>
-<p id="t36" class="stm mis">    <span class="nam">ctx</span><span class="op">.</span><span class="nam">obj</span><span class="op">[</span><span class="str">'logger'</span><span class="op">]</span> <span class="op">=</span> <span class="nam">logger</span><span class="strut">&nbsp;</span></p>
+<p id="t31" class="stm mis">    <span class="key">from</span> <span class="nam">stems</span><span class="op">.</span><span class="nam">logging_</span> <span class="key">import</span> <span class="nam">setup_logger</span><span class="strut">&nbsp;</span></p>
+<p id="t32" class="stm mis">    <span class="nam">verbosity</span> <span class="op">=</span> <span class="nam">verbose</span> <span class="op">-</span> <span class="nam">quiet</span><span class="strut">&nbsp;</span></p>
+<p id="t33" class="stm mis">    <span class="nam">log_level</span> <span class="op">=</span> <span class="nam">max</span><span class="op">(</span><span class="nam">logging</span><span class="op">.</span><span class="nam">DEBUG</span><span class="op">,</span> <span class="nam">logging</span><span class="op">.</span><span class="nam">WARNING</span> <span class="op">-</span> <span class="nam">verbosity</span> <span class="op">*</span> <span class="num">10</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t34" class="stm mis">    <span class="nam">logger</span> <span class="op">=</span> <span class="nam">setup_logger</span><span class="op">(</span><span class="str">'ardzilla'</span><span class="op">,</span> <span class="nam">level</span><span class="op">=</span><span class="nam">log_level</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t35" class="pln"><span class="strut">&nbsp;</span></p>
+<p id="t36" class="stm mis">    <span class="nam">ctx</span><span class="op">.</span><span class="nam">obj</span> <span class="op">=</span> <span class="op">{</span><span class="op">}</span><span class="strut">&nbsp;</span></p>
+<p id="t37" class="stm mis">    <span class="nam">ctx</span><span class="op">.</span><span class="nam">obj</span><span class="op">[</span><span class="str">'logger'</span><span class="op">]</span> <span class="op">=</span> <span class="nam">logger</span><span class="strut">&nbsp;</span></p>
 
             </td>
         </tr>
@@ -152,7 +154,7 @@
     <div class="content">
         <p>
             <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.io">coverage.py v4.5.3</a>,
-            created at 2019-05-06 21:14
+            created at 2019-05-13 17:55
         </p>
     </div>
 </div>

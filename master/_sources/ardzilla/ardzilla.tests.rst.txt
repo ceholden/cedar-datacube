@@ -1,0 +1,17 @@
+ardzilla.tests package
+======================
+
+Submodules
+----------
+
+.. toctree::
+
+   ardzilla.tests.test_ardzilla
+
+Module contents
+---------------
+
+.. automodule:: ardzilla.tests
+    :members:
+    :undoc-members:
+    :show-inheritance:

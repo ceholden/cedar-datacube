@@ -6,7 +6,9 @@ Submodules
 
 .. toctree::
 
+   ardzilla.cli.cli_gee
    ardzilla.cli.main
+   ardzilla.cli.options
 
 Module contents
 ---------------

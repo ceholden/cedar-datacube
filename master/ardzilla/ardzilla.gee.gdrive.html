@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.gee.gdrive module &mdash; ardzilla 0+untagged.50.g439e891 documentation</title>
+  <title>ardzilla.gee.gdrive module &mdash; ardzilla 0+untagged.50.ga19ed8f documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.g439e891
+                0+untagged.50.ga19ed8f
               </div>
             
           
@@ -186,6 +186,108 @@
 </dd></dl>
 
 <dl class="method">
+<dt id="ardzilla.gee.gdrive.GDriveStore.list">
+<code class="descname">list</code><span class="sig-paren">(</span><em>self</em>, <em>path=None</em>, <em>pattern=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/gdrive.html#GDriveStore.list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.gdrive.GDriveStore.list" title="Permalink to this definition">¶</a></dt>
+<dd><p>List stored images or metadata</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Prefix path to search within</p></li>
+<li><p><strong>pattern</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Filename pattern</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Names of stored data</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#list" title="(in Python v3.7)">list</a>[<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="ardzilla.gee.gdrive.GDriveStore.read_metadata">
+<code class="descname">read_metadata</code><span class="sig-paren">(</span><em>self</em>, <em>name</em>, <em>path=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/gdrive.html#GDriveStore.read_metadata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.gdrive.GDriveStore.read_metadata" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read and parse JSON metadata into a dict</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Filename of metadata to read</p></li>
+<li><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Parent directory for file/object stored</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>JSON metadata</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="ardzilla.gee.gdrive.GDriveStore.remove">
+<code class="descname">remove</code><span class="sig-paren">(</span><em>self</em>, <em>name</em>, <em>path=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/gdrive.html#GDriveStore.remove"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.gdrive.GDriveStore.remove" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove a file from Google Drive</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Name of stored file/object</p></li>
+<li><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Parent directory for file/object stored</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Name of file removed</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="ardzilla.gee.gdrive.GDriveStore.retrieve_image">
+<code class="descname">retrieve_image</code><span class="sig-paren">(</span><em>self</em>, <em>dest</em>, <em>name</em>, <em>path=None</em>, <em>overwrite=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/gdrive.html#GDriveStore.retrieve_image"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.gdrive.GDriveStore.retrieve_image" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve (pieces of) an image from the Google Drive</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dest</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Destination folder to save image(s)</p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Name of stored file/object</p></li>
+<li><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Parent directory for file/object stored on Google Drive</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Filename(s) corresponding to retrieved data</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Sequence[<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="ardzilla.gee.gdrive.GDriveStore.retrieve_metadata">
+<code class="descname">retrieve_metadata</code><span class="sig-paren">(</span><em>self</em>, <em>dest</em>, <em>name</em>, <em>path=None</em>, <em>overwrite=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/gdrive.html#GDriveStore.retrieve_metadata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.gdrive.GDriveStore.retrieve_metadata" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve image metadata from the GCS</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dest</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Destination folder to save metadata</p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Name of stored file/object</p></li>
+<li><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Parent directory for file/object stored</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Filename corresponding to retrieved data</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/pathlib.html#pathlib.Path" title="(in Python v3.7)">pathlib.Path</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
 <dt id="ardzilla.gee.gdrive.GDriveStore.store_image">
 <code class="descname">store_image</code><span class="sig-paren">(</span><em>self</em>, <em>image</em>, <em>name</em>, <em>path=None</em>, <em>**kwds</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/gdrive.html#GDriveStore.store_image"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.gdrive.GDriveStore.store_image" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create ee.batch.Task to create and store “pre-ARD”</p>
@@ -232,6 +334,83 @@
 </dd></dl>
 
 <dl class="function">
+<dt id="ardzilla.gee.gdrive.delete">
+<code class="descclassname">ardzilla.gee.gdrive.</code><code class="descname">delete</code><span class="sig-paren">(</span><em>service</em>, <em>name</em>, <em>parent_id=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/gdrive.html#delete"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.gdrive.delete" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete a file/folder on Google Drive</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>service</strong> (<em>googleapiclient.discovery.Resource</em>) – Google API resource for GDrive v3</p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Name of file/folder</p></li>
+<li><p><strong>parent_id</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Parent ID of folder containing file (to narrow search)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>ID of deleted file/folder</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ardzilla.gee.gdrive.download_file">
+<code class="descclassname">ardzilla.gee.gdrive.</code><code class="descname">download_file</code><span class="sig-paren">(</span><em>service</em>, <em>name</em>, <em>dest</em>, <em>parent_id=None</em>, <em>overwrite=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/gdrive.html#download_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.gdrive.download_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Download a file to a destination directory</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>service</strong> (<em>googleapiclient.discovery.Resource</em>) – Google API resource for GDrive v3</p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Name of file/folder</p></li>
+<li><p><strong>dest</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Local directory to download file into</p></li>
+<li><p><strong>parent_id</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Parent ID of folder containing file (to narrow search)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Filename written to</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/pathlib.html#pathlib.Path" title="(in Python v3.7)">pathlib.Path</a></p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3.7/library/exceptions.html#FileExistsError" title="(in Python v3.7)"><strong>FileExistsError</strong></a> – Raised if file exists in destination but not allowed to overwrite,</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3.7/library/exceptions.html#ValueError" title="(in Python v3.7)"><strong>ValueError</strong></a> – Raised if the file given does not exist in Google Drive</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ardzilla.gee.gdrive.download_file_id">
+<code class="descclassname">ardzilla.gee.gdrive.</code><code class="descname">download_file_id</code><span class="sig-paren">(</span><em>service</em>, <em>file_id</em>, <em>name</em>, <em>dest</em>, <em>overwrite=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/gdrive.html#download_file_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.gdrive.download_file_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Download a file to a destination directory using its ID</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>service</strong> (<em>googleapiclient.discovery.Resource</em>) – Google API resource for GDrive v3</p></li>
+<li><p><strong>file_id</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – ID of file on Google Drive</p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Name of file. Only used for destination filename.</p></li>
+<li><p><strong>dest</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Local directory to download file into</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Filename written to</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/pathlib.html#pathlib.Path" title="(in Python v3.7)">pathlib.Path</a></p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3.7/library/exceptions.html#FileExistsError" title="(in Python v3.7)"><strong>FileExistsError</strong></a> – Raised if file exists in destination but not allowed to overwrite,</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3.7/library/exceptions.html#ValueError" title="(in Python v3.7)"><strong>ValueError</strong></a> – Raised if the file given does not exist in Google Drive</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
 <dt id="ardzilla.gee.gdrive.exists">
 <code class="descclassname">ardzilla.gee.gdrive.</code><code class="descname">exists</code><span class="sig-paren">(</span><em>service</em>, <em>name</em>, <em>parent_id=None</em>, <em>directory=False</em>, <em>trashed=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/gdrive.html#exists"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.gdrive.exists" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check if file/folder exists</p>
@@ -255,9 +434,63 @@
 </dd></dl>
 
 <dl class="function">
+<dt id="ardzilla.gee.gdrive.list_dirs">
+<code class="descclassname">ardzilla.gee.gdrive.</code><code class="descname">list_dirs</code><span class="sig-paren">(</span><em>service</em>, <em>parent_id=None</em>, <em>name=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/gdrive.html#list_dirs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.gdrive.list_dirs" title="Permalink to this definition">¶</a></dt>
+<dd><p>List folders on Google Drive</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>service</strong> (<em>googleapiclient.discovery.Resource</em>) – Google API resource for GDrive v3</p></li>
+<li><p><strong>parent_id</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Parent ID of folder to list (to narrow search)</p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Name to search for (don’t include asterisks)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Yields</dt>
+<dd class="field-even"><p><em>list[dict]</em> – Info about objects stored on Google Drive (keys=(‘id’, ‘name’, ))</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ardzilla.gee.gdrive.list_objects">
+<code class="descclassname">ardzilla.gee.gdrive.</code><code class="descname">list_objects</code><span class="sig-paren">(</span><em>service</em>, <em>parent_id=None</em>, <em>name=None</em>, <em>q=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/gdrive.html#list_objects"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.gdrive.list_objects" title="Permalink to this definition">¶</a></dt>
+<dd><p>List files/folders on Google Drive</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>service</strong> (<em>googleapiclient.discovery.Resource</em>) – Google API resource for GDrive v3</p></li>
+<li><p><strong>parent_id</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Parent ID of folder to list (to narrow search)</p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Name to search for (don’t include asterisks)</p></li>
+<li><p><strong>q</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em> or </em><em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>]</em><em>, </em><em>optional</em>) – Additional search query parameters</p></li>
+</ul>
+</dd>
+<dt class="field-even">Yields</dt>
+<dd class="field-even"><p><em>list[dict]</em> – Info about objects stored on Google Drive (keys=(‘id’, ‘name’, ))</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
 <dt id="ardzilla.gee.gdrive.mkdir">
-<code class="descclassname">ardzilla.gee.gdrive.</code><code class="descname">mkdir</code><span class="sig-paren">(</span><em>service</em>, <em>name</em>, <em>parent_id=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/gdrive.html#mkdir"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.gdrive.mkdir" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">ardzilla.gee.gdrive.</code><code class="descname">mkdir</code><span class="sig-paren">(</span><em>service</em>, <em>name</em>, <em>parent_id=None</em>, <em>check=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/gdrive.html#mkdir"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.gdrive.mkdir" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make a directory on GDrive</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>service</strong> (<em>googleapiclient.discovery.Resource</em>) – Google API resource for GDrive v3</p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Directory to create</p></li>
+<li><p><strong>parent_id</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – ID of parent directory</p></li>
+<li><p><strong>check</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em>, </em><em>optional</em>) – Check if directory exists before creating. If exists, will not
+create a new directory and instead return the ID of this directory</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Google Drive ID for directory created (or already existing)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
@@ -281,8 +514,29 @@
 </dd></dl>
 
 <dl class="function">
+<dt id="ardzilla.gee.gdrive.read_json">
+<code class="descclassname">ardzilla.gee.gdrive.</code><code class="descname">read_json</code><span class="sig-paren">(</span><em>service</em>, <em>name</em>, <em>parent_id=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/gdrive.html#read_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.gdrive.read_json" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads and returns a JSON file from Google Drive</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>service</strong> (<em>googleapiclient.discovery.Resource</em>) – Google API resource for GDrive v3</p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Name of file/folder</p></li>
+<li><p><strong>parent_id</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Parent ID of folder containing file (to narrow search)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>JSON data as a dict</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
 <dt id="ardzilla.gee.gdrive.upload_json">
-<code class="descclassname">ardzilla.gee.gdrive.</code><code class="descname">upload_json</code><span class="sig-paren">(</span><em>service</em>, <em>data</em>, <em>name</em>, <em>dest=None</em>, <em>check=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/gdrive.html#upload_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.gdrive.upload_json" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">ardzilla.gee.gdrive.</code><code class="descname">upload_json</code><span class="sig-paren">(</span><em>service</em>, <em>data</em>, <em>name</em>, <em>path=None</em>, <em>check=False</em>, <em>encoding='utf-8'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/gdrive.html#upload_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.gdrive.upload_json" title="Permalink to this definition">¶</a></dt>
 <dd><p>Upload JSON data to Google Drive</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -290,10 +544,11 @@
 <li><p><strong>service</strong> (<em>googleapiclient.discovery.Resource</em>) – Google API resource for GDrive v3</p></li>
 <li><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – JSON, either already dumped to str or as a dict</p></li>
 <li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Filename for data</p></li>
-<li><p><strong>dest</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Parent directory to put file. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, stores in
+<li><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Parent directory to put file. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, stores in
 root of Google Drive</p></li>
 <li><p><strong>check</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em>, </em><em>optional</em>) – Check to see if the file already exists first. If so, will
 overwrite (or “update” instead of “create”)</p></li>
+<li><p><strong>encoding</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Metadata encoding</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>

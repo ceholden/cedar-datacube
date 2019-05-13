@@ -9,6 +9,7 @@ Subpackages
     ardzilla.cli
     ardzilla.config
     ardzilla.gee
+    ardzilla.tests
     ardzilla.usgs
 
 Submodules

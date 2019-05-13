@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.gee.gcs &mdash; ardzilla 0+untagged.50.g439e891 documentation</title>
+  <title>ardzilla.gee.gcs &mdash; ardzilla 0+untagged.50.ga19ed8f documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.g439e891
+                0+untagged.50.ga19ed8f
               </div>
             
           
@@ -350,22 +350,25 @@
         <span class="k">return</span> <span class="n">_retrieve_extension</span><span class="p">(</span><span class="n">dest</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="s1">&#39;json&#39;</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">,</span>
                                    <span class="n">overwrite</span><span class="o">=</span><span class="n">overwrite</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="GCSStore.read_metadata"><a class="viewcode-back" href="../../../gee_storage.html#ardzilla.gee.gcs.GCSStore.read_metadata">[docs]</a>    <span class="k">def</span> <span class="nf">read_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+<div class="viewcode-block" id="GCSStore.read_metadata"><a class="viewcode-back" href="../../../gee_storage.html#ardzilla.gee.gcs.GCSStore.read_metadata">[docs]</a>    <span class="k">def</span> <span class="nf">read_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Read and parse JSON metadata into a dict</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        name : str</span>
 <span class="sd">            Filename of metadata blob to read</span>
+<span class="sd">        path : str, optional</span>
+<span class="sd">            Parent directory for file/object stored</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        dict</span>
 <span class="sd">            JSON metadata blob</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">blob</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bucket</span><span class="o">.</span><span class="n">get_blob</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">fullname</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">_combine_name_path</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+        <span class="n">blob</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bucket</span><span class="o">.</span><span class="n">get_blob</span><span class="p">(</span><span class="n">fullname</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">blob</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;No stored metadata named </span><span class="si">{name}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;No stored metadata named </span><span class="si">{fullname}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">read_json</span><span class="p">(</span><span class="n">blob</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="n">METADATA_ENCODING</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">data</span></div>
 
@@ -605,6 +608,11 @@
 <span class="sd">    -------</span>
 <span class="sd">    pathlib.Path</span>
 <span class="sd">        Filename written to</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    FileExistsError</span>
+<span class="sd">        Raised if file exists in destination but not allowed to overwrite,</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">dest</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">dest</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">dest</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
@@ -615,9 +623,10 @@
     <span class="n">dest_</span> <span class="o">=</span> <span class="n">dest</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">dest_</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">overwrite</span><span class="p">:</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Not overwriting already downloaded file &quot;</span><span class="si">{dest_}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Not overwriting existing file &quot;</span><span class="si">{dest_}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">blob</span><span class="o">.</span><span class="n">download_to_filename</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">dest_</span><span class="p">))</span>
+
     <span class="k">return</span> <span class="n">dest_</span></div>
 
 

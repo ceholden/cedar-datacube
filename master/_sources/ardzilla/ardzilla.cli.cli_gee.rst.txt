@@ -1,0 +1,7 @@
+ardzilla.cli.cli\_gee module
+============================
+
+.. automodule:: ardzilla.cli.cli_gee
+    :members:
+    :undoc-members:
+    :show-inheritance:

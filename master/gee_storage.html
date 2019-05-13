@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Google Earth Engine Storage &mdash; ardzilla 0+untagged.50.g439e891 documentation</title>
+  <title>Google Earth Engine Storage &mdash; ardzilla 0+untagged.50.ga19ed8f documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                0+untagged.50.g439e891
+                0+untagged.50.ga19ed8f
               </div>
             
           
@@ -231,11 +231,14 @@ from either Google Cloud Storage or Google Drive.</p>
 
 <dl class="method">
 <dt id="ardzilla.gee.gcs.GCSStore.read_metadata">
-<code class="descname">read_metadata</code><span class="sig-paren">(</span><em>self</em>, <em>name</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ardzilla/gee/gcs.html#GCSStore.read_metadata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.gcs.GCSStore.read_metadata" title="Permalink to this definition">¶</a></dt>
+<code class="descname">read_metadata</code><span class="sig-paren">(</span><em>self</em>, <em>name</em>, <em>path=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ardzilla/gee/gcs.html#GCSStore.read_metadata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.gcs.GCSStore.read_metadata" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read and parse JSON metadata into a dict</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Filename of metadata blob to read</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Filename of metadata blob to read</p></li>
+<li><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Parent directory for file/object stored</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>JSON metadata blob</p>
@@ -374,6 +377,108 @@ be part of <code class="docutils literal notranslate"><span class="pre">name</sp
 <dt id="ardzilla.gee.gdrive.GDriveStore.from_credentials">
 <em class="property">classmethod </em><code class="descname">from_credentials</code><span class="sig-paren">(</span><em>client_secrets=None</em>, <em>credentials=None</em>, <em>export_image_kwds=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ardzilla/gee/gdrive.html#GDriveStore.from_credentials"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.gdrive.GDriveStore.from_credentials" title="Permalink to this definition">¶</a></dt>
 <dd><p>Load credentials and create the store</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ardzilla.gee.gdrive.GDriveStore.list">
+<code class="descname">list</code><span class="sig-paren">(</span><em>self</em>, <em>path=None</em>, <em>pattern=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ardzilla/gee/gdrive.html#GDriveStore.list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.gdrive.GDriveStore.list" title="Permalink to this definition">¶</a></dt>
+<dd><p>List stored images or metadata</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Prefix path to search within</p></li>
+<li><p><strong>pattern</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Filename pattern</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Names of stored data</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#list" title="(in Python v3.7)">list</a>[<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="ardzilla.gee.gdrive.GDriveStore.read_metadata">
+<code class="descname">read_metadata</code><span class="sig-paren">(</span><em>self</em>, <em>name</em>, <em>path=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ardzilla/gee/gdrive.html#GDriveStore.read_metadata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.gdrive.GDriveStore.read_metadata" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read and parse JSON metadata into a dict</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Filename of metadata to read</p></li>
+<li><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Parent directory for file/object stored</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>JSON metadata</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="ardzilla.gee.gdrive.GDriveStore.remove">
+<code class="descname">remove</code><span class="sig-paren">(</span><em>self</em>, <em>name</em>, <em>path=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ardzilla/gee/gdrive.html#GDriveStore.remove"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.gdrive.GDriveStore.remove" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove a file from Google Drive</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Name of stored file/object</p></li>
+<li><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Parent directory for file/object stored</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Name of file removed</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="ardzilla.gee.gdrive.GDriveStore.retrieve_image">
+<code class="descname">retrieve_image</code><span class="sig-paren">(</span><em>self</em>, <em>dest</em>, <em>name</em>, <em>path=None</em>, <em>overwrite=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ardzilla/gee/gdrive.html#GDriveStore.retrieve_image"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.gdrive.GDriveStore.retrieve_image" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve (pieces of) an image from the Google Drive</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dest</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Destination folder to save image(s)</p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Name of stored file/object</p></li>
+<li><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Parent directory for file/object stored on Google Drive</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Filename(s) corresponding to retrieved data</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Sequence[<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="ardzilla.gee.gdrive.GDriveStore.retrieve_metadata">
+<code class="descname">retrieve_metadata</code><span class="sig-paren">(</span><em>self</em>, <em>dest</em>, <em>name</em>, <em>path=None</em>, <em>overwrite=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/ardzilla/gee/gdrive.html#GDriveStore.retrieve_metadata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.gdrive.GDriveStore.retrieve_metadata" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve image metadata from the GCS</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dest</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Destination folder to save metadata</p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Name of stored file/object</p></li>
+<li><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Parent directory for file/object stored</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Filename corresponding to retrieved data</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/pathlib.html#pathlib.Path" title="(in Python v3.7)">pathlib.Path</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">

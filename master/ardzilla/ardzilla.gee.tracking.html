@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.gee.tracking module &mdash; ardzilla 0+untagged.50.g439e891 documentation</title>
+  <title>ardzilla.gee.tracking module &mdash; ardzilla 0+untagged.50.ga19ed8f documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.g439e891
+                0+untagged.50.ga19ed8f
               </div>
             
           
@@ -173,7 +173,7 @@
 <p>Tracker for GEE ARD task submission</p>
 <dl class="attribute">
 <dt id="ardzilla.gee.tracking.GEEARDTracker.TRACKING_DIRECTORY">
-<code class="descname">TRACKING_DIRECTORY</code><em class="property"> = 'TRACKING'</em><a class="headerlink" href="#ardzilla.gee.tracking.GEEARDTracker.TRACKING_DIRECTORY" title="Permalink to this definition">¶</a></dt>
+<code class="descname">TRACKING_DIRECTORY</code><em class="property"> = 'GEEARD_TRACKING'</em><a class="headerlink" href="#ardzilla.gee.tracking.GEEARDTracker.TRACKING_DIRECTORY" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -253,14 +253,13 @@ looks for tracking information matching
 
 <dl class="method">
 <dt id="ardzilla.gee.tracking.GEEARDTracker.submit">
-<code class="descname">submit</code><span class="sig-paren">(</span><em>self</em>, <em>collections</em>, <em>tile_rows</em>, <em>tile_cols</em>, <em>date_start</em>, <em>date_end</em>, <em>freq='1YS'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/tracking.html#GEEARDTracker.submit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.tracking.GEEARDTracker.submit" title="Permalink to this definition">¶</a></dt>
+<code class="descname">submit</code><span class="sig-paren">(</span><em>self</em>, <em>collections</em>, <em>tile_indices</em>, <em>date_start</em>, <em>date_end</em>, <em>freq='1YS'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/tracking.html#GEEARDTracker.submit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.tracking.GEEARDTracker.submit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Submit and track GEE pre-ARD tasks</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>collections</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em> or </em><em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>]</em>) – GEE image collection name(s)</p></li>
-<li><p><strong>tile_rows</strong> (<em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3.7/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a><em>]</em>) – Row(s) in TileGrid to process</p></li>
-<li><p><strong>tile_cols</strong> (<em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3.7/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a><em>]</em>) – Column(s) in TileGrid to process</p></li>
+<li><p><strong>tile_indices</strong> (<em>Sequence</em><em>[</em><em>(</em><a class="reference external" href="https://docs.python.org/3.7/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.7/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a><em>)</em><em>]</em>) – Tuple(s) of rows/columns in TileGrid to process</p></li>
 <li><p><strong>date_start</strong> (<em>dt.datetime</em>) – Starting period</p></li>
 <li><p><strong>date_end</strong> (<em>dt.datetime</em>) – Ending period</p></li>
 <li><p><strong>freq</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Submit pre-ARD tasks for periods between <code class="docutils literal notranslate"><span class="pre">date_start</span></code> and

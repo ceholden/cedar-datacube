@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.gee.tracking &mdash; ardzilla 0+untagged.50.g439e891 documentation</title>
+  <title>ardzilla.gee.tracking &mdash; ardzilla 0+untagged.50.ga19ed8f documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.g439e891
+                0+untagged.50.ga19ed8f
               </div>
             
           
@@ -186,7 +186,7 @@
     <span class="sd">&quot;&quot;&quot; Tracker for GEE ARD task submission</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">TRACKING_DIRECTORY</span> <span class="o">=</span> <span class="s1">&#39;TRACKING&#39;</span>
+    <span class="n">TRACKING_DIRECTORY</span> <span class="o">=</span> <span class="s1">&#39;GEEARD_TRACKING&#39;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tile_grid</span><span class="p">,</span> <span class="n">store</span><span class="p">,</span>
                  <span class="n">name_template</span><span class="o">=</span><span class="n">defaults</span><span class="o">.</span><span class="n">GEE_PREARD_NAME</span><span class="p">,</span>
@@ -204,7 +204,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">filters</span> <span class="o">=</span> <span class="n">filters</span> <span class="ow">or</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">overwrite</span> <span class="o">=</span> <span class="n">overwrite</span>
 
-<div class="viewcode-block" id="GEEARDTracker.submit"><a class="viewcode-back" href="../../../ardzilla/ardzilla.gee.tracking.html#ardzilla.gee.tracking.GEEARDTracker.submit">[docs]</a>    <span class="k">def</span> <span class="nf">submit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collections</span><span class="p">,</span> <span class="n">tile_rows</span><span class="p">,</span> <span class="n">tile_cols</span><span class="p">,</span>
+<div class="viewcode-block" id="GEEARDTracker.submit"><a class="viewcode-back" href="../../../ardzilla/ardzilla.gee.tracking.html#ardzilla.gee.tracking.GEEARDTracker.submit">[docs]</a>    <span class="k">def</span> <span class="nf">submit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collections</span><span class="p">,</span> <span class="n">tile_indices</span><span class="p">,</span>
                <span class="n">date_start</span><span class="p">,</span> <span class="n">date_end</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="n">defaults</span><span class="o">.</span><span class="n">GEE_PREARD_FREQ</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Submit and track GEE pre-ARD tasks</span>
 
@@ -212,10 +212,8 @@
 <span class="sd">        ----------</span>
 <span class="sd">        collections: str or Sequence[str]</span>
 <span class="sd">            GEE image collection name(s)</span>
-<span class="sd">        tile_rows : Sequence[int]</span>
-<span class="sd">            Row(s) in TileGrid to process</span>
-<span class="sd">        tile_cols : Sequence[int]</span>
-<span class="sd">            Column(s) in TileGrid to process</span>
+<span class="sd">        tile_indices : Sequence[(int, int)]</span>
+<span class="sd">            Tuple(s) of rows/columns in TileGrid to process</span>
 <span class="sd">        date_start : dt.datetime</span>
 <span class="sd">            Starting period</span>
 <span class="sd">        date_end : dt.datetime</span>
@@ -229,12 +227,12 @@
 <span class="sd">        str</span>
 <span class="sd">            Path to stored task metadata information</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># TODO: eventually allow start/end to be None (use limits of data)</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">collections</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="n">collections</span> <span class="o">=</span> <span class="p">(</span><span class="n">collections</span><span class="p">,</span> <span class="p">)</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tile_rows</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
-            <span class="n">tile_rows</span> <span class="o">=</span> <span class="p">(</span><span class="n">tile_rows</span><span class="p">,</span> <span class="p">)</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tile_cols</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
-            <span class="n">tile_cols</span> <span class="o">=</span> <span class="p">(</span><span class="n">tile_cols</span><span class="p">,</span> <span class="p">)</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">tile_indices</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tile_indices</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="n">tile_indices</span> <span class="o">=</span> <span class="p">[</span><span class="n">tile_indices</span><span class="p">]</span>
 
         <span class="c1"># Create metadata about task submission process</span>
         <span class="n">meta_submission</span> <span class="o">=</span> <span class="n">create_submission_metadata</span><span class="p">(</span>
@@ -244,10 +242,11 @@
         <span class="c1"># Store metadata about each task submitted</span>
         <span class="n">meta_tasks</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="c1"># Loop over product of collections &amp; tiles </span>
-        <span class="n">iter_submit</span> <span class="o">=</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">collections</span><span class="p">,</span> <span class="n">tile_rows</span><span class="p">,</span> <span class="n">tile_cols</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">collection</span><span class="p">,</span> <span class="n">tile_row</span><span class="p">,</span> <span class="n">tile_col</span> <span class="ow">in</span> <span class="n">iter_submit</span><span class="p">:</span>
+        <span class="n">iter_submit</span> <span class="o">=</span> <span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">collections</span><span class="p">,</span> <span class="n">tile_indices</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">collection</span><span class="p">,</span> <span class="n">tile_index</span> <span class="ow">in</span> <span class="n">iter_submit</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Submitting &quot;</span><span class="si">{collection}</span><span class="s1">&quot; - &quot;</span><span class="si">{tile_index}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
             <span class="c1"># Find the tile</span>
-            <span class="n">tile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tile_grid</span><span class="p">[</span><span class="n">tile_row</span><span class="p">,</span> <span class="n">tile_col</span><span class="p">]</span>
+            <span class="n">tile</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tile_grid</span><span class="p">[</span><span class="n">tile_index</span><span class="p">]</span>
 
             <span class="c1"># Create, returning the task and stored metadata name</span>
             <span class="n">tasks_and_metadata</span> <span class="o">=</span> <span class="n">core</span><span class="o">.</span><span class="n">submit_ard</span><span class="p">(</span>
@@ -308,9 +307,7 @@
 <span class="sd">        dict</span>
 <span class="sd">            JSON tracking info data as a dict</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">TRACKING_DIRECTORY</span><span class="p">):</span>
-            <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;/&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">TRACKING_DIRECTORY</span><span class="p">,</span> <span class="n">name</span><span class="p">])</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">store</span><span class="o">.</span><span class="n">read_metadata</span><span class="p">(</span><span class="n">name</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">store</span><span class="o">.</span><span class="n">read_metadata</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">TRACKING_DIRECTORY</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="GEEARDTracker.update_tracking"><a class="viewcode-back" href="../../../ardzilla/ardzilla.gee.tracking.html#ardzilla.gee.tracking.GEEARDTracker.update_tracking">[docs]</a>    <span class="k">def</span> <span class="nf">update_tracking</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Refresh and reupload tracking information by checking with the GEE</span>
