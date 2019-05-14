@@ -117,10 +117,6 @@ class GDriveStore(object):
         kwds_.update(self.export_image_kwds)
 
         # TODO: warn / fail if `path` looks nested...
-        # Make sure to append "-" so subfiles get separated for search query
-        if not name.endswith('-'):
-            logger.debug('Appending "-" to name so we can find it later')
-            name += '-'
 
         # Make parent directory -- currently GEE interprets this directory as
         # a single, non-nested directory. So, "GEEARD/LT05" and "GEEARD/LE07"
