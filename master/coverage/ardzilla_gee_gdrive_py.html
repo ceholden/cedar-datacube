@@ -896,8 +896,8 @@
 <p id="t179" class="pln"><span class="str">        Sequence[str]</span><span class="strut">&nbsp;</span></p>
 <p id="t180" class="pln"><span class="str">            Filename(s) corresponding to retrieved data</span><span class="strut">&nbsp;</span></p>
 <p id="t181" class="pln"><span class="str">        """</span><span class="strut">&nbsp;</span></p>
-<p id="t182" class="stm mis">        <span class="key">return</span> <span class="nam">_retrieve_extension</span><span class="op">(</span><span class="nam">dest</span><span class="op">,</span> <span class="nam">name</span><span class="op">,</span> <span class="str">'.tif'</span><span class="op">,</span> <span class="nam">path</span><span class="op">=</span><span class="nam">path</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
-<p id="t183" class="pln">                                   <span class="nam">overwrite</span><span class="op">=</span><span class="nam">overwrite</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t182" class="stm mis">        <span class="key">return</span> <span class="nam">self</span><span class="op">.</span><span class="nam">_retrieve_extension</span><span class="op">(</span><span class="nam">dest</span><span class="op">,</span> <span class="nam">name</span><span class="op">,</span> <span class="str">'.tif'</span><span class="op">,</span> <span class="nam">path</span><span class="op">=</span><span class="nam">path</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
+<p id="t183" class="pln">                                        <span class="nam">overwrite</span><span class="op">=</span><span class="nam">overwrite</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t184" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t185" class="stm run hide_run">    <span class="key">def</span> <span class="nam">retrieve_metadata</span><span class="op">(</span><span class="nam">self</span><span class="op">,</span> <span class="nam">dest</span><span class="op">,</span> <span class="nam">name</span><span class="op">,</span> <span class="nam">path</span><span class="op">=</span><span class="key">None</span><span class="op">,</span> <span class="nam">overwrite</span><span class="op">=</span><span class="key">True</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t186" class="pln">        <span class="str">""" Retrieve image metadata from the GCS</span><span class="strut">&nbsp;</span></p>
@@ -916,8 +916,8 @@
 <p id="t199" class="pln"><span class="str">        pathlib.Path</span><span class="strut">&nbsp;</span></p>
 <p id="t200" class="pln"><span class="str">            Filename corresponding to retrieved data</span><span class="strut">&nbsp;</span></p>
 <p id="t201" class="pln"><span class="str">        """</span><span class="strut">&nbsp;</span></p>
-<p id="t202" class="stm mis">        <span class="key">return</span> <span class="nam">_retrieve_extension</span><span class="op">(</span><span class="nam">dest</span><span class="op">,</span> <span class="nam">name</span><span class="op">,</span> <span class="str">'.json'</span><span class="op">,</span> <span class="nam">path</span><span class="op">=</span><span class="nam">path</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
-<p id="t203" class="pln">                                   <span class="nam">overwrite</span><span class="op">=</span><span class="nam">overwrite</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t202" class="stm mis">        <span class="key">return</span> <span class="nam">self</span><span class="op">.</span><span class="nam">_retrieve_extension</span><span class="op">(</span><span class="nam">dest</span><span class="op">,</span> <span class="nam">name</span><span class="op">,</span> <span class="str">'.json'</span><span class="op">,</span> <span class="nam">path</span><span class="op">=</span><span class="nam">path</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
+<p id="t203" class="pln">                                        <span class="nam">overwrite</span><span class="op">=</span><span class="nam">overwrite</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t204" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t205" class="stm run hide_run">    <span class="key">def</span> <span class="nam">read_metadata</span><span class="op">(</span><span class="nam">self</span><span class="op">,</span> <span class="nam">name</span><span class="op">,</span> <span class="nam">path</span><span class="op">=</span><span class="key">None</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t206" class="pln">        <span class="str">""" Read and parse JSON metadata into a dict</span><span class="strut">&nbsp;</span></p>
@@ -1370,7 +1370,7 @@
     <div class="content">
         <p>
             <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.io">coverage.py v4.5.3</a>,
-            created at 2019-05-14 19:17
+            created at 2019-05-14 19:23
         </p>
     </div>
 </div>

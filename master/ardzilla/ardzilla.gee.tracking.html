@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.gee.tracking module &mdash; ardzilla 0+untagged.50.g6aca7d7 documentation</title>
+  <title>ardzilla.gee.tracking module &mdash; ardzilla 0+untagged.50.ge2e860f documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.g6aca7d7
+                0+untagged.50.ge2e860f
               </div>
             
           
@@ -329,7 +329,7 @@ looks for tracking information matching
 
 <dl class="function">
 <dt id="ardzilla.gee.tracking.download_tracked">
-<code class="descclassname">ardzilla.gee.tracking.</code><code class="descname">download_tracked</code><span class="sig-paren">(</span><em>tracking_info</em>, <em>store</em>, <em>dest</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/tracking.html#download_tracked"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.tracking.download_tracked" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">ardzilla.gee.tracking.</code><code class="descname">download_tracked</code><span class="sig-paren">(</span><em>tracking_info</em>, <em>store</em>, <em>dest</em>, <em>overwrite=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/tracking.html#download_tracked"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.tracking.download_tracked" title="Permalink to this definition">¶</a></dt>
 <dd><p>Download stored “pre-ARD” and metadata described by tracking info</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -337,6 +337,7 @@ looks for tracking information matching
 <li><p><strong>tracking_info</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – Tracking information</p></li>
 <li><p><strong>store</strong> (<a class="reference internal" href="../gee_storage.html#ardzilla.gee.gcs.GCSStore" title="ardzilla.gee.gcs.GCSStore"><em>ardzilla.gee.gcs.GCSStore</em></a><em> or </em><a class="reference internal" href="../gee_storage.html#ardzilla.gee.gdrive.GDriveStore" title="ardzilla.gee.gdrive.GDriveStore"><em>ardzilla.gee.gdrive.GDriveStore</em></a>) – ARDzilla store class</p></li>
 <li><p><strong>dest</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3.7/library/pathlib.html#pathlib.Path" title="(in Python v3.7)"><em>pathlib.Path</em></a>) – Destination download directory</p></li>
+<li><p><strong>overwrite</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em>, </em><em>optional</em>) – Overwrite previously downoaded data, or not</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
