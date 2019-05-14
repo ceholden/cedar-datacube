@@ -11,13 +11,49 @@ import re
 
 import ee
 from google.cloud import storage
-
-from .gauth import build_gcs_client
+from google.oauth2 import service_account
 
 logger = logging.getLogger(__name__)
 
 _RE_FILE = re.compile(r'.*(?<!\/)$')
 METADATA_ENCODING = 'utf-8'
+
+SCOPES = [
+    'https://www.googleapis.com/auth/devstorage.read_write'
+]
+
+
+def build_gcs_client(credentials=None, project=None):
+    """ Return a Google Cloud Store API service client
+
+    Parameters
+    ----------
+    credentials : str, optional
+        File name of Google Cloud Store credentials (typically from a service
+        account)
+    project : str, optional
+        Google Cloud Platform project to use
+
+    Returns
+    -------
+    google.cloud.storage.Client
+        Client for the Google Cloud Storage client library
+
+    Notes
+    -----
+    You might consider setting the envirnment variable
+    ``GOOGLE_APPLICATION_CREDENTIALS`` with the path to your service account
+    credentials file [1]_.
+
+    References
+    ----------
+    .. [1] https://cloud.google.com/storage/docs/reference/libraries#setting_up_authentication
+    """
+    credentials = service_account.Credentials.from_service_account_file(
+        credentials,
+        scopes=SCOPES)
+    client = storage.Client(project=project, credentials=credentials)
+    return client
 
 
 class GCSStore(object):

@@ -6,21 +6,118 @@ import json
 import logging
 import os
 from pathlib import Path
+import urllib
+from urllib.parse import urlencode
+from urllib.error import HTTPError
 
 from apiclient.http import MediaIoBaseDownload
-from googleapiclient.discovery import Resource
+from google.auth.transport.requests import Request
+from google.oauth2.credentials import Credentials
+from googleapiclient.discovery import Resource, build
+from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.http import MediaIoBaseUpload
+
 import ee
 
-from . import gauth
+from .. import utils
 
 logger = logging.getLogger(__name__)
 
 
 MIME_TYPE_DIRECTORY = 'application/vnd.google-apps.folder'
 MIME_TYPE_FILE = 'application/vnd.google-apps.file'
+
 _ORDER_BY = 'folder,modifiedTime,name'
+
 METADATA_ENCODING = 'utf-8'
+
+SCOPES = ['https://www.googleapis.com/auth/drive']
+
+# TODO: rehash what these should be and document
+_CLIENT_SECRETS = ['client_secrets.json']
+_USER_CREDS = ['credentials.json']
+
+
+def build_gdrive_service(credentials):
+    """ Return Google Drive API service, either by credentials or file
+
+    Parameters
+    ----------
+    credentials : google.oauth2.credentials.Credentials
+        User credentials, including access token, for using the application.
+
+    Returns
+    -------
+    googleapiclient.discovery.Resource
+        GDrive v3 API resource
+    """
+    service = build('drive', 'v3', credentials=credentials)
+    return service
+
+
+def get_credentials(client_secrets=None, client_secrets_file=None,
+                    credentials_file=None, no_browser=True):
+    """ Get OAuth2 Credentials for Google Drive
+
+    Parameters
+    ----------
+    client_secrets : dict
+        Client secrets information
+    client_secrets_file : str or Path
+        Filename of "client_secrets.[...].json" file
+    credentials_file : str or Path
+        Filename of user credentials to load, or to save to for future use.
+        If not provided, will use default location.
+    no_browser : bool, optional
+        Disables opening a web browser in favor of prompting user to
+        authenticate using a terminal prompt.
+
+    Returns
+    -------
+    credentials : google.oauth2.credentials.Credentials
+        User credentials, including access token, for using the application.
+    """
+    client_secrets_file_ = utils.get_file(
+        client_secrets_file, *_CLIENT_SECRETS, exists=True)
+    credentials_file_ = utils.get_file(
+        credentials_file, *_USER_CREDS, exists=False)
+
+    creds = None
+    if credentials_file_ and os.path.exists(credentials_file_):
+        logger.debug('Trying to load previous credentials file...')
+        creds = _load_credentials(credentials_file_)
+
+    if not creds or not creds.valid:
+        # Try refreshing
+        if creds and not creds.expired and creds.fresh_token:
+            logger.debug('Trying to refresh credentials token...')
+            creds.refresh(Request())
+        else:
+            # Load from file
+            if not client_secrets_file_:
+                raise ValueError('Missing `client_secrets` or path to a '
+                                 'valid `client_secrets_file` file needed '
+                                 'to authenticate user')
+
+            logger.debug('Opening local web server to authenticate..')
+            flow = InstalledAppFlow.from_client_secrets_file(
+                client_secrets_file_, SCOPES)
+
+            flow_kwds = {
+                # Enable offline access so we can refresh access token without
+                # reprompting user for permission.
+                'access_type': 'offline'
+            }
+            if no_browser:
+                creds = flow.run_console(**flow_kwds)
+            else:
+                creds = flow.run_local_server(**flow_kwds)
+
+    # Save for next time
+    logger.debug(f'Saving Google API credentials to {credentials_file_}')
+    _save_credentials(creds, credentials_file_)
+
+    return creds
 
 
 class GDriveStore(object):
@@ -39,11 +136,23 @@ class GDriveStore(object):
         self.export_image_kwds = export_image_kwds or {}
 
     @classmethod
-    def from_credentials(cls, client_secrets=None, credentials=None,
+    def from_credentials(cls, client_secrets_file=None, credentials_file=None,
                          export_image_kwds=None):
-        """ Load credentials and create the store
+        """ Create and/or load credentials and create the store
+
+        Parameters
+        ----------
+        client_secrets_file : str or Path
+            Filename of "client_secrets.[...].json" file
+        credentials_file : str or Path
+            Filename of user credentials to load, or to save to for future use.
+            If not provided, will use default location.
+        export_image_kwds : dict, optional
+            Additional keyword arguments to pass onto ``toDrive``
         """
-        gdrive = gauth.build_gdrive_service(client_secrets, credentials)
+        creds = get_credentials(client_secrets_file=client_secrets_file,
+                                credentials_file=credentials_file)
+        gdrive = build_gdrive_service(credentials=creds)
         return cls(gdrive, export_image_kwds=export_image_kwds)
 
     def list(self, path=None, pattern=None):
@@ -648,3 +757,48 @@ def _path_to_parent_id(service, path):
             raise ValueError(f'Cannot find prefix path provided "{path}" '
                              'on Google Drive')
         return parent_id
+
+
+# OAuth helpers
+_OAUTH2_CREDS = ['token', 'refresh_token', 'id_token', 'token_uri',
+                 'client_id', 'client_secret', 'scopes']
+
+
+def _dict_to_creds(d):
+    assert isinstance(d, dict)
+    token = d['token']
+    kwds = {k: v for k, v in d.items() if k != 'token'}
+    creds = Credentials(token, **kwds)
+    return creds
+
+
+def _creds_to_dict(creds):
+    creds_ = {
+        k: getattr(creds, k, None) for k in _OAUTH2_CREDS
+    }
+    return creds_
+
+
+def _load_credentials(filename):
+    """ Load Google OAuth2 credentials from file
+
+    Returns
+    -------
+    google.oauth2.credentials.Credentials
+    """
+    with open(filename) as src:
+        data = json.load(src)
+    creds = _dict_to_creds(data)
+    return creds
+
+
+def _save_credentials(creds, filename):
+    """ Save Google OAuth2 credentials
+    """
+    creds_ = _creds_to_dict(creds)
+    filename = Path(filename)
+    filename.parent.mkdir(exist_ok=True, parents=True)
+    style = {'indent': 2, 'sort_keys': False}
+    with open(str(filename), 'w') as dst:
+        json.dump(creds_, dst, **style)
+    return str(filename)
