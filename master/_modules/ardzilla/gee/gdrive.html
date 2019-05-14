@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.gee.gdrive &mdash; ardzilla 0+untagged.50.ge2e860f documentation</title>
+  <title>ardzilla.gee.gdrive &mdash; ardzilla 0+untagged.50.g18bde75 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.ge2e860f
+                0+untagged.50.g18bde75
               </div>
             
           
@@ -279,10 +279,6 @@
         <span class="n">kwds_</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">export_image_kwds</span><span class="p">)</span>
 
         <span class="c1"># TODO: warn / fail if `path` looks nested...</span>
-        <span class="c1"># Make sure to append &quot;-&quot; so subfiles get separated for search query</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">name</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">):</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Appending &quot;-&quot; to name so we can find it later&#39;</span><span class="p">)</span>
-            <span class="n">name</span> <span class="o">+=</span> <span class="s1">&#39;-&#39;</span>
 
         <span class="c1"># Make parent directory -- currently GEE interprets this directory as</span>
         <span class="c1"># a single, non-nested directory. So, &quot;GEEARD/LT05&quot; and &quot;GEEARD/LE07&quot;</span>
@@ -691,11 +687,20 @@
     <span class="n">q</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">if</span> <span class="n">directory</span><span class="p">:</span>
         <span class="n">q</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;mimeType = &quot;</span><span class="si">{MIME_TYPE_DIRECTORY}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
+
     <span class="n">results</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">list_objects</span><span class="p">(</span><span class="n">service</span><span class="p">,</span> <span class="n">parent_id</span><span class="o">=</span><span class="n">parent_id</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="n">q</span><span class="p">))</span>
-    <span class="k">if</span> <span class="n">results</span><span class="p">:</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Found {len(results)} results -- returning first&#39;</span><span class="p">)</span>
+    <span class="n">n_results</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">n_results</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;id&#39;</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="n">n_results</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">match_name</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="n">name</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">results</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">match_name</span><span class="p">):</span>
+            <span class="n">idx</span> <span class="o">=</span> <span class="n">match_name</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">results</span><span class="p">[</span><span class="n">idx</span><span class="p">][</span><span class="s1">&#39;id&#39;</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Returning first of </span><span class="si">{n_results}</span><span class="s1"> matches -- id=</span><span class="si">{id_}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;id&#39;</span><span class="p">]</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="s1">&#39;&#39;</span></div>
 
