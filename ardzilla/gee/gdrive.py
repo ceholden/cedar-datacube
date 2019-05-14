@@ -179,8 +179,8 @@ class GDriveStore(object):
         Sequence[str]
             Filename(s) corresponding to retrieved data
         """
-        return _retrieve_extension(dest, name, '.tif', path=path,
-                                   overwrite=overwrite)
+        return self._retrieve_extension(dest, name, '.tif', path=path,
+                                        overwrite=overwrite)
 
     def retrieve_metadata(self, dest, name, path=None, overwrite=True):
         """ Retrieve image metadata from the GCS
@@ -199,8 +199,8 @@ class GDriveStore(object):
         pathlib.Path
             Filename corresponding to retrieved data
         """
-        return _retrieve_extension(dest, name, '.json', path=path,
-                                   overwrite=overwrite)
+        return self._retrieve_extension(dest, name, '.json', path=path,
+                                        overwrite=overwrite)
 
     def read_metadata(self, name, path=None):
         """ Read and parse JSON metadata into a dict

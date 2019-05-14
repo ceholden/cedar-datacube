@@ -213,7 +213,7 @@ class GEEARDTracker(object):
         return self.tracking_template.format(**{k: '*' for k in keys})
 
 
-def download_tracked(tracking_info, store, dest):
+def download_tracked(tracking_info, store, dest, overwrite=False):
     """ Download stored "pre-ARD" and metadata described by tracking info
 
     Parameters
@@ -224,6 +224,8 @@ def download_tracked(tracking_info, store, dest):
         ARDzilla store class
     dest : str or pathlib.Path
         Destination download directory
+    overwrite : bool, optional
+        Overwrite previously downoaded data, or not
 
     Returns
     -------
@@ -244,9 +246,9 @@ def download_tracked(tracking_info, store, dest):
                      f'name="{name}", prefix="{prefix}"')
         # Retrieve image and metadata
         dst_imgs = store.retrieve_image(dest, name, prefix,
-                                        overwrite=self.overwrite)
+                                        overwrite=overwrite)
         dst_meta = store.retrieve_metadata(dest, name, prefix,
-                                           overwrite=self.overwrite)
+                                           overwrite=overwrite)
 
         retrieved[id_] = list(dst_meta) + list(dst_imgs)
 
