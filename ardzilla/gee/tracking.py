@@ -162,7 +162,7 @@ class GEEARDTracker(object):
             JSON tracking info data as a dict
         """
         tracking_info = self.read_tracking(name)
-        tracking_info_updated = update_tracking(tracking_info)
+        tracking_info_updated = update_tracking_info(tracking_info)
         name_ = self.store.store_metadata(tracking_info, name)
         return tracking_info_updated
 
