@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.gee.gdrive &mdash; ardzilla 0+untagged.50.ga19ed8f documentation</title>
+  <title>ardzilla.gee.gdrive &mdash; ardzilla 0+untagged.50.g6aca7d7 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.ga19ed8f
+                0+untagged.50.g6aca7d7
               </div>
             
           
@@ -688,20 +688,10 @@
 <span class="sd">    str</span>
 <span class="sd">        Returns object ID if exists, otherwise empty string</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">q</span> <span class="o">=</span> <span class="p">[</span>
-        <span class="n">f</span><span class="s1">&#39;trashed = {&quot;true&quot; if trashed else &quot;false&quot;}&#39;</span><span class="p">,</span>
-        <span class="n">f</span><span class="s1">&#39;name = &quot;</span><span class="si">{name}</span><span class="s1">&quot;&#39;</span>
-    <span class="p">]</span>
+    <span class="n">q</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">if</span> <span class="n">directory</span><span class="p">:</span>
         <span class="n">q</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;mimeType = &quot;</span><span class="si">{MIME_TYPE_DIRECTORY}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">parent_id</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">q</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;&quot;</span><span class="si">{parent_id}</span><span class="s1">&quot; in parents&#39;</span><span class="p">)</span>
-    <span class="n">q_</span> <span class="o">=</span> <span class="s1">&#39; and &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
-    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Searching for query: &quot;</span><span class="si">{q_}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
-
-    <span class="n">resp</span> <span class="o">=</span> <span class="n">service</span><span class="o">.</span><span class="n">files</span><span class="p">()</span><span class="o">.</span><span class="n">list</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="n">q_</span><span class="p">,</span> <span class="n">orderBy</span><span class="o">=</span><span class="n">_ORDER_BY</span><span class="p">)</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
-    <span class="n">results</span> <span class="o">=</span> <span class="n">resp</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;files&#39;</span><span class="p">,</span> <span class="p">[])</span>
-
+    <span class="n">results</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">list_objects</span><span class="p">(</span><span class="n">service</span><span class="p">,</span> <span class="n">parent_id</span><span class="o">=</span><span class="n">parent_id</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="n">q</span><span class="p">))</span>
     <span class="k">if</span> <span class="n">results</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Found {len(results)} results -- returning first&#39;</span><span class="p">)</span>
