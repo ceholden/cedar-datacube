@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.gee.gcs &mdash; ardzilla 0+untagged.50.g18bde75 documentation</title>
+  <title>ardzilla.gee.gcs &mdash; ardzilla 0+untagged.50.gc471dff documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.g18bde75
+                0+untagged.50.gc471dff
               </div>
             
           
@@ -173,13 +173,49 @@
 
 <span class="kn">import</span> <span class="nn">ee</span>
 <span class="kn">from</span> <span class="nn">google.cloud</span> <span class="k">import</span> <span class="n">storage</span>
-
-<span class="kn">from</span> <span class="nn">.gauth</span> <span class="k">import</span> <span class="n">build_gcs_client</span>
+<span class="kn">from</span> <span class="nn">google.oauth2</span> <span class="k">import</span> <span class="n">service_account</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 <span class="n">_RE_FILE</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;.*(?&lt;!\/)$&#39;</span><span class="p">)</span>
 <span class="n">METADATA_ENCODING</span> <span class="o">=</span> <span class="s1">&#39;utf-8&#39;</span>
+
+<span class="n">SCOPES</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;https://www.googleapis.com/auth/devstorage.read_write&#39;</span>
+<span class="p">]</span>
+
+
+<div class="viewcode-block" id="build_gcs_client"><a class="viewcode-back" href="../../../ardzilla/ardzilla.gee.gcs.html#ardzilla.gee.gcs.build_gcs_client">[docs]</a><span class="k">def</span> <span class="nf">build_gcs_client</span><span class="p">(</span><span class="n">credentials</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">project</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Return a Google Cloud Store API service client</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    credentials : str, optional</span>
+<span class="sd">        File name of Google Cloud Store credentials (typically from a service</span>
+<span class="sd">        account)</span>
+<span class="sd">    project : str, optional</span>
+<span class="sd">        Google Cloud Platform project to use</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    google.cloud.storage.Client</span>
+<span class="sd">        Client for the Google Cloud Storage client library</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    You might consider setting the envirnment variable</span>
+<span class="sd">    ``GOOGLE_APPLICATION_CREDENTIALS`` with the path to your service account</span>
+<span class="sd">    credentials file [1]_.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [1] https://cloud.google.com/storage/docs/reference/libraries#setting_up_authentication</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">credentials</span> <span class="o">=</span> <span class="n">service_account</span><span class="o">.</span><span class="n">Credentials</span><span class="o">.</span><span class="n">from_service_account_file</span><span class="p">(</span>
+        <span class="n">credentials</span><span class="p">,</span>
+        <span class="n">scopes</span><span class="o">=</span><span class="n">SCOPES</span><span class="p">)</span>
+    <span class="n">client</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">Client</span><span class="p">(</span><span class="n">project</span><span class="o">=</span><span class="n">project</span><span class="p">,</span> <span class="n">credentials</span><span class="o">=</span><span class="n">credentials</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">client</span></div>
 
 
 <div class="viewcode-block" id="GCSStore"><a class="viewcode-back" href="../../../gee_storage.html#ardzilla.gee.gcs.GCSStore">[docs]</a><span class="k">class</span> <span class="nc">GCSStore</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>

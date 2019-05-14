@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.gee package &mdash; ardzilla 0+untagged.50.gc471dff documentation</title>
+  <title>ardzilla.utils module &mdash; ardzilla 0+untagged.50.gc471dff documentation</title>
   
 
   
@@ -142,14 +142,14 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>ardzilla.gee package</li>
+      <li>ardzilla.utils module</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
             
-              <a href="https://github.com/ceholden/ardzilla/blob/master/docs/source/ardzilla/ardzilla.gee.rst" class="fa fa-github"> Edit on GitHub</a>
+              <a href="https://github.com/ceholden/ardzilla/blob/master/docs/source/ardzilla/ardzilla.utils.rst" class="fa fa-github"> Edit on GitHub</a>
             
           
         
@@ -163,25 +163,41 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="ardzilla-gee-package">
-<h1>ardzilla.gee package<a class="headerlink" href="#ardzilla-gee-package" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="submodules">
-<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="ardzilla.gee.common.html">ardzilla.gee.common module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ardzilla.gee.core.html">ardzilla.gee.core module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ardzilla.gee.gcs.html">ardzilla.gee.gcs module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ardzilla.gee.gdrive.html">ardzilla.gee.gdrive module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ardzilla.gee.landsat.html">ardzilla.gee.landsat module</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ardzilla.gee.tracking.html">ardzilla.gee.tracking module</a></li>
+  <div class="section" id="module-ardzilla.utils">
+<span id="ardzilla-utils-module"></span><h1>ardzilla.utils module<a class="headerlink" href="#module-ardzilla.utils" title="Permalink to this headline">¶</a></h1>
+<p>Common utility functions</p>
+<dl class="function">
+<dt id="ardzilla.utils.get_file">
+<code class="descclassname">ardzilla.utils.</code><code class="descname">get_file</code><span class="sig-paren">(</span><em>*filenames</em>, <em>exists=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/utils.html#get_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.utils.get_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return first good filename</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filenames</strong> (<em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em> or </em><em>Path</em><em>]</em>) – Filenames to check</p></li>
+<li><p><strong>exists</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em>, </em><em>optional</em>) – Require that the filename correspond to an existing
+file on disk</p></li>
 </ul>
-</div>
-</div>
-<div class="section" id="module-ardzilla.gee">
-<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-ardzilla.gee" title="Permalink to this headline">¶</a></h2>
-<p>Get “pre-ARD” from the Google Earth Engine</p>
-</div>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A Path of the first good filename, or None if they’re all bad</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Path or <a class="reference external" href="https://docs.python.org/3.7/library/constants.html#None" title="(in Python v3.7)">None</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ardzilla.utils.set_file_urw">
+<code class="descclassname">ardzilla.utils.</code><code class="descname">set_file_urw</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/utils.html#set_file_urw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.utils.set_file_urw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets a file to user read/write only</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – File to modify</p>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
 
 

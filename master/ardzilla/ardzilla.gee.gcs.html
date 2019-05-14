@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.gee.gcs module &mdash; ardzilla 0+untagged.50.g18bde75 documentation</title>
+  <title>ardzilla.gee.gcs module &mdash; ardzilla 0+untagged.50.gc471dff documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.g18bde75
+                0+untagged.50.gc471dff
               </div>
             
           
@@ -337,6 +337,37 @@ be part of <code class="docutils literal notranslate"><span class="pre">name</sp
 </dd></dl>
 
 <dl class="function">
+<dt id="ardzilla.gee.gcs.build_gcs_client">
+<code class="descclassname">ardzilla.gee.gcs.</code><code class="descname">build_gcs_client</code><span class="sig-paren">(</span><em>credentials=None</em>, <em>project=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/gcs.html#build_gcs_client"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.gcs.build_gcs_client" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a Google Cloud Store API service client</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>credentials</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – File name of Google Cloud Store credentials (typically from a service
+account)</p></li>
+<li><p><strong>project</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Google Cloud Platform project to use</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Client for the Google Cloud Storage client library</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>google.cloud.storage.Client</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>You might consider setting the envirnment variable
+<code class="docutils literal notranslate"><span class="pre">GOOGLE_APPLICATION_CREDENTIALS</span></code> with the path to your service account
+credentials file <a class="reference internal" href="#r85a6b8dff71a-1" id="id1">[1]</a>.</p>
+<p class="rubric">References</p>
+<dl class="citation">
+<dt class="label" id="r85a6b8dff71a-1"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p><a class="reference external" href="https://cloud.google.com/storage/docs/reference/libraries#setting_up_authentication">https://cloud.google.com/storage/docs/reference/libraries#setting_up_authentication</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
 <dt id="ardzilla.gee.gcs.delete_blob">
 <code class="descclassname">ardzilla.gee.gcs.</code><code class="descname">delete_blob</code><span class="sig-paren">(</span><em>bucket</em>, <em>path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/gee/gcs.html#delete_blob"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.gee.gcs.delete_blob" title="Permalink to this definition">¶</a></dt>
 <dd><p>Delete a GCS blob</p>
@@ -479,10 +510,10 @@ be part of <code class="docutils literal notranslate"><span class="pre">name</sp
 </dd>
 </dl>
 <p class="rubric">Notes</p>
-<p>Directories don’t really exist on GCS but we can fake it <a class="reference internal" href="#rbf6c522a5b61-1" id="id1">[1]</a>.</p>
+<p>Directories don’t really exist on GCS but we can fake it <a class="reference internal" href="#rbf6c522a5b61-1" id="id2">[1]</a>.</p>
 <p class="rubric">References</p>
 <dl class="citation">
-<dt class="label" id="rbf6c522a5b61-1"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dt class="label" id="rbf6c522a5b61-1"><span class="brackets"><a class="fn-backref" href="#id2">1</a></span></dt>
 <dd><p><a class="reference external" href="https://cloud.google.com/storage/docs/gsutil/addlhelp/HowSubdirectoriesWork">https://cloud.google.com/storage/docs/gsutil/addlhelp/HowSubdirectoriesWork</a></p>
 </dd>
 </dl>

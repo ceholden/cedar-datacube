@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.tests &mdash; ardzilla 0+untagged.50.gc471dff documentation</title>
+  <title>ardzilla.utils &mdash; ardzilla 0+untagged.50.gc471dff documentation</title>
   
 
   
@@ -144,7 +144,7 @@
         
           <li><a href="../index.html">Module code</a> &raquo;</li>
         
-      <li>ardzilla.tests</li>
+      <li>ardzilla.utils</li>
     
     
       <li class="wy-breadcrumbs-aside">
@@ -159,38 +159,54 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <h1>Source code for ardzilla.tests</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot; Testing utilities</span>
+  <h1>Source code for ardzilla.utils</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot; Common utility functions</span>
 <span class="sd">&quot;&quot;&quot;</span>
-<span class="kn">from</span> <span class="nn">distutils</span> <span class="k">import</span> <span class="n">version</span>
-<span class="kn">import</span> <span class="nn">importlib</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="k">import</span> <span class="n">Path</span>
+<span class="kn">import</span> <span class="nn">stat</span>
 
-<span class="kn">import</span> <span class="nn">pytest</span>
-
-
-<span class="c1"># Tools for skipping tests</span>
-<div class="viewcode-block" id="loose_version"><a class="viewcode-back" href="../../ardzilla/ardzilla.tests.html#ardzilla.tests.loose_version">[docs]</a><span class="k">def</span> <span class="nf">loose_version</span><span class="p">(</span><span class="n">vstring</span><span class="p">):</span>
-    <span class="c1"># get rid of any vcs modifier</span>
-    <span class="n">vstring_</span> <span class="o">=</span> <span class="n">vstring</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;+&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="k">return</span> <span class="n">version</span><span class="o">.</span><span class="n">LooseVersion</span><span class="p">(</span><span class="n">vstring_</span><span class="p">)</span></div>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="importorskip"><a class="viewcode-back" href="../../ardzilla/ardzilla.tests.html#ardzilla.tests.importorskip">[docs]</a><span class="k">def</span> <span class="nf">importorskip</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">minversion</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">mod</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
-        <span class="n">has</span> <span class="o">=</span> <span class="kc">True</span>
-        <span class="k">if</span> <span class="n">minversion</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">loose_version</span><span class="p">(</span><span class="n">mod</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">loose_version</span><span class="p">(</span><span class="n">minversion</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span><span class="s1">&#39;Version of &quot;</span><span class="si">{modname}</span><span class="s1">&quot; not satisfied&#39;</span><span class="p">)</span>
-    <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
-        <span class="n">has</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="n">func</span> <span class="o">=</span> <span class="n">pytest</span><span class="o">.</span><span class="n">mark</span><span class="o">.</span><span class="n">skipif</span><span class="p">(</span><span class="ow">not</span> <span class="n">has</span><span class="p">,</span> <span class="n">reason</span><span class="o">=</span><span class="n">f</span><span class="s1">&#39;requires </span><span class="si">{name}</span><span class="s1">&#39;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">has</span><span class="p">,</span> <span class="n">func</span></div>
+<div class="viewcode-block" id="get_file"><a class="viewcode-back" href="../../ardzilla/ardzilla.utils.html#ardzilla.utils.get_file">[docs]</a><span class="k">def</span> <span class="nf">get_file</span><span class="p">(</span><span class="o">*</span><span class="n">filenames</span><span class="p">,</span> <span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Return first good filename</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    filenames : Sequence[str or Path]</span>
+<span class="sd">        Filenames to check</span>
+<span class="sd">    exists : bool, optional</span>
+<span class="sd">        Require that the filename correspond to an existing</span>
+<span class="sd">        file on disk</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Path or None</span>
+<span class="sd">        A Path of the first good filename, or None if they&#39;re all bad</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">filenames</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">filename</span><span class="p">:</span>  <span class="c1"># not null</span>
+            <span class="k">if</span> <span class="n">exists</span><span class="p">:</span>  <span class="c1"># if we need to check...</span>
+                <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="n">Path</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;File not found at &quot;</span><span class="si">{filename}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>  <span class="c1"># otherwise just return first non-null</span>
+                <span class="k">return</span> <span class="n">Path</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
 
 
-<span class="n">has_earthengine</span><span class="p">,</span> <span class="n">requires_earthengine</span> <span class="o">=</span> <span class="n">importorskip</span><span class="p">(</span><span class="s1">&#39;ee&#39;</span><span class="p">)</span>
-<span class="n">has_gcs</span><span class="p">,</span> <span class="n">requires_gcs</span> <span class="o">=</span> <span class="n">importorskip</span><span class="p">(</span><span class="s1">&#39;google.cloud.storage&#39;</span><span class="p">)</span>
-<span class="n">has_gdrive</span><span class="p">,</span> <span class="n">requires_gdrive</span> <span class="o">=</span> <span class="n">importorskip</span><span class="p">(</span><span class="s1">&#39;googleapiclient.discovery&#39;</span><span class="p">)</span>
+<div class="viewcode-block" id="set_file_urw"><a class="viewcode-back" href="../../ardzilla/ardzilla.utils.html#ardzilla.utils.set_file_urw">[docs]</a><span class="k">def</span> <span class="nf">set_file_urw</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Sets a file to user read/write only</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    filename : str</span>
+<span class="sd">        File to modify</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">chmod</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">filename</span><span class="p">),</span> <span class="n">stat</span><span class="o">.</span><span class="n">S_IREAD</span> <span class="o">|</span> <span class="n">stat</span><span class="o">.</span><span class="n">S_IWRITE</span><span class="p">)</span></div>
 </pre></div>
 
            </div>

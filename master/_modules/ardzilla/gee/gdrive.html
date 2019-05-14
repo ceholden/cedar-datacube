@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.gee.gdrive &mdash; ardzilla 0+untagged.50.g18bde75 documentation</title>
+  <title>ardzilla.gee.gdrive &mdash; ardzilla 0+untagged.50.gc471dff documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.g18bde75
+                0+untagged.50.gc471dff
               </div>
             
           
@@ -168,21 +168,118 @@
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="k">import</span> <span class="n">Path</span>
+<span class="kn">import</span> <span class="nn">urllib</span>
+<span class="kn">from</span> <span class="nn">urllib.parse</span> <span class="k">import</span> <span class="n">urlencode</span>
+<span class="kn">from</span> <span class="nn">urllib.error</span> <span class="k">import</span> <span class="n">HTTPError</span>
 
 <span class="kn">from</span> <span class="nn">apiclient.http</span> <span class="k">import</span> <span class="n">MediaIoBaseDownload</span>
-<span class="kn">from</span> <span class="nn">googleapiclient.discovery</span> <span class="k">import</span> <span class="n">Resource</span>
+<span class="kn">from</span> <span class="nn">google.auth.transport.requests</span> <span class="k">import</span> <span class="n">Request</span>
+<span class="kn">from</span> <span class="nn">google.oauth2.credentials</span> <span class="k">import</span> <span class="n">Credentials</span>
+<span class="kn">from</span> <span class="nn">googleapiclient.discovery</span> <span class="k">import</span> <span class="n">Resource</span><span class="p">,</span> <span class="n">build</span>
+<span class="kn">from</span> <span class="nn">google_auth_oauthlib.flow</span> <span class="k">import</span> <span class="n">InstalledAppFlow</span>
 <span class="kn">from</span> <span class="nn">googleapiclient.http</span> <span class="k">import</span> <span class="n">MediaIoBaseUpload</span>
+
 <span class="kn">import</span> <span class="nn">ee</span>
 
-<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">gauth</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">utils</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
 <span class="n">MIME_TYPE_DIRECTORY</span> <span class="o">=</span> <span class="s1">&#39;application/vnd.google-apps.folder&#39;</span>
 <span class="n">MIME_TYPE_FILE</span> <span class="o">=</span> <span class="s1">&#39;application/vnd.google-apps.file&#39;</span>
+
 <span class="n">_ORDER_BY</span> <span class="o">=</span> <span class="s1">&#39;folder,modifiedTime,name&#39;</span>
+
 <span class="n">METADATA_ENCODING</span> <span class="o">=</span> <span class="s1">&#39;utf-8&#39;</span>
+
+<span class="n">SCOPES</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;https://www.googleapis.com/auth/drive&#39;</span><span class="p">]</span>
+
+<span class="c1"># TODO: rehash what these should be and document</span>
+<span class="n">_CLIENT_SECRETS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;client_secrets.json&#39;</span><span class="p">]</span>
+<span class="n">_USER_CREDS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;credentials.json&#39;</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="build_gdrive_service"><a class="viewcode-back" href="../../../ardzilla/ardzilla.gee.gdrive.html#ardzilla.gee.gdrive.build_gdrive_service">[docs]</a><span class="k">def</span> <span class="nf">build_gdrive_service</span><span class="p">(</span><span class="n">credentials</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Return Google Drive API service, either by credentials or file</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    credentials : google.oauth2.credentials.Credentials</span>
+<span class="sd">        User credentials, including access token, for using the application.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    googleapiclient.discovery.Resource</span>
+<span class="sd">        GDrive v3 API resource</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">service</span> <span class="o">=</span> <span class="n">build</span><span class="p">(</span><span class="s1">&#39;drive&#39;</span><span class="p">,</span> <span class="s1">&#39;v3&#39;</span><span class="p">,</span> <span class="n">credentials</span><span class="o">=</span><span class="n">credentials</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">service</span></div>
+
+
+<div class="viewcode-block" id="get_credentials"><a class="viewcode-back" href="../../../ardzilla/ardzilla.gee.gdrive.html#ardzilla.gee.gdrive.get_credentials">[docs]</a><span class="k">def</span> <span class="nf">get_credentials</span><span class="p">(</span><span class="n">client_secrets</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">client_secrets_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                    <span class="n">credentials_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">no_browser</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Get OAuth2 Credentials for Google Drive</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    client_secrets : dict</span>
+<span class="sd">        Client secrets information</span>
+<span class="sd">    client_secrets_file : str or Path</span>
+<span class="sd">        Filename of &quot;client_secrets.[...].json&quot; file</span>
+<span class="sd">    credentials_file : str or Path</span>
+<span class="sd">        Filename of user credentials to load, or to save to for future use.</span>
+<span class="sd">        If not provided, will use default location.</span>
+<span class="sd">    no_browser : bool, optional</span>
+<span class="sd">        Disables opening a web browser in favor of prompting user to</span>
+<span class="sd">        authenticate using a terminal prompt.</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    credentials : google.oauth2.credentials.Credentials</span>
+<span class="sd">        User credentials, including access token, for using the application.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">client_secrets_file_</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">get_file</span><span class="p">(</span>
+        <span class="n">client_secrets_file</span><span class="p">,</span> <span class="o">*</span><span class="n">_CLIENT_SECRETS</span><span class="p">,</span> <span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">credentials_file_</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">get_file</span><span class="p">(</span>
+        <span class="n">credentials_file</span><span class="p">,</span> <span class="o">*</span><span class="n">_USER_CREDS</span><span class="p">,</span> <span class="n">exists</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="n">creds</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">credentials_file_</span> <span class="ow">and</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">credentials_file_</span><span class="p">):</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Trying to load previous credentials file...&#39;</span><span class="p">)</span>
+        <span class="n">creds</span> <span class="o">=</span> <span class="n">_load_credentials</span><span class="p">(</span><span class="n">credentials_file_</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">creds</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">creds</span><span class="o">.</span><span class="n">valid</span><span class="p">:</span>
+        <span class="c1"># Try refreshing</span>
+        <span class="k">if</span> <span class="n">creds</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">creds</span><span class="o">.</span><span class="n">expired</span> <span class="ow">and</span> <span class="n">creds</span><span class="o">.</span><span class="n">fresh_token</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Trying to refresh credentials token...&#39;</span><span class="p">)</span>
+            <span class="n">creds</span><span class="o">.</span><span class="n">refresh</span><span class="p">(</span><span class="n">Request</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Load from file</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">client_secrets_file_</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Missing `client_secrets` or path to a &#39;</span>
+                                 <span class="s1">&#39;valid `client_secrets_file` file needed &#39;</span>
+                                 <span class="s1">&#39;to authenticate user&#39;</span><span class="p">)</span>
+
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Opening local web server to authenticate..&#39;</span><span class="p">)</span>
+            <span class="n">flow</span> <span class="o">=</span> <span class="n">InstalledAppFlow</span><span class="o">.</span><span class="n">from_client_secrets_file</span><span class="p">(</span>
+                <span class="n">client_secrets_file_</span><span class="p">,</span> <span class="n">SCOPES</span><span class="p">)</span>
+
+            <span class="n">flow_kwds</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="c1"># Enable offline access so we can refresh access token without</span>
+                <span class="c1"># reprompting user for permission.</span>
+                <span class="s1">&#39;access_type&#39;</span><span class="p">:</span> <span class="s1">&#39;offline&#39;</span>
+            <span class="p">}</span>
+            <span class="k">if</span> <span class="n">no_browser</span><span class="p">:</span>
+                <span class="n">creds</span> <span class="o">=</span> <span class="n">flow</span><span class="o">.</span><span class="n">run_console</span><span class="p">(</span><span class="o">**</span><span class="n">flow_kwds</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">creds</span> <span class="o">=</span> <span class="n">flow</span><span class="o">.</span><span class="n">run_local_server</span><span class="p">(</span><span class="o">**</span><span class="n">flow_kwds</span><span class="p">)</span>
+
+    <span class="c1"># Save for next time</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Saving Google API credentials to </span><span class="si">{credentials_file_}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">_save_credentials</span><span class="p">(</span><span class="n">creds</span><span class="p">,</span> <span class="n">credentials_file_</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">creds</span></div>
 
 
 <div class="viewcode-block" id="GDriveStore"><a class="viewcode-back" href="../../../gee_storage.html#ardzilla.gee.gdrive.GDriveStore">[docs]</a><span class="k">class</span> <span class="nc">GDriveStore</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -201,11 +298,23 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">export_image_kwds</span> <span class="o">=</span> <span class="n">export_image_kwds</span> <span class="ow">or</span> <span class="p">{}</span>
 
 <div class="viewcode-block" id="GDriveStore.from_credentials"><a class="viewcode-back" href="../../../gee_storage.html#ardzilla.gee.gdrive.GDriveStore.from_credentials">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_credentials</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">client_secrets</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">credentials</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="k">def</span> <span class="nf">from_credentials</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">client_secrets_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">credentials_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                          <span class="n">export_image_kwds</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Load credentials and create the store</span>
+        <span class="sd">&quot;&quot;&quot; Create and/or load credentials and create the store</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        client_secrets_file : str or Path</span>
+<span class="sd">            Filename of &quot;client_secrets.[...].json&quot; file</span>
+<span class="sd">        credentials_file : str or Path</span>
+<span class="sd">            Filename of user credentials to load, or to save to for future use.</span>
+<span class="sd">            If not provided, will use default location.</span>
+<span class="sd">        export_image_kwds : dict, optional</span>
+<span class="sd">            Additional keyword arguments to pass onto ``toDrive``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">gdrive</span> <span class="o">=</span> <span class="n">gauth</span><span class="o">.</span><span class="n">build_gdrive_service</span><span class="p">(</span><span class="n">client_secrets</span><span class="p">,</span> <span class="n">credentials</span><span class="p">)</span>
+        <span class="n">creds</span> <span class="o">=</span> <span class="n">get_credentials</span><span class="p">(</span><span class="n">client_secrets_file</span><span class="o">=</span><span class="n">client_secrets_file</span><span class="p">,</span>
+                                <span class="n">credentials_file</span><span class="o">=</span><span class="n">credentials_file</span><span class="p">)</span>
+        <span class="n">gdrive</span> <span class="o">=</span> <span class="n">build_gdrive_service</span><span class="p">(</span><span class="n">credentials</span><span class="o">=</span><span class="n">creds</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">gdrive</span><span class="p">,</span> <span class="n">export_image_kwds</span><span class="o">=</span><span class="n">export_image_kwds</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="GDriveStore.list"><a class="viewcode-back" href="../../../gee_storage.html#ardzilla.gee.gdrive.GDriveStore.list">[docs]</a>    <span class="k">def</span> <span class="nf">list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -810,6 +919,51 @@
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Cannot find prefix path provided &quot;</span><span class="si">{path}</span><span class="s1">&quot; &#39;</span>
                              <span class="s1">&#39;on Google Drive&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">parent_id</span>
+
+
+<span class="c1"># OAuth helpers</span>
+<span class="n">_OAUTH2_CREDS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;token&#39;</span><span class="p">,</span> <span class="s1">&#39;refresh_token&#39;</span><span class="p">,</span> <span class="s1">&#39;id_token&#39;</span><span class="p">,</span> <span class="s1">&#39;token_uri&#39;</span><span class="p">,</span>
+                 <span class="s1">&#39;client_id&#39;</span><span class="p">,</span> <span class="s1">&#39;client_secret&#39;</span><span class="p">,</span> <span class="s1">&#39;scopes&#39;</span><span class="p">]</span>
+
+
+<span class="k">def</span> <span class="nf">_dict_to_creds</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span>
+    <span class="n">token</span> <span class="o">=</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;token&#39;</span><span class="p">]</span>
+    <span class="n">kwds</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">d</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">k</span> <span class="o">!=</span> <span class="s1">&#39;token&#39;</span><span class="p">}</span>
+    <span class="n">creds</span> <span class="o">=</span> <span class="n">Credentials</span><span class="p">(</span><span class="n">token</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">creds</span>
+
+
+<span class="k">def</span> <span class="nf">_creds_to_dict</span><span class="p">(</span><span class="n">creds</span><span class="p">):</span>
+    <span class="n">creds_</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">k</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">creds</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">_OAUTH2_CREDS</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">creds_</span>
+
+
+<span class="k">def</span> <span class="nf">_load_credentials</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Load Google OAuth2 credentials from file</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    google.oauth2.credentials.Credentials</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="k">as</span> <span class="n">src</span><span class="p">:</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">src</span><span class="p">)</span>
+    <span class="n">creds</span> <span class="o">=</span> <span class="n">_dict_to_creds</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">creds</span>
+
+
+<span class="k">def</span> <span class="nf">_save_credentials</span><span class="p">(</span><span class="n">creds</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Save Google OAuth2 credentials</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">creds_</span> <span class="o">=</span> <span class="n">_creds_to_dict</span><span class="p">(</span><span class="n">creds</span><span class="p">)</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+    <span class="n">filename</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">style</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;indent&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;sort_keys&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">filename</span><span class="p">),</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">dst</span><span class="p">:</span>
+        <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">creds_</span><span class="p">,</span> <span class="n">dst</span><span class="p">,</span> <span class="o">**</span><span class="n">style</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
 </pre></div>
 
            </div>
