@@ -529,11 +529,20 @@ def exists(service, name, parent_id=None, directory=False, trashed=False):
     q = []
     if directory:
         q.append(f'mimeType = "{MIME_TYPE_DIRECTORY}"')
+
     results = list(list_objects(service, parent_id=parent_id, name=name, q=q))
-    if results:
-        if len(results) > 1:
-            logger.debug(f'Found {len(results)} results -- returning first')
+    n_results = len(results)
+
+    if n_results == 1:
         return results[0]['id']
+    elif n_results > 1:
+        match_name = [r['name'] == name for r in results]
+        if any(match_name):
+            idx = match_name.index(True)
+            return results[idx]['id']
+        else:
+            logger.debug(f'Returning first of {n_results} matches -- id={id_}')
+            return results[0]['id']
     else:
         return ''
 
