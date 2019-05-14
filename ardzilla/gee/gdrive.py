@@ -526,20 +526,10 @@ def exists(service, name, parent_id=None, directory=False, trashed=False):
     str
         Returns object ID if exists, otherwise empty string
     """
-    q = [
-        f'trashed = {"true" if trashed else "false"}',
-        f'name = "{name}"'
-    ]
+    q = []
     if directory:
         q.append(f'mimeType = "{MIME_TYPE_DIRECTORY}"')
-    if parent_id is not None:
-        q.append(f'"{parent_id}" in parents')
-    q_ = ' and '.join(q)
-    logger.debug(f'Searching for query: "{q_}"')
-
-    resp = service.files().list(q=q_, orderBy=_ORDER_BY).execute()
-    results = resp.get('files', [])
-
+    results = list(list_objects(service, parent_id=parent_id, name=name, q=q))
     if results:
         if len(results) > 1:
             logger.debug(f'Found {len(results)} results -- returning first')
