@@ -26,9 +26,14 @@ def get_file(*filenames, exists=True):
     """
     for filename in filenames:
         if filename:  # not null
+            filename = Path(filename)
             if exists:  # if we need to check...
-                if os.path.exists(filename):
+                if filename.exists():
+                    logger.debug(f'Found filename "{filename}"')
                     return Path(filename)
+                elif Path.cwd().joinpath(filename).exists():
+                    logger.debug(f'Found filename "{filename}" in CWD')
+                    return Path.cwd().joinpath(filename)
                 else:
                     logger.debug(f'File not found at "{filename}"')
             else:  # otherwise just return first non-null
