@@ -180,22 +180,28 @@ class GEEARDTracker(object):
         name_ = self.store.store_metadata(tracking_info, name)
         return tracking_info_updated
 
-    def download(self, tracking_name, dest):
+    def download(self, tracking_info, dest, overwrite=True):
         """ Download "pre-ARD" and metadata to a directory
 
         Parameters
         ----------
-        tracking_name : str
-            Name of stored tracking information
+        tracking_info : dict
+            JSON tracking info data as a dict
         dest : str or pathlib.Path
             Destination download directory
+        overwrite : bool, optional
+            Overwrite existing downloaded data
 
-        Returns
-        -------
-        dict
+        Yields
+        ------
+        tuple[str, list[str]]
+            Key value pairs mapping GEE task IDs to the filenames of
+            downloaded data. Wrap it in a ``dict`` to make it not lazy
+
         """
-        tracking_info = self.read(tracking_name)
-        return download_tracked(tracking_info, self.store, dest)
+        logger.debug(f'Downloading for {len(tracking_info["tasks"])} tasks')
+        return download_tracked(tracking_info, self.store, dest,
+                                overwrite=overwrite)
 
     def clean(self, name):
         """ Clean "pre-ARD" imagery, metadata, and tracking metadata off GCS
@@ -241,10 +247,10 @@ def download_tracked(tracking_info, store, dest, overwrite=False):
     overwrite : bool, optional
         Overwrite previously downoaded data, or not
 
-    Returns
-    -------
-    dict[str, list[str]]
-        Name of downloaded data, organized according to GEE task ID
+    Yields
+    ------
+    tuple[str, list[str]]
+        Key value pairs mapping GEE task IDs to the filenames of downloaded data
     """
     dest_ = Path(str(dest))
     if not dest_.exists():
@@ -253,7 +259,6 @@ def download_tracked(tracking_info, store, dest, overwrite=False):
         assert dest_.is_dir()
 
     tasks = tracking_info['tasks']
-    retrieved = {}
     for task in tasks:
         id_, name, prefix = task['id'], task['name'], task['prefix']
         logger.debug(f'Retrieving image and metadata for id={id_}, '
@@ -264,9 +269,7 @@ def download_tracked(tracking_info, store, dest, overwrite=False):
         dst_meta = store.retrieve_metadata(dest, name, prefix,
                                            overwrite=overwrite)
 
-        retrieved[id_] = list(dst_meta) + list(dst_imgs)
-
-    return retrieved
+        yield (id_, list(dst_meta) + list(dst_imgs))
 
 
 def clean_tracked(tracking_info, store):

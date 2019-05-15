@@ -258,6 +258,7 @@ class GDriveStore(object):
         query_ = [q for q in query if q['name'].endswith(ext)]
 
         dests = []
+        logger.debug(f'Downloading {len(query_)} objects...')
         for result in query_:
             dst = download_file_id(self.service,
                                    result['id'], result['name'],
