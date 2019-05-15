@@ -46,11 +46,20 @@ def fetch_config(ctx):
         Raised if configuration isn't available
     """
     config = ctx.obj and ctx.obj.get('config', None)
+
     if not config:
-        _opts = dict((o.name, o) for o in ctx.parent.command.params)
-        raise click.BadParameter('Must specify configuration file',
-                                 ctx=ctx.parent, param=_opts['config_file'])
-    return config
+        # Try to raise error
+        parent = ctx
+        while parent is not None:
+            params = {p.name: p for p in parent.command.params}
+            if 'config_file' in params:
+                raise click.BadParameter('Must specify configuration file',
+                                         ctx=parent,
+                                         param=params['config_file'])
+            else:
+                parent = getattr(parent, 'parent', None)
+    else:
+        return config
 
 
 opt_config_file = click.option(
