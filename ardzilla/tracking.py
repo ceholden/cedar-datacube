@@ -297,7 +297,7 @@ def update_tracking_info(tracking_info):
     tracking_info = tracking_info.copy()
     tracked_tasks = tracking_info['tasks']
 
-    ee_tasks = get_tasks()
+    ee_tasks = get_ee_tasks()
 
     updated = []
     for info in tracked_tasks:
@@ -400,7 +400,7 @@ def _tracking_task_metadata(task):
     return info
 
 
-def get_tasks():
+def get_ee_tasks():
     """ Return GEE tasks (task ID: task)
 
     Returns
