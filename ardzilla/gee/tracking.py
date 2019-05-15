@@ -113,7 +113,7 @@ class GEEARDTracker(object):
         return self.store.store_metadata(tracking_info, tracking_name,
                                          path=self.TRACKING_DIRECTORY)
 
-    def list_tracking(self, pattern=None):
+    def list(self, pattern=None):
         """ Return a list of all tracking metadata
 
         Parameters
@@ -131,7 +131,7 @@ class GEEARDTracker(object):
         """
         return self.store.list(path=self.TRACKING_DIRECTORY, pattern=pattern)
 
-    def read_tracking(self, name):
+    def read(self, name):
         """ Returns stored tracking information as dict
 
         Parameters
@@ -147,7 +147,7 @@ class GEEARDTracker(object):
         """
         return self.store.read_metadata(name, path=self.TRACKING_DIRECTORY)
 
-    def update_tracking(self, name):
+    def update(self, name):
         """ Refresh and reupload tracking information by checking with the GEE
 
         Parameters
@@ -180,22 +180,22 @@ class GEEARDTracker(object):
         -------
         dict
         """
-        tracking_info = self.read_tracking(tracking_name)
+        tracking_info = self.read(tracking_name)
         return download_tracked(tracking_info, self.store, dest)
 
-    def clean(self, tracking_name):
+    def clean(self, name):
         """ Clean "pre-ARD" imagery, metadata, and tracking metadata off GCS
 
         Parameters
         ----------
-        tracking_name : str
+        name : str
             Name of stored tracking information
 
         Returns
         -------
         dict[str, list[str]]
         """
-        tracking_info = self.read_tracking(tracking_name)
+        tracking_info = self.read(tracking_name)
         return clean_tracked(tracking_info, self.store)
 
     def _tracking_name(self, date_start, date_end):
