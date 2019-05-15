@@ -20,19 +20,15 @@ tile_grid:
 # Google Earth Engine #
 #######################
 gee:
-  store:
-    service: gcs
-    name: "{collection}_h{tile.horizontal:03d}v{tile.vertical:03d}_{date_start}_{date_end}"
-    prefix: "GEEARD/v00/NA/{collection}/h{tile.horizontal:03d}v{tile.vertical:03d}"
-  track:
-    prefix: "GEEARD_TRACKER"
-  filters:
-    - type: 'lte'
-      name: 'CLOUD_COVER_LAND'
-      value: 80.
-  export:
-    shardSize: 256
-    fileDimensions: 512
+  store_service: gdrive
+  tracker:
+    name_template: "{collection}_h{tile.horizontal:03d}v{tile.vertical:03d}_{date_start}_{date_end}"
+    prefix_template: "GEEARD"
+    tracking_template: "TRACKING_PERIOD{date_start}-{date_end}_TASK{today}"
+    filters:
+      - type: 'lte'
+        name: 'CLOUD_COVER_LAND'
+        value: 80.
 
 
 ########################
@@ -40,16 +36,22 @@ gee:
 ########################
 gcs:
   bucket_name: gee_ard
-  credentials: GEEARD_service_account.json
+  credentials_file: GEEARD_service_account.json
   project: GEEARD
+  export_image_kwds:
+    shardSize: 256
+    fileDimensions: 512
 
 
 ################
 # Google Drive #
 ################
 gdrive:
-  client_secrets: client_secrets.json
-  credentials: credentials.json
+  client_secrets_file: client_secrets.json
+  credentials_file: credentials.json
+  export_image_kwds:
+    shardSize: 256
+    fileDimensions: 512
 
 
 #######################

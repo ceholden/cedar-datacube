@@ -20,7 +20,8 @@ def build_config(tile_grid=None, gee=None, gcs=None, gdrive=None, ard=None):
     tile_grid_ = build_tile_grid(**(tile_grid or {}))
 
     gee_ = build_gee(**(gee or {}))
-    store_kwd = gee_['store']['service']
+    store_kwd = gee_['store_service']
+
     if store_kwd == 'gcs':
         store_ = build_store_gcs(**(gcs or {}))
     elif store_kwd == 'gdrive':
@@ -92,58 +93,45 @@ def build_tile_grid(name=None, definitions=None, **kwds):
     return tile_grid.to_dict()
 
 
-def build_gee(store_service=None, store=None, track=None,
-              filters=None, export=None):
+def build_gee(store_service, tracker=None):
     """ Build Google Earth Engine configuration info
     """
-    # Must provide _something_ about the store
-    assert store_service or store
+    assert store_service.lower() in ('gcs', 'gdrive')
 
     # Load template to get defaults, which are OK in this case
-    template = _load_template()['gee'].copy()
+    template = _load_template()['gee']
 
-    # Build store subsection
-    store_ = template['store'].copy()
-    if store_service:
-        assert store_service.lower() in ('gcs', 'gdrive')
-        store_['service'] = store_service.lower()
-    else:
-        store_.update(store)
-
-    # Build tracking, filters, & export info
-    track_ = track if track else template['track']
-    filters_ = filters if filters else []
-    export_ = export if export else template['export']
-
-    return {
-        'store': store_,
-        'track': track_,
-        'filters': filters_,
-        'export': export_
+    cfg = {
+        'store_service': store_service.lower(),
+        'tracker': template['tracker'].copy()
     }
+    if tracker:
+        cfg['tracker'].update(tracker)
+
+    return cfg
 
 
-def build_store_gcs(bucket_name, credentials=None, project=None):
+def build_store_gcs(bucket_name, credentials_file=None, project=None):
     """ Build Google Cloud Storage configuration info
     """
     # Credentials/project might come from environment so no defaults
     gcs_ = {'bucket_name': bucket_name}
     if credentials:
-        gcs_['credentials'] = credentials
+        gcs_['credentials_file'] = credentials_file
     if project:
         gcs_['project'] = project
     return gcs_
 
 
-def build_store_gdrive(client_secrets=None, credentials=None):
+def build_store_gdrive(client_secrets_file=None, credentials_file=None):
     """ Build Google Cloud Storage configuration info
     """
     # Credentials/project might come from environment so no defaults
     gdrive_ = {}
-    if client_secrets:
-        gdrive_['client_secrets'] = client_secrets
-    if credentials:
-        gdrive_['credentials'] = credentials
+    if client_secrets_file:
+        gdrive_['client_secrets_file'] = client_secrets_file
+    if credentials_file:
+        gdrive_['credentials_file'] = credentials_file
     return gdrive_
 
 
