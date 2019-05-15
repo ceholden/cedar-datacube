@@ -26,7 +26,7 @@ gee:
     prefix_template: "GEEARD"
     tracking_template: "TRACKING_PERIOD{date_start}-{date_end}_TASK{today}"
     filters:
-      - type: 'lte'
+      - function: 'lte'
         name: 'CLOUD_COVER_LAND'
         value: 80.
 
