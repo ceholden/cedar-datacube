@@ -21,6 +21,17 @@ _STR_FORMATTER = string.Formatter()
 
 class GEEARDTracker(object):
     """ Tracker for GEE ARD task submission
+
+    Parameters
+    ----------
+    tile_grid : stems.gis.grids.TileGrid
+        Tile Grid to use for ARD
+    store : ardzilla.stores.Store
+        A Store that can be used to store images & metadata
+    ...
+    filters : Sequence[dict or ee.Filter]
+        Earth Engine filters to apply, either as ee.Filter objects or
+        dictionaries that describe the filter
     """
 
     TRACKING_DIRECTORY = 'GEEARD_TRACKING'
@@ -29,16 +40,21 @@ class GEEARDTracker(object):
                  name_template=defaults.GEE_PREARD_NAME,
                  prefix_template=defaults.GEE_PREARD_PREFIX,
                  tracking_template=defaults.GEE_PREARD_TRACKING,
-                 filters=None,
-                 overwrite=False):
+                 filters=None):
         assert isinstance(tile_grid, TileGrid)
         self.tile_grid = tile_grid
         self.store = store
         self.name_template = name_template
         self.prefix_template = prefix_template
         self.tracking_template = tracking_template
-        self.filters = filters or []
-        self.overwrite = overwrite
+        self._filters = filters or []
+
+    @property
+    def filters(self):
+        """ list[ee.Filter]: Earth Engine filters to apply
+        """
+        # Convert from dict as needed
+        return _create_filters(self._filters)
 
     def submit(self, collections, tile_indices,
                date_start, date_end, freq=defaults.GEE_PREARD_FREQ):
@@ -428,3 +444,21 @@ def _strftime_image(d):
 
 def _strftime_track(d):
     return _strftime(d, defaults.GEE_EXPORT_TRACK_STRFTIME)
+
+
+# TODO: probably move and better organize this alongside how to serialize it
+def _create_filters(cfg_filters):
+    """ Get any EarthEngine filters described by this configuration file
+    """
+    filters = []
+    for filter_ in cfg_filters:
+        if isinstance(filter_, ee.Filter):
+            filters.append(fitler_)
+        else:
+            filters.append(_dict_to_filter(**filter_))
+    return filters
+
+
+def _dict_to_filter(function, **kwds):
+    static_meth = getattr(ee.Filter, function)
+    return static_meth(**kwds)

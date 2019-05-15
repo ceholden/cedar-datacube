@@ -74,7 +74,7 @@ class Config(object):
 
         # Get any tracker options and convert filters to ee.Filter
         kwds_tracker = self.config['gee'].get('tracker', {}).copy()
-        filters = _create_filters(kwds_tracker.pop('filters', [{}]))
+        filters = kwds_tracker.pop('filters', [{}])
 
         # Create tracker
         tracker = GEEARDTracker(tile_grid, store, filters=filters,
@@ -119,19 +119,3 @@ class Config(object):
         cfg = self.config.get('gdrive', {})
         store = GDriveStore.from_credentials(**cfg)
         return store
-
-
-# TODO: probably move and better organize this alongside how to serialize it
-def _create_filters(cfg_filters):
-    """ Get any EarthEngine filters described by this configuration file
-    """
-    filters = []
-    for filter_ in cfg_filters:
-        filters.append(_dict_to_filter(**filter_))
-    return filters
-
-
-def _dict_to_filter(function, **kwds):
-    import ee
-    static_meth = getattr(ee.Filter, function)
-    return static_meth(**kwds)
