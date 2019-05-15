@@ -39,7 +39,11 @@ ENTRY_POINTS = {
         'ardzilla=ardzilla.cli.main:main'
     ],
     'ardzilla.cli': [
-        'gee=ardzilla.cli.cli_gee:group_gee',
+        'config=ardzilla.cli.config:group_config',
+        'download=ardzilla.cli.download:download',
+        'login=ardzilla.cli.login:group_login'
+        'status=ardzilla.cli.status:group_status',
+        'submit=ardzilla.cli.submit:submit',
     ]
 }
 

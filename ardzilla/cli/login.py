@@ -1,12 +1,9 @@
-""" CLI for GEE pre-ARD submissions and downloads
+""" CLI for `ardzilla gee login`
 """
-import logging
-from pkg_resources import iter_entry_points
-
 import click
-from click_plugins import with_plugins
 
 from . import options
+
 
 # Help links
 DOCS_INSTALL_GEE = 'https://developers.google.com/earth-engine/python_install_manual'
@@ -15,13 +12,7 @@ DOCS_AUTH_GCS = ''
 DOCS_AUTH_GDRIVE = ''
 
 
-@click.group('gee', help='Get pre-ARD from the Google Earth Engine')
-@click.pass_context
-def group_gee(ctx):
-    pass
-
-
-@group_gee.group('login', help='Log in to GEE pre-ARD services')
+@click.group('login', help='Log in to GEE pre-ARD services')
 @click.pass_context
 def group_login(ctx):
     pass
