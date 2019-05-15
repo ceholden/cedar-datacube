@@ -7,10 +7,9 @@ ARDzilla
 ARDzilla is a library and application to help download and preprocess
 satellite data to "Analysis Ready Data" (ARD) as quickly as possible.
 ARDzilla has been designed primarily to preprocess Landsat data, and can
-help acquire data from either the Google Earth Engine (GEE) or the
-United States Geological Survey (USGS). It is based on tools within the
-Python ecosystem for geospatial data processing (rasterio_), saving and
-working with N-dimensional data (netCDF4_ and xarray_), and parallelization
+help acquire data from the Google Earth Engine (GEE). It is based on tools
+within the Python ecosystem for geospatial data processing (rasterio_), saving
+and working with N-dimensional data (netCDF4_ and xarray_), and parallelization
 (dask_ and distributed_).
 
 

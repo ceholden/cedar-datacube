@@ -1,0 +1,7 @@
+ardzilla.cli.submit module
+==========================
+
+.. automodule:: ardzilla.cli.submit
+    :members:
+    :undoc-members:
+    :show-inheritance:

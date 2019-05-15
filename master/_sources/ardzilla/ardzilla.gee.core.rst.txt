@@ -1,7 +1,0 @@
-ardzilla.gee.core module
-========================
-
-.. automodule:: ardzilla.gee.core
-    :members:
-    :undoc-members:
-    :show-inheritance:

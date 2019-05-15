@@ -1,0 +1,7 @@
+ardzilla.stores.gdrive module
+=============================
+
+.. automodule:: ardzilla.stores.gdrive
+    :members:
+    :undoc-members:
+    :show-inheritance:

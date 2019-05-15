@@ -1,0 +1,18 @@
+ardzilla.sensors package
+========================
+
+Submodules
+----------
+
+.. toctree::
+
+   ardzilla.sensors.common
+   ardzilla.sensors.landsat
+
+Module contents
+---------------
+
+.. automodule:: ardzilla.sensors
+    :members:
+    :undoc-members:
+    :show-inheritance:

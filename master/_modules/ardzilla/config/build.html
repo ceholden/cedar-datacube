@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.config.build &mdash; ardzilla 0+untagged.50.gc471dff documentation</title>
+  <title>ardzilla.config.build &mdash; ardzilla 0+untagged.50.g284ca3e documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.gc471dff
+                0+untagged.50.g284ca3e
               </div>
             
           
@@ -182,7 +182,8 @@
     <span class="n">tile_grid_</span> <span class="o">=</span> <span class="n">build_tile_grid</span><span class="p">(</span><span class="o">**</span><span class="p">(</span><span class="n">tile_grid</span> <span class="ow">or</span> <span class="p">{}))</span>
 
     <span class="n">gee_</span> <span class="o">=</span> <span class="n">build_gee</span><span class="p">(</span><span class="o">**</span><span class="p">(</span><span class="n">gee</span> <span class="ow">or</span> <span class="p">{}))</span>
-    <span class="n">store_kwd</span> <span class="o">=</span> <span class="n">gee_</span><span class="p">[</span><span class="s1">&#39;store&#39;</span><span class="p">][</span><span class="s1">&#39;service&#39;</span><span class="p">]</span>
+    <span class="n">store_kwd</span> <span class="o">=</span> <span class="n">gee_</span><span class="p">[</span><span class="s1">&#39;store_service&#39;</span><span class="p">]</span>
+
     <span class="k">if</span> <span class="n">store_kwd</span> <span class="o">==</span> <span class="s1">&#39;gcs&#39;</span><span class="p">:</span>
         <span class="n">store_</span> <span class="o">=</span> <span class="n">build_store_gcs</span><span class="p">(</span><span class="o">**</span><span class="p">(</span><span class="n">gcs</span> <span class="ow">or</span> <span class="p">{}))</span>
     <span class="k">elif</span> <span class="n">store_kwd</span> <span class="o">==</span> <span class="s1">&#39;gdrive&#39;</span><span class="p">:</span>
@@ -254,58 +255,45 @@
     <span class="k">return</span> <span class="n">tile_grid</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span></div>
 
 
-<div class="viewcode-block" id="build_gee"><a class="viewcode-back" href="../../../ardzilla/ardzilla.config.build.html#ardzilla.config.build.build_gee">[docs]</a><span class="k">def</span> <span class="nf">build_gee</span><span class="p">(</span><span class="n">store_service</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">store</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">track</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-              <span class="n">filters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">export</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="build_gee"><a class="viewcode-back" href="../../../ardzilla/ardzilla.config.build.html#ardzilla.config.build.build_gee">[docs]</a><span class="k">def</span> <span class="nf">build_gee</span><span class="p">(</span><span class="n">store_service</span><span class="p">,</span> <span class="n">tracker</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Build Google Earth Engine configuration info</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Must provide _something_ about the store</span>
-    <span class="k">assert</span> <span class="n">store_service</span> <span class="ow">or</span> <span class="n">store</span>
+    <span class="k">assert</span> <span class="n">store_service</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;gcs&#39;</span><span class="p">,</span> <span class="s1">&#39;gdrive&#39;</span><span class="p">)</span>
 
     <span class="c1"># Load template to get defaults, which are OK in this case</span>
-    <span class="n">template</span> <span class="o">=</span> <span class="n">_load_template</span><span class="p">()[</span><span class="s1">&#39;gee&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">template</span> <span class="o">=</span> <span class="n">_load_template</span><span class="p">()[</span><span class="s1">&#39;gee&#39;</span><span class="p">]</span>
 
-    <span class="c1"># Build store subsection</span>
-    <span class="n">store_</span> <span class="o">=</span> <span class="n">template</span><span class="p">[</span><span class="s1">&#39;store&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-    <span class="k">if</span> <span class="n">store_service</span><span class="p">:</span>
-        <span class="k">assert</span> <span class="n">store_service</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;gcs&#39;</span><span class="p">,</span> <span class="s1">&#39;gdrive&#39;</span><span class="p">)</span>
-        <span class="n">store_</span><span class="p">[</span><span class="s1">&#39;service&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">store_service</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">store_</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">store</span><span class="p">)</span>
+    <span class="n">cfg</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;store_service&#39;</span><span class="p">:</span> <span class="n">store_service</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span>
+        <span class="s1">&#39;tracker&#39;</span><span class="p">:</span> <span class="n">template</span><span class="p">[</span><span class="s1">&#39;tracker&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="p">}</span>
+    <span class="k">if</span> <span class="n">tracker</span><span class="p">:</span>
+        <span class="n">cfg</span><span class="p">[</span><span class="s1">&#39;tracker&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">tracker</span><span class="p">)</span>
 
-    <span class="c1"># Build tracking, filters, &amp; export info</span>
-    <span class="n">track_</span> <span class="o">=</span> <span class="n">track</span> <span class="k">if</span> <span class="n">track</span> <span class="k">else</span> <span class="n">template</span><span class="p">[</span><span class="s1">&#39;track&#39;</span><span class="p">]</span>
-    <span class="n">filters_</span> <span class="o">=</span> <span class="n">filters</span> <span class="k">if</span> <span class="n">filters</span> <span class="k">else</span> <span class="p">[]</span>
-    <span class="n">export_</span> <span class="o">=</span> <span class="n">export</span> <span class="k">if</span> <span class="n">export</span> <span class="k">else</span> <span class="n">template</span><span class="p">[</span><span class="s1">&#39;export&#39;</span><span class="p">]</span>
-
-    <span class="k">return</span> <span class="p">{</span>
-        <span class="s1">&#39;store&#39;</span><span class="p">:</span> <span class="n">store_</span><span class="p">,</span>
-        <span class="s1">&#39;track&#39;</span><span class="p">:</span> <span class="n">track_</span><span class="p">,</span>
-        <span class="s1">&#39;filters&#39;</span><span class="p">:</span> <span class="n">filters_</span><span class="p">,</span>
-        <span class="s1">&#39;export&#39;</span><span class="p">:</span> <span class="n">export_</span>
-    <span class="p">}</span></div>
+    <span class="k">return</span> <span class="n">cfg</span></div>
 
 
-<div class="viewcode-block" id="build_store_gcs"><a class="viewcode-back" href="../../../ardzilla/ardzilla.config.build.html#ardzilla.config.build.build_store_gcs">[docs]</a><span class="k">def</span> <span class="nf">build_store_gcs</span><span class="p">(</span><span class="n">bucket_name</span><span class="p">,</span> <span class="n">credentials</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">project</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="build_store_gcs"><a class="viewcode-back" href="../../../ardzilla/ardzilla.config.build.html#ardzilla.config.build.build_store_gcs">[docs]</a><span class="k">def</span> <span class="nf">build_store_gcs</span><span class="p">(</span><span class="n">bucket_name</span><span class="p">,</span> <span class="n">credentials_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">project</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Build Google Cloud Storage configuration info</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Credentials/project might come from environment so no defaults</span>
     <span class="n">gcs_</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;bucket_name&#39;</span><span class="p">:</span> <span class="n">bucket_name</span><span class="p">}</span>
     <span class="k">if</span> <span class="n">credentials</span><span class="p">:</span>
-        <span class="n">gcs_</span><span class="p">[</span><span class="s1">&#39;credentials&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">credentials</span>
+        <span class="n">gcs_</span><span class="p">[</span><span class="s1">&#39;credentials_file&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">credentials_file</span>
     <span class="k">if</span> <span class="n">project</span><span class="p">:</span>
         <span class="n">gcs_</span><span class="p">[</span><span class="s1">&#39;project&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">project</span>
     <span class="k">return</span> <span class="n">gcs_</span></div>
 
 
-<div class="viewcode-block" id="build_store_gdrive"><a class="viewcode-back" href="../../../ardzilla/ardzilla.config.build.html#ardzilla.config.build.build_store_gdrive">[docs]</a><span class="k">def</span> <span class="nf">build_store_gdrive</span><span class="p">(</span><span class="n">client_secrets</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">credentials</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="build_store_gdrive"><a class="viewcode-back" href="../../../ardzilla/ardzilla.config.build.html#ardzilla.config.build.build_store_gdrive">[docs]</a><span class="k">def</span> <span class="nf">build_store_gdrive</span><span class="p">(</span><span class="n">client_secrets_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">credentials_file</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Build Google Cloud Storage configuration info</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Credentials/project might come from environment so no defaults</span>
     <span class="n">gdrive_</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="k">if</span> <span class="n">client_secrets</span><span class="p">:</span>
-        <span class="n">gdrive_</span><span class="p">[</span><span class="s1">&#39;client_secrets&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">client_secrets</span>
-    <span class="k">if</span> <span class="n">credentials</span><span class="p">:</span>
-        <span class="n">gdrive_</span><span class="p">[</span><span class="s1">&#39;credentials&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">credentials</span>
+    <span class="k">if</span> <span class="n">client_secrets_file</span><span class="p">:</span>
+        <span class="n">gdrive_</span><span class="p">[</span><span class="s1">&#39;client_secrets_file&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">client_secrets_file</span>
+    <span class="k">if</span> <span class="n">credentials_file</span><span class="p">:</span>
+        <span class="n">gdrive_</span><span class="p">[</span><span class="s1">&#39;credentials_file&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">credentials_file</span>
     <span class="k">return</span> <span class="n">gdrive_</span></div>
 
 

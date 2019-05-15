@@ -8,9 +8,9 @@ Subpackages
 
     ardzilla.cli
     ardzilla.config
-    ardzilla.gee
+    ardzilla.sensors
+    ardzilla.stores
     ardzilla.tests
-    ardzilla.usgs
 
 Submodules
 ----------
@@ -20,6 +20,8 @@ Submodules
    ardzilla.defaults
    ardzilla.exceptions
    ardzilla.preard
+   ardzilla.submissions
+   ardzilla.tracking
    ardzilla.utils
 
 Module contents

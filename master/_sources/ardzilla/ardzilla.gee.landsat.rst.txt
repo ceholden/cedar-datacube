@@ -1,7 +1,0 @@
-ardzilla.gee.landsat module
-===========================
-
-.. automodule:: ardzilla.gee.landsat
-    :members:
-    :undoc-members:
-    :show-inheritance:

@@ -1,0 +1,371 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ardzilla.submissions &mdash; ardzilla 0+untagged.50.g284ca3e documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> ardzilla
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0+untagged.50.g284ca3e
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html">Frequently Asked Questions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../gee.html">Source - Google Earth Engine (GEE)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../netcdf4.html">Destination - NetCDF4</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Help and Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../dev.html">Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">ardzilla</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>ardzilla.submissions</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for ardzilla.submissions</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot; Core functions/etc for GEE ARD</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">datetime</span> <span class="k">as</span> <span class="nn">dt</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">json</span>
+
+<span class="kn">import</span> <span class="nn">ee</span>
+
+<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">defaults</span><span class="p">,</span> <span class="n">sensors</span>
+<span class="kn">from</span> <span class="nn">.exceptions</span> <span class="k">import</span> <span class="n">EmptyCollectionError</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<span class="c1">#: tuple[str]: Names of data available for string formatting when creating</span>
+<span class="c1">#              export names or paths</span>
+<span class="n">EXPORT_NAME_DATA</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;tile&#39;</span><span class="p">,</span> <span class="s1">&#39;collection&#39;</span><span class="p">,</span> <span class="s1">&#39;date_start&#39;</span><span class="p">,</span> <span class="s1">&#39;date_end&#39;</span><span class="p">)</span>
+
+
+<span class="c1"># TODO: replace export_name/export_path</span>
+<div class="viewcode-block" id="format_export_string"><a class="viewcode-back" href="../../ardzilla/ardzilla.submissions.html#ardzilla.submissions.format_export_string">[docs]</a><span class="k">def</span> <span class="nf">format_export_string</span><span class="p">(</span><span class="n">template</span><span class="p">,</span> <span class="n">collection</span><span class="p">,</span> <span class="n">tile</span><span class="p">,</span> <span class="n">date_start</span><span class="p">,</span> <span class="n">date_end</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Calculate a name/description for GEE ARD downloads</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    template : str</span>
+<span class="sd">        String template to use for formatting</span>
+<span class="sd">    collection : str</span>
+<span class="sd">        GEE image collection name</span>
+<span class="sd">    tile : stems.gis.grids.Tile</span>
+<span class="sd">        STEMS TileGrid tile</span>
+<span class="sd">    date_start : dt.datetime</span>
+<span class="sd">        Starting period</span>
+<span class="sd">    date_end : dt.datetime</span>
+<span class="sd">        Ending period</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    str</span>
+<span class="sd">        Name for exported data</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Clean / guard input data</span>
+    <span class="n">kwds</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;collection&#39;</span><span class="p">:</span> <span class="n">collection</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;date_start&#39;</span><span class="p">:</span> <span class="n">date_start</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">defaults</span><span class="o">.</span><span class="n">GEE_EXPORT_IMAGE_STRFTIME</span><span class="p">),</span>
+        <span class="s1">&#39;date_end&#39;</span><span class="p">:</span> <span class="n">date_end</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">defaults</span><span class="o">.</span><span class="n">GEE_EXPORT_IMAGE_STRFTIME</span><span class="p">),</span>
+        <span class="s1">&#39;tile&#39;</span><span class="p">:</span> <span class="n">tile</span><span class="p">,</span>
+        <span class="s1">&#39;datetime&#39;</span><span class="p">:</span> <span class="n">dt</span><span class="o">.</span><span class="n">datetime</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">template</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">name</span></div>
+
+
+<div class="viewcode-block" id="submit_ard"><a class="viewcode-back" href="../../ardzilla/ardzilla.submissions.html#ardzilla.submissions.submit_ard">[docs]</a><span class="k">def</span> <span class="nf">submit_ard</span><span class="p">(</span><span class="n">collection</span><span class="p">,</span> <span class="n">tile</span><span class="p">,</span> <span class="n">date_start</span><span class="p">,</span> <span class="n">date_end</span><span class="p">,</span> <span class="n">store</span><span class="p">,</span>
+               <span class="n">name_template</span><span class="o">=</span><span class="n">defaults</span><span class="o">.</span><span class="n">GEE_PREARD_NAME</span><span class="p">,</span>
+               <span class="n">prefix_template</span><span class="o">=</span><span class="n">defaults</span><span class="o">.</span><span class="n">GEE_PREARD_PREFIX</span><span class="p">,</span>
+               <span class="n">filters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Submit a ee.Task to create ARD, and stores the ARD with metadata</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    collection : str</span>
+<span class="sd">        GEE image collection name</span>
+<span class="sd">    tile : stems.gis.grids.Tile</span>
+<span class="sd">        STEMS TileGrid tile</span>
+<span class="sd">    date_start : dt.datetime</span>
+<span class="sd">        Starting period</span>
+<span class="sd">    date_end : dt.datetime</span>
+<span class="sd">        Ending period</span>
+<span class="sd">    store : gcs.GCSStore or gdrive.GDriveStore</span>
+<span class="sd">        Data store helper object from this package</span>
+<span class="sd">    name_template : str, optional</span>
+<span class="sd">        String template for the export filename</span>
+<span class="sd">    prefix_template : str, optional</span>
+<span class="sd">        String template for the export prefix path</span>
+<span class="sd">    filters : Sequence[ee.Filter]</span>
+<span class="sd">        Additional filters to apply over image collection</span>
+<span class="sd">    freq : str, optional</span>
+<span class="sd">        If provided, ``date_start``, ``date_end``, and ``freq`` are interpeted</span>
+<span class="sd">        as the range for :py:func:`pandas.date_range` and one or more Tasks</span>
+<span class="sd">        will be submitted</span>
+<span class="sd">    start : bool, optional</span>
+<span class="sd">        Start the Earth Engine task</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Sequence[ee.batch.Task]</span>
+<span class="sd">        Earth Engine task(s)</span>
+<span class="sd">    Sequence[str]</span>
+<span class="sd">        Stored metadata object(s) information (object ID if using the GDrive</span>
+<span class="sd">        store or a path if using GCS)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Storing image and metadata using </span><span class="si">{store}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Stores are agnostic about these keywords needed for image</span>
+    <span class="n">image_store_kwds</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;crs&#39;</span><span class="p">:</span> <span class="n">tile</span><span class="o">.</span><span class="n">crs</span><span class="o">.</span><span class="n">wkt</span><span class="p">,</span>
+        <span class="s1">&#39;crs_transform&#39;</span><span class="p">:</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">tile</span><span class="o">.</span><span class="n">transform</span><span class="p">[:</span><span class="mi">6</span><span class="p">]),</span>
+        <span class="s1">&#39;dimensions&#39;</span><span class="p">:</span> <span class="n">f</span><span class="s1">&#39;</span><span class="si">{tile.width}</span><span class="s1">x</span><span class="si">{tile.height}</span><span class="s1">&#39;</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="c1"># Split up period into 1 or more sub-periods if freq is given</span>
+    <span class="n">date_periods</span> <span class="o">=</span> <span class="n">_parse_date_freq</span><span class="p">(</span><span class="n">date_start</span><span class="p">,</span> <span class="n">date_end</span><span class="p">,</span> <span class="n">freq</span><span class="p">)</span>
+    <span class="n">n_periods</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">date_periods</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Creating </span><span class="si">{n_periods}</span><span class="s1"> ARD slice(s) for date range&#39;</span><span class="p">)</span>
+
+    <span class="n">out</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">start_</span><span class="p">,</span> <span class="n">end_</span> <span class="ow">in</span> <span class="n">date_periods</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Creating ARD between </span><span class="si">{start_}</span><span class="s1">-</span><span class="si">{end_}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="c1"># Create export name and paths</span>
+        <span class="n">_args</span> <span class="o">=</span> <span class="p">(</span><span class="n">collection</span><span class="p">,</span> <span class="n">tile</span><span class="p">,</span> <span class="n">start_</span><span class="p">,</span> <span class="n">end_</span><span class="p">,</span> <span class="p">)</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">format_export_string</span><span class="p">(</span><span class="n">name_template</span><span class="p">,</span> <span class="o">*</span><span class="n">_args</span><span class="p">)</span>
+        <span class="n">prefix</span> <span class="o">=</span> <span class="n">format_export_string</span><span class="p">(</span><span class="n">prefix_template</span><span class="p">,</span> <span class="o">*</span><span class="n">_args</span><span class="p">)</span>
+
+        <span class="c1"># Create image &amp; metadata</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Image is still &quot;unbounded&quot;, but will be given crs, transform,</span>
+            <span class="c1"># and size on export</span>
+            <span class="n">image</span><span class="p">,</span> <span class="n">metadata</span> <span class="o">=</span> <span class="n">_create_ard</span><span class="p">(</span><span class="n">collection</span><span class="p">,</span> <span class="n">tile</span><span class="p">,</span> <span class="n">start_</span><span class="p">,</span> <span class="n">end_</span><span class="p">,</span>
+                                          <span class="n">filters</span><span class="o">=</span><span class="n">filters</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">EmptyCollectionError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s1">&#39;Could not process ARD for period &#39;</span>
+                             <span class="n">f</span><span class="s1">&#39;</span><span class="si">{start_}</span><span class="s1">-</span><span class="si">{end_}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Export &amp; store</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Creating Task to calculate and store image...&#39;</span><span class="p">)</span>
+            <span class="n">task</span> <span class="o">=</span> <span class="n">store</span><span class="o">.</span><span class="n">store_image</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="o">**</span><span class="n">image_store_kwds</span><span class="p">)</span>
+
+            <span class="c1"># Update metadata with task info and store</span>
+            <span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;task&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_task_metadata</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Storing metadata for task id &quot;</span><span class="si">{task.id}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
+            <span class="n">metadata_</span> <span class="o">=</span> <span class="n">store</span><span class="o">.</span><span class="n">store_metadata</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">prefix</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">start</span><span class="p">:</span>
+                <span class="n">task</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+            <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">task</span><span class="p">,</span> <span class="n">metadata_</span><span class="p">,</span> <span class="p">))</span>
+
+    <span class="k">return</span> <span class="n">out</span></div>
+
+
+<span class="k">def</span> <span class="nf">_create_ard</span><span class="p">(</span><span class="n">collection</span><span class="p">,</span> <span class="n">tile</span><span class="p">,</span> <span class="n">date_start</span><span class="p">,</span> <span class="n">date_end</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+    <span class="c1"># Determine which function should be used for ARD generation</span>
+    <span class="n">func_create_ard</span> <span class="o">=</span> <span class="n">sensors</span><span class="o">.</span><span class="n">CREATE_ARD_COLLECTION</span><span class="p">[</span><span class="n">collection</span><span class="p">]</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Using function </span><span class="si">{func_create_ard}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Actually create it...</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Creating ARD...&#39;</span><span class="p">)</span>
+    <span class="n">image</span><span class="p">,</span> <span class="n">metadata</span> <span class="o">=</span> <span class="n">func_create_ard</span><span class="p">(</span><span class="n">collection</span><span class="p">,</span> <span class="n">tile</span><span class="p">,</span> <span class="n">date_start</span><span class="p">,</span> <span class="n">date_end</span><span class="p">,</span>
+                                      <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">image</span><span class="p">,</span> <span class="n">metadata</span>
+
+
+<span class="k">def</span> <span class="nf">_parse_date_freq</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>  <span class="c1"># hiding because it can be expensive to import</span>
+    <span class="n">start_</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">start</span><span class="p">)</span><span class="o">.</span><span class="n">to_pydatetime</span><span class="p">()</span>
+    <span class="n">end_</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">end</span><span class="p">)</span><span class="o">.</span><span class="n">to_pydatetime</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">freq</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">([</span><span class="n">start</span><span class="p">],</span> <span class="p">[</span><span class="n">end</span><span class="p">]))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">times</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">date_range</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">end</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="n">freq</span><span class="p">)</span><span class="o">.</span><span class="n">to_pydatetime</span><span class="p">()</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">times</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">times</span><span class="p">[</span><span class="mi">1</span><span class="p">:]))</span>
+
+
+<span class="k">def</span> <span class="nf">_task_metadata</span><span class="p">(</span><span class="n">task</span><span class="p">):</span>
+    <span class="n">attrs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span>  <span class="c1"># &quot;config&quot; seems a bit much to store</span>
+    <span class="k">return</span> <span class="p">{</span><span class="n">attr</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span> <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">attrs</span><span class="p">}</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Chris Holden
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

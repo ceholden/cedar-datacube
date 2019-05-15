@@ -1,0 +1,291 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>ardzilla.config.core module &mdash; ardzilla 0+untagged.50.g284ca3e documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> ardzilla
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0+untagged.50.g284ca3e
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequently Asked Questions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../gee.html">Source - Google Earth Engine (GEE)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../netcdf4.html">Destination - NetCDF4</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Help and Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../dev.html">Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">ardzilla</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>ardzilla.config.core module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/ceholden/ardzilla/blob/master/docs/source/ardzilla/ardzilla.config.core.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-ardzilla.config.core">
+<span id="ardzilla-config-core-module"></span><h1>ardzilla.config.core module<a class="headerlink" href="#module-ardzilla.config.core" title="Permalink to this headline">¶</a></h1>
+<p>Configuration file handling</p>
+<dl class="class">
+<dt id="ardzilla.config.core.Config">
+<em class="property">class </em><code class="descclassname">ardzilla.config.core.</code><code class="descname">Config</code><span class="sig-paren">(</span><em>config</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/config/core.html#Config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.config.core.Config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.7/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>ARDzilla configuration file</p>
+<dl class="attribute">
+<dt id="ardzilla.config.core.Config.config">
+<code class="descname">config</code><a class="headerlink" href="#ardzilla.config.core.Config.config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="classmethod">
+<dt id="ardzilla.config.core.Config.from_template">
+<em class="property">classmethod </em><code class="descname">from_template</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/config/core.html#Config.from_template"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.config.core.Config.from_template" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load from the included YAML configuration file template</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="ardzilla.config.core.Config.from_yaml">
+<em class="property">classmethod </em><code class="descname">from_yaml</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/config/core.html#Config.from_yaml"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.config.core.Config.from_yaml" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load from a YAML configuration file</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ardzilla.config.core.Config.get_gcs_store">
+<code class="descname">get_gcs_store</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/config/core.html#Config.get_gcs_store"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.config.core.Config.get_gcs_store" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a GCSStore described by this config</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ardzilla.config.core.Config.get_gdrive_store">
+<code class="descname">get_gdrive_store</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/config/core.html#Config.get_gdrive_store"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.config.core.Config.get_gdrive_store" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a GDriveStore described by this config</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ardzilla.config.core.Config.get_store">
+<code class="descname">get_store</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/config/core.html#Config.get_store"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.config.core.Config.get_store" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the Store used in this configuration file</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ardzilla.config.core.Config.get_tile_grid">
+<code class="descname">get_tile_grid</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/config/core.html#Config.get_tile_grid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.config.core.Config.get_tile_grid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the Tile Grid described by this config</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>stems.gis.grids.TileGrid</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="ardzilla.config.core.Config.get_tracker">
+<code class="descname">get_tracker</code><span class="sig-paren">(</span><em>self</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/config/core.html#Config.get_tracker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.config.core.Config.get_tracker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the GEEARDTracker described by this store</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="ardzilla.config.core.Config.to_yaml">
+<code class="descname">to_yaml</code><span class="sig-paren">(</span><em>self</em>, <em>dest=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/config/core.html#Config.to_yaml"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.config.core.Config.to_yaml" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write to a YAML (file, if <code class="docutils literal notranslate"><span class="pre">dest</span></code> is provided)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dest</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em> or </em><em>Path</em>) – Filename to write to. If not provided, returns a str</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Either the filename written to, or a str containing the
+YAML data if <code class="docutils literal notranslate"><span class="pre">dest</span></code> is <code class="docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Chris Holden
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

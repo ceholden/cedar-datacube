@@ -1,7 +1,0 @@
-ardzilla.gee.gdrive module
-==========================
-
-.. automodule:: ardzilla.gee.gdrive
-    :members:
-    :undoc-members:
-    :show-inheritance:
