@@ -6,19 +6,11 @@ import json
 
 import ee
 
-from .. import defaults
-from ..exceptions import EmptyCollectionError
-from . import common
-from . import landsat
+from . import defaults, sensors
+from .exceptions import EmptyCollectionError
 
 logger = logging.getLogger(__name__)
 
-
-#: dict: Mapping of GEE collection to ARD creating function
-CREATE_ARD_COLLECTION = {}
-CREATE_ARD_COLLECTION.update({
-    k: landsat.create_ard for k in landsat.METADATA.keys()
-})
 
 #: tuple[str]: Names of data available for string formatting when creating
 #              export names or paths
@@ -149,7 +141,7 @@ def submit_ard(collection, tile, date_start, date_end, store,
 
 def _create_ard(collection, tile, date_start, date_end, **kwds):
     # Determine which function should be used for ARD generation
-    func_create_ard = CREATE_ARD_COLLECTION[collection]
+    func_create_ard = sensors.CREATE_ARD_COLLECTION[collection]
     logger.debug(f'Using function {func_create_ard}')
 
     # Actually create it...

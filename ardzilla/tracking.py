@@ -12,8 +12,7 @@ import pandas as pd
 
 from stems.gis.grids import TileGrid, Tile
 
-from .. import defaults
-from . import core, gcs, gdrive
+from . import defaults, submissions
 
 logger = logging.getLogger(__name__)
 
@@ -33,7 +32,6 @@ class GEEARDTracker(object):
                  filters=None,
                  overwrite=False):
         assert isinstance(tile_grid, TileGrid)
-        assert isinstance(store, (gcs.GCSStore, gdrive.GDriveStore))
         self.tile_grid = tile_grid
         self.store = store
         self.name_template = name_template
@@ -87,7 +85,7 @@ class GEEARDTracker(object):
             tile = self.tile_grid[tile_index]
 
             # Create, returning the task and stored metadata name
-            tasks_and_metadata = core.submit_ard(
+            tasks_and_metadata = submissions.submit_ard(
                 collection, tile, date_start, date_end,
                 self.store,
                 name_template=self.name_template,
@@ -220,7 +218,7 @@ def download_tracked(tracking_info, store, dest, overwrite=False):
     ----------
     tracking_info : dict
         Tracking information
-    store : ardzilla.gee.gcs.GCSStore or ardzilla.gee.gdrive.GDriveStore
+    store : ardzilla.stores.Store
         ARDzilla store class
     dest : str or pathlib.Path
         Destination download directory
@@ -262,7 +260,7 @@ def clean_tracked(tracking_info, store):
     ----------
     tracking_info : dict
         Tracking information
-    store : ardzilla.gee.gcs.GCSStore or ardzilla.gee.gdrive.GDriveStore
+    store : ardzilla.stores.gcs.GCSStore or ardzilla.stores.gdrive.GDriveStore
         ARDzilla store class
 
     Returns

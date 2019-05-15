@@ -1,3 +1,3 @@
-""" Tests for :py:mod:`ardzilla.gee.gcs`
+""" Tests for :py:mod:`ardzilla.stores.gcs`
 """
-from ardzilla.gee import gcs
+from ardzilla.stores import gcs

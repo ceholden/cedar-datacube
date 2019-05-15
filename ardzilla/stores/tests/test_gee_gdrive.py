@@ -1,3 +1,3 @@
-""" Tests for :py:mod:`ardzilla.gee.gdrive`
+""" Tests for :py:mod:`ardzilla.stores.gdrive`
 """
-from ardzilla.gee import gdrive
+from ardzilla.stores import gdrive
