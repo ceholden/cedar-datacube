@@ -8,6 +8,24 @@ import click
 from .. import defaults
 
 
+# Arguments
+arg_tracking_name = click.argument('tracking_name', type=str)
+arg_dest_dir = click.argument('dest_dir',
+                              type=click.Path(file_okay=False,
+                                              resolve_path=True))
+
+# Types
+type_path_file = click.Path(exists=True, dir_okay=False, resolve_path=True)
+
+# Options
+opt_no_browser = click.option('--no-browser', is_flag=True,
+                              help='Do not launch a web browser')
+opt_overwrite = click.option('--overwrite', is_flag=True,
+                             help='Overwrite existing files')
+
+
+# =============================================================================
+# Print styling
 def _click_style(bg, fg, **kwds_):
     def inner_(*args, **kwds):
         kwds.update(kwds_)
@@ -19,13 +37,8 @@ STYLE_WARNING = _click_style(None, 'red')
 STYLE_INFO = _click_style(None, None)
 STYLE_DEBUG = _click_style(None, 'cyan')
 
-# Types
-type_path_file = click.Path(exists=True, dir_okay=False, resolve_path=True)
 
-# Options
-opt_no_browser = click.option('--no-browser', is_flag=True, help='Do not launch a web browser')
-
-
+# =============================================================================
 # Configuration file
 def fetch_config(ctx):
     """ Fetch ``config_file`` from a click context with error handling
