@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.utils &mdash; ardzilla 0+untagged.50.g962cba6 documentation</title>
+  <title>ardzilla.utils &mdash; ardzilla 0+untagged.50.gdd02db9 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.g962cba6
+                0+untagged.50.gdd02db9
               </div>
             
           
@@ -188,9 +188,14 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">filenames</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">filename</span><span class="p">:</span>  <span class="c1"># not null</span>
+            <span class="n">filename</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">exists</span><span class="p">:</span>  <span class="c1"># if we need to check...</span>
-                <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">filename</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Found filename &quot;</span><span class="si">{filename}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
                     <span class="k">return</span> <span class="n">Path</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Found filename &quot;</span><span class="si">{filename}</span><span class="s1">&quot; in CWD&#39;</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;File not found at &quot;</span><span class="si">{filename}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>  <span class="c1"># otherwise just return first non-null</span>

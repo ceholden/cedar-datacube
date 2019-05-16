@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.tracking module &mdash; ardzilla 0+untagged.50.g962cba6 documentation</title>
+  <title>ardzilla.tracking module &mdash; ardzilla 0+untagged.50.gdd02db9 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.g962cba6
+                0+untagged.50.gdd02db9
               </div>
             
           
@@ -168,9 +168,20 @@
 <p>Tracker to submit and download GEE pre-ARD tasks</p>
 <dl class="class">
 <dt id="ardzilla.tracking.GEEARDTracker">
-<em class="property">class </em><code class="descclassname">ardzilla.tracking.</code><code class="descname">GEEARDTracker</code><span class="sig-paren">(</span><em>tile_grid</em>, <em>store</em>, <em>name_template='{collection}_h{tile.horizontal:03d}v{tile.vertical:03d}_{date_start}_{date_end}'</em>, <em>prefix_template='GEEARD/{collection}/h{tile.horizontal:03d}v{tile.vertical:03d}'</em>, <em>tracking_template='TRACKING_PERIOD{date_start}-{date_end}_TASK{today}'</em>, <em>filters=None</em>, <em>overwrite=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/tracking.html#GEEARDTracker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.tracking.GEEARDTracker" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">ardzilla.tracking.</code><code class="descname">GEEARDTracker</code><span class="sig-paren">(</span><em>tile_grid</em>, <em>store</em>, <em>name_template='{collection}_h{tile.horizontal:03d}v{tile.vertical:03d}_{date_start}_{date_end}'</em>, <em>prefix_template='GEEARD/{collection}/h{tile.horizontal:03d}v{tile.vertical:03d}'</em>, <em>tracking_template='TRACKING_PERIOD{date_start}-{date_end}_TASK{today}'</em>, <em>filters=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/tracking.html#GEEARDTracker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.tracking.GEEARDTracker" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.7/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Tracker for GEE ARD task submission</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tile_grid</strong> (<em>stems.gis.grids.TileGrid</em>) – Tile Grid to use for ARD</p></li>
+<li><p><strong>store</strong> (<em>ardzilla.stores.Store</em>) – A Store that can be used to store images &amp; metadata</p></li>
+<li><p><strong>..</strong> – </p></li>
+<li><p><strong>filters</strong> (<em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a><em> or </em><em>ee.Filter</em><em>]</em>) – Earth Engine filters to apply, either as ee.Filter objects or
+dictionaries that describe the filter</p></li>
+</ul>
+</dd>
+</dl>
 <dl class="attribute">
 <dt id="ardzilla.tracking.GEEARDTracker.TRACKING_DIRECTORY">
 <code class="descname">TRACKING_DIRECTORY</code><em class="property"> = 'GEEARD_TRACKING'</em><a class="headerlink" href="#ardzilla.tracking.GEEARDTracker.TRACKING_DIRECTORY" title="Permalink to this definition">¶</a></dt>
@@ -195,20 +206,30 @@
 
 <dl class="method">
 <dt id="ardzilla.tracking.GEEARDTracker.download">
-<code class="descname">download</code><span class="sig-paren">(</span><em>self</em>, <em>tracking_name</em>, <em>dest</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/tracking.html#GEEARDTracker.download"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.tracking.GEEARDTracker.download" title="Permalink to this definition">¶</a></dt>
+<code class="descname">download</code><span class="sig-paren">(</span><em>self</em>, <em>tracking_info</em>, <em>dest</em>, <em>overwrite=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/tracking.html#GEEARDTracker.download"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.tracking.GEEARDTracker.download" title="Permalink to this definition">¶</a></dt>
 <dd><p>Download “pre-ARD” and metadata to a directory</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>tracking_name</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Name of stored tracking information</p></li>
+<li><p><strong>tracking_info</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – JSON tracking info data as a dict</p></li>
 <li><p><strong>dest</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3.7/library/pathlib.html#pathlib.Path" title="(in Python v3.7)"><em>pathlib.Path</em></a>) – Destination download directory</p></li>
+<li><p><strong>overwrite</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em>, </em><em>optional</em>) – Overwrite existing downloaded data</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p></p>
+<dt class="field-even">Yields</dt>
+<dd class="field-even"><p><em>tuple[str, list[str]]</em> – Key value pairs mapping GEE task IDs to the filenames of
+downloaded data. Wrap it in a <code class="docutils literal notranslate"><span class="pre">dict</span></code> to make it not lazy</p>
 </dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a></p>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="ardzilla.tracking.GEEARDTracker.filters">
+<code class="descname">filters</code><a class="headerlink" href="#ardzilla.tracking.GEEARDTracker.filters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Earth Engine filters to apply</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#list" title="(in Python v3.7)">list</a>[ee.Filter]</p>
 </dd>
 </dl>
 </dd></dl>
@@ -340,11 +361,8 @@ looks for tracking information matching
 <li><p><strong>overwrite</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em>, </em><em>optional</em>) – Overwrite previously downoaded data, or not</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Name of downloaded data, organized according to GEE task ID</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a>[<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a>, <a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#list" title="(in Python v3.7)">list</a>[<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a>]]</p>
+<dt class="field-even">Yields</dt>
+<dd class="field-even"><p><em>tuple[str, list[str]]</em> – Key value pairs mapping GEE task IDs to the filenames of downloaded data</p>
 </dd>
 </dl>
 </dd></dl>
