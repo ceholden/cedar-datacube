@@ -34,6 +34,8 @@ with open('README.rst') as f:
     LONG_DESCRIPTION = f.read()
 with open('CHANGELOG.rst') as f:
     CHANGELOG = f.read()
+
+
 ENTRY_POINTS = {
     'console_scripts': [
         'ardzilla=ardzilla.cli.main:main'
@@ -52,6 +54,7 @@ PYTHON_REQUIRES = '>=3.6'
 INSTALL_REQUIRES = [
     'earthengine-api',
     'affine', 'numpy', 'pandas', 'rasterio', 'shapely', 'xarray',
+    'jsonschema', 'pyyaml'
 ]
 INSTALL_REQUIRES.extend(['click>=6.0', 'click-plugins', 'cligj>=0.5'])
 SETUP_REQUIRES = ['pytest-runner',]

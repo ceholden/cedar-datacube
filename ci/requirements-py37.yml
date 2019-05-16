@@ -16,6 +16,8 @@ dependencies:
   - rasterio
   - shapely
   - xarray
+  - jsonschema
+  - pyyaml
   # EarthEngine
   - pycrypto
   - pyopenssl
