@@ -966,7 +966,7 @@
 <p id="t89" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t90" class="stm mis">    <span class="key">if</span> <span class="key">not</span> <span class="nam">creds</span> <span class="key">or</span> <span class="key">not</span> <span class="nam">creds</span><span class="op">.</span><span class="nam">valid</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t91" class="pln">        <span class="com"># Try refreshing</span><span class="strut">&nbsp;</span></p>
-<p id="t92" class="stm mis">        <span class="key">if</span> <span class="nam">creds</span> <span class="key">and</span> <span class="key">not</span> <span class="nam">creds</span><span class="op">.</span><span class="nam">expired</span> <span class="key">and</span> <span class="nam">creds</span><span class="op">.</span><span class="nam">fresh_token</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
+<p id="t92" class="stm mis">        <span class="key">if</span> <span class="nam">creds</span> <span class="key">and</span> <span class="key">not</span> <span class="nam">creds</span><span class="op">.</span><span class="nam">expired</span> <span class="key">and</span> <span class="nam">creds</span><span class="op">.</span><span class="nam">refresh_token</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t93" class="stm mis">            <span class="nam">logger</span><span class="op">.</span><span class="nam">debug</span><span class="op">(</span><span class="str">'Trying to refresh credentials token...'</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t94" class="stm mis">            <span class="nam">creds</span><span class="op">.</span><span class="nam">refresh</span><span class="op">(</span><span class="nam">Request</span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t95" class="pln">        <span class="key">else</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
@@ -1690,7 +1690,7 @@
     <div class="content">
         <p>
             <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.io">coverage.py v4.5.3</a>,
-            created at 2019-05-16 00:03
+            created at 2019-05-16 22:33
         </p>
     </div>
 </div>

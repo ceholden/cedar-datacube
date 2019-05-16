@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.stores.gdrive &mdash; ardzilla 0+untagged.50.gdd02db9 documentation</title>
+  <title>ardzilla.stores.gdrive &mdash; ardzilla 0+untagged.50.ge9cfb3a documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.gdd02db9
+                0+untagged.50.ge9cfb3a
               </div>
             
           
@@ -251,7 +251,7 @@
 
     <span class="k">if</span> <span class="ow">not</span> <span class="n">creds</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">creds</span><span class="o">.</span><span class="n">valid</span><span class="p">:</span>
         <span class="c1"># Try refreshing</span>
-        <span class="k">if</span> <span class="n">creds</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">creds</span><span class="o">.</span><span class="n">expired</span> <span class="ow">and</span> <span class="n">creds</span><span class="o">.</span><span class="n">fresh_token</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">creds</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">creds</span><span class="o">.</span><span class="n">expired</span> <span class="ow">and</span> <span class="n">creds</span><span class="o">.</span><span class="n">refresh_token</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Trying to refresh credentials token...&#39;</span><span class="p">)</span>
             <span class="n">creds</span><span class="o">.</span><span class="n">refresh</span><span class="p">(</span><span class="n">Request</span><span class="p">())</span>
         <span class="k">else</span><span class="p">:</span>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.config.build &mdash; ardzilla 0+untagged.50.gdd02db9 documentation</title>
+  <title>ardzilla.config.build &mdash; ardzilla 0+untagged.50.ge9cfb3a documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.gdd02db9
+                0+untagged.50.ge9cfb3a
               </div>
             
           
@@ -160,7 +160,7 @@
            <div itemprop="articleBody">
             
   <h1>Source code for ardzilla.config.build</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot; Build configuration files for :py:mod:`ardzilla`</span>
+<span></span><span class="sd">&quot;&quot;&quot; Build objects from configuration files</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">os</span>
@@ -172,60 +172,21 @@
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
-<span class="n">TEMPLATE_FILENAME</span> <span class="o">=</span> <span class="s1">&#39;config.yaml.tmpl&#39;</span>
-<span class="n">TEMPLATE_FILE</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="n">TEMPLATE_FILENAME</span><span class="p">)</span>
-
-
-<div class="viewcode-block" id="build_config"><a class="viewcode-back" href="../../../ardzilla/ardzilla.config.build.html#ardzilla.config.build.build_config">[docs]</a><span class="k">def</span> <span class="nf">build_config</span><span class="p">(</span><span class="n">tile_grid</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">gee</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">gcs</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">gdrive</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">ard</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Build a config using minimal data</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">tile_grid_</span> <span class="o">=</span> <span class="n">build_tile_grid</span><span class="p">(</span><span class="o">**</span><span class="p">(</span><span class="n">tile_grid</span> <span class="ow">or</span> <span class="p">{}))</span>
-
-    <span class="n">gee_</span> <span class="o">=</span> <span class="n">build_gee</span><span class="p">(</span><span class="o">**</span><span class="p">(</span><span class="n">gee</span> <span class="ow">or</span> <span class="p">{}))</span>
-    <span class="n">store_kwd</span> <span class="o">=</span> <span class="n">gee_</span><span class="p">[</span><span class="s1">&#39;store_service&#39;</span><span class="p">]</span>
-
-    <span class="k">if</span> <span class="n">store_kwd</span> <span class="o">==</span> <span class="s1">&#39;gcs&#39;</span><span class="p">:</span>
-        <span class="n">store_</span> <span class="o">=</span> <span class="n">build_store_gcs</span><span class="p">(</span><span class="o">**</span><span class="p">(</span><span class="n">gcs</span> <span class="ow">or</span> <span class="p">{}))</span>
-    <span class="k">elif</span> <span class="n">store_kwd</span> <span class="o">==</span> <span class="s1">&#39;gdrive&#39;</span><span class="p">:</span>
-        <span class="n">store_</span> <span class="o">=</span> <span class="n">build_store_gdrive</span><span class="p">(</span><span class="o">**</span><span class="p">(</span><span class="n">gdrive</span> <span class="ow">or</span> <span class="p">{}))</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Unknown storage service &quot;</span><span class="si">{store_kwd}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
-
-    <span class="n">ard_</span> <span class="o">=</span> <span class="n">build_ard</span><span class="p">(</span><span class="o">**</span><span class="p">(</span><span class="n">ard</span> <span class="ow">or</span> <span class="p">{}))</span>
-
-    <span class="k">return</span> <span class="p">{</span>
-        <span class="s1">&#39;tile_grid&#39;</span><span class="p">:</span> <span class="n">tile_grid_</span><span class="p">,</span>
-        <span class="s1">&#39;gee&#39;</span><span class="p">:</span> <span class="n">gee_</span><span class="p">,</span>
-        <span class="n">store_kwd</span><span class="p">:</span> <span class="n">store_</span><span class="p">,</span>
-        <span class="s1">&#39;ard&#39;</span><span class="p">:</span> <span class="n">ard_</span>
-    <span class="p">}</span></div>
-
-
-<div class="viewcode-block" id="build_tile_grid"><a class="viewcode-back" href="../../../ardzilla/ardzilla.config.build.html#ardzilla.config.build.build_tile_grid">[docs]</a><span class="k">def</span> <span class="nf">build_tile_grid</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">definitions</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+<div class="viewcode-block" id="build_tile_grid"><a class="viewcode-back" href="../../../ardzilla/ardzilla.config.build.html#ardzilla.config.build.build_tile_grid">[docs]</a><span class="k">def</span> <span class="nf">build_tile_grid</span><span class="p">(</span><span class="n">grid_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">grid_filename</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Build the ``tile_grid`` section</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
-<span class="sd">    name : str</span>
+<span class="sd">    grid_name : str</span>
 <span class="sd">        Name of the grid to use. If using a custom grid, specify the parameters</span>
 <span class="sd">        for it either by passing the filename of a grid definition file, or by</span>
 <span class="sd">        passing all the necessary keywords to create a</span>
 <span class="sd">        :py:class:`stems.gis.grids.TileGrid`.</span>
-<span class="sd">    definitions : str or pathlib.Path, optional</span>
+<span class="sd">    grid_filename : str or pathlib.Path, optional</span>
 <span class="sd">        Custom tile grid definition file. Should be loadable using</span>
 <span class="sd">        :py:func:`stems.gis.grids.load_grids`.</span>
-<span class="sd">    ul : tuple, optional</span>
-<span class="sd">        Upper left X/Y coordinates</span>
-<span class="sd">    crs : rasterio.crs.CRS, optional</span>
-<span class="sd">        Coordinate system information</span>
-<span class="sd">    res : tuple, optional</span>
-<span class="sd">        Pixel X/Y resolution</span>
-<span class="sd">    size : tuple, optional</span>
-<span class="sd">        Number of pixels in X/Y dimensions for each tile</span>
-<span class="sd">    limits : tuple[tuple, tuple], optional</span>
-<span class="sd">        Maximum and minimum rows (vertical) and columns (horizontal)</span>
-<span class="sd">        given as ((row_start, row_stop), (col_start, col_stop)). Used</span>
-<span class="sd">        to limit access to Tiles beyond domain.</span>
+<span class="sd">    kwds</span>
+<span class="sd">        Otherwise, pass keywords to initialize a TileGrid</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -236,80 +197,31 @@
 <span class="sd">    --------</span>
 <span class="sd">    stems.gis.grids.TileGrid</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="kn">from</span> <span class="nn">stems.gis</span> <span class="k">import</span> <span class="n">grids</span>
-    <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">kwds</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Either pass ``name`` to load a grid, or pass &#39;</span>
-                         <span class="s1">&#39;the parameters required to create one&#39;</span><span class="p">)</span>
+    <span class="kn">from</span> <span class="nn">stems.gis.grids</span> <span class="k">import</span> <span class="n">TileGrid</span><span class="p">,</span> <span class="n">load_grids</span>
 
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">kwds</span><span class="p">:</span>
-        <span class="c1"># Assume a &quot;named&quot; grid -- load and try to use</span>
-        <span class="n">tile_grids</span> <span class="o">=</span> <span class="n">grids</span><span class="o">.</span><span class="n">load_grids</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">definitions</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">tile_grids</span><span class="p">:</span>
-            <span class="n">known</span> <span class="o">=</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tile_grids</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
-            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Unknown grid named &quot;</span><span class="si">{name}</span><span class="s1">&quot; (known: </span><span class="si">{known}</span><span class="s1">)&#39;</span><span class="p">)</span>
-        <span class="n">tile_grid</span> <span class="o">=</span> <span class="n">tile_grids</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+    <span class="c1"># Check if user wants a &quot;named&quot; or &quot;defined&quot; grid</span>
+    <span class="k">if</span> <span class="n">grid_name</span><span class="p">:</span>
+        <span class="c1"># Check for definitions file</span>
+        <span class="n">grids</span> <span class="o">=</span> <span class="n">load_grids</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">filename</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">tile_grid</span> <span class="o">=</span> <span class="n">grids</span><span class="p">[</span><span class="n">grid_name</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="n">known</span> <span class="o">=</span> <span class="s1">&#39;, &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">f</span><span class="s1">&#39;&quot;</span><span class="si">{k}</span><span class="s1">&quot;&#39;</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">grids</span><span class="p">])</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Could not load a grid named &quot;</span><span class="si">{grid_name}</span><span class="s1">&quot;. &#39;</span>
+                           <span class="n">f</span><span class="s1">&#39;Available grids: </span><span class="si">{known}</span><span class="s1">&#39;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="c1"># TODO: don&#39;t leave so much of the error processing up to __init__</span>
-        <span class="n">tile_grid</span> <span class="o">=</span> <span class="n">grids</span><span class="o">.</span><span class="n">TileGrid</span><span class="p">(</span><span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+        <span class="c1"># Should have all the parameters to init otherwise</span>
+        <span class="n">tile_grid</span> <span class="o">=</span> <span class="n">TileGrid</span><span class="p">(</span><span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">tile_grid</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span></div>
+    <span class="k">return</span> <span class="n">tile_grid</span></div>
 
 
-<div class="viewcode-block" id="build_gee"><a class="viewcode-back" href="../../../ardzilla/ardzilla.config.build.html#ardzilla.config.build.build_gee">[docs]</a><span class="k">def</span> <span class="nf">build_gee</span><span class="p">(</span><span class="n">store_service</span><span class="p">,</span> <span class="n">tracker</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Build Google Earth Engine configuration info</span>
+<div class="viewcode-block" id="build_tracker"><a class="viewcode-back" href="../../../ardzilla/ardzilla.config.build.html#ardzilla.config.build.build_tracker">[docs]</a><span class="k">def</span> <span class="nf">build_tracker</span><span class="p">(</span><span class="n">tile_grid</span><span class="p">,</span> <span class="n">store</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Build the ``gee`` section and return a GEEARDTracker</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">assert</span> <span class="n">store_service</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;gcs&#39;</span><span class="p">,</span> <span class="s1">&#39;gdrive&#39;</span><span class="p">)</span>
-
-    <span class="c1"># Load template to get defaults, which are OK in this case</span>
-    <span class="n">template</span> <span class="o">=</span> <span class="n">_load_template</span><span class="p">()[</span><span class="s1">&#39;gee&#39;</span><span class="p">]</span>
-
-    <span class="n">cfg</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s1">&#39;store_service&#39;</span><span class="p">:</span> <span class="n">store_service</span><span class="o">.</span><span class="n">lower</span><span class="p">(),</span>
-        <span class="s1">&#39;tracker&#39;</span><span class="p">:</span> <span class="n">template</span><span class="p">[</span><span class="s1">&#39;tracker&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-    <span class="p">}</span>
-    <span class="k">if</span> <span class="n">tracker</span><span class="p">:</span>
-        <span class="n">cfg</span><span class="p">[</span><span class="s1">&#39;tracker&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">tracker</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">cfg</span></div>
-
-
-<div class="viewcode-block" id="build_store_gcs"><a class="viewcode-back" href="../../../ardzilla/ardzilla.config.build.html#ardzilla.config.build.build_store_gcs">[docs]</a><span class="k">def</span> <span class="nf">build_store_gcs</span><span class="p">(</span><span class="n">bucket_name</span><span class="p">,</span> <span class="n">credentials_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">project</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Build Google Cloud Storage configuration info</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Credentials/project might come from environment so no defaults</span>
-    <span class="n">gcs_</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;bucket_name&#39;</span><span class="p">:</span> <span class="n">bucket_name</span><span class="p">}</span>
-    <span class="k">if</span> <span class="n">credentials</span><span class="p">:</span>
-        <span class="n">gcs_</span><span class="p">[</span><span class="s1">&#39;credentials_file&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">credentials_file</span>
-    <span class="k">if</span> <span class="n">project</span><span class="p">:</span>
-        <span class="n">gcs_</span><span class="p">[</span><span class="s1">&#39;project&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">project</span>
-    <span class="k">return</span> <span class="n">gcs_</span></div>
-
-
-<div class="viewcode-block" id="build_store_gdrive"><a class="viewcode-back" href="../../../ardzilla/ardzilla.config.build.html#ardzilla.config.build.build_store_gdrive">[docs]</a><span class="k">def</span> <span class="nf">build_store_gdrive</span><span class="p">(</span><span class="n">client_secrets_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">credentials_file</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Build Google Cloud Storage configuration info</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="c1"># Credentials/project might come from environment so no defaults</span>
-    <span class="n">gdrive_</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="k">if</span> <span class="n">client_secrets_file</span><span class="p">:</span>
-        <span class="n">gdrive_</span><span class="p">[</span><span class="s1">&#39;client_secrets_file&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">client_secrets_file</span>
-    <span class="k">if</span> <span class="n">credentials_file</span><span class="p">:</span>
-        <span class="n">gdrive_</span><span class="p">[</span><span class="s1">&#39;credentials_file&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">credentials_file</span>
-    <span class="k">return</span> <span class="n">gdrive_</span></div>
-
-
-<div class="viewcode-block" id="build_ard"><a class="viewcode-back" href="../../../ardzilla/ardzilla.config.build.html#ardzilla.config.build.build_ard">[docs]</a><span class="k">def</span> <span class="nf">build_ard</span><span class="p">(</span><span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">kwds</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s1">&#39;Just returning defaults for now...&#39;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">_load_template</span><span class="p">()[</span><span class="s1">&#39;ard&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span></div>
-
-
-<span class="n">_TEMPLATE</span> <span class="o">=</span> <span class="kc">None</span>
-<span class="k">def</span> <span class="nf">_load_template</span><span class="p">():</span>
-    <span class="k">global</span> <span class="n">_TEMPLATE</span>
-    <span class="k">if</span> <span class="n">_TEMPLATE</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">TEMPLATE_FILE</span><span class="p">))</span> <span class="k">as</span> <span class="n">src</span><span class="p">:</span>
-            <span class="n">_TEMPLATE</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">(</span><span class="n">src</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">_TEMPLATE</span>
+    <span class="kn">from</span> <span class="nn">..tracking</span> <span class="k">import</span> <span class="n">GEEARDTracker</span>
+    <span class="n">tracker</span> <span class="o">=</span> <span class="n">GEEARDTracker</span><span class="p">(</span><span class="n">tile_grid</span><span class="p">,</span> <span class="n">store</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">tracker</span></div>
 </pre></div>
 
            </div>

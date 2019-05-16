@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.config.core &mdash; ardzilla 0+untagged.50.gdd02db9 documentation</title>
+  <title>ardzilla.config.core &mdash; ardzilla 0+untagged.50.ge9cfb3a documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.gdd02db9
+                0+untagged.50.ge9cfb3a
               </div>
             
           
@@ -168,6 +168,7 @@
 <span class="kn">import</span> <span class="nn">yaml</span>
 
 <span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">defaults</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">build</span><span class="p">,</span> <span class="n">parse</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -179,11 +180,25 @@
 <div class="viewcode-block" id="Config"><a class="viewcode-back" href="../../../ardzilla/ardzilla.config.core.html#ardzilla.config.core.Config">[docs]</a><span class="k">class</span> <span class="nc">Config</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; ARDzilla configuration file</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_config</span> <span class="o">=</span> <span class="n">config</span>
+
+    <span class="n">SCHEMA</span> <span class="o">=</span> <span class="n">parse</span><span class="o">.</span><span class="n">get_default_schema</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">schema</span> <span class="o">=</span> <span class="n">schema</span>
+
+<div class="viewcode-block" id="Config.validate"><a class="viewcode-back" href="../../../ardzilla/ardzilla.config.core.html#ardzilla.config.core.Config.validate">[docs]</a>    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Validate the configuration against schema</span>
+
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValidationError</span>
+<span class="sd">            Raised if there&#39;s an issue</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">parse</span><span class="o">.</span><span class="n">validate_with_defaults</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">SCHEMA</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Config.from_yaml"><a class="viewcode-back" href="../../../ardzilla/ardzilla.config.core.html#ardzilla.config.core.Config.from_yaml">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_yaml</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">from_yaml</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Load from a YAML configuration file</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
@@ -191,7 +206,7 @@
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">config</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Config.from_template"><a class="viewcode-back" href="../../../ardzilla/ardzilla.config.core.html#ardzilla.config.core.Config.from_template">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_template</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">from_template</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Load from the included YAML configuration file template</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_yaml</span><span class="p">(</span><span class="n">TEMPLATE_FILE</span><span class="p">)</span></div>
@@ -224,23 +239,30 @@
 
     <span class="nd">@config</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_config</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="n">value_</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">parse</span><span class="o">.</span><span class="n">validate_with_defaults</span><span class="p">(</span><span class="n">value_</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">SCHEMA</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_config</span> <span class="o">=</span> <span class="n">value_</span>
+
+<div class="viewcode-block" id="Config.as_parsed"><a class="viewcode-back" href="../../../ardzilla/ardzilla.config.core.html#ardzilla.config.core.Config.as_parsed">[docs]</a>    <span class="k">def</span> <span class="nf">as_parsed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Parse the config, returning a new, more explicit Config</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># TODO: use &quot;get_tile_grid().to_dict()&quot;, etc to fill in all of the</span>
+        <span class="c1"># values that might be missing or defaults. Make it an option maybe?</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;TODO&quot;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Config.get_tracker"><a class="viewcode-back" href="../../../ardzilla/ardzilla.config.core.html#ardzilla.config.core.Config.get_tracker">[docs]</a>    <span class="k">def</span> <span class="nf">get_tracker</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Get the GEEARDTracker described by this store</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="kn">from</span> <span class="nn">..tracking</span> <span class="k">import</span> <span class="n">GEEARDTracker</span>
         <span class="c1"># Create tile grid and store for tracker</span>
         <span class="n">tile_grid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_tile_grid</span><span class="p">()</span>
         <span class="n">store</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_store</span><span class="p">()</span>
 
         <span class="c1"># Get any tracker options and convert filters to ee.Filter</span>
         <span class="n">kwds_tracker</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;gee&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;tracker&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-        <span class="n">filters</span> <span class="o">=</span> <span class="n">kwds_tracker</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;filters&#39;</span><span class="p">,</span> <span class="p">[{}])</span>
 
         <span class="c1"># Create tracker</span>
-        <span class="n">tracker</span> <span class="o">=</span> <span class="n">GEEARDTracker</span><span class="p">(</span><span class="n">tile_grid</span><span class="p">,</span> <span class="n">store</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">filters</span><span class="p">,</span>
-                                <span class="o">**</span><span class="n">kwds_tracker</span><span class="p">)</span>
+        <span class="n">tracker</span> <span class="o">=</span> <span class="n">build</span><span class="o">.</span><span class="n">build_tracker</span><span class="p">(</span><span class="n">tile_grid</span><span class="p">,</span> <span class="n">store</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds_tracker</span><span class="p">)</span>
+
         <span class="k">return</span> <span class="n">tracker</span></div>
 
 <div class="viewcode-block" id="Config.get_tile_grid"><a class="viewcode-back" href="../../../ardzilla/ardzilla.config.core.html#ardzilla.config.core.Config.get_tile_grid">[docs]</a>    <span class="k">def</span> <span class="nf">get_tile_grid</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -250,10 +272,10 @@
 <span class="sd">        -------</span>
 <span class="sd">        stems.gis.grids.TileGrid</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="kn">from</span> <span class="nn">stems.gis.grids</span> <span class="k">import</span> <span class="n">TileGrid</span>
-        <span class="n">cfg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;tile_grid&#39;</span><span class="p">]</span>
-        <span class="n">tile_grid</span> <span class="o">=</span> <span class="n">TileGrid</span><span class="p">(</span><span class="o">**</span><span class="n">cfg</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">tile_grid</span></div>
+        <span class="n">cfg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;tile_grid&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">grid_name</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;grid_name&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">grid_filename</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;grid_filename&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">build</span><span class="o">.</span><span class="n">build_tile_grid</span><span class="p">(</span><span class="n">grid_name</span><span class="p">,</span> <span class="n">grid_filename</span><span class="p">,</span> <span class="o">**</span><span class="n">cfg</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Config.get_store"><a class="viewcode-back" href="../../../ardzilla/ardzilla.config.core.html#ardzilla.config.core.Config.get_store">[docs]</a>    <span class="k">def</span> <span class="nf">get_store</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Return the Store used in this configuration file</span>

@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Index &mdash; ardzilla 0+untagged.50.gdd02db9 documentation</title>
+  <title>Index &mdash; ardzilla 0+untagged.50.ge9cfb3a documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0+untagged.50.gdd02db9
+                0+untagged.50.ge9cfb3a
               </div>
             
           
@@ -183,6 +183,7 @@
  | <a href="#S"><strong>S</strong></a>
  | <a href="#T"><strong>T</strong></a>
  | <a href="#U"><strong>U</strong></a>
+ | <a href="#V"><strong>V</strong></a>
  
 </div>
 <h2 id="A">A</h2>
@@ -211,6 +212,8 @@
       <li><a href="ardzilla/ardzilla.config.build.html#module-ardzilla.config.build">ardzilla.config.build (module)</a>
 </li>
       <li><a href="ardzilla/ardzilla.config.core.html#module-ardzilla.config.core">ardzilla.config.core (module)</a>
+</li>
+      <li><a href="ardzilla/ardzilla.config.parse.html#module-ardzilla.config.parse">ardzilla.config.parse (module)</a>
 </li>
       <li><a href="ardzilla/ardzilla.defaults.html#module-ardzilla.defaults">ardzilla.defaults (module)</a>
 </li>
@@ -244,29 +247,23 @@
 </li>
       <li><a href="ardzilla/ardzilla.utils.html#module-ardzilla.utils">ardzilla.utils (module)</a>
 </li>
+      <li><a href="ardzilla/ardzilla.config.core.html#ardzilla.config.core.Config.as_parsed">as_parsed() (ardzilla.config.core.Config method)</a>
+</li>
   </ul></td>
 </tr></table>
 
 <h2 id="B">B</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="ardzilla/ardzilla.config.build.html#ardzilla.config.build.build_ard">build_ard() (in module ardzilla.config.build)</a>
-</li>
-      <li><a href="ardzilla/ardzilla.config.build.html#ardzilla.config.build.build_config">build_config() (in module ardzilla.config.build)</a>
-</li>
       <li><a href="ardzilla/ardzilla.stores.gcs.html#ardzilla.stores.gcs.build_gcs_client">build_gcs_client() (in module ardzilla.stores.gcs)</a>
 </li>
       <li><a href="ardzilla/ardzilla.stores.gdrive.html#ardzilla.stores.gdrive.build_gdrive_service">build_gdrive_service() (in module ardzilla.stores.gdrive)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="ardzilla/ardzilla.config.build.html#ardzilla.config.build.build_gee">build_gee() (in module ardzilla.config.build)</a>
-</li>
-      <li><a href="ardzilla/ardzilla.config.build.html#ardzilla.config.build.build_store_gcs">build_store_gcs() (in module ardzilla.config.build)</a>
-</li>
-      <li><a href="ardzilla/ardzilla.config.build.html#ardzilla.config.build.build_store_gdrive">build_store_gdrive() (in module ardzilla.config.build)</a>
-</li>
       <li><a href="ardzilla/ardzilla.config.build.html#ardzilla.config.build.build_tile_grid">build_tile_grid() (in module ardzilla.config.build)</a>
+</li>
+      <li><a href="ardzilla/ardzilla.config.build.html#ardzilla.config.build.build_tracker">build_tracker() (in module ardzilla.config.build)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -382,11 +379,13 @@
 </li>
       <li><a href="ardzilla/ardzilla.sensors.common.html#ardzilla.sensors.common.get_collection_dates">get_collection_dates() (in module ardzilla.sensors.common)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="ardzilla/ardzilla.sensors.common.html#ardzilla.sensors.common.get_collection_uniq_dates">get_collection_uniq_dates() (in module ardzilla.sensors.common)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="ardzilla/ardzilla.stores.gdrive.html#ardzilla.stores.gdrive.get_credentials">get_credentials() (in module ardzilla.stores.gdrive)</a>
+</li>
+      <li><a href="ardzilla/ardzilla.config.parse.html#ardzilla.config.parse.get_default_schema">get_default_schema() (in module ardzilla.config.parse)</a>
 </li>
       <li><a href="ardzilla/ardzilla.tracking.html#ardzilla.tracking.get_ee_tasks">get_ee_tasks() (in module ardzilla.tracking)</a>
 </li>
@@ -512,6 +511,8 @@
 <h2 id="S">S</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ardzilla/ardzilla.config.core.html#ardzilla.config.core.Config.SCHEMA">SCHEMA (ardzilla.config.core.Config attribute)</a>
+</li>
       <li><a href="ardzilla/ardzilla.utils.html#ardzilla.utils.set_file_urw">set_file_urw() (in module ardzilla.utils)</a>
 </li>
       <li><a href="ardzilla/ardzilla.stores.gcs.html#ardzilla.stores.gcs.GCSStore.store_image">store_image() (ardzilla.stores.gcs.GCSStore method)</a>
@@ -574,6 +575,18 @@
         <li><a href="ardzilla/ardzilla.stores.gdrive.html#ardzilla.stores.gdrive.upload_json">(in module ardzilla.stores.gdrive)</a>
 </li>
       </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="V">V</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ardzilla/ardzilla.config.core.html#ardzilla.config.core.Config.validate">validate() (ardzilla.config.core.Config method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="ardzilla/ardzilla.config.parse.html#ardzilla.config.parse.validate_with_defaults">validate_with_defaults() (in module ardzilla.config.parse)</a>
+</li>
   </ul></td>
 </tr></table>
 
