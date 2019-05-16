@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.cli.options module &mdash; ardzilla 0+untagged.50.ge9cfb3a documentation</title>
+  <title>ardzilla.cli.options module &mdash; ardzilla 0+untagged.50.g0e0e665 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.ge9cfb3a
+                0+untagged.50.g0e0e665
               </div>
             
           
@@ -188,11 +188,15 @@
 
 <dl class="function">
 <dt id="ardzilla.cli.options.fetch_config">
-<code class="descclassname">ardzilla.cli.options.</code><code class="descname">fetch_config</code><span class="sig-paren">(</span><em>ctx</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/cli/options.html#fetch_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.cli.options.fetch_config" title="Permalink to this definition">¶</a></dt>
-<dd><p>Fetch <code class="docutils literal notranslate"><span class="pre">config_file</span></code> from a click context with error handling</p>
+<code class="descclassname">ardzilla.cli.options.</code><code class="descname">fetch_config</code><span class="sig-paren">(</span><em>ctx</em>, <em>fail_if_missing=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/cli/options.html#fetch_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.cli.options.fetch_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fetch <code class="docutils literal notranslate"><span class="pre">config</span></code> from a click context with error handling</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>ctx</strong> (<em>click.Context</em>) – Click CLI context</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ctx</strong> (<em>click.Context</em>) – Click CLI context</p></li>
+<li><p><strong>fail_if_missing</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em>, </em><em>optional</em>) – Raise an exception if config is missing. Otherwise returns
+None</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>Configuration data</p>
