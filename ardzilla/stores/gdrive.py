@@ -89,7 +89,7 @@ def get_credentials(client_secrets=None, client_secrets_file=None,
 
     if not creds or not creds.valid:
         # Try refreshing
-        if creds and not creds.expired and creds.fresh_token:
+        if creds and not creds.expired and creds.refresh_token:
             logger.debug('Trying to refresh credentials token...')
             creds.refresh(Request())
         else:
