@@ -1,4 +1,4 @@
-""" Build configuration files for :py:mod:`ardzilla`
+""" Build objects from configuration files
 """
 import logging
 import os
@@ -10,60 +10,21 @@ from .. import defaults
 logger = logging.getLogger(__name__)
 
 
-TEMPLATE_FILENAME = 'config.yaml.tmpl'
-TEMPLATE_FILE = Path(__file__).parent.joinpath(TEMPLATE_FILENAME)
-
-
-def build_config(tile_grid=None, gee=None, gcs=None, gdrive=None, ard=None):
-    """ Build a config using minimal data
-    """
-    tile_grid_ = build_tile_grid(**(tile_grid or {}))
-
-    gee_ = build_gee(**(gee or {}))
-    store_kwd = gee_['store_service']
-
-    if store_kwd == 'gcs':
-        store_ = build_store_gcs(**(gcs or {}))
-    elif store_kwd == 'gdrive':
-        store_ = build_store_gdrive(**(gdrive or {}))
-    else:
-        raise KeyError(f'Unknown storage service "{store_kwd}"')
-
-    ard_ = build_ard(**(ard or {}))
-
-    return {
-        'tile_grid': tile_grid_,
-        'gee': gee_,
-        store_kwd: store_,
-        'ard': ard_
-    }
-
-
-def build_tile_grid(name=None, definitions=None, **kwds):
+def build_tile_grid(grid_name=None, grid_filename=None, **kwds):
     """ Build the ``tile_grid`` section
 
     Parameters
     ----------
-    name : str
+    grid_name : str
         Name of the grid to use. If using a custom grid, specify the parameters
         for it either by passing the filename of a grid definition file, or by
         passing all the necessary keywords to create a
         :py:class:`stems.gis.grids.TileGrid`.
-    definitions : str or pathlib.Path, optional
+    grid_filename : str or pathlib.Path, optional
         Custom tile grid definition file. Should be loadable using
         :py:func:`stems.gis.grids.load_grids`.
-    ul : tuple, optional
-        Upper left X/Y coordinates
-    crs : rasterio.crs.CRS, optional
-        Coordinate system information
-    res : tuple, optional
-        Pixel X/Y resolution
-    size : tuple, optional
-        Number of pixels in X/Y dimensions for each tile
-    limits : tuple[tuple, tuple], optional
-        Maximum and minimum rows (vertical) and columns (horizontal)
-        given as ((row_start, row_stop), (col_start, col_stop)). Used
-        to limit access to Tiles beyond domain.
+    kwds
+        Otherwise, pass keywords to initialize a TileGrid
 
     Returns
     -------
@@ -74,77 +35,28 @@ def build_tile_grid(name=None, definitions=None, **kwds):
     --------
     stems.gis.grids.TileGrid
     """
-    from stems.gis import grids
-    if name is None and not kwds:
-        raise ValueError('Either pass ``name`` to load a grid, or pass '
-                         'the parameters required to create one')
+    from stems.gis.grids import TileGrid, load_grids
 
-    if not kwds:
-        # Assume a "named" grid -- load and try to use
-        tile_grids = grids.load_grids(filename=definitions)
-        if name not in tile_grids:
-            known = ', '.join(tile_grids.keys())
-            raise KeyError(f'Unknown grid named "{name}" (known: {known})')
-        tile_grid = tile_grids[name]
+    # Check if user wants a "named" or "defined" grid
+    if grid_name:
+        # Check for definitions file
+        grids = load_grids(filename=filename)
+        try:
+            tile_grid = grids[grid_name]
+        except KeyError:
+            known = ', '.join([f'"{k}"' for k in grids])
+            raise KeyError(f'Could not load a grid named "{grid_name}". '
+                           f'Available grids: {known}')
     else:
-        # TODO: don't leave so much of the error processing up to __init__
-        tile_grid = grids.TileGrid(**kwds)
+        # Should have all the parameters to init otherwise
+        tile_grid = TileGrid(**kwds)
 
-    return tile_grid.to_dict()
+    return tile_grid
 
 
-def build_gee(store_service, tracker=None):
-    """ Build Google Earth Engine configuration info
+def build_tracker(tile_grid, store, **kwds):
+    """ Build the ``gee`` section and return a GEEARDTracker
     """
-    assert store_service.lower() in ('gcs', 'gdrive')
-
-    # Load template to get defaults, which are OK in this case
-    template = _load_template()['gee']
-
-    cfg = {
-        'store_service': store_service.lower(),
-        'tracker': template['tracker'].copy()
-    }
-    if tracker:
-        cfg['tracker'].update(tracker)
-
-    return cfg
-
-
-def build_store_gcs(bucket_name, credentials_file=None, project=None):
-    """ Build Google Cloud Storage configuration info
-    """
-    # Credentials/project might come from environment so no defaults
-    gcs_ = {'bucket_name': bucket_name}
-    if credentials:
-        gcs_['credentials_file'] = credentials_file
-    if project:
-        gcs_['project'] = project
-    return gcs_
-
-
-def build_store_gdrive(client_secrets_file=None, credentials_file=None):
-    """ Build Google Cloud Storage configuration info
-    """
-    # Credentials/project might come from environment so no defaults
-    gdrive_ = {}
-    if client_secrets_file:
-        gdrive_['client_secrets_file'] = client_secrets_file
-    if credentials_file:
-        gdrive_['credentials_file'] = credentials_file
-    return gdrive_
-
-
-def build_ard(**kwds):
-    if kwds:
-        raise NotImplementedError('Just returning defaults for now...')
-    return _load_template()['ard'].copy()
-
-
-_TEMPLATE = None
-def _load_template():
-    global _TEMPLATE
-    if _TEMPLATE is None:
-        with open(str(TEMPLATE_FILE)) as src:
-            _TEMPLATE = yaml.safe_load(src)
-    return _TEMPLATE
+    from ..tracking import GEEARDTracker
+    tracker = GEEARDTracker(tile_grid, store, **kwds)
+    return tracker

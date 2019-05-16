@@ -6,6 +6,7 @@ from pathlib import Path
 import yaml
 
 from .. import defaults
+from . import build, parse
 
 logger = logging.getLogger(__name__)
 
@@ -17,11 +18,25 @@ TEMPLATE_FILE = Path(__file__).parent.joinpath(TEMPLATE_FILENAME)
 class Config(object):
     """ ARDzilla configuration file
     """
-    def __init__(self, config):
-        self._config = config
+
+    SCHEMA = parse.get_default_schema()
+
+    def __init__(self, config, schema=None):
+        self.config = config
+        self.schema = schema
+
+    def validate(self):
+        """ Validate the configuration against schema
+
+        Raises
+        ------
+        ValidationError
+            Raised if there's an issue
+        """
+        parse.validate_with_defaults(self.config, schema=self.SCHEMA)
 
     @classmethod
-    def from_yaml(cls, filename):
+    def from_yaml(cls, filename, schema=None):
         """ Load from a YAML configuration file
         """
         with open(filename) as f:
@@ -29,7 +44,7 @@ class Config(object):
         return cls(config)
 
     @classmethod
-    def from_template(cls):
+    def from_template(cls, schema=None):
         """ Load from the included YAML configuration file template
         """
         return cls.from_yaml(TEMPLATE_FILE)
@@ -62,23 +77,30 @@ class Config(object):
 
     @config.setter
     def config(self, value):
-        self._config = value
+        value_ = value.copy()
+        parse.validate_with_defaults(value_, schema=self.SCHEMA)
+        self._config = value_
+
+    def as_parsed(self):
+        """ Parse the config, returning a new, more explicit Config
+        """
+        # TODO: use "get_tile_grid().to_dict()", etc to fill in all of the
+        # values that might be missing or defaults. Make it an option maybe?
+        raise NotImplementedError("TODO")
 
     def get_tracker(self):
         """ Get the GEEARDTracker described by this store
         """
-        from ..tracking import GEEARDTracker
         # Create tile grid and store for tracker
         tile_grid = self.get_tile_grid()
         store = self.get_store()
 
         # Get any tracker options and convert filters to ee.Filter
         kwds_tracker = self.config['gee'].get('tracker', {}).copy()
-        filters = kwds_tracker.pop('filters', [{}])
 
         # Create tracker
-        tracker = GEEARDTracker(tile_grid, store, filters=filters,
-                                **kwds_tracker)
+        tracker = build.build_tracker(tile_grid, store, **kwds_tracker)
+
         return tracker
 
     def get_tile_grid(self):
@@ -88,10 +110,10 @@ class Config(object):
         -------
         stems.gis.grids.TileGrid
         """
-        from stems.gis.grids import TileGrid
-        cfg = self.config['tile_grid']
-        tile_grid = TileGrid(**cfg)
-        return tile_grid
+        cfg = self.config['tile_grid'].copy()
+        grid_name = cfg.pop('grid_name', None)
+        grid_filename = cfg.pop('grid_filename', None)
+        return build.build_tile_grid(grid_name, grid_filename, **cfg)
 
     def get_store(self):
         """ Return the Store used in this configuration file
