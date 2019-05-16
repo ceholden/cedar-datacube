@@ -40,13 +40,16 @@ STYLE_DEBUG = _click_style(None, 'cyan')
 
 # =============================================================================
 # Configuration file
-def fetch_config(ctx):
-    """ Fetch ``config_file`` from a click context with error handling
+def fetch_config(ctx, fail_if_missing=True):
+    """ Fetch ``config`` from a click context with error handling
 
     Parameters
     ----------
     ctx : click.Context
         Click CLI context
+    fail_if_missing : bool, optional
+        Raise an exception if config is missing. Otherwise returns
+        None
 
     Returns
     -------
@@ -60,7 +63,9 @@ def fetch_config(ctx):
     """
     config = ctx.obj and ctx.obj.get('config', None)
 
-    if not config:
+    if config:
+        return config
+    elif fail_if_missing:
         # Try to raise error
         parent = ctx
         while parent is not None:
@@ -72,7 +77,7 @@ def fetch_config(ctx):
             else:
                 parent = getattr(parent, 'parent', None)
     else:
-        return config
+        return None
 
 
 opt_config_file = click.option(
