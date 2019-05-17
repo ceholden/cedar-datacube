@@ -26,6 +26,14 @@ BANDS = {
     'LANDSAT/LE07/C01/T1_SR': BANDS_LE7
 }
 
+#: dict[str, Number]: NoDataValues for Landsat collections
+NODATA = {
+    'LANDSAT/LC08/C01/T1_SR': -9999,
+    'LANDSAT/LT05/C01/T1_SR': -9999,
+    'LANDSAT/LE07/C01/T1_SR': -9999
+}
+
+
 _T1_SR_METADATA = [
     'CLOUD_COVER',
     'CLOUD_COVER_LAND',
@@ -150,7 +158,10 @@ def create_ard(collection, tile, date_start, date_end, filters=None,
     tile_col = ee.ImageCollection.fromImages(images)
     tile_bands = tile_col.toBands().toInt16()
 
-    return tile_bands, metadata
+    # Remove mask
+    tile_bands_unmasked = tile_bands.unmask(NODATA[collection])
+
+    return tile_bands_unmasked, metadata
 
 
 def _imgcol_metadata(imgcol, keys):
