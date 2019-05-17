@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.tracking &mdash; ardzilla 0+untagged.50.g252b384 documentation</title>
+  <title>ardzilla.tracking &mdash; ardzilla 0+untagged.50.g80e9ae7 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.g252b384
+                0+untagged.50.g80e9ae7
               </div>
             
           
@@ -196,12 +196,12 @@
 <span class="sd">        dictionaries that describe the filter</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">TRACKING_DIRECTORY</span> <span class="o">=</span> <span class="s1">&#39;GEEARD_TRACKING&#39;</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tile_grid</span><span class="p">,</span> <span class="n">store</span><span class="p">,</span>
                  <span class="n">name_template</span><span class="o">=</span><span class="n">defaults</span><span class="o">.</span><span class="n">GEE_PREARD_NAME</span><span class="p">,</span>
                  <span class="n">prefix_template</span><span class="o">=</span><span class="n">defaults</span><span class="o">.</span><span class="n">GEE_PREARD_PREFIX</span><span class="p">,</span>
                  <span class="n">tracking_template</span><span class="o">=</span><span class="n">defaults</span><span class="o">.</span><span class="n">GEE_PREARD_TRACKING</span><span class="p">,</span>
+                 <span class="n">tracking_prefix</span><span class="o">=</span><span class="n">defaults</span><span class="o">.</span><span class="n">GEE_PREARD_TRACKING_PREFIX</span><span class="p">,</span>
                  <span class="n">filters</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tile_grid</span><span class="p">,</span> <span class="n">TileGrid</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tile_grid</span> <span class="o">=</span> <span class="n">tile_grid</span>
@@ -209,6 +209,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">name_template</span> <span class="o">=</span> <span class="n">name_template</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">prefix_template</span> <span class="o">=</span> <span class="n">prefix_template</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tracking_template</span> <span class="o">=</span> <span class="n">tracking_template</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tracking_prefix</span> <span class="o">=</span> <span class="n">tracking_prefix</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_filters</span> <span class="o">=</span> <span class="n">filters</span> <span class="ow">or</span> <span class="p">[]</span>
 
     <span class="nd">@property</span>
@@ -287,7 +288,7 @@
         <span class="n">tracking_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tracking_name</span><span class="p">(</span><span class="n">date_start</span><span class="p">,</span> <span class="n">date_end</span><span class="p">)</span>
         <span class="n">tracking_info</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;submission&#39;</span><span class="p">:</span> <span class="n">meta_submission</span><span class="p">,</span> <span class="s1">&#39;tasks&#39;</span><span class="p">:</span> <span class="n">meta_tasks</span><span class="p">}</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">store</span><span class="o">.</span><span class="n">store_metadata</span><span class="p">(</span><span class="n">tracking_info</span><span class="p">,</span> <span class="n">tracking_name</span><span class="p">,</span>
-                                         <span class="n">path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">TRACKING_DIRECTORY</span><span class="p">)</span></div>
+                                         <span class="n">path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tracking_prefix</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="GEEARDTracker.list"><a class="viewcode-back" href="../../ardzilla/ardzilla.tracking.html#ardzilla.tracking.GEEARDTracker.list">[docs]</a>    <span class="k">def</span> <span class="nf">list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Return a list of all tracking metadata</span>
@@ -305,7 +306,7 @@
 <span class="sd">        list[str]</span>
 <span class="sd">            Name of stored tracking information</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">store</span><span class="o">.</span><span class="n">list</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">TRACKING_DIRECTORY</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="n">pattern</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">store</span><span class="o">.</span><span class="n">list</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tracking_prefix</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="n">pattern</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="GEEARDTracker.read"><a class="viewcode-back" href="../../ardzilla/ardzilla.tracking.html#ardzilla.tracking.GEEARDTracker.read">[docs]</a>    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Returns stored tracking information as dict</span>
@@ -321,7 +322,7 @@
 <span class="sd">        dict</span>
 <span class="sd">            JSON tracking info data as a dict</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">store</span><span class="o">.</span><span class="n">read_metadata</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">TRACKING_DIRECTORY</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">store</span><span class="o">.</span><span class="n">read_metadata</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tracking_prefix</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="GEEARDTracker.update"><a class="viewcode-back" href="../../ardzilla/ardzilla.tracking.html#ardzilla.tracking.GEEARDTracker.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Refresh and reupload tracking information by checking with the GEE</span>
