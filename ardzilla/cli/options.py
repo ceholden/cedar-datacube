@@ -66,16 +66,9 @@ def fetch_config(ctx, fail_if_missing=True):
     if config:
         return config
     elif fail_if_missing:
-        # Try to raise error
-        parent = ctx
-        while parent is not None:
-            params = {p.name: p for p in parent.command.params}
-            if 'config_file' in params:
-                raise click.BadParameter('Must specify configuration file',
-                                         ctx=parent,
-                                         param=params['config_file'])
-            else:
-                parent = getattr(parent, 'parent', None)
+        ctx_, param = fetch_param(ctx, 'config_file')
+        raise click.BadParameter('Must specify configuration file',
+                                 ctx=ctx_, param=param)
     else:
         return None
 
@@ -87,3 +80,18 @@ opt_config_file = click.option(
     type=click.Path(exists=True, dir_okay=False, resolve_path=True),
     help='Configuration file'
 )
+
+
+# HELPERS
+def fetch_param(ctx, name):
+    """ Try to fetch a click.Parameter from a click.Context (or its parents)
+    """
+    # Try to raise error
+    parent = ctx
+    while parent is not None:
+        params = {p.name: p for p in parent.command.params}
+        if name in params:
+            return parent, params[name]
+        else:
+            parent = getattr(parent, 'parent', None)
+    return None, None
