@@ -34,12 +34,12 @@ class GEEARDTracker(object):
         dictionaries that describe the filter
     """
 
-    TRACKING_DIRECTORY = 'GEEARD_TRACKING'
 
     def __init__(self, tile_grid, store,
                  name_template=defaults.GEE_PREARD_NAME,
                  prefix_template=defaults.GEE_PREARD_PREFIX,
                  tracking_template=defaults.GEE_PREARD_TRACKING,
+                 tracking_prefix=defaults.GEE_PREARD_TRACKING_PREFIX,
                  filters=None):
         assert isinstance(tile_grid, TileGrid)
         self.tile_grid = tile_grid
@@ -47,6 +47,7 @@ class GEEARDTracker(object):
         self.name_template = name_template
         self.prefix_template = prefix_template
         self.tracking_template = tracking_template
+        self.tracking_prefix = tracking_prefix
         self._filters = filters or []
 
     @property
@@ -125,7 +126,7 @@ class GEEARDTracker(object):
         tracking_name = self._tracking_name(date_start, date_end)
         tracking_info = {'submission': meta_submission, 'tasks': meta_tasks}
         return self.store.store_metadata(tracking_info, tracking_name,
-                                         path=self.TRACKING_DIRECTORY)
+                                         path=self.tracking_prefix)
 
     def list(self, pattern=None):
         """ Return a list of all tracking metadata
@@ -143,7 +144,7 @@ class GEEARDTracker(object):
         list[str]
             Name of stored tracking information
         """
-        return self.store.list(path=self.TRACKING_DIRECTORY, pattern=pattern)
+        return self.store.list(path=self.tracking_prefix, pattern=pattern)
 
     def read(self, name):
         """ Returns stored tracking information as dict
@@ -159,7 +160,7 @@ class GEEARDTracker(object):
         dict
             JSON tracking info data as a dict
         """
-        return self.store.read_metadata(name, path=self.TRACKING_DIRECTORY)
+        return self.store.read_metadata(name, path=self.tracking_prefix)
 
     def update(self, name):
         """ Refresh and reupload tracking information by checking with the GEE

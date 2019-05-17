@@ -85,6 +85,9 @@
             "tracking_template": {
               "type": "string"
             },
+            "tracking_prefix": {
+                "type": "string"
+            },
             "filters": {
               "type": "array",
               "items": {

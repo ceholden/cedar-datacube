@@ -12,6 +12,8 @@ GEE_PREARD_NAME = "{collection}_h{tile.horizontal:03d}v{tile.vertical:03d}_{date
 GEE_PREARD_PREFIX = "GEEARD/{collection}/h{tile.horizontal:03d}v{tile.vertical:03d}"
 #: str: Default pre-ARD task tracking name template
 GEE_PREARD_TRACKING = 'TRACKING_PERIOD{date_start}-{date_end}_TASK{today}'
+#: str: Default pre-ARD task tracking prefix/path
+GEE_PREARD_TRACKING_PREFIX = 'GEEARD_TRACKING'
 
 
 GEE_EXPORT_TRACK_STRFTIME = '%Y%m%dT%H%M%S'
