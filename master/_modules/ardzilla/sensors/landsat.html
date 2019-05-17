@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.sensors.landsat &mdash; ardzilla 0+untagged.50.g0e0e665 documentation</title>
+  <title>ardzilla.sensors.landsat &mdash; ardzilla 0+untagged.50.g252b384 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.g0e0e665
+                0+untagged.50.g252b384
               </div>
             
           
@@ -188,6 +188,14 @@
     <span class="s1">&#39;LANDSAT/LE07/C01/T1_SR&#39;</span><span class="p">:</span> <span class="n">BANDS_LE7</span>
 <span class="p">}</span>
 
+<span class="c1">#: dict[str, Number]: NoDataValues for Landsat collections</span>
+<span class="n">NODATA</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;LANDSAT/LC08/C01/T1_SR&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">9999</span><span class="p">,</span>
+    <span class="s1">&#39;LANDSAT/LT05/C01/T1_SR&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">9999</span><span class="p">,</span>
+    <span class="s1">&#39;LANDSAT/LE07/C01/T1_SR&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">9999</span>
+<span class="p">}</span>
+
+
 <span class="n">_T1_SR_METADATA</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s1">&#39;CLOUD_COVER&#39;</span><span class="p">,</span>
     <span class="s1">&#39;CLOUD_COVER_LAND&#39;</span><span class="p">,</span>
@@ -312,7 +320,10 @@
     <span class="n">tile_col</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">ImageCollection</span><span class="o">.</span><span class="n">fromImages</span><span class="p">(</span><span class="n">images</span><span class="p">)</span>
     <span class="n">tile_bands</span> <span class="o">=</span> <span class="n">tile_col</span><span class="o">.</span><span class="n">toBands</span><span class="p">()</span><span class="o">.</span><span class="n">toInt16</span><span class="p">()</span>
 
-    <span class="k">return</span> <span class="n">tile_bands</span><span class="p">,</span> <span class="n">metadata</span></div>
+    <span class="c1"># Remove mask</span>
+    <span class="n">tile_bands_unmasked</span> <span class="o">=</span> <span class="n">tile_bands</span><span class="o">.</span><span class="n">unmask</span><span class="p">(</span><span class="n">NODATA</span><span class="p">[</span><span class="n">collection</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">tile_bands_unmasked</span><span class="p">,</span> <span class="n">metadata</span></div>
 
 
 <span class="k">def</span> <span class="nf">_imgcol_metadata</span><span class="p">(</span><span class="n">imgcol</span><span class="p">,</span> <span class="n">keys</span><span class="p">):</span>
