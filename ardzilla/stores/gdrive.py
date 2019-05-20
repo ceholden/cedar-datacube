@@ -113,9 +113,9 @@ def get_credentials(client_secrets=None, client_secrets_file=None,
             else:
                 creds = flow.run_local_server(**flow_kwds)
 
-    # Save for next time
-    logger.debug(f'Saving Google API credentials to {credentials_file_}')
-    _save_credentials(creds, credentials_file_)
+        # Save for next time
+        logger.debug(f'Saving Google API credentials to {credentials_file_}')
+        save_credentials(creds, credentials_file_)
 
     return creds
 
