@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.cli.options &mdash; ardzilla 0+untagged.50.g6d74b8b documentation</title>
+  <title>ardzilla.cli.options &mdash; ardzilla 0+untagged.50.gc3e8e34 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.g6d74b8b
+                0+untagged.50.gc3e8e34
               </div>
             
           
@@ -170,6 +170,7 @@
 <span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">defaults</span>
 
 
+<span class="c1"># =============================================================================</span>
 <span class="c1"># Arguments</span>
 <span class="n">arg_tracking_name</span> <span class="o">=</span> <span class="n">click</span><span class="o">.</span><span class="n">argument</span><span class="p">(</span><span class="s1">&#39;tracking_name&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
 <span class="n">arg_dest_dir</span> <span class="o">=</span> <span class="n">click</span><span class="o">.</span><span class="n">argument</span><span class="p">(</span><span class="s1">&#39;dest_dir&#39;</span><span class="p">,</span>
@@ -180,8 +181,9 @@
 <span class="n">type_path_file</span> <span class="o">=</span> <span class="n">click</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dir_okay</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">resolve_path</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 <span class="c1"># Options</span>
-<span class="n">opt_no_browser</span> <span class="o">=</span> <span class="n">click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s1">&#39;--no-browser&#39;</span><span class="p">,</span> <span class="n">is_flag</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-                              <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Do not launch a web browser&#39;</span><span class="p">)</span>
+<span class="n">opt_browser</span> <span class="o">=</span> <span class="n">click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span>
+    <span class="s1">&#39;--browser&#39;</span><span class="p">,</span> <span class="n">is_flag</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Open a web browser instead of terminal to authenticate&#39;</span><span class="p">)</span>
 <span class="n">opt_overwrite</span> <span class="o">=</span> <span class="n">click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s1">&#39;--overwrite&#39;</span><span class="p">,</span> <span class="n">is_flag</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                              <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Overwrite existing files&#39;</span><span class="p">)</span>
 

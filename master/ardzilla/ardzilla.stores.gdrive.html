@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.stores.gdrive module &mdash; ardzilla 0+untagged.50.g6d74b8b documentation</title>
+  <title>ardzilla.stores.gdrive module &mdash; ardzilla 0+untagged.50.gc3e8e34 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.g6d74b8b
+                0+untagged.50.gc3e8e34
               </div>
             
           
@@ -461,13 +461,18 @@ If not provided, will use default location.</p></li>
 </dd></dl>
 
 <dl class="function">
+<dt id="ardzilla.stores.gdrive.find_credentials">
+<code class="descclassname">ardzilla.stores.gdrive.</code><code class="descname">find_credentials</code><span class="sig-paren">(</span><em>client_secrets_file=None</em>, <em>credentials_file=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/stores/gdrive.html#find_credentials"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.stores.gdrive.find_credentials" title="Permalink to this definition">¶</a></dt>
+<dd><p>Locate GDrive client secrets &amp; credentials files</p>
+</dd></dl>
+
+<dl class="function">
 <dt id="ardzilla.stores.gdrive.get_credentials">
-<code class="descclassname">ardzilla.stores.gdrive.</code><code class="descname">get_credentials</code><span class="sig-paren">(</span><em>client_secrets=None</em>, <em>client_secrets_file=None</em>, <em>credentials_file=None</em>, <em>no_browser=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/stores/gdrive.html#get_credentials"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.stores.gdrive.get_credentials" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">ardzilla.stores.gdrive.</code><code class="descname">get_credentials</code><span class="sig-paren">(</span><em>client_secrets_file=None</em>, <em>credentials_file=None</em>, <em>no_browser=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/stores/gdrive.html#get_credentials"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.stores.gdrive.get_credentials" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get OAuth2 Credentials for Google Drive</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>client_secrets</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – Client secrets information</p></li>
 <li><p><strong>client_secrets_file</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em> or </em><em>Path</em>) – Filename of “client_secrets.[…].json” file</p></li>
 <li><p><strong>credentials_file</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em> or </em><em>Path</em>) – Filename of user credentials to load, or to save to for future use.
 If not provided, will use default location.</p></li>
@@ -517,6 +522,20 @@ authenticate using a terminal prompt.</p></li>
 </dd>
 <dt class="field-even">Yields</dt>
 <dd class="field-even"><p><em>list[dict]</em> – Info about objects stored on Google Drive (keys=(‘id’, ‘name’, ))</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ardzilla.stores.gdrive.load_credentials">
+<code class="descclassname">ardzilla.stores.gdrive.</code><code class="descname">load_credentials</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/stores/gdrive.html#load_credentials"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.stores.gdrive.load_credentials" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load Google OAuth2 credentials from file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>google.oauth2.credentials.Credentials</p>
 </dd>
 </dl>
 </dd></dl>
@@ -581,6 +600,20 @@ create a new directory and instead return the ID of this directory</p></li>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ardzilla.stores.gdrive.save_credentials">
+<code class="descclassname">ardzilla.stores.gdrive.</code><code class="descname">save_credentials</code><span class="sig-paren">(</span><em>credentials</em>, <em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/stores/gdrive.html#save_credentials"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.stores.gdrive.save_credentials" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save Google OAuth2 credentials</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>credentials</strong> (<em>google.oauth2.credentials.Credentials</em>) – Google OAuth2 credentials</p></li>
+<li><p><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em> or </em><em>Path</em>) – Path to save credentials</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>

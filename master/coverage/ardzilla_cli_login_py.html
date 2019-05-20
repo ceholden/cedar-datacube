@@ -233,9 +233,9 @@
 <p id="t56" class="pln">              <span class="nam">type</span><span class="op">=</span><span class="nam">click</span><span class="op">.</span><span class="nam">Path</span><span class="op">(</span><span class="nam">dir_okay</span><span class="op">=</span><span class="key">False</span><span class="op">,</span> <span class="nam">resolve_path</span><span class="op">=</span><span class="key">True</span><span class="op">,</span> <span class="nam">exists</span><span class="op">=</span><span class="key">True</span><span class="op">)</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t57" class="stm mis"><span class="op">@</span><span class="nam">click</span><span class="op">.</span><span class="nam">option</span><span class="op">(</span><span class="str">'--credentials_file'</span><span class="op">,</span> <span class="nam">help</span><span class="op">=</span><span class="str">'OAuth2 credentials'</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
 <p id="t58" class="pln">              <span class="nam">type</span><span class="op">=</span><span class="nam">click</span><span class="op">.</span><span class="nam">Path</span><span class="op">(</span><span class="nam">dir_okay</span><span class="op">=</span><span class="key">False</span><span class="op">,</span> <span class="nam">resolve_path</span><span class="op">=</span><span class="key">True</span><span class="op">)</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
-<p id="t59" class="stm mis"><span class="op">@</span><span class="nam">options</span><span class="op">.</span><span class="nam">opt_no_browser</span><span class="strut">&nbsp;</span></p>
+<p id="t59" class="stm mis"><span class="op">@</span><span class="nam">options</span><span class="op">.</span><span class="nam">opt_browser</span><span class="strut">&nbsp;</span></p>
 <p id="t60" class="stm mis"><span class="op">@</span><span class="nam">click</span><span class="op">.</span><span class="nam">pass_context</span><span class="strut">&nbsp;</span></p>
-<p id="t61" class="pln"><span class="key">def</span> <span class="nam">login_gdrive</span><span class="op">(</span><span class="nam">ctx</span><span class="op">,</span> <span class="nam">client_secrets_file</span><span class="op">,</span> <span class="nam">credentials_file</span><span class="op">,</span> <span class="nam">no_browser</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
+<p id="t61" class="pln"><span class="key">def</span> <span class="nam">login_gdrive</span><span class="op">(</span><span class="nam">ctx</span><span class="op">,</span> <span class="nam">client_secrets_file</span><span class="op">,</span> <span class="nam">credentials_file</span><span class="op">,</span> <span class="nam">browser</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t62" class="pln">    <span class="str">""" Login to the Google Drive API service using OAuth2 credentials</span><span class="strut">&nbsp;</span></p>
 <p id="t63" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t64" class="pln"><span class="str">    Useful for:</span><span class="strut">&nbsp;</span></p>
@@ -259,7 +259,7 @@
 <p id="t82" class="pln">    <span class="com"># Create/refresh credentials</span><span class="strut">&nbsp;</span></p>
 <p id="t83" class="stm mis">    <span class="nam">creds</span> <span class="op">=</span> <span class="nam">gdrive</span><span class="op">.</span><span class="nam">get_credentials</span><span class="op">(</span><span class="nam">client_secrets_file</span><span class="op">=</span><span class="nam">client_secrets_file</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
 <p id="t84" class="pln">                                   <span class="nam">credentials_file</span><span class="op">=</span><span class="nam">credentials_file</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
-<p id="t85" class="pln">                                   <span class="nam">no_browser</span><span class="op">=</span><span class="nam">no_browser</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t85" class="pln">                                   <span class="nam">no_browser</span><span class="op">=</span><span class="key">not</span> <span class="nam">browser</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t86" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t87" class="pln">    <span class="com"># Check we can build a service</span><span class="strut">&nbsp;</span></p>
 <p id="t88" class="stm mis">    <span class="nam">service</span> <span class="op">=</span> <span class="nam">gdrive</span><span class="op">.</span><span class="nam">build_gdrive_service</span><span class="op">(</span><span class="nam">creds</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
@@ -290,7 +290,7 @@
     <div class="content">
         <p>
             <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.io">coverage.py v4.5.3</a>,
-            created at 2019-05-20 17:16
+            created at 2019-05-20 22:38
         </p>
     </div>
 </div>
