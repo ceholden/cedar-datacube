@@ -74,13 +74,14 @@ def submit(ctx, image_collection, index, row, col,
     click.echo(f'    At frequency: {freq}')
 
     # Submit!
-    tracking_file = tracker.submit(
+    tracking_info_name, tracking_info_id = tracker.submit(
         image_collection,
         index,
         date_start, date_end,
         freq=freq
     )
-    click.echo('Wrote job tracking to store object named "{tracking_file}"')
+    click.echo('Wrote job tracking to store object named '
+               f'"{tracking_info_name}" ({tracking_info_id})')
 
 
 # def _check_imgcol(ctx, image_collection):

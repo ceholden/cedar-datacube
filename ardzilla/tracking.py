@@ -78,7 +78,9 @@ class GEEARDTracker(object):
         Returns
         -------
         str
-            Path to stored task metadata information
+            Task tracking information name
+        str
+            Task tracking information identifier (an ID, path, etc)
         """
         # TODO: eventually allow start/end to be None (use limits of data)
         if isinstance(collections, str):
@@ -125,8 +127,9 @@ class GEEARDTracker(object):
         # Get tracking info name and store it
         tracking_name = self._tracking_name(date_start, date_end)
         tracking_info = {'submission': meta_submission, 'tasks': meta_tasks}
-        return self.store.store_metadata(tracking_info, tracking_name,
-                                         path=self.tracking_prefix)
+        tracking_id = self.store.store_metadata(tracking_info, tracking_name,
+                                                path=self.tracking_prefix)
+        return tracking_name, tracking_id
 
     def list(self, pattern=None):
         """ Return a list of all tracking metadata
