@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.tracking &mdash; ardzilla 0+untagged.50.g80e9ae7 documentation</title>
+  <title>ardzilla.tracking &mdash; ardzilla 0+untagged.50.g6d74b8b documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.g80e9ae7
+                0+untagged.50.g6d74b8b
               </div>
             
           
@@ -240,7 +240,9 @@
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        str</span>
-<span class="sd">            Path to stored task metadata information</span>
+<span class="sd">            Task tracking information name</span>
+<span class="sd">        str</span>
+<span class="sd">            Task tracking information identifier (an ID, path, etc)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># TODO: eventually allow start/end to be None (use limits of data)</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">collections</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
@@ -287,8 +289,9 @@
         <span class="c1"># Get tracking info name and store it</span>
         <span class="n">tracking_name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tracking_name</span><span class="p">(</span><span class="n">date_start</span><span class="p">,</span> <span class="n">date_end</span><span class="p">)</span>
         <span class="n">tracking_info</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;submission&#39;</span><span class="p">:</span> <span class="n">meta_submission</span><span class="p">,</span> <span class="s1">&#39;tasks&#39;</span><span class="p">:</span> <span class="n">meta_tasks</span><span class="p">}</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">store</span><span class="o">.</span><span class="n">store_metadata</span><span class="p">(</span><span class="n">tracking_info</span><span class="p">,</span> <span class="n">tracking_name</span><span class="p">,</span>
-                                         <span class="n">path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tracking_prefix</span><span class="p">)</span></div>
+        <span class="n">tracking_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">store</span><span class="o">.</span><span class="n">store_metadata</span><span class="p">(</span><span class="n">tracking_info</span><span class="p">,</span> <span class="n">tracking_name</span><span class="p">,</span>
+                                                <span class="n">path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tracking_prefix</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">tracking_name</span><span class="p">,</span> <span class="n">tracking_id</span></div>
 
 <div class="viewcode-block" id="GEEARDTracker.list"><a class="viewcode-back" href="../../ardzilla/ardzilla.tracking.html#ardzilla.tracking.GEEARDTracker.list">[docs]</a>    <span class="k">def</span> <span class="nf">list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Return a list of all tracking metadata</span>
@@ -338,7 +341,7 @@
 <span class="sd">        dict</span>
 <span class="sd">            JSON tracking info data as a dict</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">tracking_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read_tracking</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">tracking_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
         <span class="n">tracking_info_updated</span> <span class="o">=</span> <span class="n">update_tracking_info</span><span class="p">(</span><span class="n">tracking_info</span><span class="p">)</span>
         <span class="n">name_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">store</span><span class="o">.</span><span class="n">store_metadata</span><span class="p">(</span><span class="n">tracking_info</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">tracking_info_updated</span></div>
