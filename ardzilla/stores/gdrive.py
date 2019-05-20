@@ -19,7 +19,7 @@ from googleapiclient.http import MediaIoBaseUpload
 
 import ee
 
-from .. import utils
+from .. import defaults, utils
 
 logger = logging.getLogger(__name__)
 
@@ -34,8 +34,8 @@ METADATA_ENCODING = 'utf-8'
 SCOPES = ['https://www.googleapis.com/auth/drive']
 
 # TODO: rehash what these should be and document
-_CLIENT_SECRETS = ['client_secrets.json']
-_USER_CREDS = ['credentials.json']
+_CLIENT_SECRETS = 'client_secrets.json'
+_USER_CREDS = 'credentials.json'
 
 
 def build_gdrive_service(credentials):
@@ -55,14 +55,12 @@ def build_gdrive_service(credentials):
     return service
 
 
-def get_credentials(client_secrets=None, client_secrets_file=None,
-                    credentials_file=None, no_browser=True):
+def get_credentials(client_secrets_file=None, credentials_file=None,
+                    no_browser=True):
     """ Get OAuth2 Credentials for Google Drive
 
     Parameters
     ----------
-    client_secrets : dict
-        Client secrets information
     client_secrets_file : str or Path
         Filename of "client_secrets.[...].json" file
     credentials_file : str or Path
@@ -77,15 +75,14 @@ def get_credentials(client_secrets=None, client_secrets_file=None,
     credentials : google.oauth2.credentials.Credentials
         User credentials, including access token, for using the application.
     """
-    client_secrets_file_ = utils.get_file(
-        client_secrets_file, *_CLIENT_SECRETS, exists=True)
-    credentials_file_ = utils.get_file(
-        credentials_file, *_USER_CREDS, exists=False)
+    # Locate authentication files, checking default places
+    client_secrets_file_, credentials_file_ = find_credentials(
+        client_secrets_file, credentials_file)
 
     creds = None
     if credentials_file_ and os.path.exists(credentials_file_):
         logger.debug('Trying to load previous credentials file...')
-        creds = _load_credentials(credentials_file_)
+        creds = load_credentials(credentials_file_)
 
     if not creds or not creds.valid:
         # Try refreshing
@@ -780,7 +777,7 @@ def _creds_to_dict(creds):
     return creds_
 
 
-def _load_credentials(filename):
+def load_credentials(filename):
     """ Load Google OAuth2 credentials from file
 
     Returns
@@ -793,13 +790,37 @@ def _load_credentials(filename):
     return creds
 
 
-def _save_credentials(creds, filename):
+def save_credentials(credentials, filename):
     """ Save Google OAuth2 credentials
+
+    Parameters
+    ----------
+    credentials : google.oauth2.credentials.Credentials
+        Google OAuth2 credentials
+    filename : str or Path
+        Path to save credentials
     """
-    creds_ = _creds_to_dict(creds)
+    creds_ = _creds_to_dict(credentials)
     filename = Path(filename)
     filename.parent.mkdir(exist_ok=True, parents=True)
     style = {'indent': 2, 'sort_keys': False}
     with open(str(filename), 'w') as dst:
         json.dump(creds_, dst, **style)
-    return str(filename)
+    utils.set_file_urw(filename)
+
+
+def find_credentials(client_secrets_file=None, credentials_file=None):
+    """ Locate GDrive client secrets & credentials files
+    """
+    def _check(fname, exists=True):
+        dname, bname = os.path.dirname(fname), os.path.basename(fname)
+        dirs_ = defaults.ARDZILLA_ROOT_CONFIG.copy()
+        if dname:
+            dirs_.insert(0, dname)
+        paths = [os.path.join(d, bname) for d in dirs_]
+        return utils.get_file(*paths, exists=exists)
+
+    client_secrets_file_ = _check(client_secrets_file or _CLIENT_SECRETS, True)
+    credentials_file_ = _check(credentials_file or _USER_CREDS, False)
+
+    return client_secrets_file_, credentials_file_

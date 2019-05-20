@@ -1,5 +1,20 @@
 """ Default values for ardzilla
 """
+import os
+
+
+# =============================================================================
+# Configuration file defaults
+# str: Environment variable used for passing configuration file location
+ENVVAR_CONFIG_FILE = 'ARDZILLA_CONFIG'
+
+# Sequence[str]: Paths to ARDzilla user configuration data
+ARDZILLA_ROOT_CONFIG = [
+    os.path.join(os.path.expanduser('~'), '.config', 'ardzilla'),
+]
+if 'ARDZILLA_ROOT_CONFIG' in os.environ:
+    ARDZILLA_ROOT_CONFIG.insert(0, os.environment['ARDZILLA_ROOT_CONFIG'])
+
 
 # =============================================================================
 # Google Earth Engine
@@ -16,10 +31,5 @@ GEE_PREARD_TRACKING = 'TRACKING_PERIOD{date_start}-{date_end}_TASK{today}'
 GEE_PREARD_TRACKING_PREFIX = 'GEEARD_TRACKING'
 
 
-GEE_EXPORT_TRACK_STRFTIME = '%Y%m%dT%H%M%S'
 GEE_EXPORT_IMAGE_STRFTIME = '%Y%m%d'
-
-
-# =============================================================================
-# Configuration file defaults
-ENVVAR_CONFIG_FILE = 'ARDZILLA_CONFIG'
+GEE_EXPORT_TRACK_STRFTIME = '%Y%m%dT%H%M%S'
