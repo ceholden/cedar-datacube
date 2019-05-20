@@ -1,6 +1,7 @@
 """ CLI for checking status of tasks and exports
 """
 from collections import defaultdict
+import json
 
 import click
 
@@ -57,3 +58,25 @@ def list(ctx):
     click.echo('Tracked orders:')
     for tracked_info in tracked_infos:
         click.echo(tracked_info)
+
+
+@group_status.command('read', short_help='Read status of submission and print')
+@options.arg_tracking_name
+@click.option('--update', is_flag=True,
+              help='Update tracking info before reading')
+@click.pass_context
+def read(ctx, tracking_name, update):
+    """ Print job submission information from tracking info
+    """
+    config = options.fetch_config(ctx)
+    tracker = config.get_tracker()
+
+    if update:
+        info = tracker.update(tracking_name)
+    else:
+        info = tracker.read(tracking_name)
+
+    # Display
+    info_str = json.dumps(info, indent=2)
+    click.echo('Submission info: ')
+    click.echo(info_str)
