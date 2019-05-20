@@ -56,9 +56,9 @@ def login_gee(ctx):
               type=click.Path(dir_okay=False, resolve_path=True, exists=True))
 @click.option('--credentials_file', help='OAuth2 credentials',
               type=click.Path(dir_okay=False, resolve_path=True))
-@options.opt_no_browser
+@options.opt_browser
 @click.pass_context
-def login_gdrive(ctx, client_secrets_file, credentials_file, no_browser):
+def login_gdrive(ctx, client_secrets_file, credentials_file, browser):
     """ Login to the Google Drive API service using OAuth2 credentials
 
     Useful for:
@@ -82,7 +82,7 @@ def login_gdrive(ctx, client_secrets_file, credentials_file, no_browser):
     # Create/refresh credentials
     creds = gdrive.get_credentials(client_secrets_file=client_secrets_file,
                                    credentials_file=credentials_file,
-                                   no_browser=no_browser)
+                                   no_browser=not browser)
 
     # Check we can build a service
     service = gdrive.build_gdrive_service(creds)

@@ -8,6 +8,7 @@ import click
 from .. import defaults
 
 
+# =============================================================================
 # Arguments
 arg_tracking_name = click.argument('tracking_name', type=str)
 arg_dest_dir = click.argument('dest_dir',
@@ -18,8 +19,9 @@ arg_dest_dir = click.argument('dest_dir',
 type_path_file = click.Path(exists=True, dir_okay=False, resolve_path=True)
 
 # Options
-opt_no_browser = click.option('--no-browser', is_flag=True,
-                              help='Do not launch a web browser')
+opt_browser = click.option(
+    '--browser', is_flag=True,
+    help='Open a web browser instead of terminal to authenticate')
 opt_overwrite = click.option('--overwrite', is_flag=True,
                              help='Overwrite existing files')
 
