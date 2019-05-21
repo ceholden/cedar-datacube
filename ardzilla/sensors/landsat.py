@@ -139,11 +139,18 @@ def create_ard(collection, tile, date_start, date_end, filters=None,
     # Unpack
     images, _ = list(zip(*prepped))
 
+    # Re-create as collection and turn to bands (n_image x bands_per_image)
+    tile_col = ee.ImageCollection.fromImages(images)
+    tile_bands = tile_col.toBands().toInt16()
+
+    # Remove mask
+    nodata = NODATA[collection]
+    tile_bands_unmasked = tile_bands.unmask(NODATA[collection])
+
     # Get all image metadata at once (saves time back and forth)
     images_metadata = list(ee.List(_).getInfo())
 
     # Create overall metadata
-    # TODO: build elsewhere
     metadata = {
         'ardzilla:version': ardzilla_version,
         'ardzilla:time': dt.datetime.now().strftime('%Y-%m-%dT%H:%M:%S'),
@@ -151,15 +158,9 @@ def create_ard(collection, tile, date_start, date_end, filters=None,
         'date_start': date_start.strftime('%Y-%m-%d'),
         'date_end': date_end.strftime('%Y-%m-%d'),
         'bands': list(imgcol.first().bandNames().getInfo()),
+        'nodata': nodata,
         'images': images_metadata
     }
-
-    # Re-create as collection and turn to bands (n_image x bands_per_image)
-    tile_col = ee.ImageCollection.fromImages(images)
-    tile_bands = tile_col.toBands().toInt16()
-
-    # Remove mask
-    tile_bands_unmasked = tile_bands.unmask(NODATA[collection])
 
     return tile_bands_unmasked, metadata
 
