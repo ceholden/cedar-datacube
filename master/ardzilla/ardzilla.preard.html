@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.preard module &mdash; ardzilla 0+untagged.50.g14dec82 documentation</title>
+  <title>ardzilla.preard module &mdash; ardzilla 0+untagged.50.gcb39146 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.g14dec82
+                0+untagged.50.gcb39146
               </div>
             
           
@@ -166,6 +166,53 @@
   <div class="section" id="module-ardzilla.preard">
 <span id="ardzilla-preard-module"></span><h1>ardzilla.preard module<a class="headerlink" href="#module-ardzilla.preard" title="Permalink to this headline">¶</a></h1>
 <p>Convert “pre-ARD” to ARD</p>
+<dl class="function">
+<dt id="ardzilla.preard.preard_to_ds">
+<code class="descclassname">ardzilla.preard.</code><code class="descname">preard_to_ds</code><span class="sig-paren">(</span><em>xarr</em>, <em>time</em>, <em>bands</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/preard.html#preard_to_ds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.preard.preard_to_ds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a “pre-ARD” DataArray to an ARD xr.Dataset</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>xarr</strong> (<a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v0.12.1)"><em>xarray.DataArray</em></a>) – DataArray containing observations from all bands and time</p></li>
+<li><p><strong>time</strong> (<em>np.ndarray</em>) – Time information for each observation</p></li>
+<li><p><strong>bands</strong> (<em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>]</em>) – Band names</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Dataset containing all observations split into subdatasets
+according to band</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>xr.Dataset</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.7/library/exceptions.html#ValueError" title="(in Python v3.7)"><strong>ValueError</strong></a> – Raised if the number of bands and times specified do not match
+the number of “bands” in the input DataArray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ardzilla.preard.read_preard">
+<code class="descclassname">ardzilla.preard.</code><code class="descname">read_preard</code><span class="sig-paren">(</span><em>filenames</em>, <em>chunks=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/preard.html#read_preard"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.preard.read_preard" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read pre-ARD file(s) into a single DataArray</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filenames</strong> (<em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em> or </em><em>Path</em><em>]</em>) – Pre-ARD file name(s)</p></li>
+<li><p><strong>chunks</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a><em>, </em><em>optional</em>) – Chunks to use when opening pre-ARD GeoTIFF files. If <code class="docutils literal notranslate"><span class="pre">None</span></code>,
+defaults to <code class="docutils literal notranslate"><span class="pre">{'x':</span> <span class="pre">256,</span> <span class="pre">'y':</span> <span class="pre">256,</span> <span class="pre">'band':</span> <span class="pre">-1}</span></code></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Pre-ARD joined together as a single DataArray</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>xr.DataArray</p>
+</dd>
+</dl>
+</dd></dl>
+
 </div>
 
 
