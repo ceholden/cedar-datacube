@@ -11,6 +11,7 @@ ENVVAR_CONFIG_FILE = 'ARDZILLA_CONFIG'
 # Sequence[str]: Paths to ARDzilla user configuration data
 ARDZILLA_ROOT_CONFIG = [
     os.path.join(os.path.expanduser('~'), '.config', 'ardzilla'),
+    os.getcwd()
 ]
 if 'ARDZILLA_ROOT_CONFIG' in os.environ:
     ARDZILLA_ROOT_CONFIG.insert(0, os.environment['ARDZILLA_ROOT_CONFIG'])
