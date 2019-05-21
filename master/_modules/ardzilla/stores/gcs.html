@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.stores.gcs &mdash; ardzilla 0+untagged.50.gc3e8e34 documentation</title>
+  <title>ardzilla.stores.gcs &mdash; ardzilla 0+untagged.50.g14dec82 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.gc3e8e34
+                0+untagged.50.g14dec82
               </div>
             
           
@@ -171,9 +171,12 @@
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="k">import</span> <span class="n">Path</span>
 <span class="kn">import</span> <span class="nn">re</span>
 
-<span class="kn">import</span> <span class="nn">ee</span>
 <span class="kn">from</span> <span class="nn">google.cloud</span> <span class="k">import</span> <span class="n">storage</span>
 <span class="kn">from</span> <span class="nn">google.oauth2</span> <span class="k">import</span> <span class="n">service_account</span>
+
+<span class="kn">import</span> <span class="nn">ee</span>
+
+<span class="kn">from</span> <span class="nn">stems.utils</span> <span class="k">import</span> <span class="n">renamed_upon_completion</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -661,7 +664,8 @@
     <span class="k">if</span> <span class="n">dest_</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">overwrite</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Not overwriting existing file &quot;</span><span class="si">{dest_}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">blob</span><span class="o">.</span><span class="n">download_to_filename</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">dest_</span><span class="p">))</span>
+        <span class="k">with</span> <span class="n">renamed_upon_completion</span><span class="p">(</span><span class="n">dest_</span><span class="p">)</span> <span class="k">as</span> <span class="n">tmp</span><span class="p">:</span>
+            <span class="n">blob</span><span class="o">.</span><span class="n">download_to_filename</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">dest_</span></div>
 
