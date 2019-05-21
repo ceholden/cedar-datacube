@@ -19,6 +19,8 @@ from googleapiclient.http import MediaIoBaseUpload
 
 import ee
 
+from stems.utils import renamed_upon_completion
+
 from .. import defaults, utils
 
 logger = logging.getLogger(__name__)
@@ -441,11 +443,13 @@ def download_file_id(service, file_id, name, dest, overwrite=True):
 
     # Download...
     request = service.files().get_media(fileId=file_id)
-    with open(str(dest_), 'wb') as dst:
-        downloader = MediaIoBaseDownload(dst, request)
-        done = False
-        while done is False:
-            status, done = downloader.next_chunk()
+
+    with renamed_upon_completion(dest_) as tmp:
+        with open(str(tmp), 'wb') as dst:
+            downloader = MediaIoBaseDownload(dst, request)
+            done = False
+            while done is False:
+                status, done = downloader.next_chunk()
 
     return dest_
 
@@ -801,12 +805,14 @@ def save_credentials(credentials, filename):
         Path to save credentials
     """
     creds_ = _creds_to_dict(credentials)
+
     filename = Path(filename)
     filename.parent.mkdir(exist_ok=True, parents=True)
-    style = {'indent': 2, 'sort_keys': False}
-    with open(str(filename), 'w') as dst:
-        json.dump(creds_, dst, **style)
-    utils.set_file_urw(filename)
+
+    with renamed_upon_completion(filename) as tmp:
+        with open(str(tmp), 'w') as dst:
+            json.dump(creds_, dst, indent=2, sort_keys=False)
+        utils.set_file_urw(tmp)
 
 
 def find_credentials(client_secrets_file=None, credentials_file=None):

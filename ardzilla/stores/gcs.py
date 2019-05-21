@@ -9,9 +9,12 @@ import os
 from pathlib import Path
 import re
 
-import ee
 from google.cloud import storage
 from google.oauth2 import service_account
+
+import ee
+
+from stems.utils import renamed_upon_completion
 
 logger = logging.getLogger(__name__)
 
@@ -499,7 +502,8 @@ def download_blob(blob, dest, overwrite=True):
     if dest_.exists() and not overwrite:
         raise ValueError(f'Not overwriting existing file "{dest_}"')
     else:
-        blob.download_to_filename(str(dest_))
+        with renamed_upon_completion(dest_) as tmp:
+            blob.download_to_filename(tmp)
 
     return dest_
 
