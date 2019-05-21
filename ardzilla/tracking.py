@@ -383,6 +383,7 @@ def _tracking_info_metadata(collection, tile, date_start, date_end):
         'tile_col': tile.horizontal,
         'tile_bounds': tile.bounds,
         'tile_crs_wkt': tile.crs.wkt,
+        'tile_transform': ','.join(tile.transform[:6]),
         'date_start': _strftime_image(date_start),
         'date_end': _strftime_image(date_end),
     }
