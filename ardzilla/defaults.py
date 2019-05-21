@@ -34,3 +34,9 @@ GEE_PREARD_TRACKING_PREFIX = 'GEEARD_TRACKING'
 
 GEE_EXPORT_IMAGE_STRFTIME = '%Y%m%d'
 GEE_EXPORT_TRACK_STRFTIME = '%Y%m%dT%H%M%S'
+
+
+# =============================================================================
+# Pre-ARD Ingest
+#: dict: Chunks to use when opening Pre-ARD images
+PREARD_CHUNKS = {'y': 256, 'x': 256, 'band': -1}
