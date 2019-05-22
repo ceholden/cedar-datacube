@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.tracking &mdash; ardzilla 0+untagged.50.gcb39146 documentation</title>
+  <title>ardzilla.tracking &mdash; ardzilla 0+untagged.50.g5e64316 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.gcb39146
+                0+untagged.50.g5e64316
               </div>
             
           
@@ -346,7 +346,7 @@
         <span class="n">name_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">store</span><span class="o">.</span><span class="n">store_metadata</span><span class="p">(</span><span class="n">tracking_info</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">tracking_info_updated</span></div>
 
-<div class="viewcode-block" id="GEEARDTracker.download"><a class="viewcode-back" href="../../ardzilla/ardzilla.tracking.html#ardzilla.tracking.GEEARDTracker.download">[docs]</a>    <span class="k">def</span> <span class="nf">download</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tracking_info</span><span class="p">,</span> <span class="n">dest</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="GEEARDTracker.download"><a class="viewcode-back" href="../../ardzilla/ardzilla.tracking.html#ardzilla.tracking.GEEARDTracker.download">[docs]</a>    <span class="k">def</span> <span class="nf">download</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tracking_info</span><span class="p">,</span> <span class="n">dest</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Download &quot;pre-ARD&quot; and metadata to a directory</span>
 
 <span class="sd">        Parameters</span>
@@ -357,17 +357,47 @@
 <span class="sd">            Destination download directory</span>
 <span class="sd">        overwrite : bool, optional</span>
 <span class="sd">            Overwrite existing downloaded data</span>
+<span class="sd">        callback : callable</span>
+<span class="sd">            Callback function to execute after each file is downloaded.</span>
+<span class="sd">            Should take arguments &quot;item&quot; and &quot;n_steps&quot;. Use this for</span>
+<span class="sd">            progress bars or other download status reporting</span>
 
-<span class="sd">        Yields</span>
-<span class="sd">        ------</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
 <span class="sd">        tuple[str, list[str]]</span>
 <span class="sd">            Key value pairs mapping GEE task IDs to the filenames of</span>
 <span class="sd">            downloaded data. Wrap it in a ``dict`` to make it not lazy</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Downloading for {len(tracking_info[&quot;tasks&quot;])} tasks&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">download_tracked</span><span class="p">(</span><span class="n">tracking_info</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">store</span><span class="p">,</span> <span class="n">dest</span><span class="p">,</span>
-                                <span class="n">overwrite</span><span class="o">=</span><span class="n">overwrite</span><span class="p">)</span></div>
+        <span class="n">iter_download</span> <span class="o">=</span> <span class="n">download_tracked</span><span class="p">(</span><span class="n">tracking_info</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">store</span><span class="p">,</span> <span class="n">dest</span><span class="p">,</span>
+                                         <span class="n">overwrite</span><span class="o">=</span><span class="n">overwrite</span><span class="p">)</span>
+
+        <span class="n">downloaded</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">task_id</span><span class="p">,</span> <span class="n">n_images</span><span class="p">,</span> <span class="n">meta</span><span class="p">,</span> <span class="n">images</span> <span class="ow">in</span> <span class="n">iter_download</span><span class="p">:</span>
+            <span class="c1"># Download, report (if callback), and store filenames</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Downloading output for task &quot;</span><span class="si">{task_id}</span><span class="s1">&quot; &#39;</span>
+                         <span class="n">f</span><span class="s1">&#39;({n_images or &quot;unknown&quot;} images)&#39;</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">meta_</span> <span class="ow">in</span> <span class="n">meta</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">callback</span><span class="p">:</span>
+                    <span class="c1"># Metadata doesn&#39;t count as a &quot;step&quot;</span>
+                    <span class="n">callback</span><span class="p">(</span><span class="n">item</span><span class="o">=</span><span class="n">task_id</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+                <span class="n">downloaded</span><span class="p">[</span><span class="n">task_id</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">meta_</span><span class="p">)</span>
+
+            <span class="c1"># We might not know how many images will be downloaded</span>
+            <span class="n">steps_image</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">n_images</span> <span class="k">if</span> <span class="n">n_images</span> <span class="k">else</span> <span class="mi">0</span>
+            <span class="k">for</span> <span class="n">image</span> <span class="ow">in</span> <span class="n">images</span><span class="p">:</span>
+                <span class="n">downloaded</span><span class="p">[</span><span class="n">task_id</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">callback</span><span class="p">:</span>
+                    <span class="n">callback</span><span class="p">(</span><span class="n">item</span><span class="o">=</span><span class="n">task_id</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="n">steps_image</span><span class="p">)</span>
+
+            <span class="c1"># Update for all downloaded images at once if we didn&#39;t know</span>
+            <span class="c1"># a priori</span>
+            <span class="k">if</span> <span class="n">steps_image</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">callback</span><span class="p">:</span>
+                <span class="n">callback</span><span class="p">(</span><span class="n">item</span><span class="o">=</span><span class="n">task_id</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">downloaded</span></div>
 
 <div class="viewcode-block" id="GEEARDTracker.clean"><a class="viewcode-back" href="../../ardzilla/ardzilla.tracking.html#ardzilla.tracking.GEEARDTracker.clean">[docs]</a>    <span class="k">def</span> <span class="nf">clean</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Clean &quot;pre-ARD&quot; imagery, metadata, and tracking metadata off GCS</span>
@@ -415,8 +445,14 @@
 
 <span class="sd">    Yields</span>
 <span class="sd">    ------</span>
-<span class="sd">    tuple[str, list[str]]</span>
-<span class="sd">        Key value pairs mapping GEE task IDs to the filenames of downloaded data</span>
+<span class="sd">    id : str</span>
+<span class="sd">        Task ID</span>
+<span class="sd">    n_images : int</span>
+<span class="sd">        Number of images to download if known, otherwise ``None``</span>
+<span class="sd">    metadata : generator</span>
+<span class="sd">        Generator that downloads metadata and yields filenames</span>
+<span class="sd">    images : generator</span>
+<span class="sd">        Generator that downloads imagery and yields filenames</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">dest_</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">dest</span><span class="p">))</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">dest_</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
@@ -426,16 +462,17 @@
 
     <span class="n">tasks</span> <span class="o">=</span> <span class="n">tracking_info</span><span class="p">[</span><span class="s1">&#39;tasks&#39;</span><span class="p">]</span>
     <span class="k">for</span> <span class="n">task</span> <span class="ow">in</span> <span class="n">tasks</span><span class="p">:</span>
+        <span class="c1"># Get info about task</span>
         <span class="n">id_</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">prefix</span> <span class="o">=</span> <span class="n">task</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">],</span> <span class="n">task</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">],</span> <span class="n">task</span><span class="p">[</span><span class="s1">&#39;prefix&#39;</span><span class="p">]</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Retrieving image and metadata for id=</span><span class="si">{id_}</span><span class="s1">, &#39;</span>
-                     <span class="n">f</span><span class="s1">&#39;name=&quot;</span><span class="si">{name}</span><span class="s1">&quot;, prefix=&quot;</span><span class="si">{prefix}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
+        <span class="n">n_images</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">task</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;output_url&#39;</span><span class="p">,</span> <span class="p">[]))</span> <span class="ow">or</span> <span class="kc">None</span>
+
         <span class="c1"># Retrieve image and metadata</span>
-        <span class="n">dst_imgs</span> <span class="o">=</span> <span class="n">store</span><span class="o">.</span><span class="n">retrieve_image</span><span class="p">(</span><span class="n">dest</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span>
-                                        <span class="n">overwrite</span><span class="o">=</span><span class="n">overwrite</span><span class="p">)</span>
         <span class="n">dst_meta</span> <span class="o">=</span> <span class="n">store</span><span class="o">.</span><span class="n">retrieve_metadata</span><span class="p">(</span><span class="n">dest</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span>
                                            <span class="n">overwrite</span><span class="o">=</span><span class="n">overwrite</span><span class="p">)</span>
+        <span class="n">dst_imgs</span> <span class="o">=</span> <span class="n">store</span><span class="o">.</span><span class="n">retrieve_image</span><span class="p">(</span><span class="n">dest</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span>
+                                        <span class="n">overwrite</span><span class="o">=</span><span class="n">overwrite</span><span class="p">)</span>
 
-        <span class="k">yield</span> <span class="p">(</span><span class="n">id_</span><span class="p">,</span> <span class="nb">list</span><span class="p">(</span><span class="n">dst_meta</span><span class="p">)</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">dst_imgs</span><span class="p">))</span></div>
+        <span class="k">yield</span> <span class="p">(</span><span class="n">id_</span><span class="p">,</span> <span class="n">n_images</span><span class="p">,</span> <span class="n">dst_meta</span><span class="p">,</span> <span class="n">dst_imgs</span><span class="p">,</span> <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="clean_tracked"><a class="viewcode-back" href="../../ardzilla/ardzilla.tracking.html#ardzilla.tracking.clean_tracked">[docs]</a><span class="k">def</span> <span class="nf">clean_tracked</span><span class="p">(</span><span class="n">tracking_info</span><span class="p">,</span> <span class="n">store</span><span class="p">):</span>
