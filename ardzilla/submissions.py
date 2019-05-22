@@ -128,6 +128,7 @@ def submit_ard(collection, tile, date_start, date_end, store,
 
             # Update metadata with task info and store
             metadata['task'] = _task_metadata(task)
+            metadata.update(_tile_metadata(tile))
             logger.debug(f'Storing metadata for task id "{task.id}"')
             metadata_ = store.store_metadata(metadata, name, prefix)
 
@@ -165,3 +166,10 @@ def _parse_date_freq(start, end, freq=None):
 def _task_metadata(task):
     attrs = ['id']  # "config" seems a bit much to store
     return {attr: getattr(task, attr) for attr in attrs}
+
+
+def _tile_metadata(tile):
+    return {
+        'crs_wkt': tile.crs.wkt,
+        'transform': ','.join(tile.transform[:6])
+    }
