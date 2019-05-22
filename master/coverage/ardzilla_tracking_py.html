@@ -606,7 +606,7 @@
 <p id="t12" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t13" class="stm run hide_run"><span class="key">from</span> <span class="nam">stems</span><span class="op">.</span><span class="nam">gis</span><span class="op">.</span><span class="nam">grids</span> <span class="key">import</span> <span class="nam">TileGrid</span><span class="op">,</span> <span class="nam">Tile</span><span class="strut">&nbsp;</span></p>
 <p id="t14" class="pln"><span class="strut">&nbsp;</span></p>
-<p id="t15" class="stm run hide_run"><span class="key">from</span> <span class="op">.</span> <span class="key">import</span> <span class="nam">defaults</span><span class="op">,</span> <span class="nam">submissions</span><span class="strut">&nbsp;</span></p>
+<p id="t15" class="stm run hide_run"><span class="key">from</span> <span class="op">.</span> <span class="key">import</span> <span class="nam">defaults</span><span class="op">,</span> <span class="nam">submissions</span><span class="op">,</span> <span class="nam">utils</span><span class="strut">&nbsp;</span></p>
 <p id="t16" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t17" class="stm run hide_run"><span class="nam">logger</span> <span class="op">=</span> <span class="nam">logging</span><span class="op">.</span><span class="nam">getLogger</span><span class="op">(</span><span class="nam">__name__</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t18" class="pln"><span class="strut">&nbsp;</span></p>
@@ -1027,7 +1027,7 @@
 <p id="t433" class="pln">        <span class="str">'tile_col'</span><span class="op">:</span> <span class="nam">tile</span><span class="op">.</span><span class="nam">horizontal</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
 <p id="t434" class="pln">        <span class="str">'tile_bounds'</span><span class="op">:</span> <span class="nam">tile</span><span class="op">.</span><span class="nam">bounds</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
 <p id="t435" class="pln">        <span class="str">'tile_crs_wkt'</span><span class="op">:</span> <span class="nam">tile</span><span class="op">.</span><span class="nam">crs</span><span class="op">.</span><span class="nam">wkt</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
-<p id="t436" class="pln">        <span class="str">'tile_transform'</span><span class="op">:</span> <span class="str">','</span><span class="op">.</span><span class="nam">join</span><span class="op">(</span><span class="nam">tile</span><span class="op">.</span><span class="nam">transform</span><span class="op">[</span><span class="op">:</span><span class="num">6</span><span class="op">]</span><span class="op">)</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
+<p id="t436" class="pln">        <span class="str">'tile_transform'</span><span class="op">:</span> <span class="nam">utils</span><span class="op">.</span><span class="nam">affine_to_str</span><span class="op">(</span><span class="nam">tile</span><span class="op">.</span><span class="nam">transform</span><span class="op">[</span><span class="op">:</span><span class="num">6</span><span class="op">]</span><span class="op">)</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
 <p id="t437" class="pln">        <span class="str">'date_start'</span><span class="op">:</span> <span class="nam">_strftime_image</span><span class="op">(</span><span class="nam">date_start</span><span class="op">)</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
 <p id="t438" class="pln">        <span class="str">'date_end'</span><span class="op">:</span> <span class="nam">_strftime_image</span><span class="op">(</span><span class="nam">date_end</span><span class="op">)</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
 <p id="t439" class="pln">    <span class="op">}</span><span class="strut">&nbsp;</span></p>
@@ -1124,7 +1124,7 @@
     <div class="content">
         <p>
             <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.io">coverage.py v4.5.3</a>,
-            created at 2019-05-22 22:00
+            created at 2019-05-22 22:08
         </p>
     </div>
 </div>

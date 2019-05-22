@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.submissions &mdash; ardzilla 0+untagged.50.gb38d15c documentation</title>
+  <title>ardzilla.submissions &mdash; ardzilla 0+untagged.50.g1fc1888 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.gb38d15c
+                0+untagged.50.g1fc1888
               </div>
             
           
@@ -168,7 +168,7 @@
 
 <span class="kn">import</span> <span class="nn">ee</span>
 
-<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">defaults</span><span class="p">,</span> <span class="n">sensors</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">defaults</span><span class="p">,</span> <span class="n">sensors</span><span class="p">,</span> <span class="n">utils</span>
 <span class="kn">from</span> <span class="nn">.exceptions</span> <span class="k">import</span> <span class="n">EmptyCollectionError</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
@@ -333,7 +333,7 @@
 <span class="k">def</span> <span class="nf">_tile_metadata</span><span class="p">(</span><span class="n">tile</span><span class="p">):</span>
     <span class="k">return</span> <span class="p">{</span>
         <span class="s1">&#39;crs_wkt&#39;</span><span class="p">:</span> <span class="n">tile</span><span class="o">.</span><span class="n">crs</span><span class="o">.</span><span class="n">wkt</span><span class="p">,</span>
-        <span class="s1">&#39;transform&#39;</span><span class="p">:</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tile</span><span class="o">.</span><span class="n">transform</span><span class="p">[:</span><span class="mi">6</span><span class="p">])</span>
+        <span class="s1">&#39;transform&#39;</span><span class="p">:</span> <span class="n">utils</span><span class="o">.</span><span class="n">affine_to_str</span><span class="p">(</span><span class="n">tile</span><span class="o">.</span><span class="n">transform</span><span class="p">)</span>
     <span class="p">}</span>
 </pre></div>
 

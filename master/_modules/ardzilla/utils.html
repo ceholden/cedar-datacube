@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.utils &mdash; ardzilla 0+untagged.50.gb38d15c documentation</title>
+  <title>ardzilla.utils &mdash; ardzilla 0+untagged.50.g1fc1888 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.gb38d15c
+                0+untagged.50.g1fc1888
               </div>
             
           
@@ -212,6 +212,12 @@
 <span class="sd">        File to modify</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">os</span><span class="o">.</span><span class="n">chmod</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">filename</span><span class="p">),</span> <span class="n">stat</span><span class="o">.</span><span class="n">S_IREAD</span> <span class="o">|</span> <span class="n">stat</span><span class="o">.</span><span class="n">S_IWRITE</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="affine_to_str"><a class="viewcode-back" href="../../ardzilla/ardzilla.utils.html#ardzilla.utils.affine_to_str">[docs]</a><span class="k">def</span> <span class="nf">affine_to_str</span><span class="p">(</span><span class="n">transform</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Return a string representatin of an affine.Affine transform</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">transform</span><span class="p">[:</span><span class="mi">6</span><span class="p">]))</span></div>
 </pre></div>
 
            </div>

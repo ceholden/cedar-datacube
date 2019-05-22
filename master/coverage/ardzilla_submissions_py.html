@@ -253,7 +253,7 @@
 <p id="t6" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t7" class="stm run hide_run"><span class="key">import</span> <span class="nam">ee</span><span class="strut">&nbsp;</span></p>
 <p id="t8" class="pln"><span class="strut">&nbsp;</span></p>
-<p id="t9" class="stm run hide_run"><span class="key">from</span> <span class="op">.</span> <span class="key">import</span> <span class="nam">defaults</span><span class="op">,</span> <span class="nam">sensors</span><span class="strut">&nbsp;</span></p>
+<p id="t9" class="stm run hide_run"><span class="key">from</span> <span class="op">.</span> <span class="key">import</span> <span class="nam">defaults</span><span class="op">,</span> <span class="nam">sensors</span><span class="op">,</span> <span class="nam">utils</span><span class="strut">&nbsp;</span></p>
 <p id="t10" class="stm run hide_run"><span class="key">from</span> <span class="op">.</span><span class="nam">exceptions</span> <span class="key">import</span> <span class="nam">EmptyCollectionError</span><span class="strut">&nbsp;</span></p>
 <p id="t11" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t12" class="stm run hide_run"><span class="nam">logger</span> <span class="op">=</span> <span class="nam">logging</span><span class="op">.</span><span class="nam">getLogger</span><span class="op">(</span><span class="nam">__name__</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
@@ -418,7 +418,7 @@
 <p id="t171" class="stm run hide_run"><span class="key">def</span> <span class="nam">_tile_metadata</span><span class="op">(</span><span class="nam">tile</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t172" class="stm mis">    <span class="key">return</span> <span class="op">{</span><span class="strut">&nbsp;</span></p>
 <p id="t173" class="pln">        <span class="str">'crs_wkt'</span><span class="op">:</span> <span class="nam">tile</span><span class="op">.</span><span class="nam">crs</span><span class="op">.</span><span class="nam">wkt</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
-<p id="t174" class="pln">        <span class="str">'transform'</span><span class="op">:</span> <span class="str">','</span><span class="op">.</span><span class="nam">join</span><span class="op">(</span><span class="nam">tile</span><span class="op">.</span><span class="nam">transform</span><span class="op">[</span><span class="op">:</span><span class="num">6</span><span class="op">]</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t174" class="pln">        <span class="str">'transform'</span><span class="op">:</span> <span class="nam">utils</span><span class="op">.</span><span class="nam">affine_to_str</span><span class="op">(</span><span class="nam">tile</span><span class="op">.</span><span class="nam">transform</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t175" class="pln">    <span class="op">}</span><span class="strut">&nbsp;</span></p>
 
             </td>
@@ -430,7 +430,7 @@
     <div class="content">
         <p>
             <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.io">coverage.py v4.5.3</a>,
-            created at 2019-05-22 22:00
+            created at 2019-05-22 22:08
         </p>
     </div>
 </div>
