@@ -184,7 +184,7 @@ class GEEARDTracker(object):
         name_ = self.store.store_metadata(tracking_info, name)
         return tracking_info_updated
 
-    def download(self, tracking_info, dest, overwrite=True):
+    def download(self, tracking_info, dest, overwrite=True, callback=None):
         """ Download "pre-ARD" and metadata to a directory
 
         Parameters
@@ -195,17 +195,47 @@ class GEEARDTracker(object):
             Destination download directory
         overwrite : bool, optional
             Overwrite existing downloaded data
+        callback : callable
+            Callback function to execute after each file is downloaded.
+            Should take arguments "item" and "n_steps". Use this for
+            progress bars or other download status reporting
 
-        Yields
-        ------
+        Returns
+        -------
         tuple[str, list[str]]
             Key value pairs mapping GEE task IDs to the filenames of
             downloaded data. Wrap it in a ``dict`` to make it not lazy
 
         """
         logger.debug(f'Downloading for {len(tracking_info["tasks"])} tasks')
-        return download_tracked(tracking_info, self.store, dest,
-                                overwrite=overwrite)
+        iter_download = download_tracked(tracking_info, self.store, dest,
+                                         overwrite=overwrite)
+
+        downloaded = defaultdict(list)
+        for task_id, n_images, meta, images in iter_download:
+            # Download, report (if callback), and store filenames
+            logger.debug(f'Downloading output for task "{task_id}" '
+                         f'({n_images or "unknown"} images)')
+
+            for meta_ in meta:
+                if callback:
+                    # Metadata doesn't count as a "step"
+                    callback(item=task_id, n_steps=0)
+                downloaded[task_id].append(meta_)
+
+            # We might not know how many images will be downloaded
+            steps_image = 1 / n_images if n_images else 0
+            for image in images:
+                downloaded[task_id].append(image)
+                if callback:
+                    callback(item=task_id, n_steps=steps_image)
+
+            # Update for all downloaded images at once if we didn't know
+            # a priori
+            if steps_image == 0 and callback:
+                callback(item=task_id, n_steps=1)
+
+        return downloaded
 
     def clean(self, name):
         """ Clean "pre-ARD" imagery, metadata, and tracking metadata off GCS
@@ -253,8 +283,14 @@ def download_tracked(tracking_info, store, dest, overwrite=False):
 
     Yields
     ------
-    tuple[str, list[str]]
-        Key value pairs mapping GEE task IDs to the filenames of downloaded data
+    id : str
+        Task ID
+    n_images : int
+        Number of images to download if known, otherwise ``None``
+    metadata : generator
+        Generator that downloads metadata and yields filenames
+    images : generator
+        Generator that downloads imagery and yields filenames
     """
     dest_ = Path(str(dest))
     if not dest_.exists():
@@ -264,16 +300,17 @@ def download_tracked(tracking_info, store, dest, overwrite=False):
 
     tasks = tracking_info['tasks']
     for task in tasks:
+        # Get info about task
         id_, name, prefix = task['id'], task['name'], task['prefix']
-        logger.debug(f'Retrieving image and metadata for id={id_}, '
-                     f'name="{name}", prefix="{prefix}"')
+        n_images = len(task.get('output_url', [])) or None
+
         # Retrieve image and metadata
-        dst_imgs = store.retrieve_image(dest, name, prefix,
-                                        overwrite=overwrite)
         dst_meta = store.retrieve_metadata(dest, name, prefix,
                                            overwrite=overwrite)
+        dst_imgs = store.retrieve_image(dest, name, prefix,
+                                        overwrite=overwrite)
 
-        yield (id_, list(dst_meta) + list(dst_imgs))
+        yield (id_, n_images, dst_meta, dst_imgs, )
 
 
 def clean_tracked(tracking_info, store):

@@ -256,15 +256,12 @@ class GDriveStore(object):
         # Can't pattern search on GDrive, so limit by extension
         query_ = [q for q in query if q['name'].endswith(ext)]
 
-        dests = []
-        logger.debug(f'Downloading {len(query_)} objects...')
-        for result in query_:
-            dst = download_file_id(self.service,
-                                   result['id'], result['name'],
-                                   dest, overwrite=overwrite)
-            dests.append(dst)
-
-        return dests
+        for i, result in enumerate(query_):
+            id_, name = result['id'], result['name']
+            logger.debug(f'Downloading item {i}/{len(query_)} - "{name}"')
+            dst = download_file_id(self.service, id_, name, dest,
+                                   overwrite=overwrite)
+            yield dst
 
 
     def retrieve_image(self, dest, name, path=None, overwrite=True):
@@ -279,8 +276,8 @@ class GDriveStore(object):
         path : str, optional
             Parent directory for file/object stored on Google Drive
 
-        Returns
-        -------
+        Yields
+        ------
         Sequence[str]
             Filename(s) corresponding to retrieved data
         """
@@ -299,8 +296,8 @@ class GDriveStore(object):
         path : str, optional
             Parent directory for file/object stored
 
-        Returns
-        -------
+        Yields
+        ------
         pathlib.Path
             Filename corresponding to retrieved data
         """

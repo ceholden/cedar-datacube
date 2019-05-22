@@ -28,11 +28,22 @@ def download(ctx, tracking_name, dest_dir, overwrite):
     tracking_info = tracker.read(tracking_name)
 
     n_tasks = len(tracking_info['tasks'])
-    iter_download = tracker.download(tracking_info, dest_dir,
-                                     overwrite=overwrite)
-
-    with click.progressbar(label='Downloading files', length=n_tasks) as bar:
-        for task_id, dest_files in iter_download:
-            bar.update(1)
-
+    click.echo(f'Downloading data for {n_tasks} tasks')
+    with click.progressbar(label='Downloading',
+                           item_show_func=_item_show_func,
+                           length=n_tasks) as bar:
+        bar_callback = _download_callback(bar)
+        dl_info = tracker.download(tracking_info, dest_dir,
+                                   overwrite=overwrite,
+                                   callback=bar_callback)
     click.echo('Complete')
+
+
+def _download_callback(bar):
+    def callback(item, n_steps):
+        bar.current_item = item
+        bar.update(n_steps)
+    return callback
+
+def _item_show_func(item):
+    return str(item) if item else ''
