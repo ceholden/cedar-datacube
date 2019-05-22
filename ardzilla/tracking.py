@@ -237,20 +237,33 @@ class GEEARDTracker(object):
 
         return downloaded
 
-    def clean(self, name):
+    def clean(self, tracking_info, callback=None):
         """ Clean "pre-ARD" imagery, metadata, and tracking metadata off GCS
 
         Parameters
         ----------
-        name : str
-            Name of stored tracking information
+        tracking_info : dict
+            JSON tracking info data as a dict
+        callback : callable
+            Callback function to execute after each file is deleted.
+            Should take arguments "item" and "n_steps". Use this for
+            progress bars or other download status reporting
 
         Returns
         -------
         dict[str, list[str]]
+            Mapping of GEE Task ID to filename(s) cleaned
         """
-        tracking_info = self.read(tracking_name)
-        return clean_tracked(tracking_info, self.store)
+        iter_clean = clean_tracked(tracking_info, self.store)
+
+        cleaned = defaultdict(list)
+        for task_id, n_images, names in iter_clean:
+            for name in names:
+                if callback:
+                    callback(item=task_id, n_steps=1 / n_images)
+                cleaned[task_id].append(name)
+
+        return cleaned
 
     def _tracking_name(self, date_start, date_end):
         infos = {
@@ -323,22 +336,22 @@ def clean_tracked(tracking_info, store):
     store : ardzilla.stores.gcs.GCSStore or ardzilla.stores.gdrive.GDriveStore
         ARDzilla store class
 
-    Returns
-    -------
-    dict[str, list[str]]
-        Name of deleted data, organized according to GEE task ID
+    Yields
+    ------
+    id : str
+        Task ID
+    names : generator
+        Generator that deletes files and returns their names
     """
     tasks = tracking_info['tasks']
-    deleted = defaultdict(list)
     for task in tasks:
         id_, name, prefix = task['id'], task['name'], task['prefix']
         logger.debug(f'Deleting image and metadata for id={id_}, '
                      f'name="{name}", prefix="{prefix}"')
+
         # Retrieve image and metadata
         names = store.list(path=prefix, pattern=name + '*')
-        for name in names:
-            deleted[id_].append(store.remove(name))
-    return deleted
+        yield (id_, len(names), (store.remove(name) for name in names))
 
 
 def update_tracking_info(tracking_info):
