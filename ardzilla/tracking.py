@@ -12,7 +12,7 @@ import pandas as pd
 
 from stems.gis.grids import TileGrid, Tile
 
-from . import defaults, submissions
+from . import defaults, submissions, utils
 
 logger = logging.getLogger(__name__)
 
@@ -433,7 +433,7 @@ def _tracking_info_metadata(collection, tile, date_start, date_end):
         'tile_col': tile.horizontal,
         'tile_bounds': tile.bounds,
         'tile_crs_wkt': tile.crs.wkt,
-        'tile_transform': ','.join(tile.transform[:6]),
+        'tile_transform': utils.affine_to_str(tile.transform[:6]),
         'date_start': _strftime_image(date_start),
         'date_end': _strftime_image(date_end),
     }

@@ -6,7 +6,7 @@ import json
 
 import ee
 
-from . import defaults, sensors
+from . import defaults, sensors, utils
 from .exceptions import EmptyCollectionError
 
 logger = logging.getLogger(__name__)
@@ -171,5 +171,5 @@ def _task_metadata(task):
 def _tile_metadata(tile):
     return {
         'crs_wkt': tile.crs.wkt,
-        'transform': ','.join(tile.transform[:6])
+        'transform': utils.affine_to_str(tile.transform)
     }

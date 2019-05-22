@@ -50,3 +50,9 @@ def set_file_urw(filename):
         File to modify
     """
     os.chmod(str(filename), stat.S_IREAD | stat.S_IWRITE)
+
+
+def affine_to_str(transform):
+    """ Return a string representatin of an affine.Affine transform
+    """
+    return ','.join(map(str, transform[:6]))
