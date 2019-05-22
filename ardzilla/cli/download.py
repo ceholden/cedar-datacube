@@ -14,12 +14,14 @@ from . import options
 def download(ctx, tracking_name, dest_dir, overwrite):
     """ Download pre-ARD described by tracking information
 
+    \b
     TODO
     ----
     * Progressbar is not very accurate
     * We don't check status
     * Limit to some tasks (?)
     * Silence / don't use progressbar if we're quiet
+    * Only download some tasks
     """
     config = options.fetch_config(ctx)
     tracker = config.get_tracker()
