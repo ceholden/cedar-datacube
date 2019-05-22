@@ -416,7 +416,7 @@
 <p id="t145" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t146" class="pln">    <span class="com"># Remove mask</span><span class="strut">&nbsp;</span></p>
 <p id="t147" class="stm mis">    <span class="nam">nodata</span> <span class="op">=</span> <span class="nam">NODATA</span><span class="op">[</span><span class="nam">collection</span><span class="op">]</span><span class="strut">&nbsp;</span></p>
-<p id="t148" class="stm mis">    <span class="nam">tile_bands_unmasked</span> <span class="op">=</span> <span class="nam">tile_bands</span><span class="op">.</span><span class="nam">unmask</span><span class="op">(</span><span class="nam">NODATA</span><span class="op">[</span><span class="nam">collection</span><span class="op">]</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t148" class="stm mis">    <span class="nam">tile_bands_unmasked</span> <span class="op">=</span> <span class="nam">tile_bands</span><span class="op">.</span><span class="nam">unmask</span><span class="op">(</span><span class="nam">nodata</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t149" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t150" class="pln">    <span class="com"># Get all image metadata at once (saves time back and forth)</span><span class="strut">&nbsp;</span></p>
 <p id="t151" class="stm mis">    <span class="nam">images_metadata</span> <span class="op">=</span> <span class="nam">list</span><span class="op">(</span><span class="nam">ee</span><span class="op">.</span><span class="nam">List</span><span class="op">(</span><span class="nam">_</span><span class="op">)</span><span class="op">.</span><span class="nam">getInfo</span><span class="op">(</span><span class="op">)</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
@@ -478,7 +478,7 @@
     <div class="content">
         <p>
             <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.io">coverage.py v4.5.3</a>,
-            created at 2019-05-22 19:19
+            created at 2019-05-22 22:00
         </p>
     </div>
 </div>

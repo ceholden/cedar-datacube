@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.sensors.landsat &mdash; ardzilla 0+untagged.50.g5e64316 documentation</title>
+  <title>ardzilla.sensors.landsat &mdash; ardzilla 0+untagged.50.gb38d15c documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.g5e64316
+                0+untagged.50.gb38d15c
               </div>
             
           
@@ -307,7 +307,7 @@
 
     <span class="c1"># Remove mask</span>
     <span class="n">nodata</span> <span class="o">=</span> <span class="n">NODATA</span><span class="p">[</span><span class="n">collection</span><span class="p">]</span>
-    <span class="n">tile_bands_unmasked</span> <span class="o">=</span> <span class="n">tile_bands</span><span class="o">.</span><span class="n">unmask</span><span class="p">(</span><span class="n">NODATA</span><span class="p">[</span><span class="n">collection</span><span class="p">])</span>
+    <span class="n">tile_bands_unmasked</span> <span class="o">=</span> <span class="n">tile_bands</span><span class="o">.</span><span class="n">unmask</span><span class="p">(</span><span class="n">nodata</span><span class="p">)</span>
 
     <span class="c1"># Get all image metadata at once (saves time back and forth)</span>
     <span class="n">images_metadata</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">ee</span><span class="o">.</span><span class="n">List</span><span class="p">(</span><span class="n">_</span><span class="p">)</span><span class="o">.</span><span class="n">getInfo</span><span class="p">())</span>

@@ -7,11 +7,12 @@ Submodules
 .. toctree::
 
    ardzilla.cli.config
-   ardzilla.cli.download
+   ardzilla.cli.convert
    ardzilla.cli.login
    ardzilla.cli.main
    ardzilla.cli.options
    ardzilla.cli.status
+   ardzilla.cli.storage
    ardzilla.cli.submit
 
 Module contents

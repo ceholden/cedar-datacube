@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.submissions &mdash; ardzilla 0+untagged.50.g5e64316 documentation</title>
+  <title>ardzilla.submissions &mdash; ardzilla 0+untagged.50.gb38d15c documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.g5e64316
+                0+untagged.50.gb38d15c
               </div>
             
           
@@ -290,6 +290,7 @@
 
             <span class="c1"># Update metadata with task info and store</span>
             <span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;task&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_task_metadata</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>
+            <span class="n">metadata</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">_tile_metadata</span><span class="p">(</span><span class="n">tile</span><span class="p">))</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Storing metadata for task id &quot;</span><span class="si">{task.id}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
             <span class="n">metadata_</span> <span class="o">=</span> <span class="n">store</span><span class="o">.</span><span class="n">store_metadata</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">prefix</span><span class="p">)</span>
 
@@ -327,6 +328,13 @@
 <span class="k">def</span> <span class="nf">_task_metadata</span><span class="p">(</span><span class="n">task</span><span class="p">):</span>
     <span class="n">attrs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span>  <span class="c1"># &quot;config&quot; seems a bit much to store</span>
     <span class="k">return</span> <span class="p">{</span><span class="n">attr</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span> <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">attrs</span><span class="p">}</span>
+
+
+<span class="k">def</span> <span class="nf">_tile_metadata</span><span class="p">(</span><span class="n">tile</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s1">&#39;crs_wkt&#39;</span><span class="p">:</span> <span class="n">tile</span><span class="o">.</span><span class="n">crs</span><span class="o">.</span><span class="n">wkt</span><span class="p">,</span>
+        <span class="s1">&#39;transform&#39;</span><span class="p">:</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">tile</span><span class="o">.</span><span class="n">transform</span><span class="p">[:</span><span class="mi">6</span><span class="p">])</span>
+    <span class="p">}</span>
 </pre></div>
 
            </div>

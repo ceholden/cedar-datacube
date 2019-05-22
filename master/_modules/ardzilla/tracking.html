@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.tracking &mdash; ardzilla 0+untagged.50.g5e64316 documentation</title>
+  <title>ardzilla.tracking &mdash; ardzilla 0+untagged.50.gb38d15c documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.g5e64316
+                0+untagged.50.gb38d15c
               </div>
             
           
@@ -399,20 +399,33 @@
 
         <span class="k">return</span> <span class="n">downloaded</span></div>
 
-<div class="viewcode-block" id="GEEARDTracker.clean"><a class="viewcode-back" href="../../ardzilla/ardzilla.tracking.html#ardzilla.tracking.GEEARDTracker.clean">[docs]</a>    <span class="k">def</span> <span class="nf">clean</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+<div class="viewcode-block" id="GEEARDTracker.clean"><a class="viewcode-back" href="../../ardzilla/ardzilla.tracking.html#ardzilla.tracking.GEEARDTracker.clean">[docs]</a>    <span class="k">def</span> <span class="nf">clean</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tracking_info</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Clean &quot;pre-ARD&quot; imagery, metadata, and tracking metadata off GCS</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
-<span class="sd">        name : str</span>
-<span class="sd">            Name of stored tracking information</span>
+<span class="sd">        tracking_info : dict</span>
+<span class="sd">            JSON tracking info data as a dict</span>
+<span class="sd">        callback : callable</span>
+<span class="sd">            Callback function to execute after each file is deleted.</span>
+<span class="sd">            Should take arguments &quot;item&quot; and &quot;n_steps&quot;. Use this for</span>
+<span class="sd">            progress bars or other download status reporting</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        dict[str, list[str]]</span>
+<span class="sd">            Mapping of GEE Task ID to filename(s) cleaned</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">tracking_info</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">tracking_name</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">clean_tracked</span><span class="p">(</span><span class="n">tracking_info</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">store</span><span class="p">)</span></div>
+        <span class="n">iter_clean</span> <span class="o">=</span> <span class="n">clean_tracked</span><span class="p">(</span><span class="n">tracking_info</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">store</span><span class="p">)</span>
+
+        <span class="n">cleaned</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">task_id</span><span class="p">,</span> <span class="n">n_images</span><span class="p">,</span> <span class="n">names</span> <span class="ow">in</span> <span class="n">iter_clean</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">names</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">callback</span><span class="p">:</span>
+                    <span class="n">callback</span><span class="p">(</span><span class="n">item</span><span class="o">=</span><span class="n">task_id</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">1</span> <span class="o">/</span> <span class="n">n_images</span><span class="p">)</span>
+                <span class="n">cleaned</span><span class="p">[</span><span class="n">task_id</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">cleaned</span></div>
 
     <span class="k">def</span> <span class="nf">_tracking_name</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">date_start</span><span class="p">,</span> <span class="n">date_end</span><span class="p">):</span>
         <span class="n">infos</span> <span class="o">=</span> <span class="p">{</span>
@@ -485,22 +498,22 @@
 <span class="sd">    store : ardzilla.stores.gcs.GCSStore or ardzilla.stores.gdrive.GDriveStore</span>
 <span class="sd">        ARDzilla store class</span>
 
-<span class="sd">    Returns</span>
-<span class="sd">    -------</span>
-<span class="sd">    dict[str, list[str]]</span>
-<span class="sd">        Name of deleted data, organized according to GEE task ID</span>
+<span class="sd">    Yields</span>
+<span class="sd">    ------</span>
+<span class="sd">    id : str</span>
+<span class="sd">        Task ID</span>
+<span class="sd">    names : generator</span>
+<span class="sd">        Generator that deletes files and returns their names</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">tasks</span> <span class="o">=</span> <span class="n">tracking_info</span><span class="p">[</span><span class="s1">&#39;tasks&#39;</span><span class="p">]</span>
-    <span class="n">deleted</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">task</span> <span class="ow">in</span> <span class="n">tasks</span><span class="p">:</span>
         <span class="n">id_</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">prefix</span> <span class="o">=</span> <span class="n">task</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">],</span> <span class="n">task</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">],</span> <span class="n">task</span><span class="p">[</span><span class="s1">&#39;prefix&#39;</span><span class="p">]</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Deleting image and metadata for id=</span><span class="si">{id_}</span><span class="s1">, &#39;</span>
                      <span class="n">f</span><span class="s1">&#39;name=&quot;</span><span class="si">{name}</span><span class="s1">&quot;, prefix=&quot;</span><span class="si">{prefix}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
+
         <span class="c1"># Retrieve image and metadata</span>
         <span class="n">names</span> <span class="o">=</span> <span class="n">store</span><span class="o">.</span><span class="n">list</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="n">prefix</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="n">name</span> <span class="o">+</span> <span class="s1">&#39;*&#39;</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">names</span><span class="p">:</span>
-            <span class="n">deleted</span><span class="p">[</span><span class="n">id_</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">store</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">name</span><span class="p">))</span>
-    <span class="k">return</span> <span class="n">deleted</span></div>
+        <span class="k">yield</span> <span class="p">(</span><span class="n">id_</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">names</span><span class="p">),</span> <span class="p">(</span><span class="n">store</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">names</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="update_tracking_info"><a class="viewcode-back" href="../../ardzilla/ardzilla.tracking.html#ardzilla.tracking.update_tracking_info">[docs]</a><span class="k">def</span> <span class="nf">update_tracking_info</span><span class="p">(</span><span class="n">tracking_info</span><span class="p">):</span>

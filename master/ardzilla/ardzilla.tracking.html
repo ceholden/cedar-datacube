@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.tracking module &mdash; ardzilla 0+untagged.50.g5e64316 documentation</title>
+  <title>ardzilla.tracking module &mdash; ardzilla 0+untagged.50.gb38d15c documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.g5e64316
+                0+untagged.50.gb38d15c
               </div>
             
           
@@ -184,14 +184,19 @@ dictionaries that describe the filter</p></li>
 </dl>
 <dl class="method">
 <dt id="ardzilla.tracking.GEEARDTracker.clean">
-<code class="descname">clean</code><span class="sig-paren">(</span><em>self</em>, <em>name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/tracking.html#GEEARDTracker.clean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.tracking.GEEARDTracker.clean" title="Permalink to this definition">¶</a></dt>
+<code class="descname">clean</code><span class="sig-paren">(</span><em>self</em>, <em>tracking_info</em>, <em>callback=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/tracking.html#GEEARDTracker.clean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.tracking.GEEARDTracker.clean" title="Permalink to this definition">¶</a></dt>
 <dd><p>Clean “pre-ARD” imagery, metadata, and tracking metadata off GCS</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Name of stored tracking information</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tracking_info</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – JSON tracking info data as a dict</p></li>
+<li><p><strong>callback</strong> (<em>callable</em>) – Callback function to execute after each file is deleted.
+Should take arguments “item” and “n_steps”. Use this for
+progress bars or other download status reporting</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p></p>
+<dd class="field-even"><p>Mapping of GEE Task ID to filename(s) cleaned</p>
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a>[<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a>, <a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#list" title="(in Python v3.7)">list</a>[<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a>]]</p>
@@ -329,11 +334,11 @@ looks for tracking information matching
 <li><p><strong>store</strong> (<a class="reference internal" href="ardzilla.stores.gcs.html#ardzilla.stores.gcs.GCSStore" title="ardzilla.stores.gcs.GCSStore"><em>ardzilla.stores.gcs.GCSStore</em></a><em> or </em><a class="reference internal" href="ardzilla.stores.gdrive.html#ardzilla.stores.gdrive.GDriveStore" title="ardzilla.stores.gdrive.GDriveStore"><em>ardzilla.stores.gdrive.GDriveStore</em></a>) – ARDzilla store class</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Name of deleted data, organized according to GEE task ID</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a>[<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a>, <a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#list" title="(in Python v3.7)">list</a>[<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a>]]</p>
+<dt class="field-even">Yields</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>id</strong> (<em>str</em>) – Task ID</p></li>
+<li><p><strong>names</strong> (<em>generator</em>) – Generator that deletes files and returns their names</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>

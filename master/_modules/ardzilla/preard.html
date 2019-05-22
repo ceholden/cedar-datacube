@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.preard &mdash; ardzilla 0+untagged.50.g5e64316 documentation</title>
+  <title>ardzilla.preard &mdash; ardzilla 0+untagged.50.gb38d15c documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.g5e64316
+                0+untagged.50.gb38d15c
               </div>
             
           
@@ -163,18 +163,112 @@
 <span></span><span class="sd">&quot;&quot;&quot; Convert &quot;pre-ARD&quot; to ARD</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">defaultdict</span>
+<span class="kn">import</span> <span class="nn">datetime</span> <span class="k">as</span> <span class="nn">dt</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="k">import</span> <span class="n">Path</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
 
+<span class="kn">from</span> <span class="nn">stems.gis</span> <span class="k">import</span> <span class="n">convert</span><span class="p">,</span> <span class="n">georeference</span>
 <span class="kn">from</span> <span class="nn">stems.io.encoding</span> <span class="k">import</span> <span class="n">netcdf_encoding</span>
 
-<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">defaults</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">defaults</span><span class="p">,</span> <span class="n">__version__</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="preard_to_ds"><a class="viewcode-back" href="../../ardzilla/ardzilla.preard.html#ardzilla.preard.preard_to_ds">[docs]</a><span class="k">def</span> <span class="nf">preard_to_ds</span><span class="p">(</span><span class="n">xarr</span><span class="p">,</span> <span class="n">time</span><span class="p">,</span> <span class="n">bands</span><span class="p">):</span>
+<div class="viewcode-block" id="process_preard"><a class="viewcode-back" href="../../ardzilla/ardzilla.preard.html#ardzilla.preard.process_preard">[docs]</a><span class="k">def</span> <span class="nf">process_preard</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="n">images</span><span class="p">,</span> <span class="n">chunks</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Open and process pre-ARD data to ARD</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    metadata : dict</span>
+<span class="sd">        Image metadata</span>
+<span class="sd">    images : Sequence[str or Path]</span>
+<span class="sd">        Path(s) to pre-ARD imagery</span>
+<span class="sd">    chunks : dict, optional</span>
+<span class="sd">        Chunks to use when opening pre-ARD GeoTIFF files. If ``None``,</span>
+<span class="sd">        defaults to ``{&#39;x&#39;: 256, &#39;y&#39;: 256, &#39;band&#39;: -1}``</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    xr.Dataset</span>
+<span class="sd">        pre-ARD processed to (in memory) ARD format that can be written to disk</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Read metadata and determine key attributes</span>
+    <span class="n">times</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">([</span><span class="n">_ard_image_timestamp</span><span class="p">(</span><span class="n">images</span><span class="p">)</span>
+                            <span class="k">for</span> <span class="n">images</span> <span class="ow">in</span> <span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;images&#39;</span><span class="p">]])</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">bands</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;bands&#39;</span><span class="p">]</span>
+
+    <span class="c1"># Create pre-ARD DataArray</span>
+    <span class="n">preard_da</span> <span class="o">=</span> <span class="n">read_preard</span><span class="p">(</span><span class="n">images</span><span class="p">,</span> <span class="n">chunks</span><span class="o">=</span><span class="n">chunks</span><span class="p">)</span>
+
+    <span class="c1"># Convert to Dataset</span>
+    <span class="n">ard_ds</span> <span class="o">=</span> <span class="n">preard_to_ard</span><span class="p">(</span><span class="n">preard_da</span><span class="p">,</span> <span class="n">times</span><span class="p">,</span> <span class="n">bands</span><span class="p">)</span>
+
+    <span class="c1"># Attach attribute metadata</span>
+    <span class="n">order_collection</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;collection&#39;</span><span class="p">]</span>
+    <span class="n">order_time</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;ardzilla:time&#39;</span><span class="p">]</span>
+    <span class="n">order_version</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;ardzilla:version&#39;</span><span class="p">]</span>
+    <span class="n">order_start</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;date_start&#39;</span><span class="p">]</span>
+    <span class="n">order_end</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;date_end&#39;</span><span class="p">]</span>
+    <span class="n">dt_now</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">today</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">T%H%M%S&quot;</span><span class="p">)</span>
+
+    <span class="n">attrs</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;title&#39;</span><span class="p">:</span> <span class="n">f</span><span class="s1">&#39;Collection &quot;</span><span class="si">{order_collection}</span><span class="s1">&quot; Analysis Ready Data&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;history&#39;</span><span class="p">:</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
+            <span class="p">(</span><span class="n">f</span><span class="s1">&#39;</span><span class="si">{order_time}</span><span class="s1"> - Ordered pre-ARD from GEE for collection &#39;</span>
+             <span class="n">f</span><span class="s1">&#39;&quot;</span><span class="si">{order_collection}</span><span class="s1">&quot; between </span><span class="si">{order_start}</span><span class="s1">-</span><span class="si">{order_end}</span><span class="s1"> using &#39;</span>
+             <span class="n">f</span><span class="s1">&#39;`ardzilla=</span><span class="si">{order_version}</span><span class="s1">`&#39;</span><span class="p">),</span>
+            <span class="n">f</span><span class="s1">&#39;</span><span class="si">{dt_now}</span><span class="s1"> - Converted to ARD using `ardzilla=</span><span class="si">{__version__}</span><span class="s1">`&#39;</span>
+        <span class="p">]),</span>
+        <span class="s1">&#39;source&#39;</span><span class="p">:</span> <span class="n">f</span><span class="s1">&#39;Google Earth Engine Collection &quot;</span><span class="si">{order_collection}</span><span class="s1">&quot;&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;images&#39;</span><span class="p">:</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;images&#39;</span><span class="p">])</span>
+    <span class="p">}</span>
+    <span class="n">ard_ds</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="n">attrs</span>
+
+    <span class="c1"># Georeference</span>
+    <span class="n">crs</span> <span class="o">=</span> <span class="n">convert</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;crs_wkt&#39;</span><span class="p">])</span>
+    <span class="n">transform</span> <span class="o">=</span> <span class="n">convert</span><span class="o">.</span><span class="n">to_transform</span><span class="p">(</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;transform&#39;</span><span class="p">])</span>
+    <span class="n">ard_ds</span> <span class="o">=</span> <span class="n">georeference</span><span class="p">(</span><span class="n">ard_ds</span><span class="p">,</span> <span class="n">crs</span><span class="p">,</span> <span class="n">transform</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">ard_ds</span></div>
+
+
+<div class="viewcode-block" id="find_preard"><a class="viewcode-back" href="../../ardzilla/ardzilla.preard.html#ardzilla.preard.find_preard">[docs]</a><span class="k">def</span> <span class="nf">find_preard</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">metadata_pattern</span><span class="o">=</span><span class="s1">&#39;*.json&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Match pre-ARD metadata with imagery in some location</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    path : str or Path</span>
+<span class="sd">        Path to a directory or file (search inside it&#39;s directory)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict[str, list[str]]</span>
+<span class="sd">        Pairs of metadata filename to image filename(s)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="n">directory</span> <span class="o">=</span> <span class="n">path</span> <span class="k">if</span> <span class="n">path</span><span class="o">.</span><span class="n">is_dir</span><span class="p">()</span> <span class="k">else</span> <span class="n">path</span><span class="o">.</span><span class="n">parent</span>
+
+    <span class="n">metadata</span> <span class="o">=</span> <span class="n">directory</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">metadata_pattern</span><span class="p">)</span>
+
+    <span class="n">preard</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">meta</span> <span class="ow">in</span> <span class="n">metadata</span><span class="p">:</span>
+        <span class="n">images</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">directory</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">meta</span><span class="o">.</span><span class="n">stem</span> <span class="o">+</span> <span class="s1">&#39;*.tif&#39;</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">images</span><span class="p">:</span>
+            <span class="n">preard</span><span class="p">[</span><span class="n">meta</span><span class="p">]</span> <span class="o">=</span> <span class="n">images</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Could not find images for metadata file </span><span class="si">{meta}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">preard</span></div>
+
+
+<div class="viewcode-block" id="preard_to_ard"><a class="viewcode-back" href="../../ardzilla/ardzilla.preard.html#ardzilla.preard.preard_to_ard">[docs]</a><span class="k">def</span> <span class="nf">preard_to_ard</span><span class="p">(</span><span class="n">xarr</span><span class="p">,</span> <span class="n">time</span><span class="p">,</span> <span class="n">bands</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Convert a &quot;pre-ARD&quot; DataArray to an ARD xr.Dataset</span>
 
 <span class="sd">    Parameters</span>
@@ -209,13 +303,46 @@
     <span class="n">ds_bands</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">i_band</span><span class="p">,</span> <span class="n">band_name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">bands</span><span class="p">):</span>
         <span class="c1"># Select out this band from list of band x time</span>
-        <span class="n">da_band</span> <span class="o">=</span> <span class="n">da</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">i_band</span><span class="p">,</span> <span class="n">n_band_time</span><span class="p">,</span> <span class="n">n_band</span><span class="p">),</span> <span class="o">...</span><span class="p">]</span>
+        <span class="n">da_band</span> <span class="o">=</span> <span class="n">xarr</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">i_band</span><span class="p">,</span> <span class="n">n_band_time</span><span class="p">,</span> <span class="n">n_band</span><span class="p">),</span> <span class="o">...</span><span class="p">]</span>
         <span class="c1"># Replace &quot;band&quot; for &quot;time&quot; in two steps</span>
-        <span class="n">da_band</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;band&#39;</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">values</span><span class="p">)</span>
+        <span class="n">da_band</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;band&#39;</span><span class="p">,</span> <span class="n">time</span><span class="p">)</span>
         <span class="n">ds_bands</span><span class="p">[</span><span class="n">band_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">da_band</span><span class="o">.</span><span class="n">swap_dims</span><span class="p">({</span><span class="s1">&#39;band&#39;</span><span class="p">:</span> <span class="s1">&#39;time&#39;</span><span class="p">})</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;band&#39;</span><span class="p">)</span>
 
     <span class="n">ard_ds</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">Dataset</span><span class="p">(</span><span class="n">ds_bands</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">ard_ds</span></div>
+
+
+<div class="viewcode-block" id="ard_netcdf_encoding"><a class="viewcode-back" href="../../ardzilla/ardzilla.preard.html#ardzilla.preard.ard_netcdf_encoding">[docs]</a><span class="k">def</span> <span class="nf">ard_netcdf_encoding</span><span class="p">(</span><span class="n">ard_ds</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span> <span class="o">**</span><span class="n">encoding_kwds</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Return encoding for ARD NetCDF4 files</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    ard_ds : xr.Dataset</span>
+<span class="sd">        ARD as a XArray Dataset</span>
+<span class="sd">    metadata : dict</span>
+<span class="sd">        Metadata about ARD</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict</span>
+<span class="sd">        NetCDF encoding to use with :py:meth:`xarray.Dataset.to_netcdf`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="s1">&#39;nodata&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">encoding_kwds</span>
+    <span class="n">nodata</span> <span class="o">=</span> <span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;nodata&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">nodata</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;Assuming NODATA=-9999&#39;</span><span class="p">)</span>
+        <span class="n">nodata</span> <span class="o">=</span> <span class="o">-</span><span class="mi">9999</span>
+
+    <span class="n">encoding</span> <span class="o">=</span> <span class="n">netcdf_encoding</span><span class="p">(</span><span class="n">ard_ds</span><span class="p">,</span> <span class="n">nodata</span><span class="o">=</span><span class="n">nodata</span><span class="p">,</span> <span class="o">**</span><span class="n">encoding_kwds</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">encoding</span></div>
+
+
+<div class="viewcode-block" id="read_metadata"><a class="viewcode-back" href="../../ardzilla/ardzilla.preard.html#ardzilla.preard.read_metadata">[docs]</a><span class="k">def</span> <span class="nf">read_metadata</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Read pre-ARD image metadata from a file</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s1">&#39;r&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">meta</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">meta</span></div>
 
 
 <div class="viewcode-block" id="read_preard"><a class="viewcode-back" href="../../ardzilla/ardzilla.preard.html#ardzilla.preard.read_preard">[docs]</a><span class="k">def</span> <span class="nf">read_preard</span><span class="p">(</span><span class="n">filenames</span><span class="p">,</span> <span class="n">chunks</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -258,8 +385,17 @@
     <span class="n">rows</span> <span class="o">=</span> <span class="p">{</span><span class="n">row</span><span class="p">:</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">by_row</span><span class="p">[</span><span class="n">row</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="s1">&#39;x&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">by_row</span><span class="p">}</span>
 
     <span class="c1"># Concat across rows</span>
-    <span class="n">preard</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">rows</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">)</span>
+    <span class="n">preard</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">rows</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">dim</span><span class="o">=</span><span class="s1">&#39;y&#39;</span><span class="p">)</span>
+
     <span class="k">return</span> <span class="n">preard</span></div>
+
+
+<span class="k">def</span> <span class="nf">_ard_image_timestamp</span><span class="p">(</span><span class="n">images</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">_unix2dt</span><span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">i</span><span class="p">[</span><span class="s1">&#39;system:time_start&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">images</span><span class="p">))</span>
+
+
+<span class="k">def</span> <span class="nf">_unix2dt</span><span class="p">(</span><span class="n">timestamp</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">dt</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">fromtimestamp</span><span class="p">(</span><span class="n">timestamp</span> <span class="o">/</span> <span class="mf">1e3</span><span class="p">)</span>
 </pre></div>
 
            </div>

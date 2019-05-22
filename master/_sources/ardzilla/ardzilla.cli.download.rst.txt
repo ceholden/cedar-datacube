@@ -1,7 +1,0 @@
-ardzilla.cli.download module
-============================
-
-.. automodule:: ardzilla.cli.download
-    :members:
-    :undoc-members:
-    :show-inheritance:
