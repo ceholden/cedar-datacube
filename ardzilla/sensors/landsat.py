@@ -145,7 +145,7 @@ def create_ard(collection, tile, date_start, date_end, filters=None,
 
     # Remove mask
     nodata = NODATA[collection]
-    tile_bands_unmasked = tile_bands.unmask(NODATA[collection])
+    tile_bands_unmasked = tile_bands.unmask(nodata)
 
     # Get all image metadata at once (saves time back and forth)
     images_metadata = list(ee.List(_).getInfo())
