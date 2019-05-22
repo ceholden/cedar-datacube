@@ -65,7 +65,7 @@ def submit(ctx, image_collection, index, row, col,
     import ee
     ee.Initialize()
 
-    hvs = ["h{c:04d}c{r:04d}" for r, c in index]
+    hvs = [f"h{c:04d}c{r:04d}" for r, c in index]
     click.echo('Submitting preARD tasks for:')
     click.echo(f'    Tile Index: {", ".join(hvs)}')
     click.echo(f'    Collections: {", ".join(image_collection)}')
