@@ -1,18 +1,112 @@
 """ Convert "pre-ARD" to ARD
 """
 from collections import defaultdict
+import datetime as dt
+import json
+import logging
 import os
 from pathlib import Path
 
 import numpy as np
+import pandas as pd
 import xarray as xr
 
+from stems.gis import convert, georeference
 from stems.io.encoding import netcdf_encoding
 
-from . import defaults
+from . import defaults, __version__
+
+logger = logging.getLogger(__name__)
 
 
-def preard_to_ds(xarr, time, bands):
+def process_preard(metadata, images, chunks=None):
+    """ Open and process pre-ARD data to ARD
+
+    Parameters
+    ----------
+    metadata : dict
+        Image metadata
+    images : Sequence[str or Path]
+        Path(s) to pre-ARD imagery
+    chunks : dict, optional
+        Chunks to use when opening pre-ARD GeoTIFF files. If ``None``,
+        defaults to ``{'x': 256, 'y': 256, 'band': -1}``
+
+    Returns
+    -------
+    xr.Dataset
+        pre-ARD processed to (in memory) ARD format that can be written to disk
+    """
+    # Read metadata and determine key attributes
+    times = pd.to_datetime([_ard_image_timestamp(images)
+                            for images in metadata['images']]).values
+    bands = metadata['bands']
+
+    # Create pre-ARD DataArray
+    preard_da = read_preard(images, chunks=chunks)
+
+    # Convert to Dataset
+    ard_ds = preard_to_ard(preard_da, times, bands)
+
+    # Attach attribute metadata
+    order_collection = metadata['collection']
+    order_time = metadata['ardzilla:time']
+    order_version = metadata['ardzilla:version']
+    order_start = metadata['date_start']
+    order_end = metadata['date_end']
+    dt_now = dt.datetime.today().strftime("%Y%m%dT%H%M%S")
+
+    attrs = {
+        'title': f'Collection "{order_collection}" Analysis Ready Data',
+        'history': '\n'.join([
+            (f'{order_time} - Ordered pre-ARD from GEE for collection '
+             f'"{order_collection}" between {order_start}-{order_end} using '
+             f'`ardzilla={order_version}`'),
+            f'{dt_now} - Converted to ARD using `ardzilla={__version__}`'
+        ]),
+        'source': f'Google Earth Engine Collection "{order_collection}"',
+        'images': json.dumps(metadata['images'])
+    }
+    ard_ds.attrs = attrs
+
+    # Georeference
+    crs = convert.to_crs(metadata['crs_wkt'])
+    transform = convert.to_transform(metadata['transform'])
+    ard_ds = georeference(ard_ds, crs, transform)
+
+    return ard_ds
+
+
+def find_preard(path, metadata_pattern='*.json'):
+    """ Match pre-ARD metadata with imagery in some location
+
+    Parameters
+    ----------
+    path : str or Path
+        Path to a directory or file (search inside it's directory)
+
+    Returns
+    -------
+    dict[str, list[str]]
+        Pairs of metadata filename to image filename(s)
+    """
+    path = Path(path)
+    directory = path if path.is_dir() else path.parent
+
+    metadata = directory.glob(metadata_pattern)
+
+    preard = {}
+    for meta in metadata:
+        images = sorted(directory.glob(meta.stem + '*.tif'))
+        if images:
+            preard[meta] = images
+        else:
+            logger.debug(f'Could not find images for metadata file {meta}')
+
+    return preard
+
+
+def preard_to_ard(xarr, time, bands):
     """ Convert a "pre-ARD" DataArray to an ARD xr.Dataset
 
     Parameters
@@ -47,13 +141,46 @@ def preard_to_ds(xarr, time, bands):
     ds_bands = {}
     for i_band, band_name in enumerate(bands):
         # Select out this band from list of band x time
-        da_band = da[np.arange(i_band, n_band_time, n_band), ...]
+        da_band = xarr[np.arange(i_band, n_band_time, n_band), ...]
         # Replace "band" for "time" in two steps
-        da_band.coords['time'] = ('band', time.values)
+        da_band.coords['time'] = ('band', time)
         ds_bands[band_name] = da_band.swap_dims({'band': 'time'}).drop('band')
 
     ard_ds = xr.Dataset(ds_bands)
     return ard_ds
+
+
+def ard_netcdf_encoding(ard_ds, metadata, **encoding_kwds):
+    """ Return encoding for ARD NetCDF4 files
+
+    Parameters
+    ----------
+    ard_ds : xr.Dataset
+        ARD as a XArray Dataset
+    metadata : dict
+        Metadata about ARD
+
+    Returns
+    -------
+    dict
+        NetCDF encoding to use with :py:meth:`xarray.Dataset.to_netcdf`
+    """
+    assert 'nodata' not in encoding_kwds
+    nodata = metadata.get('nodata', None)
+    if nodata is None:
+        logger.warning('Assuming NODATA=-9999')
+        nodata = -9999
+
+    encoding = netcdf_encoding(ard_ds, nodata=nodata, **encoding_kwds)
+    return encoding
+
+
+def read_metadata(filename):
+    """ Read pre-ARD image metadata from a file
+    """
+    with open(filename, 'r') as f:
+        meta = json.load(f)
+    return meta
 
 
 def read_preard(filenames, chunks=None):
@@ -96,5 +223,14 @@ def read_preard(filenames, chunks=None):
     rows = {row: xr.concat(by_row[row], dim='x') for row in by_row}
 
     # Concat across rows
-    preard = xr.concat(rows, dim='y')
+    preard = xr.concat(rows.values(), dim='y')
+
     return preard
+
+
+def _ard_image_timestamp(images):
+    return _unix2dt(min(i['system:time_start'] for i in images))
+
+
+def _unix2dt(timestamp):
+    return dt.datetime.fromtimestamp(timestamp / 1e3)
