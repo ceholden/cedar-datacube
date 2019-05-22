@@ -2,6 +2,7 @@
 """
 from collections import defaultdict
 import json
+import logging
 
 import click
 
@@ -68,6 +69,7 @@ def list(ctx):
 def read(ctx, tracking_name, update):
     """ Print job submission information from tracking info
     """
+    logger = ctx.obj['logger']
     config = options.fetch_config(ctx)
     tracker = config.get_tracker()
 
@@ -78,5 +80,6 @@ def read(ctx, tracking_name, update):
 
     # Display
     info_str = json.dumps(info, indent=2)
-    click.echo('Submission info: ')
+    if logger.level <= logging.WARNING:
+        click.echo('Submission info: ')
     click.echo(info_str)
