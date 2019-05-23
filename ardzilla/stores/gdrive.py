@@ -259,9 +259,15 @@ class GDriveStore(object):
         for i, result in enumerate(query_):
             id_, name = result['id'], result['name']
             logger.debug(f'Downloading item {i}/{len(query_)} - "{name}"')
-            dst = download_file_id(self.service, id_, name, dest,
-                                   overwrite=overwrite)
-            yield dst
+
+            try:
+                dst = download_file_id(self.service, id_, name, dest,
+                                       overwrite=overwrite)
+            except FileExistsError as e:
+                # TODO: send exception so it can be handled
+                yield Path(dest).joinpath(name)
+            else:
+                yield dst
 
 
     def retrieve_image(self, dest, name, path=None, overwrite=True):
