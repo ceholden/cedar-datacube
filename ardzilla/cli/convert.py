@@ -23,6 +23,10 @@ def convert(ctx, preard, dest_dir, overwrite, scheduler, nprocs, nthreads):
     """
     from ardzilla.preard import (ard_netcdf_encoding, find_preard,
                                  process_preard, read_metadata)
+    from dask.diagnostics import ProgressBar
+
+    cfg = options.fetch_config(ctx).config.get('ard', {})
+    encoding_cfg = cfg.get('encoding', {})
 
     preard_files = find_preard(preard)
     if len(preard_files) == 0:
@@ -34,10 +38,19 @@ def convert(ctx, preard, dest_dir, overwrite, scheduler, nprocs, nthreads):
 
     for i, (meta, images) in enumerate(preard_files.items()):
         click.echo(f'Processing pre-ARD "{meta.stem}"')
+        # Open metadata and read TIFF files
         metadata = read_metadata(meta)
         ard_ds = process_preard(metadata, images)
-        encoding = ard_netcdf_encoding(ard_ds, metadata)
+
+        # Determine encoding
+        encoding = ard_netcdf_encoding(ard_ds, metadata, **encoding_cfg)
+
+        # Setup write to NetCDF
         dest = dest_dir.joinpath(meta.stem + '.nc')
-        ard_ds.to_netcdf(dest, encoding=encoding)
+        ard_ds_ = ard_ds.to_netcdf(dest, encoding=encoding, compute=False)
+
+        # Write with progressbar
+        with ProgressBar():
+            out = ard_ds_.compute()
 
     click.echo('Complete')
