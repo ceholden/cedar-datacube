@@ -228,12 +228,14 @@ class GEEARDTracker(object):
             for image in images:
                 downloaded[task_id].append(image)
                 if callback:
-                    callback(item=task_id, n_steps=steps_image)
+                    callback(item=image.stem, n_steps=steps_image)
 
             # Update for all downloaded images at once if we didn't know
             # a priori
             if steps_image == 0 and callback:
-                callback(item=task_id, n_steps=1)
+                item = os.path.commonprefix(
+                    [p.name for p in donwloaded[task_id]])
+                callback(item=item + '...', n_steps=1)
 
         return downloaded
 
