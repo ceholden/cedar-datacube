@@ -1,5 +1,6 @@
 """ CLI for converting "pre-ARD" to ARD data cubes
 """
+import logging
 from pathlib import Path
 
 import click
@@ -25,6 +26,15 @@ def convert(ctx, preard, dest_dir, overwrite, scheduler, nprocs, nthreads):
                                  process_preard, read_metadata)
     from dask.diagnostics import ProgressBar
 
+    # Provide debug info for the scheduler
+    logger = ctx.obj['logger']
+    if scheduler is not None and logger.level == logging.DEBUG:
+        from stems.executor import executor_info
+        info = executor_info(scheduler)
+        for i in info:
+            logger.debug(i)
+
+    # Get configuration and any encoding provided
     cfg = options.fetch_config(ctx).config.get('ard', {})
     encoding_cfg = cfg.get('encoding', {})
 
