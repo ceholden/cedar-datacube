@@ -21,7 +21,8 @@ from . import options
 def convert(ctx, preard, dest_dir, overwrite, scheduler, nprocs, nthreads):
     """ Convert "pre-ARD" GeoTIFF(s) to ARD data cubes in NetCDF4 format
     """
-    from ardzilla.preard import find_preard, process_preard, read_metadata
+    from ardzilla.preard import (ard_netcdf_encoding, find_preard,
+                                 process_preard, read_metadata)
 
     preard_files = find_preard(preard)
     if len(preard_files) == 0:
@@ -36,7 +37,7 @@ def convert(ctx, preard, dest_dir, overwrite, scheduler, nprocs, nthreads):
         metadata = read_metadata(meta)
         ard_ds = process_preard(metadata, images)
         encoding = ard_netcdf_encoding(ard_ds, metadata)
-        dest = dest_dir.joinpaths(meta.stem + '.nc')
+        dest = dest_dir.joinpath(meta.stem + '.nc')
         ard_ds.to_netcdf(dest, encoding=encoding)
 
     click.echo('Complete')
