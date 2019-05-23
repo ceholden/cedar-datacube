@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.tracking &mdash; ardzilla 0+untagged.50.g1fc1888 documentation</title>
+  <title>ardzilla.tracking &mdash; ardzilla 0+untagged.50.g6eab74e documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.g1fc1888
+                0+untagged.50.g6eab74e
               </div>
             
           
@@ -390,12 +390,14 @@
             <span class="k">for</span> <span class="n">image</span> <span class="ow">in</span> <span class="n">images</span><span class="p">:</span>
                 <span class="n">downloaded</span><span class="p">[</span><span class="n">task_id</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">callback</span><span class="p">:</span>
-                    <span class="n">callback</span><span class="p">(</span><span class="n">item</span><span class="o">=</span><span class="n">task_id</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="n">steps_image</span><span class="p">)</span>
+                    <span class="n">callback</span><span class="p">(</span><span class="n">item</span><span class="o">=</span><span class="n">image</span><span class="o">.</span><span class="n">stem</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="n">steps_image</span><span class="p">)</span>
 
             <span class="c1"># Update for all downloaded images at once if we didn&#39;t know</span>
             <span class="c1"># a priori</span>
             <span class="k">if</span> <span class="n">steps_image</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">callback</span><span class="p">:</span>
-                <span class="n">callback</span><span class="p">(</span><span class="n">item</span><span class="o">=</span><span class="n">task_id</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+                <span class="n">item</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">commonprefix</span><span class="p">(</span>
+                    <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">donwloaded</span><span class="p">[</span><span class="n">task_id</span><span class="p">]])</span>
+                <span class="n">callback</span><span class="p">(</span><span class="n">item</span><span class="o">=</span><span class="n">item</span> <span class="o">+</span> <span class="s1">&#39;...&#39;</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">downloaded</span></div>
 

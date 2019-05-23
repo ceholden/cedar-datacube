@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.preard &mdash; ardzilla 0+untagged.50.g1fc1888 documentation</title>
+  <title>ardzilla.preard &mdash; ardzilla 0+untagged.50.g6eab74e documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.g1fc1888
+                0+untagged.50.g6eab74e
               </div>
             
           
@@ -245,7 +245,8 @@
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    path : str or Path</span>
-<span class="sd">        Path to a directory or file (search inside it&#39;s directory)</span>
+<span class="sd">        Path to a metadata file or directory of files (returning matches</span>
+<span class="sd">        inside the directory)</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -253,13 +254,14 @@
 <span class="sd">        Pairs of metadata filename to image filename(s)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
-    <span class="n">directory</span> <span class="o">=</span> <span class="n">path</span> <span class="k">if</span> <span class="n">path</span><span class="o">.</span><span class="n">is_dir</span><span class="p">()</span> <span class="k">else</span> <span class="n">path</span><span class="o">.</span><span class="n">parent</span>
-
-    <span class="n">metadata</span> <span class="o">=</span> <span class="n">directory</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">metadata_pattern</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">path</span><span class="o">.</span><span class="n">is_dir</span><span class="p">():</span>
+        <span class="n">metadata</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">metadata_pattern</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">metadata</span> <span class="o">=</span> <span class="p">[</span><span class="n">path</span><span class="p">]</span>
 
     <span class="n">preard</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">meta</span> <span class="ow">in</span> <span class="n">metadata</span><span class="p">:</span>
-        <span class="n">images</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">directory</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">meta</span><span class="o">.</span><span class="n">stem</span> <span class="o">+</span> <span class="s1">&#39;*.tif&#39;</span><span class="p">))</span>
+        <span class="n">images</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">meta</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">meta</span><span class="o">.</span><span class="n">stem</span> <span class="o">+</span> <span class="s1">&#39;*.tif&#39;</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">images</span><span class="p">:</span>
             <span class="n">preard</span><span class="p">[</span><span class="n">meta</span><span class="p">]</span> <span class="o">=</span> <span class="n">images</span>
         <span class="k">else</span><span class="p">:</span>
