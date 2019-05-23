@@ -173,16 +173,20 @@
         "dest": {
           "type": "string"
         },
-        "chunks": {
-          "type": "object",
-          "patternProperties": {
-            ".*": {
-                "type": "integer"
+        "encoding": {
+          "properties": {
+            "chunks": {
+              "type": "object",
+              "patternProperties": {
+                ".*": {
+                    "type": "integer"
+                }
+              }
+            },
+            "zlib": {
+              "type": "boolean"
             }
           }
-        },
-        "zlib": {
-          "type": "boolean"
         }
       }
     }
