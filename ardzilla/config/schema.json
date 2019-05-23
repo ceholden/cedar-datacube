@@ -174,13 +174,10 @@
           "type": "string"
         },
         "chunks": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "x": {
+          "type": "object",
+          "patternProperties": {
+            ".*": {
                 "type": "integer"
-              }
             }
           }
         },
