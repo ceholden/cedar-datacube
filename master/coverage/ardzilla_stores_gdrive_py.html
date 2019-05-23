@@ -1172,7 +1172,7 @@
 <p id="t265" class="pln">                                       <span class="nam">overwrite</span><span class="op">=</span><span class="nam">overwrite</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t266" class="stm mis">            <span class="key">except</span> <span class="nam">FileExistsError</span> <span class="key">as</span> <span class="nam">e</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t267" class="pln">                <span class="com"># TODO: send exception so it can be handled</span><span class="strut">&nbsp;</span></p>
-<p id="t268" class="stm mis">                <span class="key">yield</span> <span class="nam">name</span><span class="strut">&nbsp;</span></p>
+<p id="t268" class="stm mis">                <span class="key">yield</span> <span class="nam">Path</span><span class="op">(</span><span class="nam">dest</span><span class="op">)</span><span class="op">.</span><span class="nam">joinpath</span><span class="op">(</span><span class="nam">name</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t269" class="pln">            <span class="key">else</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t270" class="stm mis">                <span class="key">yield</span> <span class="nam">dst</span><span class="strut">&nbsp;</span></p>
 <p id="t271" class="pln"><span class="strut">&nbsp;</span></p>
@@ -1750,7 +1750,7 @@
     <div class="content">
         <p>
             <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.io">coverage.py v4.5.3</a>,
-            created at 2019-05-23 04:57
+            created at 2019-05-23 05:02
         </p>
     </div>
 </div>
