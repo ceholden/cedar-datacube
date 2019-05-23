@@ -83,7 +83,8 @@ def find_preard(path, metadata_pattern='*.json'):
     Parameters
     ----------
     path : str or Path
-        Path to a directory or file (search inside it's directory)
+        Path to a metadata file or directory of files (returning matches
+        inside the directory)
 
     Returns
     -------
@@ -91,13 +92,14 @@ def find_preard(path, metadata_pattern='*.json'):
         Pairs of metadata filename to image filename(s)
     """
     path = Path(path)
-    directory = path if path.is_dir() else path.parent
-
-    metadata = directory.glob(metadata_pattern)
+    if path.is_dir():
+        metadata = path.glob(metadata_pattern)
+    else:
+        metadata = [path]
 
     preard = {}
     for meta in metadata:
-        images = sorted(directory.glob(meta.stem + '*.tif'))
+        images = sorted(meta.parent.glob(meta.stem + '*.tif'))
         if images:
             preard[meta] = images
         else:
