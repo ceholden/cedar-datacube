@@ -208,7 +208,7 @@
 <p id="t63" class="stm mis">        <span class="nam">encoding</span> <span class="op">=</span> <span class="nam">ard_netcdf_encoding</span><span class="op">(</span><span class="nam">ard_ds</span><span class="op">,</span> <span class="nam">metadata</span><span class="op">,</span> <span class="op">**</span><span class="nam">encoding_cfg</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t64" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t65" class="pln">        <span class="com"># Setup write to NetCDF</span><span class="strut">&nbsp;</span></p>
-<p id="t66" class="stm mis">        <span class="nam">dest</span> <span class="op">=</span> <span class="nam">dest_dir</span><span class="op">.</span><span class="nam">joinpath</span><span class="op">(</span><span class="nam">meta</span><span class="op">.</span><span class="nam">stem</span> <span class="op">+</span> <span class="str">'.nc'</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t66" class="stm mis">        <span class="nam">dest</span> <span class="op">=</span> <span class="nam">dest</span><span class="op">.</span><span class="nam">joinpath</span><span class="op">(</span><span class="nam">meta</span><span class="op">.</span><span class="nam">stem</span> <span class="op">+</span> <span class="str">'.nc'</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t67" class="stm mis">        <span class="nam">ard_ds_</span> <span class="op">=</span> <span class="nam">ard_ds</span><span class="op">.</span><span class="nam">to_netcdf</span><span class="op">(</span><span class="nam">dest</span><span class="op">,</span> <span class="nam">encoding</span><span class="op">=</span><span class="nam">encoding</span><span class="op">,</span> <span class="nam">compute</span><span class="op">=</span><span class="key">False</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t68" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t69" class="pln">        <span class="com"># Write with progressbar</span><span class="strut">&nbsp;</span></p>
@@ -226,7 +226,7 @@
     <div class="content">
         <p>
             <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.io">coverage.py v4.5.3</a>,
-            created at 2019-05-24 19:00
+            created at 2019-05-24 19:21
         </p>
     </div>
 </div>
