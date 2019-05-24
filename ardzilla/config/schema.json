@@ -170,10 +170,7 @@
     "ard": {
       "type": "object",
       "properties": {
-        "preard": {
-          "type": "string"
-        },
-        "dest": {
+        "destination": {
           "type": "string"
         },
         "encoding": {
@@ -192,7 +189,8 @@
             }
           }
         }
-      }
+      },
+      "required": ["destination"]
     }
   },
   "required": ["tile_grid", "gee", "ard"],
