@@ -42,9 +42,11 @@ def download(ctx, tracking_name, dest_dir, overwrite):
 
 @click.command('clean',
                short_help='Clean/delete exported "pre-ARD" data from storage')
+@click.option('--keep-tracking', is_flag=True,
+              help='Preserve tracking information (deleted by default)')
 @options.arg_tracking_name
 @click.pass_context
-def clean(ctx, tracking_name):
+def clean(ctx, tracking_name, keep_tracking):
     """ Clean pre-ARD described by tracking information
     """
     config = options.fetch_config(ctx)
@@ -60,7 +62,11 @@ def clean(ctx, tracking_name):
                            item_show_func=_item_show_func,
                            length=n_tasks) as bar:
         cb_bar = _make_callback(bar)
-        clean_info = tracker.clean(tracking_info, callback=cb_bar)
+        clean_info = tracker.clean(
+            tracking_info,
+            tracking_name=None if keep_tracking else tracking_name,
+            callback=cb_bar
+        )
     click.echo('Complete!')
 
 

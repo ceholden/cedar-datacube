@@ -240,13 +240,15 @@ class GEEARDTracker(object):
 
         return downloaded
 
-    def clean(self, tracking_info, callback=None):
+    def clean(self, tracking_info, tracking_name=None, callback=None):
         """ Clean "pre-ARD" imagery, metadata, and tracking metadata off GCS
 
         Parameters
         ----------
         tracking_info : dict
             JSON tracking info data as a dict
+        tracking_name : str
+            Name of tracking info file (will be deleted if provided)
         callback : callable
             Callback function to execute after each file is deleted.
             Should take arguments "item" and "n_steps". Use this for
@@ -258,6 +260,9 @@ class GEEARDTracker(object):
             Mapping of GEE Task ID to filename(s) cleaned
         """
         iter_clean = clean_tracked(tracking_info, self.store)
+
+        if tracking_name:
+            self.store.remove(tracking_name, self.tracking_prefix)
 
         cleaned = defaultdict(list)
         for task_id, n_images, names in iter_clean:
