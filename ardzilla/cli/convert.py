@@ -13,13 +13,14 @@ from . import options
 @click.command('convert',
                short_help='Convert downloaded "pre-ARD" data to ARD NetCDFs')
 @click.argument('preard', type=click.Path(exists=True, resolve_path=True))
-@options.arg_dest_dir
+@click.option('--dest', type=click.Path(file_okay=False, resolve_path=True),
+              help='Override config file destination directory')
 @cli_options.opt_scheduler
 @cli_options.opt_nprocs
 @cli_options.opt_nthreads
 @options.opt_overwrite
 @click.pass_context
-def convert(ctx, preard, dest_dir, overwrite, scheduler, nprocs, nthreads):
+def convert(ctx, preard, dest, overwrite, scheduler, nprocs, nthreads):
     """ Convert "pre-ARD" GeoTIFF(s) to ARD data cubes in NetCDF4 format
     """
     from ardzilla.preard import (ard_netcdf_encoding, find_preard,
@@ -43,13 +44,19 @@ def convert(ctx, preard, dest_dir, overwrite, scheduler, nprocs, nthreads):
         raise FileNotFoundError('Could not find pre-ARD files to process')
     click.echo(f"Found metadata for {len(preard_files)} pre-ARD to convert")
 
-    dest_dir = Path(dest_dir)
-    dest_dir.mkdir(parents=True, exist_ok=True)
+    # Destination directory from config file, or overriden from CLI
+    dest = dest or cfg['destination']
 
     for i, (meta, images) in enumerate(preard_files.items()):
-        click.echo(f'Processing pre-ARD "{meta.stem}"')
-        # Open metadata and read TIFF files
+        # Read metadata first so we know what is in order
         metadata = read_metadata(meta)
+
+        # Destination can depend on info in metadata - format it
+        dest_ = Path(dest.format(**metadata))
+        dest_.mkdir(parents=True, exist_ok=True)
+        click.echo(f'Processing pre-ARD "{meta.stem}" to destination {dest_}')
+
+        # Read TIFF files into ARD-like xr.Dataset
         ard_ds = process_preard(metadata, images)
 
         # Determine encoding
