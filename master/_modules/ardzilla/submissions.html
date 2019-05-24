@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.submissions &mdash; ardzilla 0+untagged.50.g2f27dfd documentation</title>
+  <title>ardzilla.submissions &mdash; ardzilla 0+untagged.50.g56503b6 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.g2f27dfd
+                0+untagged.50.g56503b6
               </div>
             
           
@@ -268,7 +268,7 @@
 
     <span class="n">out</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">start_</span><span class="p">,</span> <span class="n">end_</span> <span class="ow">in</span> <span class="n">date_periods</span><span class="p">:</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Creating ARD between </span><span class="si">{start_}</span><span class="s1">-</span><span class="si">{end_}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Creating ARD for &quot;</span><span class="si">{collection}</span><span class="s1">&quot; between </span><span class="si">{start_}</span><span class="s1">-</span><span class="si">{end_}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="c1"># Create export name and paths</span>
         <span class="n">_args</span> <span class="o">=</span> <span class="p">(</span><span class="n">collection</span><span class="p">,</span> <span class="n">tile</span><span class="p">,</span> <span class="n">start_</span><span class="p">,</span> <span class="n">end_</span><span class="p">,</span> <span class="p">)</span>
         <span class="n">name</span> <span class="o">=</span> <span class="n">format_export_string</span><span class="p">(</span><span class="n">name_template</span><span class="p">,</span> <span class="o">*</span><span class="n">_args</span><span class="p">)</span>
@@ -278,20 +278,20 @@
         <span class="k">try</span><span class="p">:</span>
             <span class="c1"># Image is still &quot;unbounded&quot;, but will be given crs, transform,</span>
             <span class="c1"># and size on export</span>
-            <span class="n">image</span><span class="p">,</span> <span class="n">metadata</span> <span class="o">=</span> <span class="n">_create_ard</span><span class="p">(</span><span class="n">collection</span><span class="p">,</span> <span class="n">tile</span><span class="p">,</span> <span class="n">start_</span><span class="p">,</span> <span class="n">end_</span><span class="p">,</span>
-                                          <span class="n">filters</span><span class="o">=</span><span class="n">filters</span><span class="p">)</span>
+            <span class="c1"># image_metadata should return keys &quot;sensor&quot; and &quot;images&quot;</span>
+            <span class="n">image</span><span class="p">,</span> <span class="n">image_metadata</span> <span class="o">=</span> <span class="n">_create_ard</span><span class="p">(</span><span class="n">collection</span><span class="p">,</span> <span class="n">tile</span><span class="p">,</span> <span class="n">start_</span><span class="p">,</span> <span class="n">end_</span><span class="p">,</span>
+                                                <span class="n">filters</span><span class="o">=</span><span class="n">filters</span><span class="p">)</span>
         <span class="k">except</span> <span class="n">EmptyCollectionError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="s1">&#39;Could not process ARD for period &#39;</span>
-                             <span class="n">f</span><span class="s1">&#39;</span><span class="si">{start_}</span><span class="s1">-</span><span class="si">{end_}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;No images found for period </span><span class="si">{start_}</span><span class="s1">-</span><span class="si">{end_}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># Export &amp; store</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Creating Task to calculate and store image...&#39;</span><span class="p">)</span>
             <span class="n">task</span> <span class="o">=</span> <span class="n">store</span><span class="o">.</span><span class="n">store_image</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="o">**</span><span class="n">image_store_kwds</span><span class="p">)</span>
 
-            <span class="c1"># Update metadata with task info and store</span>
+            <span class="c1"># Create metadata</span>
+            <span class="n">metadata</span> <span class="o">=</span> <span class="n">_submission_metadata</span><span class="p">(</span><span class="n">collection</span><span class="p">,</span> <span class="n">date_start</span><span class="p">,</span> <span class="n">date_end</span><span class="p">)</span>
+            <span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;tile&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tile</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
             <span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;task&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_task_metadata</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>
-            <span class="n">metadata</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">_tile_metadata</span><span class="p">(</span><span class="n">tile</span><span class="p">))</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Storing metadata for task id &quot;</span><span class="si">{task.id}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
+            <span class="n">metadata</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">image_metadata</span><span class="p">)</span>  <span class="c1"># &quot;sensor&quot; and &quot;images&quot; keys</span>
             <span class="n">metadata_</span> <span class="o">=</span> <span class="n">store</span><span class="o">.</span><span class="n">store_metadata</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">prefix</span><span class="p">)</span>
 
             <span class="k">if</span> <span class="n">start</span><span class="p">:</span>
@@ -325,16 +325,22 @@
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">times</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">times</span><span class="p">[</span><span class="mi">1</span><span class="p">:]))</span>
 
 
+<span class="k">def</span> <span class="nf">_submission_metadata</span><span class="p">(</span><span class="n">collection</span><span class="p">,</span> <span class="n">date_start</span><span class="p">,</span> <span class="n">date_end</span><span class="p">,</span> <span class="n">freq</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s1">&#39;ardzilla&#39;</span><span class="p">:</span> <span class="n">ardzilla_version</span><span class="p">,</span>
+        <span class="s1">&#39;order&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;submitted&#39;</span><span class="p">:</span> <span class="n">dt</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">T%H:%M:%S&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;collection&#39;</span><span class="p">:</span> <span class="n">collection</span><span class="p">,</span>
+            <span class="s1">&#39;date_start&#39;</span><span class="p">:</span> <span class="n">date_start</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;date_end&#39;</span><span class="p">:</span> <span class="n">date_end</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;freq&#39;</span><span class="p">:</span> <span class="n">freq</span>
+        <span class="p">},</span>
+    <span class="p">}</span>
+
+
 <span class="k">def</span> <span class="nf">_task_metadata</span><span class="p">(</span><span class="n">task</span><span class="p">):</span>
     <span class="n">attrs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span>  <span class="c1"># &quot;config&quot; seems a bit much to store</span>
     <span class="k">return</span> <span class="p">{</span><span class="n">attr</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span> <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">attrs</span><span class="p">}</span>
-
-
-<span class="k">def</span> <span class="nf">_tile_metadata</span><span class="p">(</span><span class="n">tile</span><span class="p">):</span>
-    <span class="k">return</span> <span class="p">{</span>
-        <span class="s1">&#39;crs_wkt&#39;</span><span class="p">:</span> <span class="n">tile</span><span class="o">.</span><span class="n">crs</span><span class="o">.</span><span class="n">wkt</span><span class="p">,</span>
-        <span class="s1">&#39;transform&#39;</span><span class="p">:</span> <span class="n">utils</span><span class="o">.</span><span class="n">affine_to_str</span><span class="p">(</span><span class="n">tile</span><span class="o">.</span><span class="n">transform</span><span class="p">)</span>
-    <span class="p">}</span>
 </pre></div>
 
            </div>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.sensors.landsat &mdash; ardzilla 0+untagged.50.g2f27dfd documentation</title>
+  <title>ardzilla.sensors.landsat &mdash; ardzilla 0+untagged.50.g56503b6 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.g2f27dfd
+                0+untagged.50.g56503b6
               </div>
             
           
@@ -312,15 +312,14 @@
     <span class="c1"># Get all image metadata at once (saves time back and forth)</span>
     <span class="n">images_metadata</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">ee</span><span class="o">.</span><span class="n">List</span><span class="p">(</span><span class="n">_</span><span class="p">)</span><span class="o">.</span><span class="n">getInfo</span><span class="p">())</span>
 
+
     <span class="c1"># Create overall metadata</span>
+    <span class="n">band_names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">imgcol</span><span class="o">.</span><span class="n">first</span><span class="p">()</span><span class="o">.</span><span class="n">bandNames</span><span class="p">()</span><span class="o">.</span><span class="n">getInfo</span><span class="p">())</span>
     <span class="n">metadata</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s1">&#39;ardzilla:version&#39;</span><span class="p">:</span> <span class="n">ardzilla_version</span><span class="p">,</span>
-        <span class="s1">&#39;ardzilla:time&#39;</span><span class="p">:</span> <span class="n">dt</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">T%H:%M:%S&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;collection&#39;</span><span class="p">:</span> <span class="n">collection</span><span class="p">,</span>
-        <span class="s1">&#39;date_start&#39;</span><span class="p">:</span> <span class="n">date_start</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;date_end&#39;</span><span class="p">:</span> <span class="n">date_end</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;bands&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">imgcol</span><span class="o">.</span><span class="n">first</span><span class="p">()</span><span class="o">.</span><span class="n">bandNames</span><span class="p">()</span><span class="o">.</span><span class="n">getInfo</span><span class="p">()),</span>
-        <span class="s1">&#39;nodata&#39;</span><span class="p">:</span> <span class="n">nodata</span><span class="p">,</span>
+        <span class="s1">&#39;sensor&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;bands&#39;</span><span class="p">:</span> <span class="n">band_names</span><span class="p">,</span>
+            <span class="s1">&#39;nodata&#39;</span><span class="p">:</span> <span class="n">nodata</span><span class="p">,</span>
+        <span class="p">},</span>
         <span class="s1">&#39;images&#39;</span><span class="p">:</span> <span class="n">images_metadata</span>
     <span class="p">}</span>
 

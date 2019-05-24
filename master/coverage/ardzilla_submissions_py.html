@@ -185,17 +185,17 @@
 <p id="n116" class="stm mis"><a href="#n116">116</a></p>
 <p id="n117" class="pln"><a href="#n117">117</a></p>
 <p id="n118" class="pln"><a href="#n118">118</a></p>
-<p id="n119" class="stm mis"><a href="#n119">119</a></p>
-<p id="n120" class="pln"><a href="#n120">120</a></p>
-<p id="n121" class="stm mis"><a href="#n121">121</a></p>
+<p id="n119" class="pln"><a href="#n119">119</a></p>
+<p id="n120" class="stm mis"><a href="#n120">120</a></p>
+<p id="n121" class="pln"><a href="#n121">121</a></p>
 <p id="n122" class="stm mis"><a href="#n122">122</a></p>
-<p id="n123" class="pln"><a href="#n123">123</a></p>
+<p id="n123" class="stm mis"><a href="#n123">123</a></p>
 <p id="n124" class="pln"><a href="#n124">124</a></p>
 <p id="n125" class="pln"><a href="#n125">125</a></p>
 <p id="n126" class="stm mis"><a href="#n126">126</a></p>
-<p id="n127" class="stm mis"><a href="#n127">127</a></p>
+<p id="n127" class="pln"><a href="#n127">127</a></p>
 <p id="n128" class="pln"><a href="#n128">128</a></p>
-<p id="n129" class="pln"><a href="#n129">129</a></p>
+<p id="n129" class="stm mis"><a href="#n129">129</a></p>
 <p id="n130" class="stm mis"><a href="#n130">130</a></p>
 <p id="n131" class="stm mis"><a href="#n131">131</a></p>
 <p id="n132" class="stm mis"><a href="#n132">132</a></p>
@@ -234,14 +234,20 @@
 <p id="n165" class="pln"><a href="#n165">165</a></p>
 <p id="n166" class="stm run hide_run"><a href="#n166">166</a></p>
 <p id="n167" class="stm mis"><a href="#n167">167</a></p>
-<p id="n168" class="stm mis"><a href="#n168">168</a></p>
+<p id="n168" class="pln"><a href="#n168">168</a></p>
 <p id="n169" class="pln"><a href="#n169">169</a></p>
 <p id="n170" class="pln"><a href="#n170">170</a></p>
-<p id="n171" class="stm run hide_run"><a href="#n171">171</a></p>
-<p id="n172" class="stm mis"><a href="#n172">172</a></p>
+<p id="n171" class="pln"><a href="#n171">171</a></p>
+<p id="n172" class="pln"><a href="#n172">172</a></p>
 <p id="n173" class="pln"><a href="#n173">173</a></p>
 <p id="n174" class="pln"><a href="#n174">174</a></p>
 <p id="n175" class="pln"><a href="#n175">175</a></p>
+<p id="n176" class="pln"><a href="#n176">176</a></p>
+<p id="n177" class="pln"><a href="#n177">177</a></p>
+<p id="n178" class="pln"><a href="#n178">178</a></p>
+<p id="n179" class="stm run hide_run"><a href="#n179">179</a></p>
+<p id="n180" class="stm mis"><a href="#n180">180</a></p>
+<p id="n181" class="stm mis"><a href="#n181">181</a></p>
 
             </td>
             <td class="text">
@@ -353,7 +359,7 @@
 <p id="t106" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t107" class="stm mis">    <span class="nam">out</span> <span class="op">=</span> <span class="op">[</span><span class="op">]</span><span class="strut">&nbsp;</span></p>
 <p id="t108" class="stm mis">    <span class="key">for</span> <span class="nam">start_</span><span class="op">,</span> <span class="nam">end_</span> <span class="key">in</span> <span class="nam">date_periods</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t109" class="stm mis">        <span class="nam">logger</span><span class="op">.</span><span class="nam">debug</span><span class="op">(</span><span class="str">f'Creating ARD between {start_}-{end_}'</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t109" class="stm mis">        <span class="nam">logger</span><span class="op">.</span><span class="nam">debug</span><span class="op">(</span><span class="str">f'Creating ARD for "{collection}" between {start_}-{end_}'</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t110" class="pln">        <span class="com"># Create export name and paths</span><span class="strut">&nbsp;</span></p>
 <p id="t111" class="stm mis">        <span class="nam">_args</span> <span class="op">=</span> <span class="op">(</span><span class="nam">collection</span><span class="op">,</span> <span class="nam">tile</span><span class="op">,</span> <span class="nam">start_</span><span class="op">,</span> <span class="nam">end_</span><span class="op">,</span> <span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t112" class="stm mis">        <span class="nam">name</span> <span class="op">=</span> <span class="nam">format_export_string</span><span class="op">(</span><span class="nam">name_template</span><span class="op">,</span> <span class="op">*</span><span class="nam">_args</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
@@ -363,20 +369,20 @@
 <p id="t116" class="stm mis">        <span class="key">try</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t117" class="pln">            <span class="com"># Image is still "unbounded", but will be given crs, transform,</span><span class="strut">&nbsp;</span></p>
 <p id="t118" class="pln">            <span class="com"># and size on export</span><span class="strut">&nbsp;</span></p>
-<p id="t119" class="stm mis">            <span class="nam">image</span><span class="op">,</span> <span class="nam">metadata</span> <span class="op">=</span> <span class="nam">_create_ard</span><span class="op">(</span><span class="nam">collection</span><span class="op">,</span> <span class="nam">tile</span><span class="op">,</span> <span class="nam">start_</span><span class="op">,</span> <span class="nam">end_</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
-<p id="t120" class="pln">                                          <span class="nam">filters</span><span class="op">=</span><span class="nam">filters</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
-<p id="t121" class="stm mis">        <span class="key">except</span> <span class="nam">EmptyCollectionError</span> <span class="key">as</span> <span class="nam">e</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t122" class="stm mis">            <span class="nam">logger</span><span class="op">.</span><span class="nam">exception</span><span class="op">(</span><span class="str">'Could not process ARD for period '</span><span class="strut">&nbsp;</span></p>
-<p id="t123" class="pln">                             <span class="str">f'{start_}-{end_}'</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t119" class="pln">            <span class="com"># image_metadata should return keys "sensor" and "images"</span><span class="strut">&nbsp;</span></p>
+<p id="t120" class="stm mis">            <span class="nam">image</span><span class="op">,</span> <span class="nam">image_metadata</span> <span class="op">=</span> <span class="nam">_create_ard</span><span class="op">(</span><span class="nam">collection</span><span class="op">,</span> <span class="nam">tile</span><span class="op">,</span> <span class="nam">start_</span><span class="op">,</span> <span class="nam">end_</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
+<p id="t121" class="pln">                                                <span class="nam">filters</span><span class="op">=</span><span class="nam">filters</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t122" class="stm mis">        <span class="key">except</span> <span class="nam">EmptyCollectionError</span> <span class="key">as</span> <span class="nam">e</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
+<p id="t123" class="stm mis">            <span class="nam">logger</span><span class="op">.</span><span class="nam">exception</span><span class="op">(</span><span class="str">f'No images found for period {start_}-{end_}'</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t124" class="pln">        <span class="key">else</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t125" class="pln">            <span class="com"># Export &amp; store</span><span class="strut">&nbsp;</span></p>
-<p id="t126" class="stm mis">            <span class="nam">logger</span><span class="op">.</span><span class="nam">debug</span><span class="op">(</span><span class="str">'Creating Task to calculate and store image...'</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
-<p id="t127" class="stm mis">            <span class="nam">task</span> <span class="op">=</span> <span class="nam">store</span><span class="op">.</span><span class="nam">store_image</span><span class="op">(</span><span class="nam">image</span><span class="op">,</span> <span class="nam">name</span><span class="op">,</span> <span class="nam">prefix</span><span class="op">,</span> <span class="op">**</span><span class="nam">image_store_kwds</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
-<p id="t128" class="pln"><span class="strut">&nbsp;</span></p>
-<p id="t129" class="pln">            <span class="com"># Update metadata with task info and store</span><span class="strut">&nbsp;</span></p>
-<p id="t130" class="stm mis">            <span class="nam">metadata</span><span class="op">[</span><span class="str">'task'</span><span class="op">]</span> <span class="op">=</span> <span class="nam">_task_metadata</span><span class="op">(</span><span class="nam">task</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
-<p id="t131" class="stm mis">            <span class="nam">metadata</span><span class="op">.</span><span class="nam">update</span><span class="op">(</span><span class="nam">_tile_metadata</span><span class="op">(</span><span class="nam">tile</span><span class="op">)</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
-<p id="t132" class="stm mis">            <span class="nam">logger</span><span class="op">.</span><span class="nam">debug</span><span class="op">(</span><span class="str">f'Storing metadata for task id "{task.id}"'</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t126" class="stm mis">            <span class="nam">task</span> <span class="op">=</span> <span class="nam">store</span><span class="op">.</span><span class="nam">store_image</span><span class="op">(</span><span class="nam">image</span><span class="op">,</span> <span class="nam">name</span><span class="op">,</span> <span class="nam">prefix</span><span class="op">,</span> <span class="op">**</span><span class="nam">image_store_kwds</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t127" class="pln"><span class="strut">&nbsp;</span></p>
+<p id="t128" class="pln">            <span class="com"># Create metadata</span><span class="strut">&nbsp;</span></p>
+<p id="t129" class="stm mis">            <span class="nam">metadata</span> <span class="op">=</span> <span class="nam">_submission_metadata</span><span class="op">(</span><span class="nam">collection</span><span class="op">,</span> <span class="nam">date_start</span><span class="op">,</span> <span class="nam">date_end</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t130" class="stm mis">            <span class="nam">metadata</span><span class="op">[</span><span class="str">'tile'</span><span class="op">]</span> <span class="op">=</span> <span class="nam">tile</span><span class="op">.</span><span class="nam">to_dict</span><span class="op">(</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t131" class="stm mis">            <span class="nam">metadata</span><span class="op">[</span><span class="str">'task'</span><span class="op">]</span> <span class="op">=</span> <span class="nam">_task_metadata</span><span class="op">(</span><span class="nam">task</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t132" class="stm mis">            <span class="nam">metadata</span><span class="op">.</span><span class="nam">update</span><span class="op">(</span><span class="nam">image_metadata</span><span class="op">)</span>  <span class="com"># "sensor" and "images" keys</span><span class="strut">&nbsp;</span></p>
 <p id="t133" class="stm mis">            <span class="nam">metadata_</span> <span class="op">=</span> <span class="nam">store</span><span class="op">.</span><span class="nam">store_metadata</span><span class="op">(</span><span class="nam">metadata</span><span class="op">,</span> <span class="nam">name</span><span class="op">,</span> <span class="nam">prefix</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t134" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t135" class="stm mis">            <span class="key">if</span> <span class="nam">start</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
@@ -410,16 +416,22 @@
 <p id="t163" class="stm mis">        <span class="key">return</span> <span class="nam">list</span><span class="op">(</span><span class="nam">zip</span><span class="op">(</span><span class="nam">times</span><span class="op">[</span><span class="op">:</span><span class="op">-</span><span class="num">1</span><span class="op">]</span><span class="op">,</span> <span class="nam">times</span><span class="op">[</span><span class="num">1</span><span class="op">:</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t164" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t165" class="pln"><span class="strut">&nbsp;</span></p>
-<p id="t166" class="stm run hide_run"><span class="key">def</span> <span class="nam">_task_metadata</span><span class="op">(</span><span class="nam">task</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t167" class="stm mis">    <span class="nam">attrs</span> <span class="op">=</span> <span class="op">[</span><span class="str">'id'</span><span class="op">]</span>  <span class="com"># "config" seems a bit much to store</span><span class="strut">&nbsp;</span></p>
-<p id="t168" class="stm mis">    <span class="key">return</span> <span class="op">{</span><span class="nam">attr</span><span class="op">:</span> <span class="nam">getattr</span><span class="op">(</span><span class="nam">task</span><span class="op">,</span> <span class="nam">attr</span><span class="op">)</span> <span class="key">for</span> <span class="nam">attr</span> <span class="key">in</span> <span class="nam">attrs</span><span class="op">}</span><span class="strut">&nbsp;</span></p>
-<p id="t169" class="pln"><span class="strut">&nbsp;</span></p>
-<p id="t170" class="pln"><span class="strut">&nbsp;</span></p>
-<p id="t171" class="stm run hide_run"><span class="key">def</span> <span class="nam">_tile_metadata</span><span class="op">(</span><span class="nam">tile</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t172" class="stm mis">    <span class="key">return</span> <span class="op">{</span><span class="strut">&nbsp;</span></p>
-<p id="t173" class="pln">        <span class="str">'crs_wkt'</span><span class="op">:</span> <span class="nam">tile</span><span class="op">.</span><span class="nam">crs</span><span class="op">.</span><span class="nam">wkt</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
-<p id="t174" class="pln">        <span class="str">'transform'</span><span class="op">:</span> <span class="nam">utils</span><span class="op">.</span><span class="nam">affine_to_str</span><span class="op">(</span><span class="nam">tile</span><span class="op">.</span><span class="nam">transform</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
-<p id="t175" class="pln">    <span class="op">}</span><span class="strut">&nbsp;</span></p>
+<p id="t166" class="stm run hide_run"><span class="key">def</span> <span class="nam">_submission_metadata</span><span class="op">(</span><span class="nam">collection</span><span class="op">,</span> <span class="nam">date_start</span><span class="op">,</span> <span class="nam">date_end</span><span class="op">,</span> <span class="nam">freq</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
+<p id="t167" class="stm mis">    <span class="key">return</span> <span class="op">{</span><span class="strut">&nbsp;</span></p>
+<p id="t168" class="pln">        <span class="str">'ardzilla'</span><span class="op">:</span> <span class="nam">ardzilla_version</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
+<p id="t169" class="pln">        <span class="str">'order'</span><span class="op">:</span> <span class="op">{</span><span class="strut">&nbsp;</span></p>
+<p id="t170" class="pln">            <span class="str">'submitted'</span><span class="op">:</span> <span class="nam">dt</span><span class="op">.</span><span class="nam">datetime</span><span class="op">.</span><span class="nam">now</span><span class="op">(</span><span class="op">)</span><span class="op">.</span><span class="nam">strftime</span><span class="op">(</span><span class="str">'%Y-%m-%dT%H:%M:%S'</span><span class="op">)</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
+<p id="t171" class="pln">            <span class="str">'collection'</span><span class="op">:</span> <span class="nam">collection</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
+<p id="t172" class="pln">            <span class="str">'date_start'</span><span class="op">:</span> <span class="nam">date_start</span><span class="op">.</span><span class="nam">strftime</span><span class="op">(</span><span class="str">'%Y-%m-%d'</span><span class="op">)</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
+<p id="t173" class="pln">            <span class="str">'date_end'</span><span class="op">:</span> <span class="nam">date_end</span><span class="op">.</span><span class="nam">strftime</span><span class="op">(</span><span class="str">'%Y-%m-%d'</span><span class="op">)</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
+<p id="t174" class="pln">            <span class="str">'freq'</span><span class="op">:</span> <span class="nam">freq</span><span class="strut">&nbsp;</span></p>
+<p id="t175" class="pln">        <span class="op">}</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
+<p id="t176" class="pln">    <span class="op">}</span><span class="strut">&nbsp;</span></p>
+<p id="t177" class="pln"><span class="strut">&nbsp;</span></p>
+<p id="t178" class="pln"><span class="strut">&nbsp;</span></p>
+<p id="t179" class="stm run hide_run"><span class="key">def</span> <span class="nam">_task_metadata</span><span class="op">(</span><span class="nam">task</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
+<p id="t180" class="stm mis">    <span class="nam">attrs</span> <span class="op">=</span> <span class="op">[</span><span class="str">'id'</span><span class="op">]</span>  <span class="com"># "config" seems a bit much to store</span><span class="strut">&nbsp;</span></p>
+<p id="t181" class="stm mis">    <span class="key">return</span> <span class="op">{</span><span class="nam">attr</span><span class="op">:</span> <span class="nam">getattr</span><span class="op">(</span><span class="nam">task</span><span class="op">,</span> <span class="nam">attr</span><span class="op">)</span> <span class="key">for</span> <span class="nam">attr</span> <span class="key">in</span> <span class="nam">attrs</span><span class="op">}</span><span class="strut">&nbsp;</span></p>
 
             </td>
         </tr>
@@ -430,7 +442,7 @@
     <div class="content">
         <p>
             <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.io">coverage.py v4.5.3</a>,
-            created at 2019-05-24 15:57
+            created at 2019-05-24 18:02
         </p>
     </div>
 </div>

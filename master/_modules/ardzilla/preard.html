@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.preard &mdash; ardzilla 0+untagged.50.g2f27dfd documentation</title>
+  <title>ardzilla.preard &mdash; ardzilla 0+untagged.50.g56503b6 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.g2f27dfd
+                0+untagged.50.g56503b6
               </div>
             
           
@@ -173,7 +173,7 @@
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="nn">xr</span>
 
-<span class="kn">from</span> <span class="nn">stems.gis</span> <span class="k">import</span> <span class="n">convert</span><span class="p">,</span> <span class="n">georeference</span>
+<span class="kn">from</span> <span class="nn">stems.gis</span> <span class="k">import</span> <span class="n">convert</span><span class="p">,</span> <span class="n">georeference</span><span class="p">,</span> <span class="n">grids</span>
 <span class="kn">from</span> <span class="nn">stems.io.encoding</span> <span class="k">import</span> <span class="n">netcdf_encoding</span>
 
 <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">defaults</span><span class="p">,</span> <span class="n">__version__</span>
@@ -202,7 +202,7 @@
     <span class="c1"># Read metadata and determine key attributes</span>
     <span class="n">times</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">([</span><span class="n">_ard_image_timestamp</span><span class="p">(</span><span class="n">images</span><span class="p">)</span>
                             <span class="k">for</span> <span class="n">images</span> <span class="ow">in</span> <span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;images&#39;</span><span class="p">]])</span><span class="o">.</span><span class="n">values</span>
-    <span class="n">bands</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;bands&#39;</span><span class="p">]</span>
+    <span class="n">bands</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;sensor&#39;</span><span class="p">][</span><span class="s1">&#39;bands&#39;</span><span class="p">]</span>
 
     <span class="c1"># Create pre-ARD DataArray</span>
     <span class="n">preard_da</span> <span class="o">=</span> <span class="n">read_preard</span><span class="p">(</span><span class="n">images</span><span class="p">,</span> <span class="n">chunks</span><span class="o">=</span><span class="n">chunks</span><span class="p">)</span>
@@ -211,11 +211,11 @@
     <span class="n">ard_ds</span> <span class="o">=</span> <span class="n">preard_to_ard</span><span class="p">(</span><span class="n">preard_da</span><span class="p">,</span> <span class="n">times</span><span class="p">,</span> <span class="n">bands</span><span class="p">)</span>
 
     <span class="c1"># Attach attribute metadata</span>
-    <span class="n">order_collection</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;collection&#39;</span><span class="p">]</span>
-    <span class="n">order_time</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;ardzilla:time&#39;</span><span class="p">]</span>
-    <span class="n">order_version</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;ardzilla:version&#39;</span><span class="p">]</span>
-    <span class="n">order_start</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;date_start&#39;</span><span class="p">]</span>
-    <span class="n">order_end</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;date_end&#39;</span><span class="p">]</span>
+    <span class="n">order_collection</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;order&#39;</span><span class="p">][</span><span class="s1">&#39;collection&#39;</span><span class="p">]</span>
+    <span class="n">order_time</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;order&#39;</span><span class="p">][</span><span class="s1">&#39;submitted&#39;</span><span class="p">]</span>
+    <span class="n">order_version</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;ardzilla&#39;</span><span class="p">]</span>
+    <span class="n">order_start</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;order&#39;</span><span class="p">][</span><span class="s1">&#39;date_start&#39;</span><span class="p">]</span>
+    <span class="n">order_end</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;order&#39;</span><span class="p">][</span><span class="s1">&#39;date_end&#39;</span><span class="p">]</span>
     <span class="n">dt_now</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">today</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">T%H%M%S&quot;</span><span class="p">)</span>
 
     <span class="n">attrs</span> <span class="o">=</span> <span class="p">{</span>
@@ -232,9 +232,8 @@
     <span class="n">ard_ds</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="n">attrs</span>
 
     <span class="c1"># Georeference</span>
-    <span class="n">crs</span> <span class="o">=</span> <span class="n">convert</span><span class="o">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;crs_wkt&#39;</span><span class="p">])</span>
-    <span class="n">transform</span> <span class="o">=</span> <span class="n">convert</span><span class="o">.</span><span class="n">to_transform</span><span class="p">(</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;transform&#39;</span><span class="p">])</span>
-    <span class="n">ard_ds</span> <span class="o">=</span> <span class="n">georeference</span><span class="p">(</span><span class="n">ard_ds</span><span class="p">,</span> <span class="n">crs</span><span class="p">,</span> <span class="n">transform</span><span class="p">)</span>
+    <span class="n">tile_</span> <span class="o">=</span> <span class="n">grids</span><span class="o">.</span><span class="n">Tile</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;tile&#39;</span><span class="p">])</span>
+    <span class="n">ard_ds</span> <span class="o">=</span> <span class="n">georeference</span><span class="p">(</span><span class="n">ard_ds</span><span class="p">,</span> <span class="n">tile</span><span class="o">.</span><span class="n">crs</span><span class="p">,</span> <span class="n">tile</span><span class="o">.</span><span class="n">transform</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">ard_ds</span></div>
 
@@ -330,11 +329,7 @@
 <span class="sd">        NetCDF encoding to use with :py:meth:`xarray.Dataset.to_netcdf`</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">assert</span> <span class="s1">&#39;nodata&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">encoding_kwds</span>
-    <span class="n">nodata</span> <span class="o">=</span> <span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;nodata&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">nodata</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s1">&#39;Assuming NODATA=-9999&#39;</span><span class="p">)</span>
-        <span class="n">nodata</span> <span class="o">=</span> <span class="o">-</span><span class="mi">9999</span>
-
+    <span class="n">nodata</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;sensor&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;nodata&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
     <span class="n">encoding</span> <span class="o">=</span> <span class="n">netcdf_encoding</span><span class="p">(</span><span class="n">ard_ds</span><span class="p">,</span> <span class="n">nodata</span><span class="o">=</span><span class="n">nodata</span><span class="p">,</span> <span class="o">**</span><span class="n">encoding_kwds</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">encoding</span></div>
 
