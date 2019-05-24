@@ -5,7 +5,6 @@ import logging
 
 import ee
 
-from .. import __version__ as ardzilla_version
 from ..exceptions import EmptyCollectionError
 from . import common
 
@@ -150,15 +149,14 @@ def create_ard(collection, tile, date_start, date_end, filters=None,
     # Get all image metadata at once (saves time back and forth)
     images_metadata = list(ee.List(_).getInfo())
 
+
     # Create overall metadata
+    band_names = list(imgcol.first().bandNames().getInfo())
     metadata = {
-        'ardzilla:version': ardzilla_version,
-        'ardzilla:time': dt.datetime.now().strftime('%Y-%m-%dT%H:%M:%S'),
-        'collection': collection,
-        'date_start': date_start.strftime('%Y-%m-%d'),
-        'date_end': date_end.strftime('%Y-%m-%d'),
-        'bands': list(imgcol.first().bandNames().getInfo()),
-        'nodata': nodata,
+        'sensor': {
+            'bands': band_names,
+            'nodata': nodata,
+        },
         'images': images_metadata
     }
 

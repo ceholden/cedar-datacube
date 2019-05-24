@@ -6,7 +6,8 @@ import json
 
 import ee
 
-from . import defaults, sensors, utils
+from . import __version__ as ardzilla_version
+from . import defaults, sensors, utils, __version__
 from .exceptions import EmptyCollectionError
 
 logger = logging.getLogger(__name__)
@@ -106,7 +107,7 @@ def submit_ard(collection, tile, date_start, date_end, store,
 
     out = []
     for start_, end_ in date_periods:
-        logger.debug(f'Creating ARD between {start_}-{end_}')
+        logger.debug(f'Creating ARD for "{collection}" between {start_}-{end_}')
         # Create export name and paths
         _args = (collection, tile, start_, end_, )
         name = format_export_string(name_template, *_args)
@@ -116,20 +117,21 @@ def submit_ard(collection, tile, date_start, date_end, store,
         try:
             # Image is still "unbounded", but will be given crs, transform,
             # and size on export
-            image, metadata = _create_ard(collection, tile, start_, end_,
-                                          filters=filters)
+            # image_metadata should return keys "sensor" and "images"
+            image, image_metadata = _create_ard(collection, tile, start_, end_,
+                                                filters=filters)
         except EmptyCollectionError as e:
-            logger.exception('Could not process ARD for period '
-                             f'{start_}-{end_}')
+            logger.exception(f'No images found for period {start_}-{end_}')
         else:
             # Export & store
-            logger.debug('Creating Task to calculate and store image...')
             task = store.store_image(image, name, prefix, **image_store_kwds)
 
-            # Update metadata with task info and store
+            # Create metadata
+            metadata = _submission_metadata(collection, date_start, date_end,
+                                            freq)
+            metadata['tile'] = tile.to_dict()
             metadata['task'] = _task_metadata(task)
-            metadata.update(_tile_metadata(tile))
-            logger.debug(f'Storing metadata for task id "{task.id}"')
+            metadata.update(image_metadata)  # "sensor" and "images" keys
             metadata_ = store.store_metadata(metadata, name, prefix)
 
             if start:
@@ -163,13 +165,19 @@ def _parse_date_freq(start, end, freq=None):
         return list(zip(times[:-1], times[1:]))
 
 
+def _submission_metadata(collection, date_start, date_end, freq):
+    return {
+        'ardzilla': ardzilla_version,
+        'order': {
+            'submitted': dt.datetime.now().strftime('%Y-%m-%dT%H:%M:%S'),
+            'collection': collection,
+            'date_start': date_start.strftime('%Y-%m-%d'),
+            'date_end': date_end.strftime('%Y-%m-%d'),
+            'freq': freq
+        },
+    }
+
+
 def _task_metadata(task):
     attrs = ['id']  # "config" seems a bit much to store
     return {attr: getattr(task, attr) for attr in attrs}
-
-
-def _tile_metadata(tile):
-    return {
-        'crs_wkt': tile.crs.wkt,
-        'transform': utils.affine_to_str(tile.transform)
-    }

@@ -11,7 +11,7 @@ import numpy as np
 import pandas as pd
 import xarray as xr
 
-from stems.gis import convert, georeference
+from stems.gis import convert, georeference, grids
 from stems.io.encoding import netcdf_encoding
 
 from . import defaults, __version__
@@ -40,7 +40,7 @@ def process_preard(metadata, images, chunks=None):
     # Read metadata and determine key attributes
     times = pd.to_datetime([_ard_image_timestamp(images)
                             for images in metadata['images']]).values
-    bands = metadata['bands']
+    bands = metadata['sensor']['bands']
 
     # Create pre-ARD DataArray
     preard_da = read_preard(images, chunks=chunks)
@@ -49,11 +49,11 @@ def process_preard(metadata, images, chunks=None):
     ard_ds = preard_to_ard(preard_da, times, bands)
 
     # Attach attribute metadata
-    order_collection = metadata['collection']
-    order_time = metadata['ardzilla:time']
-    order_version = metadata['ardzilla:version']
-    order_start = metadata['date_start']
-    order_end = metadata['date_end']
+    order_collection = metadata['order']['collection']
+    order_time = metadata['order']['submitted']
+    order_version = metadata['ardzilla']
+    order_start = metadata['order']['date_start']
+    order_end = metadata['order']['date_end']
     dt_now = dt.datetime.today().strftime("%Y%m%dT%H%M%S")
 
     attrs = {
@@ -70,9 +70,8 @@ def process_preard(metadata, images, chunks=None):
     ard_ds.attrs = attrs
 
     # Georeference
-    crs = convert.to_crs(metadata['crs_wkt'])
-    transform = convert.to_transform(metadata['transform'])
-    ard_ds = georeference(ard_ds, crs, transform)
+    tile_ = grids.Tile.from_dict(metadata['tile'])
+    ard_ds = georeference(ard_ds, tile.crs, tile.transform)
 
     return ard_ds
 
@@ -168,11 +167,7 @@ def ard_netcdf_encoding(ard_ds, metadata, **encoding_kwds):
         NetCDF encoding to use with :py:meth:`xarray.Dataset.to_netcdf`
     """
     assert 'nodata' not in encoding_kwds
-    nodata = metadata.get('nodata', None)
-    if nodata is None:
-        logger.warning('Assuming NODATA=-9999')
-        nodata = -9999
-
+    nodata = metadata['sensor'].get('nodata', None)
     encoding = netcdf_encoding(ard_ds, nodata=nodata, **encoding_kwds)
     return encoding
 
