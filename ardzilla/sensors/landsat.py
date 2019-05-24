@@ -123,10 +123,11 @@ def create_ard(collection, tile, date_start, date_end, filters=None,
     imgcol_udates = common.get_collection_uniq_dates(imgcol)
     n_images = len(imgcol_udates)
     if n_images == 0:
-        raise EmptyCollectionError('Found 0 dates of imagery usable for ARD')
-    logger.debug(f'Creating ARD for {n_images} images')
+        raise EmptyCollectionError(f'Found 0 images for "{collection}" between '
+                                   f'{date_start}-{date_end}')
 
     # Loop over unique dates, making mosaics to eliminate north/south if needed
+    logger.debug(f'Creating ARD for {n_images} images')
     prepped = []
     for udate in sorted(imgcol_udates):
         # Prepare and get metadata for unique date

@@ -121,7 +121,7 @@ def submit_ard(collection, tile, date_start, date_end, store,
             image, image_metadata = _create_ard(collection, tile, start_, end_,
                                                 filters=filters)
         except EmptyCollectionError as e:
-            logger.exception(f'No images found for period {start_}-{end_}')
+            logger.debug(e)
         else:
             # Export & store
             task = store.store_image(image, name, prefix, **image_store_kwds)
