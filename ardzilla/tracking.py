@@ -4,6 +4,7 @@ from collections import defaultdict
 import datetime as dt
 import itertools
 import logging
+import os
 from pathlib import Path
 import string
 
@@ -234,7 +235,7 @@ class GEEARDTracker(object):
             # a priori
             if steps_image == 0 and callback:
                 item = os.path.commonprefix(
-                    [p.name for p in donwloaded[task_id]])
+                    [p.name for p in downloaded[task_id]])
                 callback(item=item + '...', n_steps=1)
 
         return downloaded
