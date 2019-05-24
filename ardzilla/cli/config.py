@@ -1,11 +1,14 @@
 """ CLI tools for working with ARDzilla configuration files
 """
+import json
 import logging
 import os
 from pathlib import Path
 import shutil
 
 import click
+
+from . import options
 
 
 @click.group('config', help='Create or check ARDzilla configuration files')
@@ -48,3 +51,12 @@ def config_template(ctx, dest, comment):
 def config_build(ctx, dest):
     click.echo('To do... maybe you?')
     raise click.Abort()
+
+
+@group_config.command('print', short_help='Parse and print config file')
+@click.pass_context
+def config_print(ctx):
+    """ This program should help you check your config file is valid
+    """
+    cfg = options.fetch_config(ctx)
+    click.echo(json.dumps(cfg.config, indent=2))
