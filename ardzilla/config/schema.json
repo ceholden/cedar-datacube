@@ -2,6 +2,25 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "ARDzilla configuration file",
   "type": "object",
+
+  "definitions": {
+    "stores": {
+      "export_image_kwds": {
+          "description": "Additional keyword arguments to pass to toCloudStorage",
+          "type": "object",
+          "default": {},
+          "properties": {
+            "shardSize": {
+              "type": "integer"
+            },
+            "fileDimensions": {
+              "type": "integer"
+            }
+          }
+      }
+    }
+  },
+
   "properties": {
     "tile_grid": {
       "description": "Tile grid to use for ARD",
@@ -120,24 +139,16 @@
         "credentials_file": {
           "description": "Filename of service account credentials for GCS",
           "type": "string"
-    },
+        },
         "project": {
           "description": "Name of GCS project to use",
           "type": "string"
         },
         "export_image_kwds": {
-          "description": "Additional keyword arguments to pass to toCloudStorage",
-          "type": "object",
-          "properties": {
-            "shardSize": {
-              "type": "integer"
-            },
-            "fileDimensions": {
-              "type": "integer"
-            }
-          }
+          "$ref": "#/definitions/stores/export_image_kwds"
         }
-      }
+      },
+      "required": ["bucket_name", "project"]
     },
     "gdrive": {
       "type": "object",
@@ -151,18 +162,10 @@
           "type": "string"
         },
         "export_image_kwds": {
-          "description": "Additional keyword arguments to pass to toCloudStorage",
-          "type": "object",
-          "properties": {
-            "shardSize": {
-              "type": "integer"
-            },
-            "fileDimensions": {
-              "type": "integer"
-            }
-          }
+          "$ref": "#/definitions/stores/export_image_kwds"
         }
-      }
+      },
+      "required": []
     },
     "ard": {
       "type": "object",
