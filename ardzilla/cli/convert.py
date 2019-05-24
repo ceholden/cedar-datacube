@@ -63,7 +63,7 @@ def convert(ctx, preard, dest, overwrite, scheduler, nprocs, nthreads):
         encoding = ard_netcdf_encoding(ard_ds, metadata, **encoding_cfg)
 
         # Setup write to NetCDF
-        dest = dest_dir.joinpath(meta.stem + '.nc')
+        dest = dest.joinpath(meta.stem + '.nc')
         ard_ds_ = ard_ds.to_netcdf(dest, encoding=encoding, compute=False)
 
         # Write with progressbar

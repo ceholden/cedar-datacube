@@ -11,9 +11,6 @@ from .. import defaults
 # =============================================================================
 # Arguments
 arg_tracking_name = click.argument('tracking_name', type=str)
-arg_dest_dir = click.argument('dest_dir',
-                              type=click.Path(file_okay=False,
-                                              resolve_path=True))
 
 # Types
 type_path_file = click.Path(exists=True, dir_okay=False, resolve_path=True)

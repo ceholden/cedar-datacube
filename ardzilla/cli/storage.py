@@ -8,10 +8,13 @@ from . import options
 @click.command('download',
                short_help='Download exported "pre-ARD" data from storage')
 @options.arg_tracking_name
-@options.arg_dest_dir
+@click.option('--dest',
+              type=click.Path(file_okay=False, resolve_path=True),
+              help='Specify destination directory. Otherwise downloads to '
+                   'a directory based on the tracking name')
 @options.opt_overwrite
 @click.pass_context
-def download(ctx, tracking_name, dest_dir, overwrite):
+def download(ctx, tracking_name, dest, overwrite):
     """ Download pre-ARD described by tracking information
 
     \b
@@ -26,6 +29,11 @@ def download(ctx, tracking_name, dest_dir, overwrite):
     config = options.fetch_config(ctx)
     tracker = config.get_tracker()
 
+    # Destination defaults to tracking_name
+    if dest is None:
+        # remove any extension listed
+        dest = '.'.join(tracking_name.split('.')[:-1])
+
     click.echo(f'Retrieving info about pre-ARD in "{tracking_name}"')
     tracking_info = tracker.read(tracking_name)
 
@@ -35,7 +43,7 @@ def download(ctx, tracking_name, dest_dir, overwrite):
                            item_show_func=_item_show_func,
                            length=n_tasks) as bar:
         cb_bar = _make_callback(bar)
-        dl_info = tracker.download(tracking_info, dest_dir,
+        dl_info = tracker.download(tracking_info, dest,
                                    overwrite=overwrite, callback=cb_bar)
     click.echo('Complete!')
 
