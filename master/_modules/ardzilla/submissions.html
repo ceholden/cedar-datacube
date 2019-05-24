@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.submissions &mdash; ardzilla 0+untagged.50.g56503b6 documentation</title>
+  <title>ardzilla.submissions &mdash; ardzilla 0+untagged.50.gddacc3d documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.g56503b6
+                0+untagged.50.gddacc3d
               </div>
             
           
@@ -168,7 +168,8 @@
 
 <span class="kn">import</span> <span class="nn">ee</span>
 
-<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">defaults</span><span class="p">,</span> <span class="n">sensors</span><span class="p">,</span> <span class="n">utils</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">__version__</span> <span class="k">as</span> <span class="n">ardzilla_version</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">defaults</span><span class="p">,</span> <span class="n">sensors</span><span class="p">,</span> <span class="n">utils</span><span class="p">,</span> <span class="n">__version__</span>
 <span class="kn">from</span> <span class="nn">.exceptions</span> <span class="k">import</span> <span class="n">EmptyCollectionError</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
@@ -282,13 +283,14 @@
             <span class="n">image</span><span class="p">,</span> <span class="n">image_metadata</span> <span class="o">=</span> <span class="n">_create_ard</span><span class="p">(</span><span class="n">collection</span><span class="p">,</span> <span class="n">tile</span><span class="p">,</span> <span class="n">start_</span><span class="p">,</span> <span class="n">end_</span><span class="p">,</span>
                                                 <span class="n">filters</span><span class="o">=</span><span class="n">filters</span><span class="p">)</span>
         <span class="k">except</span> <span class="n">EmptyCollectionError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;No images found for period </span><span class="si">{start_}</span><span class="s1">-</span><span class="si">{end_}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># Export &amp; store</span>
             <span class="n">task</span> <span class="o">=</span> <span class="n">store</span><span class="o">.</span><span class="n">store_image</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="o">**</span><span class="n">image_store_kwds</span><span class="p">)</span>
 
             <span class="c1"># Create metadata</span>
-            <span class="n">metadata</span> <span class="o">=</span> <span class="n">_submission_metadata</span><span class="p">(</span><span class="n">collection</span><span class="p">,</span> <span class="n">date_start</span><span class="p">,</span> <span class="n">date_end</span><span class="p">)</span>
+            <span class="n">metadata</span> <span class="o">=</span> <span class="n">_submission_metadata</span><span class="p">(</span><span class="n">collection</span><span class="p">,</span> <span class="n">date_start</span><span class="p">,</span> <span class="n">date_end</span><span class="p">,</span>
+                                            <span class="n">freq</span><span class="p">)</span>
             <span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;tile&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tile</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
             <span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;task&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_task_metadata</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>
             <span class="n">metadata</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">image_metadata</span><span class="p">)</span>  <span class="c1"># &quot;sensor&quot; and &quot;images&quot; keys</span>

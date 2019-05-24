@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.sensors.landsat &mdash; ardzilla 0+untagged.50.g56503b6 documentation</title>
+  <title>ardzilla.sensors.landsat &mdash; ardzilla 0+untagged.50.gddacc3d documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.g56503b6
+                0+untagged.50.gddacc3d
               </div>
             
           
@@ -167,7 +167,6 @@
 
 <span class="kn">import</span> <span class="nn">ee</span>
 
-<span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">__version__</span> <span class="k">as</span> <span class="n">ardzilla_version</span>
 <span class="kn">from</span> <span class="nn">..exceptions</span> <span class="k">import</span> <span class="n">EmptyCollectionError</span>
 <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">common</span>
 
@@ -286,10 +285,11 @@
     <span class="n">imgcol_udates</span> <span class="o">=</span> <span class="n">common</span><span class="o">.</span><span class="n">get_collection_uniq_dates</span><span class="p">(</span><span class="n">imgcol</span><span class="p">)</span>
     <span class="n">n_images</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">imgcol_udates</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">n_images</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">EmptyCollectionError</span><span class="p">(</span><span class="s1">&#39;Found 0 dates of imagery usable for ARD&#39;</span><span class="p">)</span>
-    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Creating ARD for </span><span class="si">{n_images}</span><span class="s1"> images&#39;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">EmptyCollectionError</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Found 0 images for &quot;</span><span class="si">{collection}</span><span class="s1">&quot; between &#39;</span>
+                                   <span class="n">f</span><span class="s1">&#39;</span><span class="si">{date_start}</span><span class="s1">-</span><span class="si">{date_end}</span><span class="s1">&#39;</span><span class="p">)</span>
 
     <span class="c1"># Loop over unique dates, making mosaics to eliminate north/south if needed</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Creating ARD for </span><span class="si">{n_images}</span><span class="s1"> images&#39;</span><span class="p">)</span>
     <span class="n">prepped</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">udate</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">imgcol_udates</span><span class="p">):</span>
         <span class="c1"># Prepare and get metadata for unique date</span>
