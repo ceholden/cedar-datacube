@@ -59,7 +59,7 @@ gdrive:
 # ARD Storage Options #
 #######################
 ard:
-  destination: ARD
+  destination: "ARD/{{ order['collection'] }}/h{{ '%03d' % tile['index'][1] }}v{{ '%03d' %  tile['index'][0] }}"
   encoding:
     chunks:
       x: 250
