@@ -71,7 +71,7 @@ def process_preard(metadata, images, chunks=None):
 
     # Georeference
     tile_ = grids.Tile.from_dict(metadata['tile'])
-    ard_ds = georeference(ard_ds, tile.crs, tile.transform)
+    ard_ds = georeference(ard_ds, tile_.crs, tile_.transform)
 
     return ard_ds
 
