@@ -45,6 +45,9 @@ def process_preard(metadata, images, chunks=None):
     # Create pre-ARD DataArray
     preard_da = read_preard(images, chunks=chunks)
 
+    # Remove any attributes
+    preard_da.attrs = {}
+
     # Convert to Dataset
     ard_ds = preard_to_ard(preard_da, times, bands)
 
