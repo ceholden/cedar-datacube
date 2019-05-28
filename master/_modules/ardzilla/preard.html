@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.preard &mdash; ardzilla 0+untagged.50.g8e522f0 documentation</title>
+  <title>ardzilla.preard &mdash; ardzilla 0+untagged.50.g3df5209 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.g8e522f0
+                0+untagged.50.g3df5209
               </div>
             
           
@@ -207,6 +207,9 @@
     <span class="c1"># Create pre-ARD DataArray</span>
     <span class="n">preard_da</span> <span class="o">=</span> <span class="n">read_preard</span><span class="p">(</span><span class="n">images</span><span class="p">,</span> <span class="n">chunks</span><span class="o">=</span><span class="n">chunks</span><span class="p">)</span>
 
+    <span class="c1"># Remove any attributes</span>
+    <span class="n">preard_da</span><span class="o">.</span><span class="n">attrs</span> <span class="o">=</span> <span class="p">{}</span>
+
     <span class="c1"># Convert to Dataset</span>
     <span class="n">ard_ds</span> <span class="o">=</span> <span class="n">preard_to_ard</span><span class="p">(</span><span class="n">preard_da</span><span class="p">,</span> <span class="n">times</span><span class="p">,</span> <span class="n">bands</span><span class="p">)</span>
 
@@ -233,7 +236,7 @@
 
     <span class="c1"># Georeference</span>
     <span class="n">tile_</span> <span class="o">=</span> <span class="n">grids</span><span class="o">.</span><span class="n">Tile</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;tile&#39;</span><span class="p">])</span>
-    <span class="n">ard_ds</span> <span class="o">=</span> <span class="n">georeference</span><span class="p">(</span><span class="n">ard_ds</span><span class="p">,</span> <span class="n">tile</span><span class="o">.</span><span class="n">crs</span><span class="p">,</span> <span class="n">tile</span><span class="o">.</span><span class="n">transform</span><span class="p">)</span>
+    <span class="n">ard_ds</span> <span class="o">=</span> <span class="n">georeference</span><span class="p">(</span><span class="n">ard_ds</span><span class="p">,</span> <span class="n">tile_</span><span class="o">.</span><span class="n">crs</span><span class="p">,</span> <span class="n">tile_</span><span class="o">.</span><span class="n">transform</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">ard_ds</span></div>
 
