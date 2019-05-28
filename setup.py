@@ -56,7 +56,7 @@ PYTHON_REQUIRES = '>=3.6'
 INSTALL_REQUIRES = [
     'earthengine-api',
     'affine', 'numpy', 'pandas', 'rasterio', 'shapely', 'xarray',
-    'jsonschema', 'pyyaml'
+    'jsonschema', 'pyyaml', 'jinja2'
 ]
 INSTALL_REQUIRES.extend(['click>=6.0', 'click-plugins', 'cligj>=0.5'])
 SETUP_REQUIRES = ['pytest-runner',]
