@@ -1,4 +1,4 @@
-.. index_:
+.. _index:
 
 ========
 ARDzilla
@@ -25,9 +25,13 @@ and working with N-dimensional data (netCDF4_ and xarray_), and parallelization
    :maxdepth: 1
    :caption: User Guide
 
-   gee
-   netcdf4
-
+   overview
+   credentials
+   storage
+   config
+   submit
+   download
+   convert
 
 .. toctree::
    :maxdepth: 1

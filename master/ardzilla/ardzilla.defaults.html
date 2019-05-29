@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.defaults module &mdash; ardzilla 0+untagged.50.g3df5209 documentation</title>
+  <title>ardzilla.defaults module &mdash; ardzilla 0+untagged.50.g0e72f8b documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.g3df5209
+                0+untagged.50.g0e72f8b
               </div>
             
           
@@ -90,8 +90,11 @@
 </ul>
 <p class="caption"><span class="caption-text">User Guide</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../gee.html">Source - Google Earth Engine (GEE)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../netcdf4.html">Destination - NetCDF4</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../credentials.html">Credentials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../storage.html">Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../convert.html">Pre-ARD to ARD Conversion</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Help and Reference</span></p>
 <ul>
@@ -167,8 +170,19 @@
 <span id="ardzilla-defaults-module"></span><h1>ardzilla.defaults module<a class="headerlink" href="#module-ardzilla.defaults" title="Permalink to this headline">¶</a></h1>
 <p>Default values for ardzilla</p>
 <dl class="data">
-<dt id="ardzilla.defaults.GEE_PREARD_FREQ">
-<code class="descclassname">ardzilla.defaults.</code><code class="descname">GEE_PREARD_FREQ</code><em class="property"> = '1YS'</em><a class="headerlink" href="#ardzilla.defaults.GEE_PREARD_FREQ" title="Permalink to this definition">¶</a></dt>
+<dt id="ardzilla.defaults.PREARD_CHUNKS">
+<code class="descclassname">ardzilla.defaults.</code><code class="descname">PREARD_CHUNKS</code><em class="property"> = {'band': -1, 'x': 256, 'y': 256}</em><a class="headerlink" href="#ardzilla.defaults.PREARD_CHUNKS" title="Permalink to this definition">¶</a></dt>
+<dd><p>Chunks to use when opening Pre-ARD images</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="data">
+<dt id="ardzilla.defaults.PREARD_FREQ">
+<code class="descclassname">ardzilla.defaults.</code><code class="descname">PREARD_FREQ</code><em class="property"> = '1YS'</em><a class="headerlink" href="#ardzilla.defaults.PREARD_FREQ" title="Permalink to this definition">¶</a></dt>
 <dd><p>1 year (Jan 1 - Dec 31))</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -181,8 +195,8 @@
 </dd></dl>
 
 <dl class="data">
-<dt id="ardzilla.defaults.GEE_PREARD_NAME">
-<code class="descclassname">ardzilla.defaults.</code><code class="descname">GEE_PREARD_NAME</code><em class="property"> = '{collection}_h{tile.horizontal:03d}v{tile.vertical:03d}_{date_start}_{date_end}'</em><a class="headerlink" href="#ardzilla.defaults.GEE_PREARD_NAME" title="Permalink to this definition">¶</a></dt>
+<dt id="ardzilla.defaults.PREARD_NAME">
+<code class="descclassname">ardzilla.defaults.</code><code class="descname">PREARD_NAME</code><em class="property"> = '{collection}_h{tile.horizontal:03d}v{tile.vertical:03d}_{date_start}_{date_end}'</em><a class="headerlink" href="#ardzilla.defaults.PREARD_NAME" title="Permalink to this definition">¶</a></dt>
 <dd><p>Default pre-ARD image export name template</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -192,8 +206,8 @@
 </dd></dl>
 
 <dl class="data">
-<dt id="ardzilla.defaults.GEE_PREARD_PREFIX">
-<code class="descclassname">ardzilla.defaults.</code><code class="descname">GEE_PREARD_PREFIX</code><em class="property"> = 'GEEARD/{collection}/h{tile.horizontal:03d}v{tile.vertical:03d}'</em><a class="headerlink" href="#ardzilla.defaults.GEE_PREARD_PREFIX" title="Permalink to this definition">¶</a></dt>
+<dt id="ardzilla.defaults.PREARD_PREFIX">
+<code class="descclassname">ardzilla.defaults.</code><code class="descname">PREARD_PREFIX</code><em class="property"> = 'GEEARD/{collection}/h{tile.horizontal:03d}v{tile.vertical:03d}'</em><a class="headerlink" href="#ardzilla.defaults.PREARD_PREFIX" title="Permalink to this definition">¶</a></dt>
 <dd><p>Default pre-ARD image export prefix/path template</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -203,8 +217,8 @@
 </dd></dl>
 
 <dl class="data">
-<dt id="ardzilla.defaults.GEE_PREARD_TRACKING">
-<code class="descclassname">ardzilla.defaults.</code><code class="descname">GEE_PREARD_TRACKING</code><em class="property"> = 'TRACKING_PERIOD{date_start}-{date_end}_TASK{today}'</em><a class="headerlink" href="#ardzilla.defaults.GEE_PREARD_TRACKING" title="Permalink to this definition">¶</a></dt>
+<dt id="ardzilla.defaults.PREARD_TRACKING">
+<code class="descclassname">ardzilla.defaults.</code><code class="descname">PREARD_TRACKING</code><em class="property"> = 'TRACKING_PERIOD{date_start}-{date_end}_TASK{today}'</em><a class="headerlink" href="#ardzilla.defaults.PREARD_TRACKING" title="Permalink to this definition">¶</a></dt>
 <dd><p>Default pre-ARD task tracking name template</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -214,23 +228,12 @@
 </dd></dl>
 
 <dl class="data">
-<dt id="ardzilla.defaults.GEE_PREARD_TRACKING_PREFIX">
-<code class="descclassname">ardzilla.defaults.</code><code class="descname">GEE_PREARD_TRACKING_PREFIX</code><em class="property"> = 'GEEARD_TRACKING'</em><a class="headerlink" href="#ardzilla.defaults.GEE_PREARD_TRACKING_PREFIX" title="Permalink to this definition">¶</a></dt>
+<dt id="ardzilla.defaults.PREARD_TRACKING_PREFIX">
+<code class="descclassname">ardzilla.defaults.</code><code class="descname">PREARD_TRACKING_PREFIX</code><em class="property"> = 'GEEARD_TRACKING'</em><a class="headerlink" href="#ardzilla.defaults.PREARD_TRACKING_PREFIX" title="Permalink to this definition">¶</a></dt>
 <dd><p>Default pre-ARD task tracking prefix/path</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="data">
-<dt id="ardzilla.defaults.PREARD_CHUNKS">
-<code class="descclassname">ardzilla.defaults.</code><code class="descname">PREARD_CHUNKS</code><em class="property"> = {'band': -1, 'x': 256, 'y': 256}</em><a class="headerlink" href="#ardzilla.defaults.PREARD_CHUNKS" title="Permalink to this definition">¶</a></dt>
-<dd><p>Chunks to use when opening Pre-ARD images</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a></p>
 </dd>
 </dl>
 </dd></dl>

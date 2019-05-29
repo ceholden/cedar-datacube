@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.submissions &mdash; ardzilla 0+untagged.50.g3df5209 documentation</title>
+  <title>ardzilla.submissions &mdash; ardzilla 0+untagged.50.g0e72f8b documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.g3df5209
+                0+untagged.50.g0e72f8b
               </div>
             
           
@@ -90,8 +90,11 @@
 </ul>
 <p class="caption"><span class="caption-text">User Guide</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../gee.html">Source - Google Earth Engine (GEE)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../netcdf4.html">Destination - NetCDF4</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../credentials.html">Credentials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../storage.html">Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../config.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../convert.html">Pre-ARD to ARD Conversion</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Help and Reference</span></p>
 <ul>
@@ -205,8 +208,8 @@
     <span class="c1"># Clean / guard input data</span>
     <span class="n">kwds</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s1">&#39;collection&#39;</span><span class="p">:</span> <span class="n">collection</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">),</span>
-        <span class="s1">&#39;date_start&#39;</span><span class="p">:</span> <span class="n">date_start</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">defaults</span><span class="o">.</span><span class="n">GEE_EXPORT_IMAGE_STRFTIME</span><span class="p">),</span>
-        <span class="s1">&#39;date_end&#39;</span><span class="p">:</span> <span class="n">date_end</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">defaults</span><span class="o">.</span><span class="n">GEE_EXPORT_IMAGE_STRFTIME</span><span class="p">),</span>
+        <span class="s1">&#39;date_start&#39;</span><span class="p">:</span> <span class="n">date_start</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">defaults</span><span class="o">.</span><span class="n">EXPORT_IMAGE_STRFTIME</span><span class="p">),</span>
+        <span class="s1">&#39;date_end&#39;</span><span class="p">:</span> <span class="n">date_end</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="n">defaults</span><span class="o">.</span><span class="n">EXPORT_IMAGE_STRFTIME</span><span class="p">),</span>
         <span class="s1">&#39;tile&#39;</span><span class="p">:</span> <span class="n">tile</span><span class="p">,</span>
         <span class="s1">&#39;datetime&#39;</span><span class="p">:</span> <span class="n">dt</span><span class="o">.</span><span class="n">datetime</span><span class="p">,</span>
     <span class="p">}</span>
@@ -215,8 +218,8 @@
 
 
 <div class="viewcode-block" id="submit_ard"><a class="viewcode-back" href="../../ardzilla/ardzilla.submissions.html#ardzilla.submissions.submit_ard">[docs]</a><span class="k">def</span> <span class="nf">submit_ard</span><span class="p">(</span><span class="n">collection</span><span class="p">,</span> <span class="n">tile</span><span class="p">,</span> <span class="n">date_start</span><span class="p">,</span> <span class="n">date_end</span><span class="p">,</span> <span class="n">store</span><span class="p">,</span>
-               <span class="n">name_template</span><span class="o">=</span><span class="n">defaults</span><span class="o">.</span><span class="n">GEE_PREARD_NAME</span><span class="p">,</span>
-               <span class="n">prefix_template</span><span class="o">=</span><span class="n">defaults</span><span class="o">.</span><span class="n">GEE_PREARD_PREFIX</span><span class="p">,</span>
+               <span class="n">name_template</span><span class="o">=</span><span class="n">defaults</span><span class="o">.</span><span class="n">PREARD_NAME</span><span class="p">,</span>
+               <span class="n">prefix_template</span><span class="o">=</span><span class="n">defaults</span><span class="o">.</span><span class="n">PREARD_PREFIX</span><span class="p">,</span>
                <span class="n">filters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Submit a ee.Task to create ARD, and stores the ARD with metadata</span>
 

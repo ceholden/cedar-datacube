@@ -298,8 +298,8 @@
 <p id="t43" class="pln">    <span class="com"># Clean / guard input data</span><span class="strut">&nbsp;</span></p>
 <p id="t44" class="stm mis">    <span class="nam">kwds</span> <span class="op">=</span> <span class="op">{</span><span class="strut">&nbsp;</span></p>
 <p id="t45" class="pln">        <span class="str">'collection'</span><span class="op">:</span> <span class="nam">collection</span><span class="op">.</span><span class="nam">replace</span><span class="op">(</span><span class="str">'/'</span><span class="op">,</span> <span class="str">'-'</span><span class="op">)</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
-<p id="t46" class="pln">        <span class="str">'date_start'</span><span class="op">:</span> <span class="nam">date_start</span><span class="op">.</span><span class="nam">strftime</span><span class="op">(</span><span class="nam">defaults</span><span class="op">.</span><span class="nam">GEE_EXPORT_IMAGE_STRFTIME</span><span class="op">)</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
-<p id="t47" class="pln">        <span class="str">'date_end'</span><span class="op">:</span> <span class="nam">date_end</span><span class="op">.</span><span class="nam">strftime</span><span class="op">(</span><span class="nam">defaults</span><span class="op">.</span><span class="nam">GEE_EXPORT_IMAGE_STRFTIME</span><span class="op">)</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
+<p id="t46" class="pln">        <span class="str">'date_start'</span><span class="op">:</span> <span class="nam">date_start</span><span class="op">.</span><span class="nam">strftime</span><span class="op">(</span><span class="nam">defaults</span><span class="op">.</span><span class="nam">EXPORT_IMAGE_STRFTIME</span><span class="op">)</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
+<p id="t47" class="pln">        <span class="str">'date_end'</span><span class="op">:</span> <span class="nam">date_end</span><span class="op">.</span><span class="nam">strftime</span><span class="op">(</span><span class="nam">defaults</span><span class="op">.</span><span class="nam">EXPORT_IMAGE_STRFTIME</span><span class="op">)</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
 <p id="t48" class="pln">        <span class="str">'tile'</span><span class="op">:</span> <span class="nam">tile</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
 <p id="t49" class="pln">        <span class="str">'datetime'</span><span class="op">:</span> <span class="nam">dt</span><span class="op">.</span><span class="nam">datetime</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
 <p id="t50" class="pln">    <span class="op">}</span><span class="strut">&nbsp;</span></p>
@@ -308,8 +308,8 @@
 <p id="t53" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t54" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t55" class="stm run hide_run"><span class="key">def</span> <span class="nam">submit_ard</span><span class="op">(</span><span class="nam">collection</span><span class="op">,</span> <span class="nam">tile</span><span class="op">,</span> <span class="nam">date_start</span><span class="op">,</span> <span class="nam">date_end</span><span class="op">,</span> <span class="nam">store</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
-<p id="t56" class="pln">               <span class="nam">name_template</span><span class="op">=</span><span class="nam">defaults</span><span class="op">.</span><span class="nam">GEE_PREARD_NAME</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
-<p id="t57" class="pln">               <span class="nam">prefix_template</span><span class="op">=</span><span class="nam">defaults</span><span class="op">.</span><span class="nam">GEE_PREARD_PREFIX</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
+<p id="t56" class="pln">               <span class="nam">name_template</span><span class="op">=</span><span class="nam">defaults</span><span class="op">.</span><span class="nam">PREARD_NAME</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
+<p id="t57" class="pln">               <span class="nam">prefix_template</span><span class="op">=</span><span class="nam">defaults</span><span class="op">.</span><span class="nam">PREARD_PREFIX</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
 <p id="t58" class="pln">               <span class="nam">filters</span><span class="op">=</span><span class="key">None</span><span class="op">,</span> <span class="nam">freq</span><span class="op">=</span><span class="key">None</span><span class="op">,</span> <span class="nam">start</span><span class="op">=</span><span class="key">True</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t59" class="pln">    <span class="str">""" Submit a ee.Task to create ARD, and stores the ARD with metadata</span><span class="strut">&nbsp;</span></p>
 <p id="t60" class="pln"><span class="strut">&nbsp;</span></p>
@@ -446,7 +446,7 @@
     <div class="content">
         <p>
             <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.io">coverage.py v4.5.3</a>,
-            created at 2019-05-28 23:57
+            created at 2019-05-29 23:29
         </p>
     </div>
 </div>

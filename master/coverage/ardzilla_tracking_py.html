@@ -639,10 +639,10 @@
 <p id="t37" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t38" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t39" class="stm run hide_run">    <span class="key">def</span> <span class="nam">__init__</span><span class="op">(</span><span class="nam">self</span><span class="op">,</span> <span class="nam">tile_grid</span><span class="op">,</span> <span class="nam">store</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
-<p id="t40" class="pln">                 <span class="nam">name_template</span><span class="op">=</span><span class="nam">defaults</span><span class="op">.</span><span class="nam">GEE_PREARD_NAME</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
-<p id="t41" class="pln">                 <span class="nam">prefix_template</span><span class="op">=</span><span class="nam">defaults</span><span class="op">.</span><span class="nam">GEE_PREARD_PREFIX</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
-<p id="t42" class="pln">                 <span class="nam">tracking_template</span><span class="op">=</span><span class="nam">defaults</span><span class="op">.</span><span class="nam">GEE_PREARD_TRACKING</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
-<p id="t43" class="pln">                 <span class="nam">tracking_prefix</span><span class="op">=</span><span class="nam">defaults</span><span class="op">.</span><span class="nam">GEE_PREARD_TRACKING_PREFIX</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
+<p id="t40" class="pln">                 <span class="nam">name_template</span><span class="op">=</span><span class="nam">defaults</span><span class="op">.</span><span class="nam">PREARD_NAME</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
+<p id="t41" class="pln">                 <span class="nam">prefix_template</span><span class="op">=</span><span class="nam">defaults</span><span class="op">.</span><span class="nam">PREARD_PREFIX</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
+<p id="t42" class="pln">                 <span class="nam">tracking_template</span><span class="op">=</span><span class="nam">defaults</span><span class="op">.</span><span class="nam">PREARD_TRACKING</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
+<p id="t43" class="pln">                 <span class="nam">tracking_prefix</span><span class="op">=</span><span class="nam">defaults</span><span class="op">.</span><span class="nam">PREARD_TRACKING_PREFIX</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
 <p id="t44" class="pln">                 <span class="nam">filters</span><span class="op">=</span><span class="key">None</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t45" class="stm mis">        <span class="key">assert</span> <span class="nam">isinstance</span><span class="op">(</span><span class="nam">tile_grid</span><span class="op">,</span> <span class="nam">TileGrid</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t46" class="stm mis">        <span class="nam">self</span><span class="op">.</span><span class="nam">tile_grid</span> <span class="op">=</span> <span class="nam">tile_grid</span><span class="strut">&nbsp;</span></p>
@@ -661,7 +661,7 @@
 <p id="t59" class="stm mis">        <span class="key">return</span> <span class="nam">_create_filters</span><span class="op">(</span><span class="nam">self</span><span class="op">.</span><span class="nam">_filters</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t60" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t61" class="stm run hide_run">    <span class="key">def</span> <span class="nam">submit</span><span class="op">(</span><span class="nam">self</span><span class="op">,</span> <span class="nam">collections</span><span class="op">,</span> <span class="nam">tile_indices</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
-<p id="t62" class="pln">               <span class="nam">date_start</span><span class="op">,</span> <span class="nam">date_end</span><span class="op">,</span> <span class="nam">freq</span><span class="op">=</span><span class="nam">defaults</span><span class="op">.</span><span class="nam">GEE_PREARD_FREQ</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
+<p id="t62" class="pln">               <span class="nam">date_start</span><span class="op">,</span> <span class="nam">date_end</span><span class="op">,</span> <span class="nam">freq</span><span class="op">=</span><span class="nam">defaults</span><span class="op">.</span><span class="nam">PREARD_FREQ</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t63" class="pln">        <span class="str">""" Submit and track GEE pre-ARD tasks</span><span class="strut">&nbsp;</span></p>
 <p id="t64" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t65" class="pln"><span class="str">        Parameters</span><span class="strut">&nbsp;</span></p>
@@ -1107,11 +1107,11 @@
 <p id="t505" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t506" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t507" class="stm run hide_run"><span class="key">def</span> <span class="nam">_strftime_image</span><span class="op">(</span><span class="nam">d</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t508" class="stm mis">    <span class="key">return</span> <span class="nam">_strftime</span><span class="op">(</span><span class="nam">d</span><span class="op">,</span> <span class="nam">defaults</span><span class="op">.</span><span class="nam">GEE_EXPORT_IMAGE_STRFTIME</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t508" class="stm mis">    <span class="key">return</span> <span class="nam">_strftime</span><span class="op">(</span><span class="nam">d</span><span class="op">,</span> <span class="nam">defaults</span><span class="op">.</span><span class="nam">EXPORT_IMAGE_STRFTIME</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t509" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t510" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t511" class="stm run hide_run"><span class="key">def</span> <span class="nam">_strftime_track</span><span class="op">(</span><span class="nam">d</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t512" class="stm mis">    <span class="key">return</span> <span class="nam">_strftime</span><span class="op">(</span><span class="nam">d</span><span class="op">,</span> <span class="nam">defaults</span><span class="op">.</span><span class="nam">GEE_EXPORT_TRACK_STRFTIME</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t512" class="stm mis">    <span class="key">return</span> <span class="nam">_strftime</span><span class="op">(</span><span class="nam">d</span><span class="op">,</span> <span class="nam">defaults</span><span class="op">.</span><span class="nam">EXPORT_TRACK_STRFTIME</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t513" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t514" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t515" class="pln"><span class="com"># TODO: probably move and better organize this alongside how to serialize it</span><span class="strut">&nbsp;</span></p>
@@ -1140,7 +1140,7 @@
     <div class="content">
         <p>
             <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.io">coverage.py v4.5.3</a>,
-            created at 2019-05-28 23:57
+            created at 2019-05-29 23:29
         </p>
     </div>
 </div>

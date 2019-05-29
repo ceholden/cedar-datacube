@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.tracking &mdash; ardzilla 0+untagged.50.g3df5209 documentation</title>
+  <title>ardzilla.tracking &mdash; ardzilla 0+untagged.50.g0e72f8b documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.g3df5209
+                0+untagged.50.g0e72f8b
               </div>
             
           
@@ -90,8 +90,11 @@
 </ul>
 <p class="caption"><span class="caption-text">User Guide</span></p>
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="../../gee.html">Source - Google Earth Engine (GEE)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../netcdf4.html">Destination - NetCDF4</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../credentials.html">Credentials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../storage.html">Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../config.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../convert.html">Pre-ARD to ARD Conversion</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Help and Reference</span></p>
 <ul>
@@ -199,10 +202,10 @@
 
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tile_grid</span><span class="p">,</span> <span class="n">store</span><span class="p">,</span>
-                 <span class="n">name_template</span><span class="o">=</span><span class="n">defaults</span><span class="o">.</span><span class="n">GEE_PREARD_NAME</span><span class="p">,</span>
-                 <span class="n">prefix_template</span><span class="o">=</span><span class="n">defaults</span><span class="o">.</span><span class="n">GEE_PREARD_PREFIX</span><span class="p">,</span>
-                 <span class="n">tracking_template</span><span class="o">=</span><span class="n">defaults</span><span class="o">.</span><span class="n">GEE_PREARD_TRACKING</span><span class="p">,</span>
-                 <span class="n">tracking_prefix</span><span class="o">=</span><span class="n">defaults</span><span class="o">.</span><span class="n">GEE_PREARD_TRACKING_PREFIX</span><span class="p">,</span>
+                 <span class="n">name_template</span><span class="o">=</span><span class="n">defaults</span><span class="o">.</span><span class="n">PREARD_NAME</span><span class="p">,</span>
+                 <span class="n">prefix_template</span><span class="o">=</span><span class="n">defaults</span><span class="o">.</span><span class="n">PREARD_PREFIX</span><span class="p">,</span>
+                 <span class="n">tracking_template</span><span class="o">=</span><span class="n">defaults</span><span class="o">.</span><span class="n">PREARD_TRACKING</span><span class="p">,</span>
+                 <span class="n">tracking_prefix</span><span class="o">=</span><span class="n">defaults</span><span class="o">.</span><span class="n">PREARD_TRACKING_PREFIX</span><span class="p">,</span>
                  <span class="n">filters</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">tile_grid</span><span class="p">,</span> <span class="n">TileGrid</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tile_grid</span> <span class="o">=</span> <span class="n">tile_grid</span>
@@ -221,7 +224,7 @@
         <span class="k">return</span> <span class="n">_create_filters</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_filters</span><span class="p">)</span>
 
 <div class="viewcode-block" id="GEEARDTracker.submit"><a class="viewcode-back" href="../../ardzilla/ardzilla.tracking.html#ardzilla.tracking.GEEARDTracker.submit">[docs]</a>    <span class="k">def</span> <span class="nf">submit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collections</span><span class="p">,</span> <span class="n">tile_indices</span><span class="p">,</span>
-               <span class="n">date_start</span><span class="p">,</span> <span class="n">date_end</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="n">defaults</span><span class="o">.</span><span class="n">GEE_PREARD_FREQ</span><span class="p">):</span>
+               <span class="n">date_start</span><span class="p">,</span> <span class="n">date_end</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="n">defaults</span><span class="o">.</span><span class="n">PREARD_FREQ</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Submit and track GEE pre-ARD tasks</span>
 
 <span class="sd">        Parameters</span>
@@ -667,11 +670,11 @@
 
 
 <span class="k">def</span> <span class="nf">_strftime_image</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">_strftime</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">defaults</span><span class="o">.</span><span class="n">GEE_EXPORT_IMAGE_STRFTIME</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">_strftime</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">defaults</span><span class="o">.</span><span class="n">EXPORT_IMAGE_STRFTIME</span><span class="p">)</span>
 
 
 <span class="k">def</span> <span class="nf">_strftime_track</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">_strftime</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">defaults</span><span class="o">.</span><span class="n">GEE_EXPORT_TRACK_STRFTIME</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">_strftime</span><span class="p">(</span><span class="n">d</span><span class="p">,</span> <span class="n">defaults</span><span class="o">.</span><span class="n">EXPORT_TRACK_STRFTIME</span><span class="p">)</span>
 
 
 <span class="c1"># TODO: probably move and better organize this alongside how to serialize it</span>
