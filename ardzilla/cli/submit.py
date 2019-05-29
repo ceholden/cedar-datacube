@@ -26,7 +26,7 @@ logger = logging.getLogger(__name__)
 @click.option('--date_end', callback=cli_options.cb_time,
               help='Ending time period for submission')
 @cli_options.opt_date_format
-@click.option('--freq', type=str, default=defaults.GEE_PREARD_FREQ,
+@click.option('--freq', type=str, default=defaults.PREARD_FREQ,
               help='Split start/end time into')
 @click.pass_context
 def submit(ctx, image_collection, index, row, col,

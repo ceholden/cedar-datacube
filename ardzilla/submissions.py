@@ -43,8 +43,8 @@ def format_export_string(template, collection, tile, date_start, date_end):
     # Clean / guard input data
     kwds = {
         'collection': collection.replace('/', '-'),
-        'date_start': date_start.strftime(defaults.GEE_EXPORT_IMAGE_STRFTIME),
-        'date_end': date_end.strftime(defaults.GEE_EXPORT_IMAGE_STRFTIME),
+        'date_start': date_start.strftime(defaults.EXPORT_IMAGE_STRFTIME),
+        'date_end': date_end.strftime(defaults.EXPORT_IMAGE_STRFTIME),
         'tile': tile,
         'datetime': dt.datetime,
     }
@@ -53,8 +53,8 @@ def format_export_string(template, collection, tile, date_start, date_end):
 
 
 def submit_ard(collection, tile, date_start, date_end, store,
-               name_template=defaults.GEE_PREARD_NAME,
-               prefix_template=defaults.GEE_PREARD_PREFIX,
+               name_template=defaults.PREARD_NAME,
+               prefix_template=defaults.PREARD_PREFIX,
                filters=None, freq=None, start=True):
     """ Submit a ee.Task to create ARD, and stores the ARD with metadata
 

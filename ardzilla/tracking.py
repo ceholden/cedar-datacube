@@ -37,10 +37,10 @@ class GEEARDTracker(object):
 
 
     def __init__(self, tile_grid, store,
-                 name_template=defaults.GEE_PREARD_NAME,
-                 prefix_template=defaults.GEE_PREARD_PREFIX,
-                 tracking_template=defaults.GEE_PREARD_TRACKING,
-                 tracking_prefix=defaults.GEE_PREARD_TRACKING_PREFIX,
+                 name_template=defaults.PREARD_NAME,
+                 prefix_template=defaults.PREARD_PREFIX,
+                 tracking_template=defaults.PREARD_TRACKING,
+                 tracking_prefix=defaults.PREARD_TRACKING_PREFIX,
                  filters=None):
         assert isinstance(tile_grid, TileGrid)
         self.tile_grid = tile_grid
@@ -59,7 +59,7 @@ class GEEARDTracker(object):
         return _create_filters(self._filters)
 
     def submit(self, collections, tile_indices,
-               date_start, date_end, freq=defaults.GEE_PREARD_FREQ):
+               date_start, date_end, freq=defaults.PREARD_FREQ):
         """ Submit and track GEE pre-ARD tasks
 
         Parameters
@@ -505,11 +505,11 @@ def _strftime(d, strf):
 
 
 def _strftime_image(d):
-    return _strftime(d, defaults.GEE_EXPORT_IMAGE_STRFTIME)
+    return _strftime(d, defaults.EXPORT_IMAGE_STRFTIME)
 
 
 def _strftime_track(d):
-    return _strftime(d, defaults.GEE_EXPORT_TRACK_STRFTIME)
+    return _strftime(d, defaults.EXPORT_TRACK_STRFTIME)
 
 
 # TODO: probably move and better organize this alongside how to serialize it
