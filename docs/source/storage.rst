@@ -1,9 +1,9 @@
-.. _gee_storage:
+.. _storage:
 
 
-===========================
-Google Earth Engine Storage
-===========================
+=======
+Storage
+=======
 
 In order to create "Analysis Ready Data" (ARD) using the Google Earth Engine,
 we have to track image metadata, from the timestamp to information like the
@@ -17,7 +17,7 @@ Accordingly, we can either store and retrieve "pre-ARD" imagery and metadata
 from either Google Cloud Storage or Google Drive.
 
 
-.. _gee_storage_gcs:
+.. _storage_gcs:
 
 Google Cloud Storage
 ====================
@@ -26,7 +26,7 @@ Google Cloud Storage
    :members:
 
 
-.. _gee_storage_gdrive:
+.. _storage_gdrive:
 
 Google Drive
 ============
