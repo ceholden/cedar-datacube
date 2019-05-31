@@ -98,14 +98,11 @@
             "name_template": {
               "type": "string"
             },
-            "prefix_template": {
-              "type": "string"
-            },
             "tracking_template": {
               "type": "string"
             },
-            "tracking_prefix": {
-                "type": "string"
+            "prefix_template": {
+              "type": "string"
             },
             "filters": {
               "type": "array",

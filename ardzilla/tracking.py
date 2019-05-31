@@ -38,17 +38,15 @@ class GEEARDTracker(object):
 
     def __init__(self, tile_grid, store,
                  name_template=defaults.PREARD_NAME,
-                 prefix_template=defaults.PREARD_PREFIX,
                  tracking_template=defaults.PREARD_TRACKING,
-                 tracking_prefix=defaults.PREARD_TRACKING_PREFIX,
+                 prefix_template=defaults.PREARD_PREFIX,
                  filters=None):
         assert isinstance(tile_grid, TileGrid)
         self.tile_grid = tile_grid
         self.store = store
         self.name_template = name_template
-        self.prefix_template = prefix_template
         self.tracking_template = tracking_template
-        self.tracking_prefix = tracking_prefix
+        self.prefix_template = prefix_template
         self._filters = filters or []
 
     @property
@@ -129,7 +127,7 @@ class GEEARDTracker(object):
         tracking_name = self._tracking_name(date_start, date_end)
         tracking_info = {'submission': meta_submission, 'tasks': meta_tasks}
         tracking_id = self.store.store_metadata(tracking_info, tracking_name,
-                                                path=self.tracking_prefix)
+                                                path=self.prefix_template)
         return tracking_name, tracking_id
 
     def list(self, pattern=None):
@@ -148,7 +146,7 @@ class GEEARDTracker(object):
         list[str]
             Name of stored tracking information
         """
-        return self.store.list(path=self.tracking_prefix, pattern=pattern)
+        return self.store.list(path=self.prefix_template, pattern=pattern)
 
     def read(self, name):
         """ Returns stored tracking information as dict
@@ -164,7 +162,7 @@ class GEEARDTracker(object):
         dict
             JSON tracking info data as a dict
         """
-        return self.store.read_metadata(name, path=self.tracking_prefix)
+        return self.store.read_metadata(name, path=self.prefix_template)
 
     def update(self, name):
         """ Refresh and reupload tracking information by checking with the GEE
@@ -262,7 +260,7 @@ class GEEARDTracker(object):
         iter_clean = clean_tracked(tracking_info, self.store)
 
         if tracking_name:
-            self.store.remove(tracking_name, self.tracking_prefix)
+            self.store.remove(tracking_name, self.prefix_template)
 
         cleaned = defaultdict(list)
         for task_id, n_images, names in iter_clean:

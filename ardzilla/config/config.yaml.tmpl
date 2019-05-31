@@ -23,9 +23,8 @@ gee:
   store_service: gdrive
   tracker:
     name_template: "{collection}_h{tile.horizontal:03d}v{tile.vertical:03d}_{date_start}_{date_end}"
-    prefix_template: "GEEARD"
     tracking_template: "TRACKING_PERIOD{date_start}-{date_end}_TASK{today}"
-    tracking_prefix: "GEEARD_TRACKING"
+    prefix_template: "GEEARD"
     filters:
       - function: 'lte'
         name: 'CLOUD_COVER_LAND'
