@@ -1,5 +1,7 @@
 """ CLI for downloading data
 """
+from pathlib import Path
+
 import click
 
 from . import options
@@ -32,7 +34,7 @@ def download(ctx, tracking_name, dest, overwrite):
     # Destination defaults to tracking_name
     if dest is None:
         # remove any extension listed
-        dest = '.'.join(tracking_name.split('.')[:-1])
+        dest = Path(tracking_name).stem
 
     click.echo(f'Retrieving info about pre-ARD in "{tracking_name}"')
     tracking_info = tracker.read(tracking_name)
