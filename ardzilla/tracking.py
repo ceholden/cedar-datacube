@@ -139,13 +139,16 @@ class GEEARDTracker(object):
             Search pattern for tracking info. Specify to subset to specific
             tracking info (e.g., from some date). If ``None`` provided,
             looks for tracking information matching
-            :func:`~GEEARDTracker.tracking_template`
+            :py:attr:`~GEEARDTracker.tracking_template`
 
         Returns
         -------
         list[str]
             Name of stored tracking information
         """
+        if pattern is None:
+            d = defaultdict(lambda: '*')
+            pattern = self.tracking_template.format_map(d).split('*')[0]
         return self.store.list(path=self.prefix_template, pattern=pattern)
 
     def read(self, name):
