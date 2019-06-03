@@ -6,7 +6,7 @@ import os
 # =============================================================================
 # Configuration file defaults
 # str: Environment variable used for passing configuration file location
-ENVVAR_CONFIG_FILE = 'ARDZILLA_CONFIG'
+ENVVAR_CONFIG_FILE = 'ARDZILLA_CONFIG_FILE'
 
 # Sequence[str]: Paths to ARDzilla user configuration data
 ARDZILLA_ROOT_CONFIG = [

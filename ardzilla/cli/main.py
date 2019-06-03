@@ -47,4 +47,4 @@ def main(ctx, config_file, verbose, quiet):
 
     ctx.obj = {}
     ctx.obj['logger'] = logger
-    ctx.obj['config'] = config
+    ctx.obj['config_file'] = config

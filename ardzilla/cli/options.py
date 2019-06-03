@@ -60,20 +60,23 @@ def fetch_config(ctx, fail_if_missing=True):
     click.BadParameter
         Raised if configuration isn't available
     """
-    config = ctx.obj and ctx.obj.get('config', None)
+    config_file = ctx.obj and ctx.obj.get('config_file', None)
 
-    if config:
-        return config
+    if config_file:
+        return config_file
     elif fail_if_missing:
         ctx_, param = fetch_param(ctx, 'config_file')
-        raise click.BadParameter('Must specify configuration file',
-                                 ctx=ctx_, param=param)
+        msg = ('Must specify configuration file. Pass it to the program as '
+               'an option to the main program (`ardzilla -C CONFIG_FILE ...`) '
+               'or using the environment variable '
+               '(`ARDZILLA_CONFIG_FILE=CONFIG_FILE ardzilla ...`)')
+        raise click.BadParameter(msg, ctx=ctx_, param=param)
     else:
         return None
 
 
 opt_config_file = click.option(
-    '--config', '-C', 'config_file',
+    '--config_file', '-C',
     default=lambda: os.environ.get(defaults.ENVVAR_CONFIG_FILE, None),
     allow_from_autoenv=True,
     type=click.Path(exists=True, dir_okay=False, resolve_path=True),
