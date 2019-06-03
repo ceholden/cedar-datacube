@@ -21,7 +21,7 @@ import ee
 
 from stems.utils import renamed_upon_completion
 
-from .. import defaults, utils
+from .. import defaults, utils, __version__
 
 logger = logging.getLogger(__name__)
 
@@ -347,6 +347,22 @@ class GDriveStore(object):
         return delete(self.service, name, parent_id=parent_id)
 
 
+def get_appProperties():
+    """ Returns private "appProperties" to include when creating files
+    """
+    return {
+        'application': __name__.split('.')[0],
+        'version': __version__
+    }
+
+
+def query_appProperties():
+    """ Build a query component for ``appProperties``
+    """
+    return ('appProperties has {key="application" and value=%s}'
+            % get_appProperties()['application'])
+
+
 def upload_json(service, data, name, path=None, check=False,
                 encoding=METADATA_ENCODING):
     """ Upload JSON data to Google Drive
@@ -387,6 +403,7 @@ def upload_json(service, data, name, path=None, check=False,
         'name': name,
         'parents': [parent_id],
         'mimeType': 'text/plain',
+        'appProperties': get_appProperties()
     }
     content = io.BytesIO(data)
     media = MediaIoBaseUpload(content, 'text/plain', resumable=True)
@@ -615,7 +632,8 @@ def _memoize_exists(func):
 
 
 @_memoize_exists
-def exists(service, name, parent_id=None, directory=False, trashed=False):
+def exists(service, name, parent_id=None, directory=False, trashed=False,
+           appProperties=False):
     """ Check if file/folder exists
 
     Parameters
@@ -630,6 +648,8 @@ def exists(service, name, parent_id=None, directory=False, trashed=False):
         True if file needs to also be a directory
     trashed : bool, optional
         Search in the trash?
+    appProperties : bool
+        Search for application-specific files using ``appProperties``
 
     Returns
     -------
@@ -639,6 +659,8 @@ def exists(service, name, parent_id=None, directory=False, trashed=False):
     q = []
     if directory:
         q.append(f'mimeType = "{MIME_TYPE_DIRECTORY}"')
+    if appProperties:
+        q.append(query_appProperties())
 
     results = list(list_objects(service, parent_id=parent_id, name=name, q=q))
     n_results = len(results)
@@ -657,7 +679,8 @@ def exists(service, name, parent_id=None, directory=False, trashed=False):
         return ''
 
 
-def list_objects(service, parent_id=None, name=None, q=None):
+def list_objects(service, parent_id=None, name=None, q=None,
+                 appProperties=False):
     """ List files/folders on Google Drive
 
     Parameters
@@ -670,6 +693,8 @@ def list_objects(service, parent_id=None, name=None, q=None):
         Name to search for (don't include asterisks)
     q : str or Sequence[str], optional
         Additional search query parameters
+    appProperties : bool
+        Search for application-specific files using ``appProperties``
 
     Yields
     ------
@@ -690,6 +715,8 @@ def list_objects(service, parent_id=None, name=None, q=None):
         query.append(f"'{parent_id}' in parents")
     if name:
         query.append(f"name contains '{name}'")
+    if appProperties:
+        q.append(query_appProperties())
 
     # Combine
     query_ = ' and '.join(query)
@@ -764,6 +791,7 @@ def _path_to_parent_id(service, path):
         return parent_id
 
 
+# =============================================================================
 # OAuth helpers
 _OAUTH2_CREDS = ['token', 'refresh_token', 'id_token', 'token_uri',
                  'client_id', 'client_secret', 'scopes']
