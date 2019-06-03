@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.cli.options &mdash; ardzilla 0+untagged.50.g6c0769b documentation</title>
+  <title>ardzilla.cli.options &mdash; ardzilla 0+untagged.50.g2c17353 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.g6c0769b
+                0+untagged.50.g2c17353
               </div>
             
           
@@ -225,20 +225,23 @@
 <span class="sd">    click.BadParameter</span>
 <span class="sd">        Raised if configuration isn&#39;t available</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">config</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">obj</span> <span class="ow">and</span> <span class="n">ctx</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;config&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">config_file</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">obj</span> <span class="ow">and</span> <span class="n">ctx</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;config_file&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">config</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">config</span>
+    <span class="k">if</span> <span class="n">config_file</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">config_file</span>
     <span class="k">elif</span> <span class="n">fail_if_missing</span><span class="p">:</span>
         <span class="n">ctx_</span><span class="p">,</span> <span class="n">param</span> <span class="o">=</span> <span class="n">fetch_param</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="s1">&#39;config_file&#39;</span><span class="p">)</span>
-        <span class="k">raise</span> <span class="n">click</span><span class="o">.</span><span class="n">BadParameter</span><span class="p">(</span><span class="s1">&#39;Must specify configuration file&#39;</span><span class="p">,</span>
-                                 <span class="n">ctx</span><span class="o">=</span><span class="n">ctx_</span><span class="p">,</span> <span class="n">param</span><span class="o">=</span><span class="n">param</span><span class="p">)</span>
+        <span class="n">msg</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;Must specify configuration file. Pass it to the program as &#39;</span>
+               <span class="s1">&#39;an option to the main program (`ardzilla -C CONFIG_FILE ...`) &#39;</span>
+               <span class="s1">&#39;or using the environment variable &#39;</span>
+               <span class="s1">&#39;(`ARDZILLA_CONFIG=CONFIG_FILE ardzilla ...`)&#39;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="n">click</span><span class="o">.</span><span class="n">BadParameter</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">ctx</span><span class="o">=</span><span class="n">ctx_</span><span class="p">,</span> <span class="n">param</span><span class="o">=</span><span class="n">param</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">None</span></div>
 
 
 <span class="n">opt_config_file</span> <span class="o">=</span> <span class="n">click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span>
-    <span class="s1">&#39;--config&#39;</span><span class="p">,</span> <span class="s1">&#39;-C&#39;</span><span class="p">,</span> <span class="s1">&#39;config_file&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;--config_file&#39;</span><span class="p">,</span> <span class="s1">&#39;-C&#39;</span><span class="p">,</span>
     <span class="n">default</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">defaults</span><span class="o">.</span><span class="n">ENVVAR_CONFIG_FILE</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
     <span class="n">allow_from_autoenv</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="nb">type</span><span class="o">=</span><span class="n">click</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dir_okay</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">resolve_path</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span>
