@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.stores.gdrive module &mdash; ardzilla 0+untagged.50.g45258ab documentation</title>
+  <title>ardzilla.stores.gdrive module &mdash; ardzilla 0+untagged.50.g6c0769b documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.g45258ab
+                0+untagged.50.g6c0769b
               </div>
             
           
@@ -456,7 +456,7 @@ If not provided, will use default location.</p></li>
 
 <dl class="function">
 <dt id="ardzilla.stores.gdrive.exists">
-<code class="sig-prename descclassname">ardzilla.stores.gdrive.</code><code class="sig-name descname">exists</code><span class="sig-paren">(</span><em class="sig-param">service</em>, <em class="sig-param">name</em>, <em class="sig-param">parent_id=None</em>, <em class="sig-param">directory=False</em>, <em class="sig-param">trashed=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/stores/gdrive.html#exists"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.stores.gdrive.exists" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ardzilla.stores.gdrive.</code><code class="sig-name descname">exists</code><span class="sig-paren">(</span><em class="sig-param">service</em>, <em class="sig-param">name</em>, <em class="sig-param">parent_id=None</em>, <em class="sig-param">directory=False</em>, <em class="sig-param">trashed=False</em>, <em class="sig-param">appProperties=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/stores/gdrive.html#exists"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.stores.gdrive.exists" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check if file/folder exists</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -466,6 +466,7 @@ If not provided, will use default location.</p></li>
 <li><p><strong>parent_id</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Parent ID of folder containing file (to narrow search)</p></li>
 <li><p><strong>directory</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em>, </em><em>optional</em>) – True if file needs to also be a directory</p></li>
 <li><p><strong>trashed</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em>, </em><em>optional</em>) – Search in the trash?</p></li>
+<li><p><strong>appProperties</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – Search for application-specific files using <code class="docutils literal notranslate"><span class="pre">appProperties</span></code></p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -481,6 +482,12 @@ If not provided, will use default location.</p></li>
 <dt id="ardzilla.stores.gdrive.find_credentials">
 <code class="sig-prename descclassname">ardzilla.stores.gdrive.</code><code class="sig-name descname">find_credentials</code><span class="sig-paren">(</span><em class="sig-param">client_secrets_file=None</em>, <em class="sig-param">credentials_file=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/stores/gdrive.html#find_credentials"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.stores.gdrive.find_credentials" title="Permalink to this definition">¶</a></dt>
 <dd><p>Locate GDrive client secrets &amp; credentials files</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="ardzilla.stores.gdrive.get_appProperties">
+<code class="sig-prename descclassname">ardzilla.stores.gdrive.</code><code class="sig-name descname">get_appProperties</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/stores/gdrive.html#get_appProperties"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.stores.gdrive.get_appProperties" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns private “appProperties” to include when creating files</p>
 </dd></dl>
 
 <dl class="function">
@@ -526,7 +533,7 @@ authenticate using a terminal prompt.</p></li>
 
 <dl class="function">
 <dt id="ardzilla.stores.gdrive.list_objects">
-<code class="sig-prename descclassname">ardzilla.stores.gdrive.</code><code class="sig-name descname">list_objects</code><span class="sig-paren">(</span><em class="sig-param">service</em>, <em class="sig-param">parent_id=None</em>, <em class="sig-param">name=None</em>, <em class="sig-param">q=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/stores/gdrive.html#list_objects"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.stores.gdrive.list_objects" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ardzilla.stores.gdrive.</code><code class="sig-name descname">list_objects</code><span class="sig-paren">(</span><em class="sig-param">service</em>, <em class="sig-param">parent_id=None</em>, <em class="sig-param">name=None</em>, <em class="sig-param">q=None</em>, <em class="sig-param">appProperties=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/stores/gdrive.html#list_objects"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.stores.gdrive.list_objects" title="Permalink to this definition">¶</a></dt>
 <dd><p>List files/folders on Google Drive</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -535,6 +542,7 @@ authenticate using a terminal prompt.</p></li>
 <li><p><strong>parent_id</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Parent ID of folder to list (to narrow search)</p></li>
 <li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Name to search for (don’t include asterisks)</p></li>
 <li><p><strong>q</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em> or </em><em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>]</em><em>, </em><em>optional</em>) – Additional search query parameters</p></li>
+<li><p><strong>appProperties</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – Search for application-specific files using <code class="docutils literal notranslate"><span class="pre">appProperties</span></code></p></li>
 </ul>
 </dd>
 <dt class="field-even">Yields</dt>
@@ -603,6 +611,12 @@ create a new directory and instead return the ID of this directory</p></li>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a></p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="ardzilla.stores.gdrive.query_appProperties">
+<code class="sig-prename descclassname">ardzilla.stores.gdrive.</code><code class="sig-name descname">query_appProperties</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/stores/gdrive.html#query_appProperties"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.stores.gdrive.query_appProperties" title="Permalink to this definition">¶</a></dt>
+<dd><p>Build a query component for <code class="docutils literal notranslate"><span class="pre">appProperties</span></code></p>
 </dd></dl>
 
 <dl class="function">

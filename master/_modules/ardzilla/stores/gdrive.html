@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.stores.gdrive &mdash; ardzilla 0+untagged.50.g45258ab documentation</title>
+  <title>ardzilla.stores.gdrive &mdash; ardzilla 0+untagged.50.g6c0769b documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.g45258ab
+                0+untagged.50.g6c0769b
               </div>
             
           
@@ -186,7 +186,7 @@
 
 <span class="kn">from</span> <span class="nn">stems.utils</span> <span class="k">import</span> <span class="n">renamed_upon_completion</span>
 
-<span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">defaults</span><span class="p">,</span> <span class="n">utils</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">defaults</span><span class="p">,</span> <span class="n">utils</span><span class="p">,</span> <span class="n">__version__</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -512,6 +512,22 @@
         <span class="k">return</span> <span class="n">delete</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">service</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">parent_id</span><span class="o">=</span><span class="n">parent_id</span><span class="p">)</span></div></div>
 
 
+<div class="viewcode-block" id="get_appProperties"><a class="viewcode-back" href="../../../ardzilla/ardzilla.stores.gdrive.html#ardzilla.stores.gdrive.get_appProperties">[docs]</a><span class="k">def</span> <span class="nf">get_appProperties</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; Returns private &quot;appProperties&quot; to include when creating files</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s1">&#39;application&#39;</span><span class="p">:</span> <span class="vm">__name__</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">],</span>
+        <span class="s1">&#39;version&#39;</span><span class="p">:</span> <span class="n">__version__</span>
+    <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="query_appProperties"><a class="viewcode-back" href="../../../ardzilla/ardzilla.stores.gdrive.html#ardzilla.stores.gdrive.query_appProperties">[docs]</a><span class="k">def</span> <span class="nf">query_appProperties</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; Build a query component for ``appProperties``</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">(</span><span class="s1">&#39;appProperties has {key=&quot;application&quot; and value=</span><span class="si">%s</span><span class="s1">}&#39;</span>
+            <span class="o">%</span> <span class="n">get_appProperties</span><span class="p">()[</span><span class="s1">&#39;application&#39;</span><span class="p">])</span></div>
+
+
 <div class="viewcode-block" id="upload_json"><a class="viewcode-back" href="../../../ardzilla/ardzilla.stores.gdrive.html#ardzilla.stores.gdrive.upload_json">[docs]</a><span class="k">def</span> <span class="nf">upload_json</span><span class="p">(</span><span class="n">service</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                 <span class="n">encoding</span><span class="o">=</span><span class="n">METADATA_ENCODING</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Upload JSON data to Google Drive</span>
@@ -552,6 +568,7 @@
         <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
         <span class="s1">&#39;parents&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">parent_id</span><span class="p">],</span>
         <span class="s1">&#39;mimeType&#39;</span><span class="p">:</span> <span class="s1">&#39;text/plain&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;appProperties&#39;</span><span class="p">:</span> <span class="n">get_appProperties</span><span class="p">()</span>
     <span class="p">}</span>
     <span class="n">content</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
     <span class="n">media</span> <span class="o">=</span> <span class="n">MediaIoBaseUpload</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="s1">&#39;text/plain&#39;</span><span class="p">,</span> <span class="n">resumable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -780,7 +797,8 @@
 
 
 <div class="viewcode-block" id="exists"><a class="viewcode-back" href="../../../ardzilla/ardzilla.stores.gdrive.html#ardzilla.stores.gdrive.exists">[docs]</a><span class="nd">@_memoize_exists</span>
-<span class="k">def</span> <span class="nf">exists</span><span class="p">(</span><span class="n">service</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">parent_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">directory</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">trashed</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">exists</span><span class="p">(</span><span class="n">service</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">parent_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">directory</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">trashed</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+           <span class="n">appProperties</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Check if file/folder exists</span>
 
 <span class="sd">    Parameters</span>
@@ -795,6 +813,8 @@
 <span class="sd">        True if file needs to also be a directory</span>
 <span class="sd">    trashed : bool, optional</span>
 <span class="sd">        Search in the trash?</span>
+<span class="sd">    appProperties : bool</span>
+<span class="sd">        Search for application-specific files using ``appProperties``</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -804,6 +824,8 @@
     <span class="n">q</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">if</span> <span class="n">directory</span><span class="p">:</span>
         <span class="n">q</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;mimeType = &quot;</span><span class="si">{MIME_TYPE_DIRECTORY}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">appProperties</span><span class="p">:</span>
+        <span class="n">q</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">query_appProperties</span><span class="p">())</span>
 
     <span class="n">results</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">list_objects</span><span class="p">(</span><span class="n">service</span><span class="p">,</span> <span class="n">parent_id</span><span class="o">=</span><span class="n">parent_id</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="n">q</span><span class="p">))</span>
     <span class="n">n_results</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
@@ -822,7 +844,8 @@
         <span class="k">return</span> <span class="s1">&#39;&#39;</span></div>
 
 
-<div class="viewcode-block" id="list_objects"><a class="viewcode-back" href="../../../ardzilla/ardzilla.stores.gdrive.html#ardzilla.stores.gdrive.list_objects">[docs]</a><span class="k">def</span> <span class="nf">list_objects</span><span class="p">(</span><span class="n">service</span><span class="p">,</span> <span class="n">parent_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="list_objects"><a class="viewcode-back" href="../../../ardzilla/ardzilla.stores.gdrive.html#ardzilla.stores.gdrive.list_objects">[docs]</a><span class="k">def</span> <span class="nf">list_objects</span><span class="p">(</span><span class="n">service</span><span class="p">,</span> <span class="n">parent_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">appProperties</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; List files/folders on Google Drive</span>
 
 <span class="sd">    Parameters</span>
@@ -835,6 +858,8 @@
 <span class="sd">        Name to search for (don&#39;t include asterisks)</span>
 <span class="sd">    q : str or Sequence[str], optional</span>
 <span class="sd">        Additional search query parameters</span>
+<span class="sd">    appProperties : bool</span>
+<span class="sd">        Search for application-specific files using ``appProperties``</span>
 
 <span class="sd">    Yields</span>
 <span class="sd">    ------</span>
@@ -855,6 +880,8 @@
         <span class="n">query</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;&#39;</span><span class="si">{parent_id}</span><span class="s2">&#39; in parents&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">name</span><span class="p">:</span>
         <span class="n">query</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;name contains &#39;</span><span class="si">{name}</span><span class="s2">&#39;&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">appProperties</span><span class="p">:</span>
+        <span class="n">q</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">query_appProperties</span><span class="p">())</span>
 
     <span class="c1"># Combine</span>
     <span class="n">query_</span> <span class="o">=</span> <span class="s1">&#39; and &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">query</span><span class="p">)</span>
@@ -929,6 +956,7 @@
         <span class="k">return</span> <span class="n">parent_id</span>
 
 
+<span class="c1"># =============================================================================</span>
 <span class="c1"># OAuth helpers</span>
 <span class="n">_OAUTH2_CREDS</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;token&#39;</span><span class="p">,</span> <span class="s1">&#39;refresh_token&#39;</span><span class="p">,</span> <span class="s1">&#39;id_token&#39;</span><span class="p">,</span> <span class="s1">&#39;token_uri&#39;</span><span class="p">,</span>
                  <span class="s1">&#39;client_id&#39;</span><span class="p">,</span> <span class="s1">&#39;client_secret&#39;</span><span class="p">,</span> <span class="s1">&#39;scopes&#39;</span><span class="p">]</span>
