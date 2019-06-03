@@ -57,6 +57,12 @@ def submit(ctx, image_collection, index, row, col,
         raise click.BadParameter('Must pass starting/ending time',
                                  ctx=ctx, param=date_start_param)
 
+    # Check that we know about the image collection
+    from ardzilla.sensors import CREATE_ARD_COLLECTION
+    for collection in image_collection:
+        if collection not in CREATE_ARD_COLLECTION:
+            raise KeyError(f'Unknown image collection "{collection}"')
+
     # Get parse(d) config and build tracker
     config = options.fetch_config(ctx)
     tracker = config.get_tracker()
