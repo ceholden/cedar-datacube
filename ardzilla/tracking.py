@@ -359,7 +359,7 @@ def clean_tracked(tracking_info, store):
                      f'name="{name}", prefix="{prefix}"')
 
         # Retrieve image and metadata
-        names = store.list(path=prefix, pattern=name + '*')
+        names = store.list(path=prefix, pattern=name)
         yield (id_, len(names), (store.remove(name) for name in names))
 
 
