@@ -2,6 +2,6 @@ ardzilla.submissions module
 ===========================
 
 .. automodule:: ardzilla.submissions
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

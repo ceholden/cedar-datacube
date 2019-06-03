@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.sensors.landsat module &mdash; ardzilla 0+untagged.50.g0e72f8b documentation</title>
+  <title>ardzilla.sensors.landsat module &mdash; ardzilla 0+untagged.50.g45258ab documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.g0e72f8b
+                0+untagged.50.g45258ab
               </div>
             
           
@@ -170,8 +170,38 @@
 <span id="ardzilla-sensors-landsat-module"></span><h1>ardzilla.sensors.landsat module<a class="headerlink" href="#module-ardzilla.sensors.landsat" title="Permalink to this headline">¶</a></h1>
 <p>Functions for dealing with Landsat data on GEE</p>
 <dl class="data">
+<dt id="ardzilla.sensors.landsat.BANDS">
+<code class="sig-prename descclassname">ardzilla.sensors.landsat.</code><code class="sig-name descname">BANDS</code><em class="property"> = {'COMMON': ['blue', 'green', 'red', 'nir', 'swir1', 'swir2', 'thermal', 'pixel_qa'], 'LANDSAT/LC08/C01/T1_SR': ['B2', 'B3', 'B4', 'B5', 'B6', 'B7', 'B10', 'pixel_qa'], 'LANDSAT/LE07/C01/T1_SR': ['B1', 'B2', 'B3', 'B4', 'B5', 'B7', 'B6', 'pixel_qa'], 'LANDSAT/LT05/C01/T1_SR': ['B1', 'B2', 'B3', 'B4', 'B5', 'B7', 'B6', 'pixel_qa']}</em><a class="headerlink" href="#ardzilla.sensors.landsat.BANDS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="data">
+<dt id="ardzilla.sensors.landsat.BANDS_COMMON">
+<code class="sig-prename descclassname">ardzilla.sensors.landsat.</code><code class="sig-name descname">BANDS_COMMON</code><em class="property"> = ['blue', 'green', 'red', 'nir', 'swir1', 'swir2', 'thermal', 'pixel_qa']</em><a class="headerlink" href="#ardzilla.sensors.landsat.BANDS_COMMON" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="data">
+<dt id="ardzilla.sensors.landsat.BANDS_LC8">
+<code class="sig-prename descclassname">ardzilla.sensors.landsat.</code><code class="sig-name descname">BANDS_LC8</code><em class="property"> = ['B2', 'B3', 'B4', 'B5', 'B6', 'B7', 'B10', 'pixel_qa']</em><a class="headerlink" href="#ardzilla.sensors.landsat.BANDS_LC8" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="data">
+<dt id="ardzilla.sensors.landsat.BANDS_LE7">
+<code class="sig-prename descclassname">ardzilla.sensors.landsat.</code><code class="sig-name descname">BANDS_LE7</code><em class="property"> = ['B1', 'B2', 'B3', 'B4', 'B5', 'B7', 'B6', 'pixel_qa']</em><a class="headerlink" href="#ardzilla.sensors.landsat.BANDS_LE7" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="data">
+<dt id="ardzilla.sensors.landsat.BANDS_LT5">
+<code class="sig-prename descclassname">ardzilla.sensors.landsat.</code><code class="sig-name descname">BANDS_LT5</code><em class="property"> = ['B1', 'B2', 'B3', 'B4', 'B5', 'B7', 'B6', 'pixel_qa']</em><a class="headerlink" href="#ardzilla.sensors.landsat.BANDS_LT5" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="data">
+<dt id="ardzilla.sensors.landsat.METADATA">
+<code class="sig-prename descclassname">ardzilla.sensors.landsat.</code><code class="sig-name descname">METADATA</code><em class="property"> = {'LANDSAT/LC08/C01/T1_SR': ['CLOUD_COVER', 'CLOUD_COVER_LAND', 'EARTH_SUN_DISTANCE', 'ESPA_VERSION', 'GEOMETRIC_RMSE_MODEL', 'GEOMETRIC_RMSE_MODEL_X', 'GEOMETRIC_RMSE_MODEL_Y', 'LANDSAT_ID', 'LEVEL1_PRODUCTION_DATE', 'SATELLITE', 'SENSING_TIME', 'SOLAR_AZIMUTH_ANGLE', 'SOLAR_ZENITH_ANGLE', 'SR_APP_VERSION', 'WRS_PATH', 'WRS_ROW', 'system:id', 'system:time_start', 'system:version', 'IMAGE_QUALITY_OLI'], 'LANDSAT/LE07/C01/T1_SR': ['CLOUD_COVER', 'CLOUD_COVER_LAND', 'EARTH_SUN_DISTANCE', 'ESPA_VERSION', 'GEOMETRIC_RMSE_MODEL', 'GEOMETRIC_RMSE_MODEL_X', 'GEOMETRIC_RMSE_MODEL_Y', 'LANDSAT_ID', 'LEVEL1_PRODUCTION_DATE', 'SATELLITE', 'SENSING_TIME', 'SOLAR_AZIMUTH_ANGLE', 'SOLAR_ZENITH_ANGLE', 'SR_APP_VERSION', 'WRS_PATH', 'WRS_ROW', 'system:id', 'system:time_start', 'system:version', 'IMAGE_QUALITY'], 'LANDSAT/LT05/C01/T1_SR': ['CLOUD_COVER', 'CLOUD_COVER_LAND', 'EARTH_SUN_DISTANCE', 'ESPA_VERSION', 'GEOMETRIC_RMSE_MODEL', 'GEOMETRIC_RMSE_MODEL_X', 'GEOMETRIC_RMSE_MODEL_Y', 'LANDSAT_ID', 'LEVEL1_PRODUCTION_DATE', 'SATELLITE', 'SENSING_TIME', 'SOLAR_AZIMUTH_ANGLE', 'SOLAR_ZENITH_ANGLE', 'SR_APP_VERSION', 'WRS_PATH', 'WRS_ROW', 'system:id', 'system:time_start', 'system:version', 'IMAGE_QUALITY']}</em><a class="headerlink" href="#ardzilla.sensors.landsat.METADATA" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="data">
 <dt id="ardzilla.sensors.landsat.NODATA">
-<code class="descclassname">ardzilla.sensors.landsat.</code><code class="descname">NODATA</code><em class="property"> = {'LANDSAT/LC08/C01/T1_SR': -9999, 'LANDSAT/LE07/C01/T1_SR': -9999, 'LANDSAT/LT05/C01/T1_SR': -9999}</em><a class="headerlink" href="#ardzilla.sensors.landsat.NODATA" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ardzilla.sensors.landsat.</code><code class="sig-name descname">NODATA</code><em class="property"> = {'LANDSAT/LC08/C01/T1_SR': -9999, 'LANDSAT/LE07/C01/T1_SR': -9999, 'LANDSAT/LT05/C01/T1_SR': -9999}</em><a class="headerlink" href="#ardzilla.sensors.landsat.NODATA" title="Permalink to this definition">¶</a></dt>
 <dd><p>NoDataValues for Landsat collections</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -182,7 +212,7 @@
 
 <dl class="function">
 <dt id="ardzilla.sensors.landsat.create_ard">
-<code class="descclassname">ardzilla.sensors.landsat.</code><code class="descname">create_ard</code><span class="sig-paren">(</span><em>collection</em>, <em>tile</em>, <em>date_start</em>, <em>date_end</em>, <em>filters=None</em>, <em>validate=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/sensors/landsat.html#create_ard"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.sensors.landsat.create_ard" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ardzilla.sensors.landsat.</code><code class="sig-name descname">create_ard</code><span class="sig-paren">(</span><em class="sig-param">collection</em>, <em class="sig-param">tile</em>, <em class="sig-param">date_start</em>, <em class="sig-param">date_end</em>, <em class="sig-param">filters=None</em>, <em class="sig-param">validate=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/sensors/landsat.html#create_ard"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.sensors.landsat.create_ard" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create an ARD <code class="xref py py-class docutils literal notranslate"><span class="pre">ee.Image</span></code></p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -205,6 +235,11 @@ on metadata, requiring us to wait on client-server communication)</p></li>
 </dd>
 </dl>
 </dd></dl>
+
+<dl class="data">
+<dt id="ardzilla.sensors.landsat.logger">
+<code class="sig-prename descclassname">ardzilla.sensors.landsat.</code><code class="sig-name descname">logger</code><em class="property"> = &lt;Logger ardzilla.sensors.landsat (WARNING)&gt;</em><a class="headerlink" href="#ardzilla.sensors.landsat.logger" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </div>
 

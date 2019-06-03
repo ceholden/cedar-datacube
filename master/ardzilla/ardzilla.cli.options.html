@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.cli.options module &mdash; ardzilla 0+untagged.50.g0e72f8b documentation</title>
+  <title>ardzilla.cli.options module &mdash; ardzilla 0+untagged.50.g45258ab documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.g0e72f8b
+                0+untagged.50.g45258ab
               </div>
             
           
@@ -171,27 +171,32 @@
 <p>ARDzilla CLI options and defaults</p>
 <dl class="function">
 <dt id="ardzilla.cli.options.STYLE_DEBUG">
-<code class="descclassname">ardzilla.cli.options.</code><code class="descname">STYLE_DEBUG</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwds</em><span class="sig-paren">)</span><a class="headerlink" href="#ardzilla.cli.options.STYLE_DEBUG" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ardzilla.cli.options.</code><code class="sig-name descname">STYLE_DEBUG</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwds</em><span class="sig-paren">)</span><a class="headerlink" href="#ardzilla.cli.options.STYLE_DEBUG" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="ardzilla.cli.options.STYLE_ERROR">
-<code class="descclassname">ardzilla.cli.options.</code><code class="descname">STYLE_ERROR</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwds</em><span class="sig-paren">)</span><a class="headerlink" href="#ardzilla.cli.options.STYLE_ERROR" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ardzilla.cli.options.</code><code class="sig-name descname">STYLE_ERROR</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwds</em><span class="sig-paren">)</span><a class="headerlink" href="#ardzilla.cli.options.STYLE_ERROR" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="ardzilla.cli.options.STYLE_INFO">
-<code class="descclassname">ardzilla.cli.options.</code><code class="descname">STYLE_INFO</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwds</em><span class="sig-paren">)</span><a class="headerlink" href="#ardzilla.cli.options.STYLE_INFO" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ardzilla.cli.options.</code><code class="sig-name descname">STYLE_INFO</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwds</em><span class="sig-paren">)</span><a class="headerlink" href="#ardzilla.cli.options.STYLE_INFO" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="ardzilla.cli.options.STYLE_WARNING">
-<code class="descclassname">ardzilla.cli.options.</code><code class="descname">STYLE_WARNING</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwds</em><span class="sig-paren">)</span><a class="headerlink" href="#ardzilla.cli.options.STYLE_WARNING" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ardzilla.cli.options.</code><code class="sig-name descname">STYLE_WARNING</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwds</em><span class="sig-paren">)</span><a class="headerlink" href="#ardzilla.cli.options.STYLE_WARNING" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="ardzilla.cli.options.arg_tracking_name">
+<code class="sig-prename descclassname">ardzilla.cli.options.</code><code class="sig-name descname">arg_tracking_name</code><span class="sig-paren">(</span><em class="sig-param">f</em><span class="sig-paren">)</span><a class="headerlink" href="#ardzilla.cli.options.arg_tracking_name" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="ardzilla.cli.options.fetch_config">
-<code class="descclassname">ardzilla.cli.options.</code><code class="descname">fetch_config</code><span class="sig-paren">(</span><em>ctx</em>, <em>fail_if_missing=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/cli/options.html#fetch_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.cli.options.fetch_config" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ardzilla.cli.options.</code><code class="sig-name descname">fetch_config</code><span class="sig-paren">(</span><em class="sig-param">ctx</em>, <em class="sig-param">fail_if_missing=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/cli/options.html#fetch_config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.cli.options.fetch_config" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fetch <code class="docutils literal notranslate"><span class="pre">config</span></code> from a click context with error handling</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -215,9 +220,29 @@ None</p></li>
 
 <dl class="function">
 <dt id="ardzilla.cli.options.fetch_param">
-<code class="descclassname">ardzilla.cli.options.</code><code class="descname">fetch_param</code><span class="sig-paren">(</span><em>ctx</em>, <em>name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/cli/options.html#fetch_param"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.cli.options.fetch_param" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ardzilla.cli.options.</code><code class="sig-name descname">fetch_param</code><span class="sig-paren">(</span><em class="sig-param">ctx</em>, <em class="sig-param">name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/cli/options.html#fetch_param"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.cli.options.fetch_param" title="Permalink to this definition">¶</a></dt>
 <dd><p>Try to fetch a click.Parameter from a click.Context (or its parents)</p>
 </dd></dl>
+
+<dl class="function">
+<dt id="ardzilla.cli.options.opt_browser">
+<code class="sig-prename descclassname">ardzilla.cli.options.</code><code class="sig-name descname">opt_browser</code><span class="sig-paren">(</span><em class="sig-param">f</em><span class="sig-paren">)</span><a class="headerlink" href="#ardzilla.cli.options.opt_browser" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="ardzilla.cli.options.opt_config_file">
+<code class="sig-prename descclassname">ardzilla.cli.options.</code><code class="sig-name descname">opt_config_file</code><span class="sig-paren">(</span><em class="sig-param">f</em><span class="sig-paren">)</span><a class="headerlink" href="#ardzilla.cli.options.opt_config_file" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="ardzilla.cli.options.opt_overwrite">
+<code class="sig-prename descclassname">ardzilla.cli.options.</code><code class="sig-name descname">opt_overwrite</code><span class="sig-paren">(</span><em class="sig-param">f</em><span class="sig-paren">)</span><a class="headerlink" href="#ardzilla.cli.options.opt_overwrite" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="data">
+<dt id="ardzilla.cli.options.type_path_file">
+<code class="sig-prename descclassname">ardzilla.cli.options.</code><code class="sig-name descname">type_path_file</code><span class="sig-paren">(</span><em class="sig-param">value</em>, <em class="sig-param">param=None</em>, <em class="sig-param">ctx=None</em><span class="sig-paren">)</span><em class="property"> = &lt;click.types.Path object&gt;</em><a class="headerlink" href="#ardzilla.cli.options.type_path_file" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </div>
 

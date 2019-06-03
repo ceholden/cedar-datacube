@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.config.parse module &mdash; ardzilla 0+untagged.50.g0e72f8b documentation</title>
+  <title>ardzilla.config.parse module &mdash; ardzilla 0+untagged.50.g45258ab documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.g0e72f8b
+                0+untagged.50.g45258ab
               </div>
             
           
@@ -169,14 +169,30 @@
   <div class="section" id="module-ardzilla.config.parse">
 <span id="ardzilla-config-parse-module"></span><h1>ardzilla.config.parse module<a class="headerlink" href="#module-ardzilla.config.parse" title="Permalink to this headline">¶</a></h1>
 <p>Parse and validate a configuration file</p>
+<dl class="data">
+<dt id="ardzilla.config.parse.DEFAULT_SCHEMA_FILE">
+<code class="sig-prename descclassname">ardzilla.config.parse.</code><code class="sig-name descname">DEFAULT_SCHEMA_FILE</code><em class="property"> = '/home/travis/build/ceholden/ardzilla/ardzilla/config/schema.json'</em><a class="headerlink" href="#ardzilla.config.parse.DEFAULT_SCHEMA_FILE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="data">
+<dt id="ardzilla.config.parse.DEFAULT_SCHEMA_FILENAME">
+<code class="sig-prename descclassname">ardzilla.config.parse.</code><code class="sig-name descname">DEFAULT_SCHEMA_FILENAME</code><em class="property"> = 'schema.json'</em><a class="headerlink" href="#ardzilla.config.parse.DEFAULT_SCHEMA_FILENAME" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="ardzilla.config.parse.DefaultValidatingDraft7Validator">
+<code class="sig-prename descclassname">ardzilla.config.parse.</code><code class="sig-name descname">DefaultValidatingDraft7Validator</code><a class="headerlink" href="#ardzilla.config.parse.DefaultValidatingDraft7Validator" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <code class="xref py py-class docutils literal notranslate"><span class="pre">jsonschema.validators.create.&lt;locals&gt;.Validator</span></code></p>
+</dd></dl>
+
 <dl class="function">
 <dt id="ardzilla.config.parse.get_default_schema">
-<code class="descclassname">ardzilla.config.parse.</code><code class="descname">get_default_schema</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/config/parse.html#get_default_schema"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.config.parse.get_default_schema" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ardzilla.config.parse.</code><code class="sig-name descname">get_default_schema</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/config/parse.html#get_default_schema"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.config.parse.get_default_schema" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="ardzilla.config.parse.validate_with_defaults">
-<code class="descclassname">ardzilla.config.parse.</code><code class="descname">validate_with_defaults</code><span class="sig-paren">(</span><em>obj</em>, <em>schema=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/config/parse.html#validate_with_defaults"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.config.parse.validate_with_defaults" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ardzilla.config.parse.</code><code class="sig-name descname">validate_with_defaults</code><span class="sig-paren">(</span><em class="sig-param">obj</em>, <em class="sig-param">schema=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/config/parse.html#validate_with_defaults"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.config.parse.validate_with_defaults" title="Permalink to this definition">¶</a></dt>
 <dd><p>Validate a configuration file and fill in defaults (modifies <code class="docutils literal notranslate"><span class="pre">obj</span></code>)</p>
 </dd></dl>
 

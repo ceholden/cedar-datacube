@@ -2,6 +2,6 @@ ardzilla.cli.main module
 ========================
 
 .. automodule:: ardzilla.cli.main
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

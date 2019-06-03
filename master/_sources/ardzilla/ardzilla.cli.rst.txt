@@ -19,6 +19,6 @@ Module contents
 ---------------
 
 .. automodule:: ardzilla.cli
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

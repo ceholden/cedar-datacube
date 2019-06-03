@@ -2,6 +2,6 @@ ardzilla.config.core module
 ===========================
 
 .. automodule:: ardzilla.config.core
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

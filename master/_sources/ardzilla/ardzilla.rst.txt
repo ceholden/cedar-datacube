@@ -6,11 +6,11 @@ Subpackages
 
 .. toctree::
 
-    ardzilla.cli
-    ardzilla.config
-    ardzilla.sensors
-    ardzilla.stores
-    ardzilla.tests
+   ardzilla.cli
+   ardzilla.config
+   ardzilla.sensors
+   ardzilla.stores
+   ardzilla.tests
 
 Submodules
 ----------
@@ -28,6 +28,6 @@ Module contents
 ---------------
 
 .. automodule:: ardzilla
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

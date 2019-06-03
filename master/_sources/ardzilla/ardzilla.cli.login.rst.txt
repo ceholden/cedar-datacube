@@ -2,6 +2,6 @@ ardzilla.cli.login module
 =========================
 
 .. automodule:: ardzilla.cli.login
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

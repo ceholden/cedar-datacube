@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.submissions module &mdash; ardzilla 0+untagged.50.g0e72f8b documentation</title>
+  <title>ardzilla.submissions module &mdash; ardzilla 0+untagged.50.g45258ab documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.g0e72f8b
+                0+untagged.50.g45258ab
               </div>
             
           
@@ -169,9 +169,14 @@
   <div class="section" id="module-ardzilla.submissions">
 <span id="ardzilla-submissions-module"></span><h1>ardzilla.submissions module<a class="headerlink" href="#module-ardzilla.submissions" title="Permalink to this headline">¶</a></h1>
 <p>Core functions/etc for GEE ARD</p>
+<dl class="data">
+<dt id="ardzilla.submissions.EXPORT_NAME_DATA">
+<code class="sig-prename descclassname">ardzilla.submissions.</code><code class="sig-name descname">EXPORT_NAME_DATA</code><em class="property"> = ('tile', 'collection', 'date_start', 'date_end')</em><a class="headerlink" href="#ardzilla.submissions.EXPORT_NAME_DATA" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="function">
 <dt id="ardzilla.submissions.format_export_string">
-<code class="descclassname">ardzilla.submissions.</code><code class="descname">format_export_string</code><span class="sig-paren">(</span><em>template</em>, <em>collection</em>, <em>tile</em>, <em>date_start</em>, <em>date_end</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/submissions.html#format_export_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.submissions.format_export_string" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ardzilla.submissions.</code><code class="sig-name descname">format_export_string</code><span class="sig-paren">(</span><em class="sig-param">template</em>, <em class="sig-param">collection</em>, <em class="sig-param">tile</em>, <em class="sig-param">date_start</em>, <em class="sig-param">date_end</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/submissions.html#format_export_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.submissions.format_export_string" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculate a name/description for GEE ARD downloads</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -192,9 +197,14 @@
 </dl>
 </dd></dl>
 
+<dl class="data">
+<dt id="ardzilla.submissions.logger">
+<code class="sig-prename descclassname">ardzilla.submissions.</code><code class="sig-name descname">logger</code><em class="property"> = &lt;Logger ardzilla.submissions (WARNING)&gt;</em><a class="headerlink" href="#ardzilla.submissions.logger" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="function">
 <dt id="ardzilla.submissions.submit_ard">
-<code class="descclassname">ardzilla.submissions.</code><code class="descname">submit_ard</code><span class="sig-paren">(</span><em>collection</em>, <em>tile</em>, <em>date_start</em>, <em>date_end</em>, <em>store</em>, <em>name_template='{collection}_h{tile.horizontal:03d}v{tile.vertical:03d}_{date_start}_{date_end}'</em>, <em>prefix_template='GEEARD/{collection}/h{tile.horizontal:03d}v{tile.vertical:03d}'</em>, <em>filters=None</em>, <em>freq=None</em>, <em>start=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/submissions.html#submit_ard"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.submissions.submit_ard" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ardzilla.submissions.</code><code class="sig-name descname">submit_ard</code><span class="sig-paren">(</span><em class="sig-param">collection</em>, <em class="sig-param">tile</em>, <em class="sig-param">date_start</em>, <em class="sig-param">date_end</em>, <em class="sig-param">store</em>, <em class="sig-param">name_template='{collection}_h{tile.horizontal:03d}v{tile.vertical:03d}_{date_start}_{date_end}'</em>, <em class="sig-param">prefix_template='GEEARD/{collection}/h{tile.horizontal:03d}v{tile.vertical:03d}'</em>, <em class="sig-param">filters=None</em>, <em class="sig-param">freq=None</em>, <em class="sig-param">start=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/submissions.html#submit_ard"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.submissions.submit_ard" title="Permalink to this definition">¶</a></dt>
 <dd><p>Submit a ee.Task to create ARD, and stores the ARD with metadata</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>

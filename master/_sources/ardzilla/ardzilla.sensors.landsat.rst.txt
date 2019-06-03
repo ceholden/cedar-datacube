@@ -2,6 +2,6 @@ ardzilla.sensors.landsat module
 ===============================
 
 .. automodule:: ardzilla.sensors.landsat
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

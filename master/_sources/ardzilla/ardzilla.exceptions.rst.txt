@@ -2,6 +2,6 @@ ardzilla.exceptions module
 ==========================
 
 .. automodule:: ardzilla.exceptions
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

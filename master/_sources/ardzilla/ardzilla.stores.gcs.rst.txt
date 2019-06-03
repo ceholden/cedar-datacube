@@ -2,6 +2,6 @@ ardzilla.stores.gcs module
 ==========================
 
 .. automodule:: ardzilla.stores.gcs
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

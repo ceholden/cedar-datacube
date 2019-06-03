@@ -2,6 +2,6 @@ ardzilla.cli.storage module
 ===========================
 
 .. automodule:: ardzilla.cli.storage
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -2,6 +2,6 @@ ardzilla.sensors.common module
 ==============================
 
 .. automodule:: ardzilla.sensors.common
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

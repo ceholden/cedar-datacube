@@ -2,6 +2,6 @@ ardzilla.utils module
 =====================
 
 .. automodule:: ardzilla.utils
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

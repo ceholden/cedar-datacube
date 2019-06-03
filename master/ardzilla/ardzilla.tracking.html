@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.tracking module &mdash; ardzilla 0+untagged.50.g0e72f8b documentation</title>
+  <title>ardzilla.tracking module &mdash; ardzilla 0+untagged.50.g45258ab documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.g0e72f8b
+                0+untagged.50.g45258ab
               </div>
             
           
@@ -171,7 +171,7 @@
 <p>Tracker to submit and download GEE pre-ARD tasks</p>
 <dl class="class">
 <dt id="ardzilla.tracking.GEEARDTracker">
-<em class="property">class </em><code class="descclassname">ardzilla.tracking.</code><code class="descname">GEEARDTracker</code><span class="sig-paren">(</span><em>tile_grid</em>, <em>store</em>, <em>name_template='{collection}_h{tile.horizontal:03d}v{tile.vertical:03d}_{date_start}_{date_end}'</em>, <em>prefix_template='GEEARD/{collection}/h{tile.horizontal:03d}v{tile.vertical:03d}'</em>, <em>tracking_template='TRACKING_PERIOD{date_start}-{date_end}_TASK{today}'</em>, <em>tracking_prefix='GEEARD_TRACKING'</em>, <em>filters=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/tracking.html#GEEARDTracker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.tracking.GEEARDTracker" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">ardzilla.tracking.</code><code class="sig-name descname">GEEARDTracker</code><span class="sig-paren">(</span><em class="sig-param">tile_grid</em>, <em class="sig-param">store</em>, <em class="sig-param">name_template='{collection}_h{tile.horizontal:03d}v{tile.vertical:03d}_{date_start}_{date_end}'</em>, <em class="sig-param">tracking_template='TRACKING_PERIOD{date_start}-{date_end}_TASK{today}'</em>, <em class="sig-param">prefix_template='GEEARD/{collection}/h{tile.horizontal:03d}v{tile.vertical:03d}'</em>, <em class="sig-param">filters=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/tracking.html#GEEARDTracker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.tracking.GEEARDTracker" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.7/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>Tracker for GEE ARD task submission</p>
 <dl class="field-list simple">
@@ -187,7 +187,7 @@ dictionaries that describe the filter</p></li>
 </dl>
 <dl class="method">
 <dt id="ardzilla.tracking.GEEARDTracker.clean">
-<code class="descname">clean</code><span class="sig-paren">(</span><em>self</em>, <em>tracking_info</em>, <em>tracking_name=None</em>, <em>callback=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/tracking.html#GEEARDTracker.clean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.tracking.GEEARDTracker.clean" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">clean</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">tracking_info</em>, <em class="sig-param">tracking_name=None</em>, <em class="sig-param">callback=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/tracking.html#GEEARDTracker.clean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.tracking.GEEARDTracker.clean" title="Permalink to this definition">¶</a></dt>
 <dd><p>Clean “pre-ARD” imagery, metadata, and tracking metadata off GCS</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -210,7 +210,7 @@ progress bars or other download status reporting</p></li>
 
 <dl class="method">
 <dt id="ardzilla.tracking.GEEARDTracker.download">
-<code class="descname">download</code><span class="sig-paren">(</span><em>self</em>, <em>tracking_info</em>, <em>dest</em>, <em>overwrite=True</em>, <em>callback=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/tracking.html#GEEARDTracker.download"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.tracking.GEEARDTracker.download" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">download</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">tracking_info</em>, <em class="sig-param">dest</em>, <em class="sig-param">overwrite=True</em>, <em class="sig-param">callback=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/tracking.html#GEEARDTracker.download"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.tracking.GEEARDTracker.download" title="Permalink to this definition">¶</a></dt>
 <dd><p>Download “pre-ARD” and metadata to a directory</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -233,27 +233,22 @@ downloaded data. Wrap it in a <code class="docutils literal notranslate"><span c
 </dl>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="method">
 <dt id="ardzilla.tracking.GEEARDTracker.filters">
-<code class="descname">filters</code><a class="headerlink" href="#ardzilla.tracking.GEEARDTracker.filters" title="Permalink to this definition">¶</a></dt>
-<dd><p>Earth Engine filters to apply</p>
-<dl class="field-list simple">
-<dt class="field-odd">Type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#list" title="(in Python v3.7)">list</a>[ee.Filter]</p>
-</dd>
-</dl>
+<em class="property">property </em><code class="sig-name descname">filters</code><a class="headerlink" href="#ardzilla.tracking.GEEARDTracker.filters" title="Permalink to this definition">¶</a></dt>
+<dd><p>list[ee.Filter]: Earth Engine filters to apply</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="ardzilla.tracking.GEEARDTracker.list">
-<code class="descname">list</code><span class="sig-paren">(</span><em>self</em>, <em>pattern=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/tracking.html#GEEARDTracker.list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.tracking.GEEARDTracker.list" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">list</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">pattern=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/tracking.html#GEEARDTracker.list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.tracking.GEEARDTracker.list" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a list of all tracking metadata</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><p><strong>pattern</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Search pattern for tracking info. Specify to subset to specific
 tracking info (e.g., from some date). If <code class="docutils literal notranslate"><span class="pre">None</span></code> provided,
 looks for tracking information matching
-<code class="xref py py-func docutils literal notranslate"><span class="pre">tracking_template()</span></code></p>
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">tracking_template</span></code></p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>Name of stored tracking information</p>
@@ -266,7 +261,7 @@ looks for tracking information matching
 
 <dl class="method">
 <dt id="ardzilla.tracking.GEEARDTracker.read">
-<code class="descname">read</code><span class="sig-paren">(</span><em>self</em>, <em>name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/tracking.html#GEEARDTracker.read"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.tracking.GEEARDTracker.read" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">read</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/tracking.html#GEEARDTracker.read"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.tracking.GEEARDTracker.read" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns stored tracking information as dict</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -284,7 +279,7 @@ looks for tracking information matching
 
 <dl class="method">
 <dt id="ardzilla.tracking.GEEARDTracker.submit">
-<code class="descname">submit</code><span class="sig-paren">(</span><em>self</em>, <em>collections</em>, <em>tile_indices</em>, <em>date_start</em>, <em>date_end</em>, <em>freq='1YS'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/tracking.html#GEEARDTracker.submit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.tracking.GEEARDTracker.submit" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">submit</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">collections</em>, <em class="sig-param">tile_indices</em>, <em class="sig-param">date_start</em>, <em class="sig-param">date_end</em>, <em class="sig-param">freq='1YS'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/tracking.html#GEEARDTracker.submit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.tracking.GEEARDTracker.submit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Submit and track GEE pre-ARD tasks</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -309,7 +304,7 @@ looks for tracking information matching
 
 <dl class="method">
 <dt id="ardzilla.tracking.GEEARDTracker.update">
-<code class="descname">update</code><span class="sig-paren">(</span><em>self</em>, <em>name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/tracking.html#GEEARDTracker.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.tracking.GEEARDTracker.update" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/tracking.html#GEEARDTracker.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.tracking.GEEARDTracker.update" title="Permalink to this definition">¶</a></dt>
 <dd><p>Refresh and reupload tracking information by checking with the GEE</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -329,7 +324,7 @@ looks for tracking information matching
 
 <dl class="function">
 <dt id="ardzilla.tracking.clean_tracked">
-<code class="descclassname">ardzilla.tracking.</code><code class="descname">clean_tracked</code><span class="sig-paren">(</span><em>tracking_info</em>, <em>store</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/tracking.html#clean_tracked"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.tracking.clean_tracked" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ardzilla.tracking.</code><code class="sig-name descname">clean_tracked</code><span class="sig-paren">(</span><em class="sig-param">tracking_info</em>, <em class="sig-param">store</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/tracking.html#clean_tracked"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.tracking.clean_tracked" title="Permalink to this definition">¶</a></dt>
 <dd><p>Delete stored “pre-ARD” and metadata described by tracking info</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -349,19 +344,19 @@ looks for tracking information matching
 
 <dl class="function">
 <dt id="ardzilla.tracking.create_submission_metadata">
-<code class="descclassname">ardzilla.tracking.</code><code class="descname">create_submission_metadata</code><span class="sig-paren">(</span><em>name</em>, <em>prefix</em>, <em>store</em>, <em>filters</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/tracking.html#create_submission_metadata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.tracking.create_submission_metadata" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ardzilla.tracking.</code><code class="sig-name descname">create_submission_metadata</code><span class="sig-paren">(</span><em class="sig-param">name</em>, <em class="sig-param">prefix</em>, <em class="sig-param">store</em>, <em class="sig-param">filters</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/tracking.html#create_submission_metadata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.tracking.create_submission_metadata" title="Permalink to this definition">¶</a></dt>
 <dd><p>Build up task submission tracking metadata</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="ardzilla.tracking.create_task_metadata">
-<code class="descclassname">ardzilla.tracking.</code><code class="descname">create_task_metadata</code><span class="sig-paren">(</span><em>collection</em>, <em>tile</em>, <em>date_start</em>, <em>date_end</em>, <em>task</em>, <em>metadata_dst</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/tracking.html#create_task_metadata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.tracking.create_task_metadata" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ardzilla.tracking.</code><code class="sig-name descname">create_task_metadata</code><span class="sig-paren">(</span><em class="sig-param">collection</em>, <em class="sig-param">tile</em>, <em class="sig-param">date_start</em>, <em class="sig-param">date_end</em>, <em class="sig-param">task</em>, <em class="sig-param">metadata_dst</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/tracking.html#create_task_metadata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.tracking.create_task_metadata" title="Permalink to this definition">¶</a></dt>
 <dd><p>Build up image data processing tracking metadata</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="ardzilla.tracking.download_tracked">
-<code class="descclassname">ardzilla.tracking.</code><code class="descname">download_tracked</code><span class="sig-paren">(</span><em>tracking_info</em>, <em>store</em>, <em>dest</em>, <em>overwrite=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/tracking.html#download_tracked"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.tracking.download_tracked" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ardzilla.tracking.</code><code class="sig-name descname">download_tracked</code><span class="sig-paren">(</span><em class="sig-param">tracking_info</em>, <em class="sig-param">store</em>, <em class="sig-param">dest</em>, <em class="sig-param">overwrite=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/tracking.html#download_tracked"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.tracking.download_tracked" title="Permalink to this definition">¶</a></dt>
 <dd><p>Download stored “pre-ARD” and metadata described by tracking info</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -385,7 +380,7 @@ looks for tracking information matching
 
 <dl class="function">
 <dt id="ardzilla.tracking.get_ee_tasks">
-<code class="descclassname">ardzilla.tracking.</code><code class="descname">get_ee_tasks</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/tracking.html#get_ee_tasks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.tracking.get_ee_tasks" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ardzilla.tracking.</code><code class="sig-name descname">get_ee_tasks</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/tracking.html#get_ee_tasks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.tracking.get_ee_tasks" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return GEE tasks (task ID: task)</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns</dt>
@@ -397,9 +392,14 @@ looks for tracking information matching
 </dl>
 </dd></dl>
 
+<dl class="data">
+<dt id="ardzilla.tracking.logger">
+<code class="sig-prename descclassname">ardzilla.tracking.</code><code class="sig-name descname">logger</code><em class="property"> = &lt;Logger ardzilla.tracking (WARNING)&gt;</em><a class="headerlink" href="#ardzilla.tracking.logger" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="function">
 <dt id="ardzilla.tracking.update_tracking_info">
-<code class="descclassname">ardzilla.tracking.</code><code class="descname">update_tracking_info</code><span class="sig-paren">(</span><em>tracking_info</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/tracking.html#update_tracking_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.tracking.update_tracking_info" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ardzilla.tracking.</code><code class="sig-name descname">update_tracking_info</code><span class="sig-paren">(</span><em class="sig-param">tracking_info</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/tracking.html#update_tracking_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.tracking.update_tracking_info" title="Permalink to this definition">¶</a></dt>
 <dd><p>Try to update tracking information with current task status from GEE</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>

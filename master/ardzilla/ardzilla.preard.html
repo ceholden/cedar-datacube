@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.preard module &mdash; ardzilla 0+untagged.50.g0e72f8b documentation</title>
+  <title>ardzilla.preard module &mdash; ardzilla 0+untagged.50.g45258ab documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.g0e72f8b
+                0+untagged.50.g45258ab
               </div>
             
           
@@ -171,7 +171,7 @@
 <p>Convert “pre-ARD” to ARD</p>
 <dl class="function">
 <dt id="ardzilla.preard.ard_netcdf_encoding">
-<code class="descclassname">ardzilla.preard.</code><code class="descname">ard_netcdf_encoding</code><span class="sig-paren">(</span><em>ard_ds</em>, <em>metadata</em>, <em>**encoding_kwds</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/preard.html#ard_netcdf_encoding"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.preard.ard_netcdf_encoding" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ardzilla.preard.</code><code class="sig-name descname">ard_netcdf_encoding</code><span class="sig-paren">(</span><em class="sig-param">ard_ds</em>, <em class="sig-param">metadata</em>, <em class="sig-param">**encoding_kwds</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/preard.html#ard_netcdf_encoding"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.preard.ard_netcdf_encoding" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return encoding for ARD NetCDF4 files</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -191,7 +191,7 @@
 
 <dl class="function">
 <dt id="ardzilla.preard.find_preard">
-<code class="descclassname">ardzilla.preard.</code><code class="descname">find_preard</code><span class="sig-paren">(</span><em>path</em>, <em>metadata_pattern='*.json'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/preard.html#find_preard"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.preard.find_preard" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ardzilla.preard.</code><code class="sig-name descname">find_preard</code><span class="sig-paren">(</span><em class="sig-param">path</em>, <em class="sig-param">metadata_pattern='*.json'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/preard.html#find_preard"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.preard.find_preard" title="Permalink to this definition">¶</a></dt>
 <dd><p>Match pre-ARD metadata with imagery in some location</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -207,9 +207,14 @@ inside the directory)</p>
 </dl>
 </dd></dl>
 
+<dl class="data">
+<dt id="ardzilla.preard.logger">
+<code class="sig-prename descclassname">ardzilla.preard.</code><code class="sig-name descname">logger</code><em class="property"> = &lt;Logger ardzilla.preard (WARNING)&gt;</em><a class="headerlink" href="#ardzilla.preard.logger" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="function">
 <dt id="ardzilla.preard.preard_to_ard">
-<code class="descclassname">ardzilla.preard.</code><code class="descname">preard_to_ard</code><span class="sig-paren">(</span><em>xarr</em>, <em>time</em>, <em>bands</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/preard.html#preard_to_ard"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.preard.preard_to_ard" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ardzilla.preard.</code><code class="sig-name descname">preard_to_ard</code><span class="sig-paren">(</span><em class="sig-param">xarr</em>, <em class="sig-param">time</em>, <em class="sig-param">bands</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/preard.html#preard_to_ard"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.preard.preard_to_ard" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert a “pre-ARD” DataArray to an ARD xr.Dataset</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -235,7 +240,7 @@ the number of “bands” in the input DataArray</p>
 
 <dl class="function">
 <dt id="ardzilla.preard.process_preard">
-<code class="descclassname">ardzilla.preard.</code><code class="descname">process_preard</code><span class="sig-paren">(</span><em>metadata</em>, <em>images</em>, <em>chunks=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/preard.html#process_preard"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.preard.process_preard" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ardzilla.preard.</code><code class="sig-name descname">process_preard</code><span class="sig-paren">(</span><em class="sig-param">metadata</em>, <em class="sig-param">images</em>, <em class="sig-param">chunks=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/preard.html#process_preard"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.preard.process_preard" title="Permalink to this definition">¶</a></dt>
 <dd><p>Open and process pre-ARD data to ARD</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -257,13 +262,13 @@ defaults to <code class="docutils literal notranslate"><span class="pre">{'x':</
 
 <dl class="function">
 <dt id="ardzilla.preard.read_metadata">
-<code class="descclassname">ardzilla.preard.</code><code class="descname">read_metadata</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/preard.html#read_metadata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.preard.read_metadata" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ardzilla.preard.</code><code class="sig-name descname">read_metadata</code><span class="sig-paren">(</span><em class="sig-param">filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/preard.html#read_metadata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.preard.read_metadata" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read pre-ARD image metadata from a file</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="ardzilla.preard.read_preard">
-<code class="descclassname">ardzilla.preard.</code><code class="descname">read_preard</code><span class="sig-paren">(</span><em>filenames</em>, <em>chunks=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/preard.html#read_preard"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.preard.read_preard" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ardzilla.preard.</code><code class="sig-name descname">read_preard</code><span class="sig-paren">(</span><em class="sig-param">filenames</em>, <em class="sig-param">chunks=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/preard.html#read_preard"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.preard.read_preard" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read pre-ARD file(s) into a single DataArray</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
