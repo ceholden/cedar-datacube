@@ -37,6 +37,10 @@ EXPORT_TRACK_STRFTIME = '%Y%m%dT%H%M%S'
 
 
 # =============================================================================
+GDRIVE_USE_APPPROPERTIES = False
+
+
+# =============================================================================
 # Pre-ARD Ingest
 #: dict: Chunks to use when opening Pre-ARD images
 PREARD_CHUNKS = {'y': 256, 'x': 256, 'band': -1}

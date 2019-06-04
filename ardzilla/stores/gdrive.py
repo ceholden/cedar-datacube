@@ -628,7 +628,7 @@ def _memoize_exists(func):
 @retry.Retry()
 @_memoize_exists
 def exists(service, name, parent_id=None, directory=False, trashed=False,
-           appProperties=False):
+           appProperties=defaults.GDRIVE_USE_APPPROPERTIES):
     """ Check if file/folder exists
 
     Parameters
@@ -657,7 +657,8 @@ def exists(service, name, parent_id=None, directory=False, trashed=False,
     if appProperties:
         q.append(query_appProperties())
 
-    results = list(list_objects(service, parent_id=parent_id, name=name, q=q))
+    results = list(list_objects(service, parent_id=parent_id, name=name, q=q,
+                                appProperties=appProperties))
     n_results = len(results)
 
     if n_results == 1:
@@ -676,7 +677,7 @@ def exists(service, name, parent_id=None, directory=False, trashed=False,
 
 # TODO: memoize
 def list_objects(service, parent_id=None, name=None, q=None,
-                 appProperties=False):
+                 appProperties=defaults.GDRIVE_USE_APPPROPERTIES):
     """ List files/folders on Google Drive
 
     Parameters
@@ -754,7 +755,8 @@ def list_dirs(service, parent_id=None, name=None):
     return list_objects(service, parent_id=parent_id, name=name, q=q)
 
 
-def delete(service, name, parent_id=None):
+def delete(service, name, parent_id=None,
+           appProperties=defaults.GDRIVE_USE_APPPROPERTIES):
     """ Delete a file/folder on Google Drive
 
     Parameters
@@ -765,6 +767,8 @@ def delete(service, name, parent_id=None):
         Name of file/folder
     parent_id : str, optional
         Parent ID of folder containing file (to narrow search)
+    appProperties : bool
+        Search for application-specific files using ``appProperties``
 
     Returns
     -------

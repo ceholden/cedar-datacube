@@ -207,7 +207,6 @@ class GEEARDTracker(object):
         tuple[str, list[str]]
             Key value pairs mapping GEE task IDs to the filenames of
             downloaded data. Wrap it in a ``dict`` to make it not lazy
-
         """
         logger.debug(f'Downloading for {len(tracking_info["tasks"])} tasks')
         iter_download = download_tracked(tracking_info, self.store, dest,
