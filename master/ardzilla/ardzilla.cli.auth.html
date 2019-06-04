@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.cli.login module &mdash; ardzilla 0+untagged.50.gaaf40fc documentation</title>
+  <title>ardzilla.cli.auth module &mdash; ardzilla 0+untagged.50.gf7f69d3 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.gaaf40fc
+                0+untagged.50.gf7f69d3
               </div>
             
           
@@ -145,14 +145,14 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>ardzilla.cli.login module</li>
+      <li>ardzilla.cli.auth module</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
             
-              <a href="https://github.com/ceholden/ardzilla/blob/master/docs/source/ardzilla/ardzilla.cli.login.rst" class="fa fa-github"> Edit on GitHub</a>
+              <a href="https://github.com/ceholden/ardzilla/blob/master/docs/source/ardzilla/ardzilla.cli.auth.rst" class="fa fa-github"> Edit on GitHub</a>
             
           
         
@@ -166,52 +166,57 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="module-ardzilla.cli.login">
-<span id="ardzilla-cli-login-module"></span><h1>ardzilla.cli.login module<a class="headerlink" href="#module-ardzilla.cli.login" title="Permalink to this headline">¶</a></h1>
-<p>CLI for <cite>ardzilla login</cite></p>
+  <div class="section" id="module-ardzilla.cli.auth">
+<span id="ardzilla-cli-auth-module"></span><h1>ardzilla.cli.auth module<a class="headerlink" href="#module-ardzilla.cli.auth" title="Permalink to this headline">¶</a></h1>
+<p>CLI for <cite>ardzilla auth</cite></p>
 <dl class="data">
-<dt id="ardzilla.cli.login.DOCS_AUTH_GCS">
-<code class="sig-prename descclassname">ardzilla.cli.login.</code><code class="sig-name descname">DOCS_AUTH_GCS</code><em class="property"> = ''</em><a class="headerlink" href="#ardzilla.cli.login.DOCS_AUTH_GCS" title="Permalink to this definition">¶</a></dt>
+<dt id="ardzilla.cli.auth.DOCS_AUTH_GCS">
+<code class="sig-prename descclassname">ardzilla.cli.auth.</code><code class="sig-name descname">DOCS_AUTH_GCS</code><em class="property"> = ''</em><a class="headerlink" href="#ardzilla.cli.auth.DOCS_AUTH_GCS" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="data">
-<dt id="ardzilla.cli.login.DOCS_AUTH_GDRIVE">
-<code class="sig-prename descclassname">ardzilla.cli.login.</code><code class="sig-name descname">DOCS_AUTH_GDRIVE</code><em class="property"> = ''</em><a class="headerlink" href="#ardzilla.cli.login.DOCS_AUTH_GDRIVE" title="Permalink to this definition">¶</a></dt>
+<dt id="ardzilla.cli.auth.DOCS_AUTH_GDRIVE">
+<code class="sig-prename descclassname">ardzilla.cli.auth.</code><code class="sig-name descname">DOCS_AUTH_GDRIVE</code><em class="property"> = ''</em><a class="headerlink" href="#ardzilla.cli.auth.DOCS_AUTH_GDRIVE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="data">
-<dt id="ardzilla.cli.login.DOCS_AUTH_GEE">
-<code class="sig-prename descclassname">ardzilla.cli.login.</code><code class="sig-name descname">DOCS_AUTH_GEE</code><em class="property"> = 'https://developers.google.com/earth-engine/python_install_manual#setting-up-authentication-credentials'</em><a class="headerlink" href="#ardzilla.cli.login.DOCS_AUTH_GEE" title="Permalink to this definition">¶</a></dt>
+<dt id="ardzilla.cli.auth.DOCS_AUTH_GEE">
+<code class="sig-prename descclassname">ardzilla.cli.auth.</code><code class="sig-name descname">DOCS_AUTH_GEE</code><em class="property"> = 'https://developers.google.com/earth-engine/python_install_manual#setting-up-authentication-credentials'</em><a class="headerlink" href="#ardzilla.cli.auth.DOCS_AUTH_GEE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="data">
-<dt id="ardzilla.cli.login.DOCS_INSTALL_GEE">
-<code class="sig-prename descclassname">ardzilla.cli.login.</code><code class="sig-name descname">DOCS_INSTALL_GEE</code><em class="property"> = 'https://developers.google.com/earth-engine/python_install_manual'</em><a class="headerlink" href="#ardzilla.cli.login.DOCS_INSTALL_GEE" title="Permalink to this definition">¶</a></dt>
+<dt id="ardzilla.cli.auth.DOCS_INSTALL_GEE">
+<code class="sig-prename descclassname">ardzilla.cli.auth.</code><code class="sig-name descname">DOCS_INSTALL_GEE</code><em class="property"> = 'https://developers.google.com/earth-engine/python_install_manual'</em><a class="headerlink" href="#ardzilla.cli.auth.DOCS_INSTALL_GEE" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="data">
-<dt id="ardzilla.cli.login.group_login">
-<code class="sig-prename descclassname">ardzilla.cli.login.</code><code class="sig-name descname">group_login</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><em class="property"> = &lt;click.core.Group object&gt;</em><a class="headerlink" href="#ardzilla.cli.login.group_login" title="Permalink to this definition">¶</a></dt>
+<dt id="ardzilla.cli.auth.auth_gcs">
+<code class="sig-prename descclassname">ardzilla.cli.auth.</code><code class="sig-name descname">auth_gcs</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><em class="property"> = &lt;click.core.Command object&gt;</em><a class="headerlink" href="#ardzilla.cli.auth.auth_gcs" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="data">
-<dt id="ardzilla.cli.login.logger">
-<code class="sig-prename descclassname">ardzilla.cli.login.</code><code class="sig-name descname">logger</code><em class="property"> = &lt;Logger ardzilla.cli.login (WARNING)&gt;</em><a class="headerlink" href="#ardzilla.cli.login.logger" title="Permalink to this definition">¶</a></dt>
+<dt id="ardzilla.cli.auth.auth_gdrive">
+<code class="sig-prename descclassname">ardzilla.cli.auth.</code><code class="sig-name descname">auth_gdrive</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><em class="property"> = &lt;click.core.Command object&gt;</em><a class="headerlink" href="#ardzilla.cli.auth.auth_gdrive" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="data">
-<dt id="ardzilla.cli.login.login_gcs">
-<code class="sig-prename descclassname">ardzilla.cli.login.</code><code class="sig-name descname">login_gcs</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><em class="property"> = &lt;click.core.Command object&gt;</em><a class="headerlink" href="#ardzilla.cli.login.login_gcs" title="Permalink to this definition">¶</a></dt>
+<dt id="ardzilla.cli.auth.auth_gee">
+<code class="sig-prename descclassname">ardzilla.cli.auth.</code><code class="sig-name descname">auth_gee</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><em class="property"> = &lt;click.core.Command object&gt;</em><a class="headerlink" href="#ardzilla.cli.auth.auth_gee" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="data">
-<dt id="ardzilla.cli.login.login_gdrive">
-<code class="sig-prename descclassname">ardzilla.cli.login.</code><code class="sig-name descname">login_gdrive</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><em class="property"> = &lt;click.core.Command object&gt;</em><a class="headerlink" href="#ardzilla.cli.login.login_gdrive" title="Permalink to this definition">¶</a></dt>
+<dt id="ardzilla.cli.auth.clear">
+<code class="sig-prename descclassname">ardzilla.cli.auth.</code><code class="sig-name descname">clear</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><em class="property"> = &lt;click.core.Command object&gt;</em><a class="headerlink" href="#ardzilla.cli.auth.clear" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="data">
-<dt id="ardzilla.cli.login.login_gee">
-<code class="sig-prename descclassname">ardzilla.cli.login.</code><code class="sig-name descname">login_gee</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><em class="property"> = &lt;click.core.Command object&gt;</em><a class="headerlink" href="#ardzilla.cli.login.login_gee" title="Permalink to this definition">¶</a></dt>
+<dt id="ardzilla.cli.auth.group_auth">
+<code class="sig-prename descclassname">ardzilla.cli.auth.</code><code class="sig-name descname">group_auth</code><span class="sig-paren">(</span><em class="sig-param">*args</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><em class="property"> = &lt;click.core.Group object&gt;</em><a class="headerlink" href="#ardzilla.cli.auth.group_auth" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="data">
+<dt id="ardzilla.cli.auth.logger">
+<code class="sig-prename descclassname">ardzilla.cli.auth.</code><code class="sig-name descname">logger</code><em class="property"> = &lt;Logger ardzilla.cli.auth (WARNING)&gt;</em><a class="headerlink" href="#ardzilla.cli.auth.logger" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </div>

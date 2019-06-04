@@ -6,10 +6,10 @@ Submodules
 
 .. toctree::
 
+   ardzilla.cli.auth
    ardzilla.cli.config
    ardzilla.cli.console
    ardzilla.cli.convert
-   ardzilla.cli.login
    ardzilla.cli.main
    ardzilla.cli.options
    ardzilla.cli.status
