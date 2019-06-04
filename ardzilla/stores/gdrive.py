@@ -258,17 +258,16 @@ class GDriveStore(object):
 
         for i, result in enumerate(query_):
             id_, name = result['id'], result['name']
-            logger.debug(f'Downloading item {i}/{len(query_)} - "{name}"')
 
-            try:
-                dst = download_file_id(self.service, id_, name, dest,
-                                       overwrite=overwrite)
-            except FileExistsError as e:
-                # TODO: send exception so it can be handled
-                yield Path(dest).joinpath(name)
+            dest_ = Path(dest).joinpath(name)
+            msg = f'{i}/{len(query_)} - "{name}"'
+            if not dest_.exists() or overwrite:
+                logger.debug(f'Downloading {msg}')
+                dst = download_file_id(self.service, id_, dest_)
             else:
-                yield dst
+                logger.debug(f'Already downloaded {msg}')
 
+            yield dest_
 
     def retrieve_image(self, dest, name, path=None, overwrite=True):
         """ Retrieve (pieces of) an image from the Google Drive
@@ -424,7 +423,7 @@ def upload_json(service, data, name, path=None, check=False,
     return meta['id']
 
 
-def download_file_id(service, file_id, name, dest, overwrite=True):
+def download_file_id(service, file_id, dest):
     """ Download a file to a destination directory using its ID
 
     Parameters
@@ -433,10 +432,8 @@ def download_file_id(service, file_id, name, dest, overwrite=True):
         Google API resource for GDrive v3
     file_id : str
         ID of file on Google Drive
-    name : str
-        Name of file. Only used for destination filename.
-    dest : str
-        Local directory to download file into
+    dest : str or pathlib.Path
+        Destination filename
 
     Returns
     -------
@@ -452,39 +449,32 @@ def download_file_id(service, file_id, name, dest, overwrite=True):
     """
     # Create destination if needed
     dest = Path(dest)
-    if not dest.exists():
-        dest.mkdir(parents=True, exist_ok=True)
-    assert dest.is_dir()
-
-    # Check overwrite
-    dest_ = dest.joinpath(name)
-    if not overwrite and dest_.exists():
-        raise FileExistsError(f'Not overwriting destination file {dest_}')
+    if not dest.parent.exists():
+        dest.parent.mkdir(parents=True, exist_ok=True)
 
     # Download...
     request = service.files().get_media(fileId=file_id)
 
-    with renamed_upon_completion(dest_) as tmp:
+    with renamed_upon_completion(dest) as tmp:
         with open(str(tmp), 'wb') as dst:
             downloader = MediaIoBaseDownload(dst, request)
             done = False
+            # TODO: would be nice to have _some_ logging indicator of dl speed
             while done is False:
                 status, done = downloader.next_chunk()
 
-    return dest_
+    return dest
 
 
-def download_file(service, name, dest, parent_id=None, overwrite=True):
+def download_file(service, name, dest, parent_id=None):
     """ Download a file to a destination directory
 
     Parameters
     ----------
     service : googleapiclient.discovery.Resource
         Google API resource for GDrive v3
-    name : str
-        Name of file/folder
     dest : str
-        Local directory to download file into
+        Name of destination
     parent_id : str, optional
         Parent ID of folder containing file (to narrow search)
 
@@ -505,7 +495,7 @@ def download_file(service, name, dest, parent_id=None, overwrite=True):
     if not name_id:
         raise ValueError(f'File "{name}" not found on Google Drive')
 
-    return download_file_id(service, name_id, name, dest, overwrite=overwrite)
+    return download_file_id(service, name_id, dest)
 
 
 def _read_json_id(service, file_id):
@@ -679,6 +669,7 @@ def exists(service, name, parent_id=None, directory=False, trashed=False,
         return ''
 
 
+# TODO: memoize
 def list_objects(service, parent_id=None, name=None, q=None,
                  appProperties=False):
     """ List files/folders on Google Drive
