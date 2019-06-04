@@ -41,13 +41,13 @@ class Config(object):
         """
         with open(filename) as f:
             config = yaml.safe_load(f)
-        return cls(config)
+        return cls(config, schema=schema)
 
     @classmethod
     def from_template(cls, schema=None):
         """ Load from the included YAML configuration file template
         """
-        return cls.from_yaml(TEMPLATE_FILE)
+        return cls.from_yaml(TEMPLATE_FILE, schema=schema)
 
     def to_yaml(self, dest=None):
         """ Write to a YAML (file, if ``dest`` is provided)
