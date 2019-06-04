@@ -359,8 +359,9 @@ def get_appProperties():
 def query_appProperties():
     """ Build a query component for ``appProperties``
     """
-    return ('appProperties has {key="application" and value=%s}'
-            % get_appProperties()['application'])
+    q = ('appProperties has {key="application" and value="%s"}'
+         % get_appProperties()['application'])
+    return q
 
 
 def upload_json(service, data, name, path=None, check=False,
@@ -713,7 +714,7 @@ def list_objects(service, parent_id=None, name=None, q=None,
     if name:
         query.append(f"name contains '{name}'")
     if appProperties:
-        q.append(query_appProperties())
+        query.append(query_appProperties())
 
     # Combine
     query_ = ' and '.join(query)
@@ -784,7 +785,10 @@ def _path_to_parent_id(service, path):
     if path is None:
         return None
     else:
-        parent_id = exists(service, path, directory=True)
+        # Never search using appProperties
+        # (e.g., in case GEE created the export folder)
+        parent_id = exists(service, path, directory=True,
+                           appProperties=False)
         if not parent_id:
             raise ValueError(f'Cannot find prefix path provided "{path}" '
                              'on Google Drive')
