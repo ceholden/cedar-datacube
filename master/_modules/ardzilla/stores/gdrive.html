@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.stores.gdrive &mdash; ardzilla 0+untagged.50.gd61b51c documentation</title>
+  <title>ardzilla.stores.gdrive &mdash; ardzilla 0+untagged.50.g79f0b97 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.gd61b51c
+                0+untagged.50.g79f0b97
               </div>
             
           
@@ -177,6 +177,7 @@
 
 <span class="kn">from</span> <span class="nn">apiclient.http</span> <span class="k">import</span> <span class="n">MediaIoBaseDownload</span>
 <span class="kn">from</span> <span class="nn">google.auth.transport.requests</span> <span class="k">import</span> <span class="n">Request</span>
+<span class="kn">from</span> <span class="nn">google.api_core</span> <span class="k">import</span> <span class="n">retry</span>
 <span class="kn">from</span> <span class="nn">google.oauth2.credentials</span> <span class="k">import</span> <span class="n">Credentials</span>
 <span class="kn">from</span> <span class="nn">googleapiclient.discovery</span> <span class="k">import</span> <span class="n">Resource</span><span class="p">,</span> <span class="n">build</span>
 <span class="kn">from</span> <span class="nn">google_auth_oauthlib.flow</span> <span class="k">import</span> <span class="n">InstalledAppFlow</span>
@@ -423,17 +424,16 @@
 
         <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">result</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">query_</span><span class="p">):</span>
             <span class="n">id_</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">],</span> <span class="n">result</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Downloading item </span><span class="si">{i}</span><span class="s1">/{len(query_)} - &quot;</span><span class="si">{name}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
 
-            <span class="k">try</span><span class="p">:</span>
-                <span class="n">dst</span> <span class="o">=</span> <span class="n">download_file_id</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">service</span><span class="p">,</span> <span class="n">id_</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">dest</span><span class="p">,</span>
-                                       <span class="n">overwrite</span><span class="o">=</span><span class="n">overwrite</span><span class="p">)</span>
-            <span class="k">except</span> <span class="ne">FileExistsError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-                <span class="c1"># TODO: send exception so it can be handled</span>
-                <span class="k">yield</span> <span class="n">Path</span><span class="p">(</span><span class="n">dest</span><span class="p">)</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+            <span class="n">dest_</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">dest</span><span class="p">)</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="n">f</span><span class="s1">&#39;</span><span class="si">{i}</span><span class="s1">/{len(query_)} - &quot;</span><span class="si">{name}</span><span class="s1">&quot;&#39;</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">dest_</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span> <span class="ow">or</span> <span class="n">overwrite</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Downloading </span><span class="si">{msg}</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="n">dst</span> <span class="o">=</span> <span class="n">download_file_id</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">service</span><span class="p">,</span> <span class="n">id_</span><span class="p">,</span> <span class="n">dest_</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">yield</span> <span class="n">dst</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Already downloaded </span><span class="si">{msg}</span><span class="s1">&#39;</span><span class="p">)</span>
 
+            <span class="k">yield</span> <span class="n">dest_</span>
 
 <div class="viewcode-block" id="GDriveStore.retrieve_image"><a class="viewcode-back" href="../../../ardzilla/ardzilla.stores.gdrive.html#ardzilla.stores.gdrive.GDriveStore.retrieve_image">[docs]</a>    <span class="k">def</span> <span class="nf">retrieve_image</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dest</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Retrieve (pieces of) an image from the Google Drive</span>
@@ -589,7 +589,8 @@
     <span class="k">return</span> <span class="n">meta</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span></div>
 
 
-<div class="viewcode-block" id="download_file_id"><a class="viewcode-back" href="../../../ardzilla/ardzilla.stores.gdrive.html#ardzilla.stores.gdrive.download_file_id">[docs]</a><span class="k">def</span> <span class="nf">download_file_id</span><span class="p">(</span><span class="n">service</span><span class="p">,</span> <span class="n">file_id</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">dest</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="download_file_id"><a class="viewcode-back" href="../../../ardzilla/ardzilla.stores.gdrive.html#ardzilla.stores.gdrive.download_file_id">[docs]</a><span class="nd">@retry</span><span class="o">.</span><span class="n">Retry</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">download_file_id</span><span class="p">(</span><span class="n">service</span><span class="p">,</span> <span class="n">file_id</span><span class="p">,</span> <span class="n">dest</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Download a file to a destination directory using its ID</span>
 
 <span class="sd">    Parameters</span>
@@ -598,10 +599,8 @@
 <span class="sd">        Google API resource for GDrive v3</span>
 <span class="sd">    file_id : str</span>
 <span class="sd">        ID of file on Google Drive</span>
-<span class="sd">    name : str</span>
-<span class="sd">        Name of file. Only used for destination filename.</span>
-<span class="sd">    dest : str</span>
-<span class="sd">        Local directory to download file into</span>
+<span class="sd">    dest : str or pathlib.Path</span>
+<span class="sd">        Destination filename</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -617,39 +616,32 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Create destination if needed</span>
     <span class="n">dest</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">dest</span><span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">dest</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
-        <span class="n">dest</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="k">assert</span> <span class="n">dest</span><span class="o">.</span><span class="n">is_dir</span><span class="p">()</span>
-
-    <span class="c1"># Check overwrite</span>
-    <span class="n">dest_</span> <span class="o">=</span> <span class="n">dest</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">overwrite</span> <span class="ow">and</span> <span class="n">dest_</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
-        <span class="k">raise</span> <span class="ne">FileExistsError</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Not overwriting destination file </span><span class="si">{dest_}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">dest</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+        <span class="n">dest</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="c1"># Download...</span>
     <span class="n">request</span> <span class="o">=</span> <span class="n">service</span><span class="o">.</span><span class="n">files</span><span class="p">()</span><span class="o">.</span><span class="n">get_media</span><span class="p">(</span><span class="n">fileId</span><span class="o">=</span><span class="n">file_id</span><span class="p">)</span>
 
-    <span class="k">with</span> <span class="n">renamed_upon_completion</span><span class="p">(</span><span class="n">dest_</span><span class="p">)</span> <span class="k">as</span> <span class="n">tmp</span><span class="p">:</span>
+    <span class="k">with</span> <span class="n">renamed_upon_completion</span><span class="p">(</span><span class="n">dest</span><span class="p">)</span> <span class="k">as</span> <span class="n">tmp</span><span class="p">:</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">tmp</span><span class="p">),</span> <span class="s1">&#39;wb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">dst</span><span class="p">:</span>
             <span class="n">downloader</span> <span class="o">=</span> <span class="n">MediaIoBaseDownload</span><span class="p">(</span><span class="n">dst</span><span class="p">,</span> <span class="n">request</span><span class="p">)</span>
             <span class="n">done</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="c1"># TODO: would be nice to have _some_ logging indicator of dl speed</span>
             <span class="k">while</span> <span class="n">done</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
                 <span class="n">status</span><span class="p">,</span> <span class="n">done</span> <span class="o">=</span> <span class="n">downloader</span><span class="o">.</span><span class="n">next_chunk</span><span class="p">()</span>
 
-    <span class="k">return</span> <span class="n">dest_</span></div>
+    <span class="k">return</span> <span class="n">dest</span></div>
 
 
-<div class="viewcode-block" id="download_file"><a class="viewcode-back" href="../../../ardzilla/ardzilla.stores.gdrive.html#ardzilla.stores.gdrive.download_file">[docs]</a><span class="k">def</span> <span class="nf">download_file</span><span class="p">(</span><span class="n">service</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">dest</span><span class="p">,</span> <span class="n">parent_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+<div class="viewcode-block" id="download_file"><a class="viewcode-back" href="../../../ardzilla/ardzilla.stores.gdrive.html#ardzilla.stores.gdrive.download_file">[docs]</a><span class="k">def</span> <span class="nf">download_file</span><span class="p">(</span><span class="n">service</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">dest</span><span class="p">,</span> <span class="n">parent_id</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Download a file to a destination directory</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
 <span class="sd">    service : googleapiclient.discovery.Resource</span>
 <span class="sd">        Google API resource for GDrive v3</span>
-<span class="sd">    name : str</span>
-<span class="sd">        Name of file/folder</span>
 <span class="sd">    dest : str</span>
-<span class="sd">        Local directory to download file into</span>
+<span class="sd">        Name of destination</span>
 <span class="sd">    parent_id : str, optional</span>
 <span class="sd">        Parent ID of folder containing file (to narrow search)</span>
 
@@ -670,9 +662,10 @@
     <span class="k">if</span> <span class="ow">not</span> <span class="n">name_id</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;File &quot;</span><span class="si">{name}</span><span class="s1">&quot; not found on Google Drive&#39;</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">download_file_id</span><span class="p">(</span><span class="n">service</span><span class="p">,</span> <span class="n">name_id</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">dest</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="n">overwrite</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">download_file_id</span><span class="p">(</span><span class="n">service</span><span class="p">,</span> <span class="n">name_id</span><span class="p">,</span> <span class="n">dest</span><span class="p">)</span></div>
 
 
+<span class="nd">@retry</span><span class="o">.</span><span class="n">Retry</span><span class="p">()</span>
 <span class="k">def</span> <span class="nf">_read_json_id</span><span class="p">(</span><span class="n">service</span><span class="p">,</span> <span class="n">file_id</span><span class="p">):</span>
     <span class="n">request</span> <span class="o">=</span> <span class="n">service</span><span class="o">.</span><span class="n">files</span><span class="p">()</span><span class="o">.</span><span class="n">get_media</span><span class="p">(</span><span class="n">fileId</span><span class="o">=</span><span class="n">file_id</span><span class="p">)</span>
     <span class="k">with</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">()</span> <span class="k">as</span> <span class="n">fh</span><span class="p">:</span>
@@ -739,7 +732,8 @@
         <span class="k">return</span> <span class="n">mkdir_p</span><span class="p">(</span><span class="n">service</span><span class="p">,</span> <span class="n">dest_</span><span class="p">,</span> <span class="n">parent_id</span><span class="o">=</span><span class="n">name_id</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="mkdir"><a class="viewcode-back" href="../../../ardzilla/ardzilla.stores.gdrive.html#ardzilla.stores.gdrive.mkdir">[docs]</a><span class="k">def</span> <span class="nf">mkdir</span><span class="p">(</span><span class="n">service</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">parent_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="mkdir"><a class="viewcode-back" href="../../../ardzilla/ardzilla.stores.gdrive.html#ardzilla.stores.gdrive.mkdir">[docs]</a><span class="nd">@retry</span><span class="o">.</span><span class="n">Retry</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">mkdir</span><span class="p">(</span><span class="n">service</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">parent_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Make a directory on GDrive</span>
 
 <span class="sd">    Parameters</span>
@@ -796,7 +790,8 @@
     <span class="k">return</span> <span class="n">inner</span>
 
 
-<div class="viewcode-block" id="exists"><a class="viewcode-back" href="../../../ardzilla/ardzilla.stores.gdrive.html#ardzilla.stores.gdrive.exists">[docs]</a><span class="nd">@_memoize_exists</span>
+<div class="viewcode-block" id="exists"><a class="viewcode-back" href="../../../ardzilla/ardzilla.stores.gdrive.html#ardzilla.stores.gdrive.exists">[docs]</a><span class="nd">@retry</span><span class="o">.</span><span class="n">Retry</span><span class="p">()</span>
+<span class="nd">@_memoize_exists</span>
 <span class="k">def</span> <span class="nf">exists</span><span class="p">(</span><span class="n">service</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">parent_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">directory</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">trashed</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
            <span class="n">appProperties</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Check if file/folder exists</span>
@@ -844,6 +839,7 @@
         <span class="k">return</span> <span class="s1">&#39;&#39;</span></div>
 
 
+<span class="c1"># TODO: memoize</span>
 <div class="viewcode-block" id="list_objects"><a class="viewcode-back" href="../../../ardzilla/ardzilla.stores.gdrive.html#ardzilla.stores.gdrive.list_objects">[docs]</a><span class="k">def</span> <span class="nf">list_objects</span><span class="p">(</span><span class="n">service</span><span class="p">,</span> <span class="n">parent_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">appProperties</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; List files/folders on Google Drive</span>
