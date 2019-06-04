@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.tracking &mdash; ardzilla 0+untagged.50.g79f0b97 documentation</title>
+  <title>ardzilla.tracking &mdash; ardzilla 0+untagged.50.gaaf40fc documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.g79f0b97
+                0+untagged.50.gaaf40fc
               </div>
             
           
@@ -372,7 +372,6 @@
 <span class="sd">        tuple[str, list[str]]</span>
 <span class="sd">            Key value pairs mapping GEE task IDs to the filenames of</span>
 <span class="sd">            downloaded data. Wrap it in a ``dict`` to make it not lazy</span>
-
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Downloading for {len(tracking_info[&quot;tasks&quot;])} tasks&#39;</span><span class="p">)</span>
         <span class="n">iter_download</span> <span class="o">=</span> <span class="n">download_tracked</span><span class="p">(</span><span class="n">tracking_info</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">store</span><span class="p">,</span> <span class="n">dest</span><span class="p">,</span>

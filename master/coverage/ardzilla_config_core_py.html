@@ -256,13 +256,13 @@
 <p id="t41" class="pln"><span class="str">        """</span><span class="strut">&nbsp;</span></p>
 <p id="t42" class="stm mis">        <span class="key">with</span> <span class="nam">open</span><span class="op">(</span><span class="nam">filename</span><span class="op">)</span> <span class="key">as</span> <span class="nam">f</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t43" class="stm mis">            <span class="nam">config</span> <span class="op">=</span> <span class="nam">yaml</span><span class="op">.</span><span class="nam">safe_load</span><span class="op">(</span><span class="nam">f</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
-<p id="t44" class="stm mis">        <span class="key">return</span> <span class="nam">cls</span><span class="op">(</span><span class="nam">config</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t44" class="stm mis">        <span class="key">return</span> <span class="nam">cls</span><span class="op">(</span><span class="nam">config</span><span class="op">,</span> <span class="nam">schema</span><span class="op">=</span><span class="nam">schema</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t45" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t46" class="stm mis">    <span class="op">@</span><span class="nam">classmethod</span><span class="strut">&nbsp;</span></p>
 <p id="t47" class="stm mis">    <span class="key">def</span> <span class="nam">from_template</span><span class="op">(</span><span class="nam">cls</span><span class="op">,</span> <span class="nam">schema</span><span class="op">=</span><span class="key">None</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t48" class="pln">        <span class="str">""" Load from the included YAML configuration file template</span><span class="strut">&nbsp;</span></p>
 <p id="t49" class="pln"><span class="str">        """</span><span class="strut">&nbsp;</span></p>
-<p id="t50" class="stm mis">        <span class="key">return</span> <span class="nam">cls</span><span class="op">.</span><span class="nam">from_yaml</span><span class="op">(</span><span class="nam">TEMPLATE_FILE</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t50" class="stm mis">        <span class="key">return</span> <span class="nam">cls</span><span class="op">.</span><span class="nam">from_yaml</span><span class="op">(</span><span class="nam">TEMPLATE_FILE</span><span class="op">,</span> <span class="nam">schema</span><span class="op">=</span><span class="nam">schema</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t51" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t52" class="stm mis">    <span class="key">def</span> <span class="nam">to_yaml</span><span class="op">(</span><span class="nam">self</span><span class="op">,</span> <span class="nam">dest</span><span class="op">=</span><span class="key">None</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t53" class="pln">        <span class="str">""" Write to a YAML (file, if ``dest`` is provided)</span><span class="strut">&nbsp;</span></p>
@@ -366,7 +366,7 @@
     <div class="content">
         <p>
             <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.io">coverage.py v4.5.3</a>,
-            created at 2019-06-04 19:38
+            created at 2019-06-04 20:31
         </p>
     </div>
 </div>
