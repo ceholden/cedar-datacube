@@ -43,6 +43,7 @@ ENTRY_POINTS = {
     'ardzilla.cli': [
         'clean=ardzilla.cli.storage:clean',
         'config=ardzilla.cli.config:group_config',
+        'console=ardzilla.cli.console:console',
         'convert=ardzilla.cli.convert:convert',
         'download=ardzilla.cli.storage:download',
         'login=ardzilla.cli.login:group_login',
