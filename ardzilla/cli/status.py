@@ -61,25 +61,38 @@ def list(ctx):
         click.echo(tracked_info)
 
 
-@group_status.command('read', short_help='Read status of submission and print')
+@group_status.command('read', short_help='Read and print job tracking info')
 @options.arg_tracking_name
-@click.option('--update', is_flag=True,
-              help='Update tracking info before reading')
 @click.pass_context
-def read(ctx, tracking_name, update):
-    """ Print job submission information from tracking info
+def read(ctx, tracking_name):
+    """ Print job submission tracking info
     """
     logger = ctx.obj['logger']
     config = options.fetch_config(ctx)
     tracker = config.get_tracker()
 
-    if update:
-        info = tracker.update(tracking_name)
-    else:
-        info = tracker.read(tracking_name)
+    info = tracker.read(tracking_name)
+    _print_tracking_info(info, logger.level)
 
+
+@group_status.command('update', short_help='Update and print job tracking info')
+@options.arg_tracking_name
+@click.pass_context
+def update(ctx, tracking_name):
+    """ Update job submission tracking info
+    """
+    logger = ctx.obj['logger']
+    config = options.fetch_config(ctx)
+    tracker = config.get_tracker()
+
+    info = tracker.update(tracking_name)
+    _print_tracking_info(info, logger.level)
+
+
+# TODO: this should be part of tracking info class
+def _print_tracking_info(info, level=logging.INFO):
     # Display
     info_str = json.dumps(info, indent=2)
-    if logger.level <= logging.WARNING:
+    if level <= logging.WARNING:
         click.echo('Submission info: ')
     click.echo(info_str)
