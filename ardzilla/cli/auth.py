@@ -1,6 +1,7 @@
-""" CLI for `ardzilla login`
+""" CLI for `ardzilla auth`
 """
 import logging
+from pathlib import Path
 
 import click
 
@@ -16,15 +17,15 @@ DOCS_AUTH_GCS = ''
 DOCS_AUTH_GDRIVE = ''
 
 
-@click.group('login', help='Log in to GEE pre-ARD services')
+@click.group('auth', help='Log in to GEE pre-ARD services')
 @click.pass_context
-def group_login(ctx):
+def group_auth(ctx):
     pass
 
 
-@group_login.command('ee', help='Test logging into to GEE service')
+@group_auth.command('ee', help='Test logging into to GEE service')
 @click.pass_context
-def login_gee(ctx):
+def auth_gee(ctx):
     """ Test logging into the Google Earth Engine
 
     If it doesn't work, please make sure you've authenticated by running
@@ -51,14 +52,14 @@ def login_gee(ctx):
         click.echo(options.STYLE_INFO('Authenticated'))
 
 
-@group_login.command('gdrive', help='Login to use Google Drive')
+@group_auth.command('gdrive', help='Login to use Google Drive')
 @click.option('--client_secrets_file', help='OAuth2 "client secrets" file',
               type=click.Path(dir_okay=False, resolve_path=True, exists=True))
 @click.option('--credentials_file', help='OAuth2 credentials',
               type=click.Path(dir_okay=False, resolve_path=True))
 @options.opt_browser
 @click.pass_context
-def login_gdrive(ctx, client_secrets_file, credentials_file, browser):
+def auth_gdrive(ctx, client_secrets_file, credentials_file, browser):
     """ Login to the Google Drive API service using OAuth2 credentials
 
     Useful for:
@@ -80,21 +81,71 @@ def login_gdrive(ctx, client_secrets_file, credentials_file, browser):
             credentials_file, 'credentials_file', cfg)
 
     # Create/refresh credentials
-    creds = gdrive.get_credentials(client_secrets_file=client_secrets_file,
-                                   credentials_file=credentials_file,
-                                   no_browser=not browser)
+    creds, creds_file = gdrive.get_credentials(
+        client_secrets_file=client_secrets_file,
+        credentials_file=credentials_file,
+        no_browser=not browser)
 
     # Check we can build a service
     service = gdrive.build_gdrive_service(creds)
-    click.echo(options.STYLE_INFO('Logged in'))
+    click.echo(f'Authenticated using credentials file {creds_file}')
 
 
-@group_login.command('gcs', help='Login to use Google Cloud Storage')
+@group_auth.command('gcs', help='Login to use Google Cloud Storage')
 @click.pass_context
-def login_gcs(ctx):
+def auth_gcs(ctx):
     # TODO: try to build gcs service
     from ardzilla.stores import gcs
     raise NotImplementedError("TODO")
+
+
+@group_auth.command('clear', help='Clear credentials')
+@click.option('--yes', is_flag=True, help='Assume YES to deleting files')
+@click.pass_context
+def clear(ctx, yes):
+    """ Delete credentials files
+    """
+    from ardzilla.config import Config
+    config = options.fetch_config(ctx, False)
+
+    to_clear = []
+
+    config_gdrive = config.config.get('gdrive', {}) if config else {}
+    to_clear.extend(_get_gdrive_creds(config_gdrive))
+
+    # TODO: get GCS cred files
+    config_gcs = config.config.get('gcs', {}) if config else {}
+
+    removed = []
+    for cred_file in to_clear:
+        if cred_file is not None:
+            cred_file = Path(cred_file)
+            msg = f'Do you want to delete credential file "{str(cred_file)}"?'
+            if cred_file.exists() and (yes or click.confirm(msg)):
+                try:
+                    cred_file.unlink()
+                except FileNotFoundError:  # race condition
+                    pass
+                else:
+                    removed.append(cred_file)
+    if removed:
+        for cred_file in removed:
+            click.echo(f'Removed {cred_file}')
+    else:
+        click.echo('Did not delete any credential files')
+
+
+def _get_gdrive_creds(config):
+    # Remove Google Drive credentials
+    try:
+        from ardzilla.stores import gdrive
+    except ImportError:
+        return (None, None)
+
+    secrets = config.get('client_secrets_file', None)
+    creds = config.get('credentials_file', None)
+
+    return gdrive.find_credentials(secrets, creds)
 
 
 def _override_from_cfg(value, key, cfg):

@@ -77,6 +77,8 @@ def get_credentials(client_secrets_file=None, credentials_file=None,
     -------
     credentials : google.oauth2.credentials.Credentials
         User credentials, including access token, for using the application.
+    credentials_file : str
+        File storing user credentials
     """
     # Locate authentication files, checking default places
     client_secrets_file_, credentials_file_ = find_credentials(
@@ -117,7 +119,7 @@ def get_credentials(client_secrets_file=None, credentials_file=None,
         logger.debug(f'Saving Google API credentials to {credentials_file_}')
         save_credentials(creds, credentials_file_)
 
-    return creds
+    return creds, credentials_file_
 
 
 class GDriveStore(object):
@@ -150,8 +152,9 @@ class GDriveStore(object):
         export_image_kwds : dict, optional
             Additional keyword arguments to pass onto ``toDrive``
         """
-        creds = get_credentials(client_secrets_file=client_secrets_file,
-                                credentials_file=credentials_file)
+        creds, creds_file = get_credentials(
+            client_secrets_file=client_secrets_file,
+            credentials_file=credentials_file)
         gdrive = build_gdrive_service(credentials=creds)
         return cls(gdrive, export_image_kwds=export_image_kwds)
 
