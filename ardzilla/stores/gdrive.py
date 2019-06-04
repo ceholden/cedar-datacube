@@ -12,6 +12,7 @@ from urllib.error import HTTPError
 
 from apiclient.http import MediaIoBaseDownload
 from google.auth.transport.requests import Request
+from google.api_core import retry
 from google.oauth2.credentials import Credentials
 from googleapiclient.discovery import Resource, build
 from google_auth_oauthlib.flow import InstalledAppFlow
@@ -423,6 +424,7 @@ def upload_json(service, data, name, path=None, check=False,
     return meta['id']
 
 
+@retry.Retry()
 def download_file_id(service, file_id, dest):
     """ Download a file to a destination directory using its ID
 
@@ -498,6 +500,7 @@ def download_file(service, name, dest, parent_id=None):
     return download_file_id(service, name_id, dest)
 
 
+@retry.Retry()
 def _read_json_id(service, file_id):
     request = service.files().get_media(fileId=file_id)
     with io.BytesIO() as fh:
@@ -564,6 +567,7 @@ def mkdir_p(service, dest, parent_id=None):
         return mkdir_p(service, dest_, parent_id=name_id)
 
 
+@retry.Retry()
 def mkdir(service, name, parent_id=None, check=False):
     """ Make a directory on GDrive
 
@@ -621,6 +625,7 @@ def _memoize_exists(func):
     return inner
 
 
+@retry.Retry()
 @_memoize_exists
 def exists(service, name, parent_id=None, directory=False, trashed=False,
            appProperties=False):
