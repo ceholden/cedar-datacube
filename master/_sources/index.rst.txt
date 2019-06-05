@@ -1,8 +1,8 @@
 .. _index:
 
-==========================================================
-reedc (__reed-see__) - Rapid Earth Engine Datacube Creator
-==========================================================
+========================================================
+reedc (*reed-see*) - Rapid Earth Engine Datacube Creator
+========================================================
 
 reedc is a library and application to help download and preprocess
 satellite data to be "analysis ready data" (ARD) "data cube" as quickly as
