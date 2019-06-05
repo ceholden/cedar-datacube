@@ -6,6 +6,7 @@ import json
 import logging
 import os
 from pathlib import Path
+import socket
 import urllib
 from urllib.parse import urlencode
 from urllib.error import HTTPError
@@ -461,7 +462,8 @@ def download_file_id(service, file_id, dest):
     # Download...
     request = service.files().get_media(fileId=file_id)
 
-    with renamed_upon_completion(dest) as tmp:
+    suffix = f'.tmp.{socket.gethostname()}{os.getpid()}'
+    with renamed_upon_completion(dest, suffix=suffix) as tmp:
         with open(str(tmp), 'wb') as dst:
             downloader = MediaIoBaseDownload(dst, request)
             done = False
@@ -847,7 +849,8 @@ def save_credentials(credentials, filename):
     filename = Path(filename)
     filename.parent.mkdir(exist_ok=True, parents=True)
 
-    with renamed_upon_completion(filename) as tmp:
+    suffix = f'.tmp.{socket.gethostname()}{os.getpid()}'
+    with renamed_upon_completion(filename, suffix=suffix) as tmp:
         with open(str(tmp), 'w') as dst:
             json.dump(creds_, dst, indent=2, sort_keys=False)
         utils.set_file_urw(tmp)
