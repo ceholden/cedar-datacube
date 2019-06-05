@@ -6,7 +6,7 @@ from setuptools import find_packages, setup
 import versioneer
 
 
-DISTNAME = 'ardzilla'
+DISTNAME = 'cedar-datacube'
 VERSION = versioneer.get_version()
 CMDCLASS = versioneer.get_cmdclass()
 LICENSE="BSD license",
@@ -14,7 +14,7 @@ LICENSE="BSD license",
 AUTHOR = "Chris Holden"
 AUTHOR_EMAIL = 'ceholden@gmail.com'
 
-URL = 'https://github.com/ceholden/ardzilla'
+URL = 'https://github.com/ceholden/cedar-datacube'
 DESCRIPTION = "Creator for Analysis Ready Data (ARD)"
 CLASSIFIERS = [
     'Development Status :: 2 - Pre-Alpha',
@@ -38,17 +38,17 @@ with open('CHANGELOG.rst') as f:
 
 ENTRY_POINTS = {
     'console_scripts': [
-        'ardzilla=ardzilla.cli.main:main'
+        'cedar=cedar.cli.main:main'
     ],
-    'ardzilla.cli': [
-        'auth=ardzilla.cli.auth:group_auth',
-        'clean=ardzilla.cli.storage:clean',
-        'config=ardzilla.cli.config:group_config',
-        'console=ardzilla.cli.console:console',
-        'convert=ardzilla.cli.convert:convert',
-        'download=ardzilla.cli.storage:download',
-        'status=ardzilla.cli.status:group_status',
-        'submit=ardzilla.cli.submit:submit',
+    'cedar.cli': [
+        'auth=cedar.cli.auth:group_auth',
+        'clean=cedar.cli.storage:clean',
+        'config=cedar.cli.config:group_config',
+        'console=cedar.cli.console:console',
+        'convert=cedar.cli.convert:convert',
+        'download=cedar.cli.storage:download',
+        'status=cedar.cli.status:group_status',
+        'submit=cedar.cli.submit:submit',
     ]
 }
 

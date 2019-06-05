@@ -1,4 +1,4 @@
-""" Default values for ardzilla
+""" Default values for cedar
 """
 import os
 
@@ -6,15 +6,15 @@ import os
 # =============================================================================
 # Configuration file defaults
 # str: Environment variable used for passing configuration file location
-ENVVAR_CONFIG_FILE = 'ARDZILLA_CONFIG_FILE'
+ENVVAR_CONFIG_FILE = 'CEDAR_CONFIG_FILE'
 
-# Sequence[str]: Paths to ARDzilla user configuration data
-ARDZILLA_ROOT_CONFIG = [
-    os.path.join(os.path.expanduser('~'), '.config', 'ardzilla'),
+# Sequence[str]: Paths to cedar user configuration data
+CEDAR_ROOT_CONFIG = [
+    os.path.join(os.path.expanduser('~'), '.config', 'cedar'),
     os.getcwd()
 ]
-if 'ARDZILLA_ROOT_CONFIG' in os.environ:
-    ARDZILLA_ROOT_CONFIG.insert(0, os.environment['ARDZILLA_ROOT_CONFIG'])
+if 'CEDAR_ROOT_CONFIG' in os.environ:
+    CEDAR_ROOT_CONFIG.insert(0, os.environment['CEDAR_ROOT_CONFIG'])
 
 
 # =============================================================================

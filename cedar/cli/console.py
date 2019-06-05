@@ -3,7 +3,7 @@
 import click
 
 
-@click.command('console', short_help='Enter ardzilla interactive console')
+@click.command('console', short_help='Enter cedar interactive console')
 @click.option('--ipython', is_flag=True, help='Use IPython console')
 @click.pass_context
 def console(ctx, ipython):
@@ -12,7 +12,7 @@ def console(ctx, ipython):
     from . import options
     config = options.fetch_config(ctx)
 
-    banner = 'ardzilla interactive console'
+    banner = 'cedar interactive console'
     local = {'config': config}
 
     if ipython:

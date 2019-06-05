@@ -1,4 +1,4 @@
-""" ARDzilla CLI options and defaults
+""" cedar CLI options and defaults
 """
 import logging
 import os
@@ -67,9 +67,9 @@ def fetch_config(ctx, fail_if_missing=True):
     elif fail_if_missing:
         ctx_, param = fetch_param(ctx, 'config_file')
         msg = ('Must specify configuration file. Pass it to the program as '
-               'an option to the main program (`ardzilla -C CONFIG_FILE ...`) '
+               'an option to the main program (`cedar -C CONFIG_FILE ...`) '
                'or using the environment variable '
-               '(`ARDZILLA_CONFIG_FILE=CONFIG_FILE ardzilla ...`)')
+               '(`CEDAR_CONFIG_FILE=CONFIG_FILE cedar ...`)')
         raise click.BadParameter(msg, ctx=ctx_, param=param)
     else:
         return None

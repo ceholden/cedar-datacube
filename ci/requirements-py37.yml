@@ -1,4 +1,4 @@
-name: ardzilla
+name: cedar
 channels:
   - conda-forge
   - defaults

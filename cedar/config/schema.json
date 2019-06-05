@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "ARDzilla configuration file",
+  "title": "cedar configuration file",
   "type": "object",
 
   "definitions": {
@@ -156,7 +156,7 @@
           "type": "string"
         },
         "credentials_file": {
-          "description": "Filename of user OAuth2 credentials for ARDzilla",
+          "description": "Filename of user OAuth2 credentials for cedar",
           "type": "string"
         },
         "export_image_kwds": {

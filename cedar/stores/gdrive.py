@@ -861,7 +861,7 @@ def find_credentials(client_secrets_file=None, credentials_file=None):
     """
     def _check(fname, exists=True):
         dname, bname = os.path.dirname(fname), os.path.basename(fname)
-        dirs_ = defaults.ARDZILLA_ROOT_CONFIG.copy()
+        dirs_ = defaults.CEDAR_ROOT_CONFIG.copy()
         if dname:
             dirs_.insert(0, dname)
         paths = [os.path.join(d, bname) for d in dirs_]

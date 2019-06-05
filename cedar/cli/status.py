@@ -25,7 +25,7 @@ def group_status(ctx):
 def tasks(ctx, list_tasks):
     """ Get info about Google Earth Engine tasks
     """
-    from ardzilla.tracking import get_ee_tasks
+    from cedar.tracking import get_ee_tasks
     tasks = get_ee_tasks()
 
     # Summarize

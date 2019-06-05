@@ -27,7 +27,7 @@ class GEEARDTracker(object):
     ----------
     tile_grid : stems.gis.grids.TileGrid
         Tile Grid to use for ARD
-    store : ardzilla.stores.Store
+    store : cedar.stores.Store
         A Store that can be used to store images & metadata
     ...
     filters : Sequence[dict or ee.Filter]
@@ -295,8 +295,8 @@ def download_tracked(tracking_info, store, dest, overwrite=False):
     ----------
     tracking_info : dict
         Tracking information
-    store : ardzilla.stores.Store
-        ARDzilla store class
+    store : cedar.stores.Store
+        cedar store class
     dest : str or pathlib.Path
         Destination download directory
     overwrite : bool, optional
@@ -341,8 +341,8 @@ def clean_tracked(tracking_info, store):
     ----------
     tracking_info : dict
         Tracking information
-    store : ardzilla.stores.gcs.GCSStore or ardzilla.stores.gdrive.GDriveStore
-        ARDzilla store class
+    store : cedar.stores.gcs.GCSStore or cedar.stores.gdrive.GDriveStore
+        cedar store class
 
     Yields
     ------

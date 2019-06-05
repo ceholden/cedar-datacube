@@ -54,7 +54,7 @@ def process_preard(metadata, images, chunks=None):
     # Attach attribute metadata
     order_collection = metadata['order']['collection']
     order_time = metadata['order']['submitted']
-    order_version = metadata['ardzilla']
+    order_version = metadata['cedar']
     order_start = metadata['order']['date_start']
     order_end = metadata['order']['date_end']
     dt_now = dt.datetime.today().strftime("%Y%m%dT%H%M%S")
@@ -64,8 +64,8 @@ def process_preard(metadata, images, chunks=None):
         'history': '\n'.join([
             (f'{order_time} - Ordered pre-ARD from GEE for collection '
              f'"{order_collection}" between {order_start}-{order_end} using '
-             f'`ardzilla={order_version}`'),
-            f'{dt_now} - Converted to ARD using `ardzilla={__version__}`'
+             f'`cedar={order_version}`'),
+             f'{dt_now} - Converted to ARD using `cedar={__version__}`'
         ]),
         'source': f'Google Earth Engine Collection "{order_collection}"',
         'images': json.dumps(metadata['images'])

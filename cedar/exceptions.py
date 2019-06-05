@@ -1,4 +1,4 @@
-""" ardzilla exceptions
+""" cedar exceptions
 """
 
 

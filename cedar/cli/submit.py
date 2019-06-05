@@ -58,7 +58,7 @@ def submit(ctx, image_collection, index, row, col,
                                  ctx=ctx, param=date_start_param)
 
     # Check that we know about the image collection
-    from ardzilla.sensors import CREATE_ARD_COLLECTION
+    from cedar.sensors import CREATE_ARD_COLLECTION
     for collection in image_collection:
         if collection not in CREATE_ARD_COLLECTION:
             raise KeyError(f'Unknown image collection "{collection}"')
@@ -91,7 +91,7 @@ def submit(ctx, image_collection, index, row, col,
 
 
 # def _check_imgcol(ctx, image_collection):
-#     from ardzilla.sensors import CREATE_ARD_COLLECTION
+#     from cedar.sensors import CREATE_ARD_COLLECTION
 #     for collection in image_collection:
 #         if collection not in CREATE_ARD_COLLECTION:
 #             _, imgcol_param = options.fetch_param(ctx, 'image_collection')

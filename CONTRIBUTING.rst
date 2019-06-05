@@ -13,7 +13,7 @@ Contributing feedback, bug reports, etc.
 ----------------------------------------
 
 The best way of giving feedback is the use of the `issue tracker on
-Github <https://github.com/ceholden/ardzilla/issues>`__
+Github <https://github.com/ceholden/cedar/issues>`__
 as this tracker is open and publicly visible, is relatively well formed, and
 integrates well as all of the development is done on Github. Emailing me is not
 an efficient way of making suggestions or reporting bugs because it limits
@@ -27,14 +27,14 @@ limited to:
 -  The full log, including the entire stack traceback, of the command or
    API reference that is causing the problem
 -  The configuration file used for your dataset and run parameters
--  The version of ``ardzilla``
+-  The version of ``cedar``
 
-   -  ``python -c 'import ardzilla; print(ardzilla.__version__)'``
+   -  ``python -c 'import cedar; print(cedar.__version__)'``
    -  If you are using a development build (i.e., if you cloned
       ``master`` and did not check out a tag), please include the SHA-1
       hash of the last commit
 
--  The version of dependencies used by ``ardzilla`` 
+-  The version of dependencies used by ``cedar``
 
    -  ``pip freeze``
 
@@ -57,7 +57,7 @@ Github's PR interface.
 Conventions
 ~~~~~~~~~~~
 
-The ``ardzilla`` project follows a few conventions when
+The ``cedar`` project follows a few conventions when
 writing code:
 
 1. Write your code to be compatible with Python 2.7 and 3.5+. The
@@ -89,8 +89,8 @@ Example
 
    ::
 
-       $ git clone git@github.com:YOUR_USERNAME/ardzilla.git
-       $ cd ardzilla/
+       $ git clone git@github.com:YOUR_USERNAME/cedar.git
+       $ cd cedar/
 
 3. Create a branch for your bug fix or feature addition. As a
    convention, it is useful to name this branch as a reference to the
@@ -112,7 +112,7 @@ Example
        $ git add -p your_modified_files
        $ git commit -m "This is a description of the changes made"
 
-   Push your code changes to your forked copy of ``ardzilla``:
+   Push your code changes to your forked copy of ``cedar``:
 
    ::
 
@@ -129,5 +129,5 @@ Try not to be an ass and cite scientific work when making contributions
 that relate to a published algorithm.
 
 
-.. _TravisCI: https://travis-ci.org/ceholden/ardzilla/
+.. _TravisCI: https://travis-ci.org/ceholden/cedar/
 .. _NumPy docstring: https://github.com/numpy/numpy/blob/master/doc/HOWTO_DOCUMENT.rst.txt

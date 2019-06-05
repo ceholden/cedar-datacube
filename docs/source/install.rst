@@ -26,7 +26,7 @@ Optional Dependencies
 Google Earth Engine (GEE)
 ~~~~~~~~~~~~~~~~~~~~~~~~~
 
-To enable any of the capabilities of ardzilla that relate to the Google Earth
+To enable any of the capabilities of cedar that relate to the Google Earth
 Engine, including downloading ARD from the GEE, you will need the following:
 
 - appmode
@@ -68,7 +68,7 @@ Documentation is built using Sphinx and requires:
 Instructions
 ------------
 
-ardzilla is a pure Python package, but it sits on top of a pile of dependencies
+cedar is a pure Python package, but it sits on top of a pile of dependencies
 that may be difficult to install. The easiest way to install all of these
 dependencies is using the conda_ tool.
 
@@ -78,28 +78,28 @@ the ``ci/`` directory (we use these for our continuous integration tests):
 
 .. code-block:: console
 
-   $ conda create -n ardzilla -f ci/requirements-py37.yml
+   $ conda create -n cedar -f ci/requirements-py37.yml
 
 
 With the conda environment created, you can activate it as follows:
 
 .. code-block:: console
 
-   $ conda activate ardzilla
+   $ conda activate cedar
 
-You should now be ready to install ardzilla.
+You should now be ready to install cedar.
 
 
 Stable Release
 ~~~~~~~~~~~~~~
 
-There are no stable releases of ardzilla yet on PyPI.
+There are no stable releases of cedar yet on PyPI.
 
 
 From Sources
 ~~~~~~~~~~~~
 
-The sources for ardzilla can be downloaded from the `Github repo`_. You can
+The sources for cedar can be downloaded from the `Github repo`_. You can
 either download the source from Github and install it using ``pip``, or use
 ``pip`` to install the source from Github directly.
 
@@ -108,20 +108,20 @@ You can either clone the public repository:
 
 .. code-block:: console
 
-    $ git clone git://github.com/ceholden/ardzilla
+    $ git clone git://github.com/ceholden/cedar
 
 Once you have a copy of the source, you can install it with:
 
 .. code-block:: console
 
-    $ cd ardzilla/
+    $ cd cedar/
     $ pip install -e .
 
 or
 
 .. code-block:: console
 
-    $ pip install -e ardzilla/
+    $ pip install -e cedar/
 
 
 The flag, ``-e``, is recommended to tell ``pip`` to make the installation
@@ -134,8 +134,8 @@ Alternatively, you can use ``pip`` to install it in one step,
 
 .. code-block:: console
 
-   $ pip install git+ssh://git@github.com/ceholden/ardzilla.git
+   $ pip install git+ssh://git@github.com/ceholden/cedar.git
 
 
 .. _conda: http://conda.io
-.. _Github repo: https://github.com/ceholden/ardzilla
+.. _Github repo: https://github.com/ceholden/cedar

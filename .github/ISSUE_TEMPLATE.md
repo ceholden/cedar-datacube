@@ -1,4 +1,4 @@
-* ardzilla version:
+* cedar version:
 * Python version:
 * Operating System:
 

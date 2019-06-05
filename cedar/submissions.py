@@ -6,7 +6,7 @@ import json
 
 import ee
 
-from . import __version__ as ardzilla_version
+from . import __version__ as cedar_version
 from . import defaults, sensors, utils, __version__
 from .exceptions import EmptyCollectionError
 
@@ -167,7 +167,7 @@ def _parse_date_freq(start, end, freq=None):
 
 def _submission_metadata(collection, date_start, date_end, freq):
     return {
-        'ardzilla': ardzilla_version,
+        'cedar': cedar_version,
         'order': {
             'submitted': dt.datetime.now().strftime('%Y-%m-%dT%H:%M:%S'),
             'collection': collection,

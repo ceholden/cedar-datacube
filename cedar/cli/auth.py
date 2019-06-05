@@ -1,4 +1,4 @@
-""" CLI for `ardzilla auth`
+""" CLI for `cedar auth`
 """
 import logging
 from pathlib import Path
@@ -68,8 +68,8 @@ def auth_gdrive(ctx, client_secrets_file, credentials_file, browser):
            (in your configuration file)
         2. Checking to make sure things are working
     """
-    from ardzilla.stores import gdrive
-    from ardzilla.config import Config
+    from cedar.stores import gdrive
+    from cedar.config import Config
 
     # CLI overrides info from config, if passed
     config = options.fetch_config(ctx, False)
@@ -95,7 +95,7 @@ def auth_gdrive(ctx, client_secrets_file, credentials_file, browser):
 @click.pass_context
 def auth_gcs(ctx):
     # TODO: try to build gcs service
-    from ardzilla.stores import gcs
+    from cedar.stores import gcs
     raise NotImplementedError("TODO")
 
 
@@ -105,7 +105,7 @@ def auth_gcs(ctx):
 def clear(ctx, yes):
     """ Delete credentials files
     """
-    from ardzilla.config import Config
+    from cedar.config import Config
     config = options.fetch_config(ctx, False)
 
     to_clear = []
@@ -138,7 +138,7 @@ def clear(ctx, yes):
 def _get_gdrive_creds(config):
     # Remove Google Drive credentials
     try:
-        from ardzilla.stores import gdrive
+        from cedar.stores import gdrive
     except ImportError:
         return (None, None)
 

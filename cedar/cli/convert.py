@@ -27,8 +27,8 @@ def convert(ctx, preard, dest, overwrite, scheduler, nprocs, nthreads):
     from jinja2 import Template
     from stems.utils import renamed_upon_completion
 
-    from ardzilla.preard import (ard_netcdf_encoding, find_preard,
-                                 process_preard, read_metadata)
+    from cedar.preard import (ard_netcdf_encoding, find_preard,
+                              process_preard, read_metadata)
 
     # Provide debug info for the scheduler
     logger = ctx.obj['logger']

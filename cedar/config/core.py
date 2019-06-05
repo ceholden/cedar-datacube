@@ -16,7 +16,7 @@ TEMPLATE_FILE = Path(__file__).parent.joinpath(TEMPLATE_FILENAME)
 
 
 class Config(object):
-    """ ARDzilla configuration file
+    """ cedar configuration file
     """
 
     SCHEMA = parse.get_default_schema()
@@ -129,7 +129,7 @@ class Config(object):
     def get_gcs_store(self):
         """ Return a GCSStore described by this config
         """
-        from ardzilla.stores.gcs import GCSStore
+        from cedar.stores.gcs import GCSStore
         cfg = self.config.get('gcs', {})
         store = GCS.from_credentials(**kwds)
         return store
@@ -137,7 +137,7 @@ class Config(object):
     def get_gdrive_store(self):
         """ Return a GDriveStore described by this config
         """
-        from ardzilla.stores.gdrive import GDriveStore
+        from cedar.stores.gdrive import GDriveStore
         cfg = self.config.get('gdrive', {})
         store = GDriveStore.from_credentials(**cfg)
         return store

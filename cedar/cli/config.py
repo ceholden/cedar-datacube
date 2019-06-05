@@ -1,4 +1,4 @@
-""" CLI tools for working with ARDzilla configuration files
+""" CLI tools for working with cedar configuration files
 """
 import json
 import logging
@@ -11,7 +11,7 @@ import click
 from . import options
 
 
-@click.group('config', help='Create or check ARDzilla configuration files')
+@click.group('config', help='Create or check cedar configuration files')
 @click.pass_context
 def group_config(ctx):
     pass
@@ -24,7 +24,7 @@ def group_config(ctx):
 def config_template(ctx, dest, comment):
     """ Generate a template configuration file
     """
-    from ardzilla.config import TEMPLATE_FILE
+    from cedar.config import TEMPLATE_FILE
 
     dest = Path(dest)
     dest.parent.mkdir(parents=True, exist_ok=True)

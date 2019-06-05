@@ -21,7 +21,7 @@ When adding new modules, update the API docs for the new code:
 .. code-block:: console
 
    cd docs/
-   sphinx-apidoc -f -e -o source/ardzilla ../ardzilla
+   sphinx-apidoc -f -e -o source/cedar ../cedar
 
 HTML
 ----
@@ -50,11 +50,11 @@ of how to run tests might be:
 
 .. code-block:: console
 
-   pytest -r ardzilla/ --cov=ardzilla/ --cov-report=term
+   pytest -r cedar/ --cov=cedar/ --cov-report=term
 
 
 This command will run the tests, measure the test coverage against the lines of
-code in the ardzilla package, and report the coverage summary statistics to
+code in the cedar package, and report the coverage summary statistics to
 the terminal.
 
 Continuous Integration

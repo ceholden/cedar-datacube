@@ -1,6 +1,6 @@
 [run]
 omit =
-    ardzilla/_version.py
+    cedar/_version.py
     *tests*
 
 [report]

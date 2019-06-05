@@ -42,8 +42,8 @@ def get_config():
     cfg.VCS = "git"
     cfg.style = "pep440"
     cfg.tag_prefix = "v"
-    cfg.parentdir_prefix = "ardzilla-"
-    cfg.versionfile_source = "ardzilla/_version.py"
+    cfg.parentdir_prefix = "cedar-"
+    cfg.versionfile_source = "cedar/_version.py"
     cfg.verbose = False
     return cfg
 
