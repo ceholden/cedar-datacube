@@ -261,10 +261,10 @@ class GDriveStore(object):
         query_ = [q for q in query if q['name'].endswith(ext)]
 
         for i, result in enumerate(query_):
-            id_, name = result['id'], result['name']
+            id_, result_name = result['id'], result['name']
+            msg = f'{i}/{len(query_)} - "{result_name}"'
 
-            dest_ = Path(dest).joinpath(name)
-            msg = f'{i}/{len(query_)} - "{name}"'
+            dest_ = Path(dest).joinpath(result_name)
             if not dest_.exists() or overwrite:
                 logger.debug(f'Downloading {msg}')
                 dst = download_file_id(self.service, id_, dest_)
