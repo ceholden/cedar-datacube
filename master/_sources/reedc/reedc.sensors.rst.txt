@@ -1,0 +1,18 @@
+reedc.sensors package
+=====================
+
+Submodules
+----------
+
+.. toctree::
+
+   reedc.sensors.common
+   reedc.sensors.landsat
+
+Module contents
+---------------
+
+.. automodule:: reedc.sensors
+   :members:
+   :undoc-members:
+   :show-inheritance:

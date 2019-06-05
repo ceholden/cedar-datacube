@@ -1,7 +1,0 @@
-ardzilla.cli.auth module
-========================
-
-.. automodule:: ardzilla.cli.auth
-   :members:
-   :undoc-members:
-   :show-inheritance:

@@ -1,0 +1,7 @@
+reedc.defaults module
+=====================
+
+.. automodule:: reedc.defaults
+   :members:
+   :undoc-members:
+   :show-inheritance:

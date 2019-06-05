@@ -1,0 +1,7 @@
+reedc.stores.gdrive module
+==========================
+
+.. automodule:: reedc.stores.gdrive
+   :members:
+   :undoc-members:
+   :show-inheritance:

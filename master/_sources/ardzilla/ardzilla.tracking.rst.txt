@@ -1,7 +1,0 @@
-ardzilla.tracking module
-========================
-
-.. automodule:: ardzilla.tracking
-   :members:
-   :undoc-members:
-   :show-inheritance:

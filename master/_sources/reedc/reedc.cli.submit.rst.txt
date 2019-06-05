@@ -1,0 +1,7 @@
+reedc.cli.submit module
+=======================
+
+.. automodule:: reedc.cli.submit
+   :members:
+   :undoc-members:
+   :show-inheritance:

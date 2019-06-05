@@ -1,7 +1,0 @@
-ardzilla.preard module
-======================
-
-.. automodule:: ardzilla.preard
-   :members:
-   :undoc-members:
-   :show-inheritance:

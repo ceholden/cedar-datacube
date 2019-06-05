@@ -1,0 +1,7 @@
+reedc.preard module
+===================
+
+.. automodule:: reedc.preard
+   :members:
+   :undoc-members:
+   :show-inheritance:

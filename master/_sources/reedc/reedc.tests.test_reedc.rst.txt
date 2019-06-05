@@ -1,0 +1,7 @@
+reedc.tests.test\_reedc module
+==============================
+
+.. automodule:: reedc.tests.test_reedc
+   :members:
+   :undoc-members:
+   :show-inheritance:

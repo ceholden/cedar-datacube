@@ -1,0 +1,7 @@
+reedc.config.core module
+========================
+
+.. automodule:: reedc.config.core
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,25 @@
+reedc.cli package
+=================
+
+Submodules
+----------
+
+.. toctree::
+
+   reedc.cli.auth
+   reedc.cli.config
+   reedc.cli.console
+   reedc.cli.convert
+   reedc.cli.main
+   reedc.cli.options
+   reedc.cli.status
+   reedc.cli.storage
+   reedc.cli.submit
+
+Module contents
+---------------
+
+.. automodule:: reedc.cli
+   :members:
+   :undoc-members:
+   :show-inheritance:

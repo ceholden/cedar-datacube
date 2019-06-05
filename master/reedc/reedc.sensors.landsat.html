@@ -1,0 +1,288 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>reedc.sensors.landsat module &mdash; reedc 0+untagged.50.gdc7ff31 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> reedc
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0+untagged.50.gdc7ff31
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequently Asked Questions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../credentials.html">Credentials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../storage.html">Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../submissions.html">Task Submissions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../download.html">Download</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../convert.html">Pre-ARD to ARD Conversion</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Help and Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../dev.html">Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">reedc</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>reedc.sensors.landsat module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/ceholden/reedc/blob/master/docs/source/reedc/reedc.sensors.landsat.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-reedc.sensors.landsat">
+<span id="reedc-sensors-landsat-module"></span><h1>reedc.sensors.landsat module<a class="headerlink" href="#module-reedc.sensors.landsat" title="Permalink to this headline">¶</a></h1>
+<p>Functions for dealing with Landsat data on GEE</p>
+<dl class="data">
+<dt id="reedc.sensors.landsat.BANDS">
+<code class="sig-prename descclassname">reedc.sensors.landsat.</code><code class="sig-name descname">BANDS</code><em class="property"> = {'COMMON': ['blue', 'green', 'red', 'nir', 'swir1', 'swir2', 'thermal', 'pixel_qa'], 'LANDSAT/LC08/C01/T1_SR': ['B2', 'B3', 'B4', 'B5', 'B6', 'B7', 'B10', 'pixel_qa'], 'LANDSAT/LE07/C01/T1_SR': ['B1', 'B2', 'B3', 'B4', 'B5', 'B7', 'B6', 'pixel_qa'], 'LANDSAT/LT05/C01/T1_SR': ['B1', 'B2', 'B3', 'B4', 'B5', 'B7', 'B6', 'pixel_qa']}</em><a class="headerlink" href="#reedc.sensors.landsat.BANDS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="data">
+<dt id="reedc.sensors.landsat.BANDS_COMMON">
+<code class="sig-prename descclassname">reedc.sensors.landsat.</code><code class="sig-name descname">BANDS_COMMON</code><em class="property"> = ['blue', 'green', 'red', 'nir', 'swir1', 'swir2', 'thermal', 'pixel_qa']</em><a class="headerlink" href="#reedc.sensors.landsat.BANDS_COMMON" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="data">
+<dt id="reedc.sensors.landsat.BANDS_LC8">
+<code class="sig-prename descclassname">reedc.sensors.landsat.</code><code class="sig-name descname">BANDS_LC8</code><em class="property"> = ['B2', 'B3', 'B4', 'B5', 'B6', 'B7', 'B10', 'pixel_qa']</em><a class="headerlink" href="#reedc.sensors.landsat.BANDS_LC8" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="data">
+<dt id="reedc.sensors.landsat.BANDS_LE7">
+<code class="sig-prename descclassname">reedc.sensors.landsat.</code><code class="sig-name descname">BANDS_LE7</code><em class="property"> = ['B1', 'B2', 'B3', 'B4', 'B5', 'B7', 'B6', 'pixel_qa']</em><a class="headerlink" href="#reedc.sensors.landsat.BANDS_LE7" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="data">
+<dt id="reedc.sensors.landsat.BANDS_LT5">
+<code class="sig-prename descclassname">reedc.sensors.landsat.</code><code class="sig-name descname">BANDS_LT5</code><em class="property"> = ['B1', 'B2', 'B3', 'B4', 'B5', 'B7', 'B6', 'pixel_qa']</em><a class="headerlink" href="#reedc.sensors.landsat.BANDS_LT5" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="data">
+<dt id="reedc.sensors.landsat.METADATA">
+<code class="sig-prename descclassname">reedc.sensors.landsat.</code><code class="sig-name descname">METADATA</code><em class="property"> = {'LANDSAT/LC08/C01/T1_SR': ['CLOUD_COVER', 'CLOUD_COVER_LAND', 'EARTH_SUN_DISTANCE', 'ESPA_VERSION', 'GEOMETRIC_RMSE_MODEL', 'GEOMETRIC_RMSE_MODEL_X', 'GEOMETRIC_RMSE_MODEL_Y', 'LANDSAT_ID', 'LEVEL1_PRODUCTION_DATE', 'SATELLITE', 'SENSING_TIME', 'SOLAR_AZIMUTH_ANGLE', 'SOLAR_ZENITH_ANGLE', 'SR_APP_VERSION', 'WRS_PATH', 'WRS_ROW', 'system:id', 'system:time_start', 'system:version', 'IMAGE_QUALITY_OLI'], 'LANDSAT/LE07/C01/T1_SR': ['CLOUD_COVER', 'CLOUD_COVER_LAND', 'EARTH_SUN_DISTANCE', 'ESPA_VERSION', 'GEOMETRIC_RMSE_MODEL', 'GEOMETRIC_RMSE_MODEL_X', 'GEOMETRIC_RMSE_MODEL_Y', 'LANDSAT_ID', 'LEVEL1_PRODUCTION_DATE', 'SATELLITE', 'SENSING_TIME', 'SOLAR_AZIMUTH_ANGLE', 'SOLAR_ZENITH_ANGLE', 'SR_APP_VERSION', 'WRS_PATH', 'WRS_ROW', 'system:id', 'system:time_start', 'system:version', 'IMAGE_QUALITY'], 'LANDSAT/LT05/C01/T1_SR': ['CLOUD_COVER', 'CLOUD_COVER_LAND', 'EARTH_SUN_DISTANCE', 'ESPA_VERSION', 'GEOMETRIC_RMSE_MODEL', 'GEOMETRIC_RMSE_MODEL_X', 'GEOMETRIC_RMSE_MODEL_Y', 'LANDSAT_ID', 'LEVEL1_PRODUCTION_DATE', 'SATELLITE', 'SENSING_TIME', 'SOLAR_AZIMUTH_ANGLE', 'SOLAR_ZENITH_ANGLE', 'SR_APP_VERSION', 'WRS_PATH', 'WRS_ROW', 'system:id', 'system:time_start', 'system:version', 'IMAGE_QUALITY']}</em><a class="headerlink" href="#reedc.sensors.landsat.METADATA" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="data">
+<dt id="reedc.sensors.landsat.NODATA">
+<code class="sig-prename descclassname">reedc.sensors.landsat.</code><code class="sig-name descname">NODATA</code><em class="property"> = {'LANDSAT/LC08/C01/T1_SR': -9999, 'LANDSAT/LE07/C01/T1_SR': -9999, 'LANDSAT/LT05/C01/T1_SR': -9999}</em><a class="headerlink" href="#reedc.sensors.landsat.NODATA" title="Permalink to this definition">¶</a></dt>
+<dd><p>NoDataValues for Landsat collections</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a>[<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a>, Number]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="reedc.sensors.landsat.create_ard">
+<code class="sig-prename descclassname">reedc.sensors.landsat.</code><code class="sig-name descname">create_ard</code><span class="sig-paren">(</span><em class="sig-param">collection</em>, <em class="sig-param">tile</em>, <em class="sig-param">date_start</em>, <em class="sig-param">date_end</em>, <em class="sig-param">filters=None</em>, <em class="sig-param">validate=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/reedc/sensors/landsat.html#create_ard"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#reedc.sensors.landsat.create_ard" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create an ARD <code class="xref py py-class docutils literal notranslate"><span class="pre">ee.Image</span></code></p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>collection</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – GEE image collection name</p></li>
+<li><p><strong>tile</strong> (<em>stems.gis.grids.Tile</em>) – STEMS TileGrid tile</p></li>
+<li><p><strong>date_start</strong> (<em>dt.datetime</em>) – Starting period</p></li>
+<li><p><strong>date_end</strong> (<em>dt.datetime</em>) – Ending period</p></li>
+<li><p><strong>filters</strong> (<em>Sequence</em><em>[</em><em>ee.Filter</em><em>]</em><em>, </em><em>optional</em>) – Additional filters to apply over image collection</p></li>
+<li><p><strong>validate</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em>, </em><em>optional</em>) – Perform validity checks at cost of submission speed (runs <code class="docutils literal notranslate"><span class="pre">.getInfo</span></code>
+on metadata, requiring us to wait on client-server communication)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>ee.Image</em> – “ARD” image from collection with all observations within period</p></li>
+<li><p><em>Sequence[dict]</em> – Metadata, one dict per image</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="data">
+<dt id="reedc.sensors.landsat.logger">
+<code class="sig-prename descclassname">reedc.sensors.landsat.</code><code class="sig-name descname">logger</code><em class="property"> = &lt;Logger reedc.sensors.landsat (WARNING)&gt;</em><a class="headerlink" href="#reedc.sensors.landsat.logger" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Chris Holden
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

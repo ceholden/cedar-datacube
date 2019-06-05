@@ -1,0 +1,7 @@
+reedc.sensors.common module
+===========================
+
+.. automodule:: reedc.sensors.common
+   :members:
+   :undoc-members:
+   :show-inheritance:

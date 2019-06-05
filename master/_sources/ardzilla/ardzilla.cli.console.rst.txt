@@ -1,7 +1,0 @@
-ardzilla.cli.console module
-===========================
-
-.. automodule:: ardzilla.cli.console
-   :members:
-   :undoc-members:
-   :show-inheritance:

@@ -1,0 +1,7 @@
+reedc.cli.console module
+========================
+
+.. automodule:: reedc.cli.console
+   :members:
+   :undoc-members:
+   :show-inheritance:

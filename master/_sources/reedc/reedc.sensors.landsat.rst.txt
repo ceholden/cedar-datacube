@@ -1,0 +1,7 @@
+reedc.sensors.landsat module
+============================
+
+.. automodule:: reedc.sensors.landsat
+   :members:
+   :undoc-members:
+   :show-inheritance:

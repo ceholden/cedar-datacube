@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Developer Notes &mdash; ardzilla 0+untagged.50.g43260e3 documentation</title>
+  <title>Developer Notes &mdash; reedc 0+untagged.50.gdc7ff31 documentation</title>
   
 
   
@@ -50,7 +50,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> ardzilla
+            <a href="index.html" class="icon icon-home"> reedc
           
 
           
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                0+untagged.50.g43260e3
+                0+untagged.50.gdc7ff31
               </div>
             
           
@@ -96,6 +96,8 @@
 <li class="toctree-l1"><a class="reference internal" href="credentials.html">Credentials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="storage.html">Storage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="config.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="submissions.html">Task Submissions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="download.html">Download</a></li>
 <li class="toctree-l1"><a class="reference internal" href="convert.html">Pre-ARD to ARD Conversion</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Help and Reference</span></p>
@@ -125,7 +127,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">ardzilla</a>
+          <a href="index.html">reedc</a>
         
       </nav>
 
@@ -163,7 +165,7 @@
         
             
             
-              <a href="https://github.com/ceholden/ardzilla/blob/master/docs/source/dev.rst" class="fa fa-github"> Edit on GitHub</a>
+              <a href="https://github.com/ceholden/reedc/blob/master/docs/source/dev.rst" class="fa fa-github"> Edit on GitHub</a>
             
           
         
@@ -189,7 +191,7 @@ the same style used by <a class="reference external" href="https://scikit-learn.
 <h3>API Doc<a class="headerlink" href="#api-doc" title="Permalink to this headline">¶</a></h3>
 <p>When adding new modules, update the API docs for the new code:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cd docs/</span>
-<span class="go">sphinx-apidoc -f -e -o source/ardzilla ../ardzilla</span>
+<span class="go">sphinx-apidoc -f -e -o source/reedc ../reedc</span>
 </pre></div>
 </div>
 </div>
@@ -214,11 +216,11 @@ following plugins:</p>
 </ul>
 <p>See pytest’s documentation for full details on how to run it, but one example
 of how to run tests might be:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">pytest -r ardzilla/ --cov=ardzilla/ --cov-report=term</span>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">pytest -r reedc/ --cov=reedc/ --cov-report=term</span>
 </pre></div>
 </div>
 <p>This command will run the tests, measure the test coverage against the lines of
-code in the ardzilla package, and report the coverage summary statistics to
+code in the reedc package, and report the coverage summary statistics to
 the terminal.</p>
 </div>
 <div class="section" id="continuous-integration">

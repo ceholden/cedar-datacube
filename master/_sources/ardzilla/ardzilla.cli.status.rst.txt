@@ -1,7 +1,0 @@
-ardzilla.cli.status module
-==========================
-
-.. automodule:: ardzilla.cli.status
-   :members:
-   :undoc-members:
-   :show-inheritance:

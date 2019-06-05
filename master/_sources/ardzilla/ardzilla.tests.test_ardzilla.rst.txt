@@ -1,7 +1,0 @@
-ardzilla.tests.test\_ardzilla module
-====================================
-
-.. automodule:: ardzilla.tests.test_ardzilla
-   :members:
-   :undoc-members:
-   :show-inheritance:

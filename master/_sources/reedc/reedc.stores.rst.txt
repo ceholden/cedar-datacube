@@ -1,0 +1,18 @@
+reedc.stores package
+====================
+
+Submodules
+----------
+
+.. toctree::
+
+   reedc.stores.gcs
+   reedc.stores.gdrive
+
+Module contents
+---------------
+
+.. automodule:: reedc.stores
+   :members:
+   :undoc-members:
+   :show-inheritance:
