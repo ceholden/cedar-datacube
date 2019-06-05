@@ -184,8 +184,17 @@ class GCSStore(object):
 
         dests = []
         for blob in blobs:
-            dests.append(download_blob(blob, dest, overwrite=overwrite))
-        return dests
+            blob_name = blob.name.split('/')[-1]
+            msg = f'{i}/{len(blobs)} - "{blob_name}"'
+
+            dest_ = dest.joinpath(blob_name)
+            if not dest_.exists() or overwrite:
+                logger.debug(f'Downloading {msg}')
+                dst_ = download_blob(blob, dest_)
+            else:
+                logger.debug(f'Already downloaded {msg}')
+
+            yield dest_
 
     def retrieve_image(self, dest, name, path=None, overwrite=True):
         """ Retrieve (pieces of) an image from the GCS
@@ -199,8 +208,8 @@ class GCSStore(object):
         path : str, optional
             Parent directory for file/object stored on GCS
 
-        Returns
-        -------
+        Yields
+        ------
         Sequence[str]
             Filename(s) corresponding to retrieved data
         """
@@ -219,8 +228,8 @@ class GCSStore(object):
         path : str, optional
             Parent directory for file/object stored
 
-        Returns
-        -------
+        Yields
+        ------
         pathlib.Path
             Filename corresponding to retrieved data
         """
@@ -471,7 +480,7 @@ def list_blobs(bucket, prefix=None, pattern=None):
     return blobs
 
 
-def download_blob(blob, dest, overwrite=True):
+def download_blob(blob, dest):
     """ Download a blob to a destination directory
 
     Parameters
@@ -485,27 +494,15 @@ def download_blob(blob, dest, overwrite=True):
     -------
     pathlib.Path
         Filename written to
-
-    Raises
-    ------
-    FileExistsError
-        Raised if file exists in destination but not allowed to overwrite,
     """
     dest = Path(dest)
     if not dest.exists():
-        dest.mkdir(parents=True, exist_ok=True)
-    assert dest.is_dir()
+        dest.parent.mkdir(parents=True, exist_ok=True)
 
-    name = blob.name.split('/')[-1]
-    dest_ = dest.joinpath(name)
-
-    if dest_.exists() and not overwrite:
-        raise ValueError(f'Not overwriting existing file "{dest_}"')
-    else:
-        with renamed_upon_completion(dest_) as tmp:
-            blob.download_to_filename(tmp)
-
-    return dest_
+    suffix = f'.tmp.{socket.gethostname()}.{os.getpid()}'
+    with renamed_upon_completion(dest, suffix=suffix) as tmp:
+        blob.download_to_filename(tmp)
+    return dest
 
 
 def _format_dirpath(path):
