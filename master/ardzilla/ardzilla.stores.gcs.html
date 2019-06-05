@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>ardzilla.stores.gcs module &mdash; ardzilla 0+untagged.50.gf7f69d3 documentation</title>
+  <title>ardzilla.stores.gcs module &mdash; ardzilla 0+untagged.50.g43260e3 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.gf7f69d3
+                0+untagged.50.g43260e3
               </div>
             
           
@@ -262,11 +262,8 @@
 <li><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Parent directory for file/object stored on GCS</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Filename(s) corresponding to retrieved data</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>Sequence[<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a>]</p>
+<dt class="field-even">Yields</dt>
+<dd class="field-even"><p><em>Sequence[str]</em> – Filename(s) corresponding to retrieved data</p>
 </dd>
 </dl>
 </dd></dl>
@@ -283,11 +280,8 @@
 <li><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Parent directory for file/object stored</p></li>
 </ul>
 </dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Filename corresponding to retrieved data</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/pathlib.html#pathlib.Path" title="(in Python v3.7)">pathlib.Path</a></p>
+<dt class="field-even">Yields</dt>
+<dd class="field-even"><p><em>pathlib.Path</em> – Filename corresponding to retrieved data</p>
 </dd>
 </dl>
 </dd></dl>
@@ -402,7 +396,7 @@ credentials file <a class="reference internal" href="#r514771d7e2a4-1" id="id1">
 
 <dl class="function">
 <dt id="ardzilla.stores.gcs.download_blob">
-<code class="sig-prename descclassname">ardzilla.stores.gcs.</code><code class="sig-name descname">download_blob</code><span class="sig-paren">(</span><em class="sig-param">blob</em>, <em class="sig-param">dest</em>, <em class="sig-param">overwrite=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/stores/gcs.html#download_blob"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.stores.gcs.download_blob" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">ardzilla.stores.gcs.</code><code class="sig-name descname">download_blob</code><span class="sig-paren">(</span><em class="sig-param">blob</em>, <em class="sig-param">dest</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/ardzilla/stores/gcs.html#download_blob"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#ardzilla.stores.gcs.download_blob" title="Permalink to this definition">¶</a></dt>
 <dd><p>Download a blob to a destination directory</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -416,9 +410,6 @@ credentials file <a class="reference internal" href="#r514771d7e2a4-1" id="id1">
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/pathlib.html#pathlib.Path" title="(in Python v3.7)">pathlib.Path</a></p>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.7/library/exceptions.html#FileExistsError" title="(in Python v3.7)"><strong>FileExistsError</strong></a> – Raised if file exists in destination but not allowed to overwrite,</p>
 </dd>
 </dl>
 </dd></dl>
