@@ -161,7 +161,10 @@ def _parse_date_freq(start, end, freq=None):
     if freq is None:
         return list(zip([start], [end]))
     else:
-        times = pd.date_range(start, end, freq=freq).to_pydatetime()
+        # Add offset to make inclusive of end date
+        from pandas.tseries.frequencies import to_offset
+        offset = to_offset(freq)
+        times = pd.date_range(start, end + offset, freq=freq).to_pydatetime()
         return list(zip(times[:-1], times[1:]))
 
 
