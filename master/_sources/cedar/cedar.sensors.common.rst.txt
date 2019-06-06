@@ -1,0 +1,7 @@
+cedar.sensors.common module
+===========================
+
+.. automodule:: cedar.sensors.common
+   :members:
+   :undoc-members:
+   :show-inheritance:

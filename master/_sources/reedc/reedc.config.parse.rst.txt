@@ -1,7 +1,0 @@
-reedc.config.parse module
-=========================
-
-.. automodule:: reedc.config.parse
-   :members:
-   :undoc-members:
-   :show-inheritance:

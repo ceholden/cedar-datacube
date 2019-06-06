@@ -1,7 +1,0 @@
-reedc
-=====
-
-.. toctree::
-   :maxdepth: 4
-
-   reedc

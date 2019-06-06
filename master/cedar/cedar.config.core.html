@@ -1,0 +1,333 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>cedar.config.core module &mdash; cedar 0+untagged.50.g8e2cf49 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> cedar
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0+untagged.50.g8e2cf49
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequently Asked Questions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../credentials.html">Credentials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../storage.html">Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../submissions.html">Task Submissions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../download.html">Download</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../convert.html">Pre-ARD to ARD Conversion</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Help and Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../dev.html">Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">cedar</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>cedar.config.core module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/ceholden/cedar/blob/master/docs/source/cedar/cedar.config.core.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-cedar.config.core">
+<span id="cedar-config-core-module"></span><h1>cedar.config.core module<a class="headerlink" href="#module-cedar.config.core" title="Permalink to this headline">¶</a></h1>
+<p>Configuration file handling</p>
+<dl class="class">
+<dt id="cedar.config.core.Config">
+<em class="property">class </em><code class="sig-prename descclassname">cedar.config.core.</code><code class="sig-name descname">Config</code><span class="sig-paren">(</span><em class="sig-param">config</em>, <em class="sig-param">schema=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/config/core.html#Config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.config.core.Config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.7/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>cedar configuration file</p>
+<dl class="attribute">
+<dt id="cedar.config.core.Config.SCHEMA">
+<code class="sig-name descname">SCHEMA</code><em class="property"> = {'$schema': 'http://json-schema.org/draft-07/schema#', 'anyOf': [{'required': ['gcs']}, {'required': ['gdrive']}], 'definitions': {'stores': {'export_image_kwds': {'default': {}, 'description': 'Additional keyword arguments to pass to toCloudStorage', 'properties': {'fileDimensions': {'type': 'integer'}, 'shardSize': {'type': 'integer'}}, 'type': 'object'}}}, 'properties': {'ard': {'properties': {'destination': {'type': 'string'}, 'encoding': {'default': {}, 'properties': {'chunks': {'patternProperties': {'.*': {'type': 'integer'}}, 'type': 'object'}, 'zlib': {'type': 'boolean'}}}}, 'required': ['destination'], 'type': 'object'}, 'gcs': {'properties': {'bucket_name': {'description': 'Name of GCS bucket to use', 'type': 'string'}, 'credentials_file': {'description': 'Filename of service account credentials for GCS', 'type': 'string'}, 'export_image_kwds': {'$ref': '#/definitions/stores/export_image_kwds'}, 'project': {'description': 'Name of GCS project to use', 'type': 'string'}}, 'required': ['bucket_name', 'project'], 'type': 'object'}, 'gdrive': {'properties': {'client_secrets_file': {'description': &quot;Filename of 'client secrets' file for OAuth2 authentication&quot;, 'type': 'string'}, 'credentials_file': {'description': 'Filename of user OAuth2 credentials for cedar', 'type': 'string'}, 'export_image_kwds': {'$ref': '#/definitions/stores/export_image_kwds'}}, 'required': [], 'type': 'object'}, 'gee': {'properties': {'store_service': {'type': 'string'}, 'tracker': {'properties': {'filters': {'items': {'properties': {'function': {'type': 'string'}, 'name': {'type': 'string'}, 'value': {'type': 'number'}}, 'required': ['function'], 'type': 'object'}, 'type': 'array'}, 'name_template': {'type': 'string'}, 'prefix_template': {'type': 'string'}, 'tracking_template': {'type': 'string'}}, 'type': 'object'}}, 'required': ['store_service', 'tracker'], 'type': 'object'}, 'tile_grid': {'description': 'Tile grid to use for ARD', 'oneOf': [{'required': ['grid_name']}, {'required': ['ul', 'crs', 'res', 'size', 'limits']}], 'properties': {'crs': {'description': 'Coordinate reference system of grid to create (as WKT or other)', 'type': 'string'}, 'grid_filename': {'description': 'Filename to load grid definitions from', 'type': 'string'}, 'grid_name': {'description': 'Name of the grid to use.', 'type': 'string'}, 'limits': {'items': {'items': {'type': 'integer'}, 'maxItems': 2, 'minItems': 2, 'type': 'array'}, 'type': 'array'}, 'name': {'description': 'Name of the grid to create', 'type': 'string'}, 'res': {'items': {'type': 'number'}, 'maxItems': 2, 'minItems': 1, 'type': 'array'}, 'size': {'items': {'type': 'integer'}, 'maxItems': 2, 'minItems': 1, 'type': 'array'}, 'ul': {'description': 'Upper left X/Y of grid to create', 'items': {'type': 'number'}, 'type': 'array'}}, 'type': 'object'}}, 'required': ['tile_grid', 'gee', 'ard'], 'title': 'cedar configuration file', 'type': 'object'}</em><a class="headerlink" href="#cedar.config.core.Config.SCHEMA" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="cedar.config.core.Config.as_parsed">
+<code class="sig-name descname">as_parsed</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/config/core.html#Config.as_parsed"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.config.core.Config.as_parsed" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse the config, returning a new, more explicit Config</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cedar.config.core.Config.config">
+<em class="property">property </em><code class="sig-name descname">config</code><a class="headerlink" href="#cedar.config.core.Config.config" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="cedar.config.core.Config.from_template">
+<em class="property">classmethod </em><code class="sig-name descname">from_template</code><span class="sig-paren">(</span><em class="sig-param">schema=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/config/core.html#Config.from_template"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.config.core.Config.from_template" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load from the included YAML configuration file template</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cedar.config.core.Config.from_yaml">
+<em class="property">classmethod </em><code class="sig-name descname">from_yaml</code><span class="sig-paren">(</span><em class="sig-param">filename</em>, <em class="sig-param">schema=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/config/core.html#Config.from_yaml"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.config.core.Config.from_yaml" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load from a YAML configuration file</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cedar.config.core.Config.get_gcs_store">
+<code class="sig-name descname">get_gcs_store</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/config/core.html#Config.get_gcs_store"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.config.core.Config.get_gcs_store" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a GCSStore described by this config</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cedar.config.core.Config.get_gdrive_store">
+<code class="sig-name descname">get_gdrive_store</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/config/core.html#Config.get_gdrive_store"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.config.core.Config.get_gdrive_store" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a GDriveStore described by this config</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cedar.config.core.Config.get_store">
+<code class="sig-name descname">get_store</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/config/core.html#Config.get_store"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.config.core.Config.get_store" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the Store used in this configuration file</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cedar.config.core.Config.get_tile_grid">
+<code class="sig-name descname">get_tile_grid</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/config/core.html#Config.get_tile_grid"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.config.core.Config.get_tile_grid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the Tile Grid described by this config</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>stems.gis.grids.TileGrid</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="cedar.config.core.Config.get_tracker">
+<code class="sig-name descname">get_tracker</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/config/core.html#Config.get_tracker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.config.core.Config.get_tracker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get the GEEARDTracker described by this store</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cedar.config.core.Config.to_yaml">
+<code class="sig-name descname">to_yaml</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">dest=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/config/core.html#Config.to_yaml"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.config.core.Config.to_yaml" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write to a YAML (file, if <code class="docutils literal notranslate"><span class="pre">dest</span></code> is provided)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>dest</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em> or </em><em>Path</em>) – Filename to write to. If not provided, returns a str</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Either the filename written to, or a str containing the
+YAML data if <code class="docutils literal notranslate"><span class="pre">dest</span></code> is <code class="docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="cedar.config.core.Config.validate">
+<code class="sig-name descname">validate</code><span class="sig-paren">(</span><em class="sig-param">self</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/config/core.html#Config.validate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.config.core.Config.validate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validate the configuration against schema</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><strong>ValidationError</strong> – Raised if there’s an issue</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="data">
+<dt id="cedar.config.core.TEMPLATE_FILE">
+<code class="sig-prename descclassname">cedar.config.core.</code><code class="sig-name descname">TEMPLATE_FILE</code><em class="property"> = PosixPath('/home/travis/build/ceholden/reedc/cedar/config/config.yaml.tmpl')</em><a class="headerlink" href="#cedar.config.core.TEMPLATE_FILE" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="data">
+<dt id="cedar.config.core.TEMPLATE_FILENAME">
+<code class="sig-prename descclassname">cedar.config.core.</code><code class="sig-name descname">TEMPLATE_FILENAME</code><em class="property"> = 'config.yaml.tmpl'</em><a class="headerlink" href="#cedar.config.core.TEMPLATE_FILENAME" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="data">
+<dt id="cedar.config.core.logger">
+<code class="sig-prename descclassname">cedar.config.core.</code><code class="sig-name descname">logger</code><em class="property"> = &lt;Logger cedar.config.core (WARNING)&gt;</em><a class="headerlink" href="#cedar.config.core.logger" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Chris Holden
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

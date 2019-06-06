@@ -1,0 +1,33 @@
+cedar package
+=============
+
+Subpackages
+-----------
+
+.. toctree::
+
+   cedar.cli
+   cedar.config
+   cedar.sensors
+   cedar.stores
+   cedar.tests
+
+Submodules
+----------
+
+.. toctree::
+
+   cedar.defaults
+   cedar.exceptions
+   cedar.preard
+   cedar.submissions
+   cedar.tracking
+   cedar.utils
+
+Module contents
+---------------
+
+.. automodule:: cedar
+   :members:
+   :undoc-members:
+   :show-inheritance:

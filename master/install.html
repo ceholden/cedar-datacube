@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Installation &mdash; reedc 0+untagged.50.ga0acf09 documentation</title>
+  <title>Installation &mdash; cedar 0+untagged.50.g8e2cf49 documentation</title>
   
 
   
@@ -36,7 +36,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Change Log" href="history.html" />
-    <link rel="prev" title="reedc (reed-see) - Rapid Earth Engine Datacube Creator" href="index.html" /> 
+    <link rel="prev" title="cedar (reed-see) - Rapid Earth Engine Datacube Creator" href="index.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -50,7 +50,7 @@
           
 
           
-            <a href="index.html" class="icon icon-home"> reedc
+            <a href="index.html" class="icon icon-home"> cedar
           
 
           
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                0+untagged.50.ga0acf09
+                0+untagged.50.g8e2cf49
               </div>
             
           
@@ -133,7 +133,7 @@
       <nav class="wy-nav-top" aria-label="top navigation">
         
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">reedc</a>
+          <a href="index.html">cedar</a>
         
       </nav>
 
@@ -171,7 +171,7 @@
         
             
             
-              <a href="https://github.com/ceholden/reedc/blob/master/docs/source/install.rst" class="fa fa-github"> Edit on GitHub</a>
+              <a href="https://github.com/ceholden/cedar/blob/master/docs/source/install.rst" class="fa fa-github"> Edit on GitHub</a>
             
           
         
@@ -207,7 +207,7 @@
 <h2>Optional Dependencies<a class="headerlink" href="#optional-dependencies" title="Permalink to this headline">¶</a></h2>
 <div class="section" id="google-earth-engine-gee">
 <h3>Google Earth Engine (GEE)<a class="headerlink" href="#google-earth-engine-gee" title="Permalink to this headline">¶</a></h3>
-<p>To enable any of the capabilities of reedc that relate to the Google Earth
+<p>To enable any of the capabilities of cedar that relate to the Google Earth
 Engine, including downloading ARD from the GEE, you will need the following:</p>
 <ul class="simple">
 <li><p>appmode</p></li>
@@ -249,40 +249,40 @@ Engine, including downloading ARD from the GEE, you will need the following:</p>
 </div>
 <div class="section" id="instructions">
 <h2>Instructions<a class="headerlink" href="#instructions" title="Permalink to this headline">¶</a></h2>
-<p>reedc is a pure Python package, but it sits on top of a pile of dependencies
+<p>cedar is a pure Python package, but it sits on top of a pile of dependencies
 that may be difficult to install. The easiest way to install all of these
 dependencies is using the <a class="reference external" href="http://conda.io">conda</a> tool.</p>
 <p>With <a class="reference external" href="http://conda.io">conda</a> installed and ready to use, you can install all the required
 dependencies for this library using one of the “environment” files located in
 the <code class="docutils literal notranslate"><span class="pre">ci/</span></code> directory (we use these for our continuous integration tests):</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> conda create -n reedc -f ci/requirements-py37.yml
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> conda create -n cedar -f ci/requirements-py37.yml
 </pre></div>
 </div>
 <p>With the conda environment created, you can activate it as follows:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> conda activate reedc
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> conda activate cedar
 </pre></div>
 </div>
-<p>You should now be ready to install reedc.</p>
+<p>You should now be ready to install cedar.</p>
 <div class="section" id="stable-release">
 <h3>Stable Release<a class="headerlink" href="#stable-release" title="Permalink to this headline">¶</a></h3>
-<p>There are no stable releases of reedc yet on PyPI.</p>
+<p>There are no stable releases of cedar yet on PyPI.</p>
 </div>
 <div class="section" id="from-sources">
 <h3>From Sources<a class="headerlink" href="#from-sources" title="Permalink to this headline">¶</a></h3>
-<p>The sources for reedc can be downloaded from the <a class="reference external" href="https://github.com/ceholden/reedc">Github repo</a>. You can
+<p>The sources for cedar can be downloaded from the <a class="reference external" href="https://github.com/ceholden/cedar">Github repo</a>. You can
 either download the source from Github and install it using <code class="docutils literal notranslate"><span class="pre">pip</span></code>, or use
 <code class="docutils literal notranslate"><span class="pre">pip</span></code> to install the source from Github directly.</p>
 <p>You can either clone the public repository:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> git clone git://github.com/ceholden/reedc
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> git clone git://github.com/ceholden/cedar
 </pre></div>
 </div>
 <p>Once you have a copy of the source, you can install it with:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> <span class="nb">cd</span> reedc/
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> <span class="nb">cd</span> cedar/
 <span class="gp">$</span> pip install -e .
 </pre></div>
 </div>
 <p>or</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> pip install -e reedc/
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> pip install -e cedar/
 </pre></div>
 </div>
 <p>The flag, <code class="docutils literal notranslate"><span class="pre">-e</span></code>, is recommended to tell <code class="docutils literal notranslate"><span class="pre">pip</span></code> to make the installation
@@ -291,7 +291,7 @@ will be reflected when you import the Python package. Otherwise you would
 have to re-install the package with <code class="docutils literal notranslate"><span class="pre">pip</span></code> for changes to affect the installed
 package.</p>
 <p>Alternatively, you can use <code class="docutils literal notranslate"><span class="pre">pip</span></code> to install it in one step,</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> pip install git+ssh://git@github.com/ceholden/reedc.git
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> pip install git+ssh://git@github.com/ceholden/cedar.git
 </pre></div>
 </div>
 </div>
@@ -309,7 +309,7 @@ package.</p>
         <a href="history.html" class="btn btn-neutral float-right" title="Change Log" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="index.html" class="btn btn-neutral float-left" title="reedc (reed-see) - Rapid Earth Engine Datacube Creator" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="index.html" class="btn btn-neutral float-left" title="cedar (reed-see) - Rapid Earth Engine Datacube Creator" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

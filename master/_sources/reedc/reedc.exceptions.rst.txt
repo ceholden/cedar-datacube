@@ -1,7 +1,0 @@
-reedc.exceptions module
-=======================
-
-.. automodule:: reedc.exceptions
-   :members:
-   :undoc-members:
-   :show-inheritance:

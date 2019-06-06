@@ -1,7 +1,0 @@
-reedc.cli.main module
-=====================
-
-.. automodule:: reedc.cli.main
-   :members:
-   :undoc-members:
-   :show-inheritance:

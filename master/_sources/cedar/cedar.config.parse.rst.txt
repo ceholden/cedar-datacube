@@ -1,0 +1,7 @@
+cedar.config.parse module
+=========================
+
+.. automodule:: cedar.config.parse
+   :members:
+   :undoc-members:
+   :show-inheritance:

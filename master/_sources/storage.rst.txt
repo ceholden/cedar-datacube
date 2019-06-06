@@ -22,7 +22,7 @@ from either Google Cloud Storage or Google Drive.
 Google Drive
 ============
 
-.. autoclass:: reedc.stores.gdrive.GDriveStore
+.. autoclass:: cedar.stores.gdrive.GDriveStore
    :members:
 
 
@@ -32,5 +32,5 @@ Google Drive
 Google Cloud Storage
 ====================
 
-.. autoclass:: reedc.stores.gcs.GCSStore
+.. autoclass:: cedar.stores.gcs.GCSStore
    :members:

@@ -1,7 +1,0 @@
-reedc.utils module
-==================
-
-.. automodule:: reedc.utils
-   :members:
-   :undoc-members:
-   :show-inheritance:

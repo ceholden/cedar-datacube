@@ -1,7 +1,0 @@
-reedc.submissions module
-========================
-
-.. automodule:: reedc.submissions
-   :members:
-   :undoc-members:
-   :show-inheritance:

@@ -1,7 +1,0 @@
-reedc.tests.test\_tracking module
-=================================
-
-.. automodule:: reedc.tests.test_tracking
-   :members:
-   :undoc-members:
-   :show-inheritance:

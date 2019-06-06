@@ -1,7 +1,0 @@
-reedc.cli.status module
-=======================
-
-.. automodule:: reedc.cli.status
-   :members:
-   :undoc-members:
-   :show-inheritance:

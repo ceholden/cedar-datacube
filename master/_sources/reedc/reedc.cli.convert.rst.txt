@@ -1,7 +1,0 @@
-reedc.cli.convert module
-========================
-
-.. automodule:: reedc.cli.convert
-   :members:
-   :undoc-members:
-   :show-inheritance:

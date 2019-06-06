@@ -1,7 +1,0 @@
-reedc.cli.auth module
-=====================
-
-.. automodule:: reedc.cli.auth
-   :members:
-   :undoc-members:
-   :show-inheritance:
