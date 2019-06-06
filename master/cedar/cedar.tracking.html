@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>cedar.tracking module &mdash; cedar 0+untagged.50.gb8f62f0 documentation</title>
+  <title>cedar.tracking module &mdash; cedar 0+untagged.50.g650ec6d documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.gb8f62f0
+                0+untagged.50.g650ec6d
               </div>
             
           
@@ -197,8 +197,8 @@ dictionaries that describe the filter</p></li>
 <li><p><strong>tracking_info</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – JSON tracking info data as a dict</p></li>
 <li><p><strong>tracking_name</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Name of tracking info file (will be deleted if provided)</p></li>
 <li><p><strong>callback</strong> (<em>callable</em>) – Callback function to execute after each file is deleted.
-Should take arguments “item”, “n_steps”, and “length”.
-Use this for progress bars or other download status reporting</p></li>
+Should take arguments “item” and “n_steps”. Use this for
+progress bars or other download status reporting</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -221,8 +221,8 @@ Use this for progress bars or other download status reporting</p></li>
 <li><p><strong>dest</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3.7/library/pathlib.html#pathlib.Path" title="(in Python v3.7)"><em>pathlib.Path</em></a>) – Destination download directory</p></li>
 <li><p><strong>overwrite</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em>, </em><em>optional</em>) – Overwrite existing downloaded data</p></li>
 <li><p><strong>callback</strong> (<em>callable</em>) – Callback function to execute after each file is downloaded.
-Should take arguments “item”, “n_steps”, and “length”. Use this
-for progress bars or other download status reporting</p></li>
+Should take arguments “item” and “n_steps”. Use this for
+progress bars or other download status reporting</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>

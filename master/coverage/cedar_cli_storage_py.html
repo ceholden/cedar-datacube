@@ -30,9 +30,9 @@
         <img id="keyboard_icon" src="keybd_closed.png" alt="Show keyboard shortcuts" />
 
         <h2 class="stats">
-            44 statements &nbsp;
+            41 statements &nbsp;
             <span class="run hide_run shortkey_r button_toggle_run">0 run</span>
-            <span class="mis shortkey_m button_toggle_mis">44 missing</span>
+            <span class="mis shortkey_m button_toggle_mis">41 missing</span>
             <span class="exc shortkey_x button_toggle_exc">0 excluded</span>
 
             
@@ -154,12 +154,9 @@
 <p id="n85" class="stm mis"><a href="#n85">85</a></p>
 <p id="n86" class="stm mis"><a href="#n86">86</a></p>
 <p id="n87" class="stm mis"><a href="#n87">87</a></p>
-<p id="n88" class="stm mis"><a href="#n88">88</a></p>
+<p id="n88" class="pln"><a href="#n88">88</a></p>
 <p id="n89" class="stm mis"><a href="#n89">89</a></p>
 <p id="n90" class="stm mis"><a href="#n90">90</a></p>
-<p id="n91" class="pln"><a href="#n91">91</a></p>
-<p id="n92" class="stm mis"><a href="#n92">92</a></p>
-<p id="n93" class="stm mis"><a href="#n93">93</a></p>
 
             </td>
             <td class="text">
@@ -206,7 +203,7 @@
 <p id="t41" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t42" class="stm mis">    <span class="nam">n_tasks</span> <span class="op">=</span> <span class="nam">len</span><span class="op">(</span><span class="nam">tracking_info</span><span class="op">[</span><span class="str">'tasks'</span><span class="op">]</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t43" class="stm mis">    <span class="nam">click</span><span class="op">.</span><span class="nam">echo</span><span class="op">(</span><span class="str">f'Downloading data for {n_tasks} tasks'</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
-<p id="t44" class="stm mis">    <span class="key">with</span> <span class="nam">click</span><span class="op">.</span><span class="nam">progressbar</span><span class="op">(</span><span class="nam">label</span><span class="op">=</span><span class="str">'Downloading task'</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
+<p id="t44" class="stm mis">    <span class="key">with</span> <span class="nam">click</span><span class="op">.</span><span class="nam">progressbar</span><span class="op">(</span><span class="nam">label</span><span class="op">=</span><span class="str">'Downloading'</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
 <p id="t45" class="pln">                           <span class="nam">item_show_func</span><span class="op">=</span><span class="nam">_item_show_func</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
 <p id="t46" class="pln">                           <span class="nam">length</span><span class="op">=</span><span class="nam">n_tasks</span><span class="op">)</span> <span class="key">as</span> <span class="nam">bar</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t47" class="stm mis">        <span class="nam">cb_bar</span> <span class="op">=</span> <span class="nam">_make_callback</span><span class="op">(</span><span class="nam">bar</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
@@ -246,16 +243,13 @@
 <p id="t81" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t82" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t83" class="stm mis"><span class="key">def</span> <span class="nam">_make_callback</span><span class="op">(</span><span class="nam">bar</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t84" class="stm mis">    <span class="key">def</span> <span class="nam">callback</span><span class="op">(</span><span class="nam">item</span><span class="op">,</span> <span class="nam">n_steps</span><span class="op">,</span> <span class="nam">length</span><span class="op">=</span><span class="key">False</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t85" class="stm mis">        <span class="key">if</span> <span class="nam">length</span> <span class="key">is</span> <span class="key">not</span> <span class="key">False</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t86" class="stm mis">            <span class="nam">bar</span><span class="op">.</span><span class="nam">length</span> <span class="op">=</span> <span class="nam">length</span><span class="strut">&nbsp;</span></p>
-<p id="t87" class="stm mis">            <span class="nam">bar</span><span class="op">.</span><span class="nam">length_known</span> <span class="op">=</span> <span class="nam">length</span> <span class="key">is</span> <span class="key">not</span> <span class="key">None</span><span class="strut">&nbsp;</span></p>
-<p id="t88" class="stm mis">        <span class="nam">bar</span><span class="op">.</span><span class="nam">current_item</span> <span class="op">=</span> <span class="nam">item</span><span class="strut">&nbsp;</span></p>
-<p id="t89" class="stm mis">        <span class="nam">bar</span><span class="op">.</span><span class="nam">update</span><span class="op">(</span><span class="nam">n_steps</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
-<p id="t90" class="stm mis">    <span class="key">return</span> <span class="nam">callback</span><span class="strut">&nbsp;</span></p>
-<p id="t91" class="pln"><span class="strut">&nbsp;</span></p>
-<p id="t92" class="stm mis"><span class="key">def</span> <span class="nam">_item_show_func</span><span class="op">(</span><span class="nam">item</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t93" class="stm mis">    <span class="key">return</span> <span class="nam">str</span><span class="op">(</span><span class="nam">item</span><span class="op">)</span> <span class="key">if</span> <span class="nam">item</span> <span class="key">else</span> <span class="str">''</span><span class="strut">&nbsp;</span></p>
+<p id="t84" class="stm mis">    <span class="key">def</span> <span class="nam">callback</span><span class="op">(</span><span class="nam">item</span><span class="op">,</span> <span class="nam">n_steps</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
+<p id="t85" class="stm mis">        <span class="nam">bar</span><span class="op">.</span><span class="nam">current_item</span> <span class="op">=</span> <span class="nam">item</span><span class="strut">&nbsp;</span></p>
+<p id="t86" class="stm mis">        <span class="nam">bar</span><span class="op">.</span><span class="nam">update</span><span class="op">(</span><span class="nam">n_steps</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t87" class="stm mis">    <span class="key">return</span> <span class="nam">callback</span><span class="strut">&nbsp;</span></p>
+<p id="t88" class="pln"><span class="strut">&nbsp;</span></p>
+<p id="t89" class="stm mis"><span class="key">def</span> <span class="nam">_item_show_func</span><span class="op">(</span><span class="nam">item</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
+<p id="t90" class="stm mis">    <span class="key">return</span> <span class="nam">str</span><span class="op">(</span><span class="nam">item</span><span class="op">)</span> <span class="key">if</span> <span class="nam">item</span> <span class="key">else</span> <span class="str">''</span><span class="strut">&nbsp;</span></p>
 
             </td>
         </tr>
@@ -266,7 +260,7 @@
     <div class="content">
         <p>
             <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.io">coverage.py v4.5.3</a>,
-            created at 2019-06-06 15:43
+            created at 2019-06-06 16:23
         </p>
     </div>
 </div>
