@@ -57,8 +57,13 @@ def convert(ctx, preard, dest, overwrite, scheduler, nprocs, nthreads):
 
         # Destination can depend on info in metadata - format it
         dest_ = Path(Template(dest).render(**metadata))
+
+        if dest_.exists() and not overwrite:
+            click.echo(f'Already processed "{meta.stem}" to "{dest_}"')
+            continue
+
+        click.echo(f'Processing pre-ARD "{meta.stem}" to destination "{dest_}"')
         dest_.mkdir(parents=True, exist_ok=True)
-        click.echo(f'Processing pre-ARD "{meta.stem}" to destination {dest_}')
 
         # Read TIFF files into ARD-like xr.Dataset
         ard_ds = process_preard(metadata, images)
