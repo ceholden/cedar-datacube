@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>cedar.tracking &mdash; cedar 0+untagged.50.g650ec6d documentation</title>
+  <title>cedar.tracking &mdash; cedar 0+untagged.50.gb8f62f0 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.g650ec6d
+                0+untagged.50.gb8f62f0
               </div>
             
           
@@ -366,8 +366,8 @@
 <span class="sd">            Overwrite existing downloaded data</span>
 <span class="sd">        callback : callable</span>
 <span class="sd">            Callback function to execute after each file is downloaded.</span>
-<span class="sd">            Should take arguments &quot;item&quot; and &quot;n_steps&quot;. Use this for</span>
-<span class="sd">            progress bars or other download status reporting</span>
+<span class="sd">            Should take arguments &quot;item&quot;, &quot;n_steps&quot;, and &quot;length&quot;. Use this</span>
+<span class="sd">            for progress bars or other download status reporting</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -388,22 +388,14 @@
             <span class="k">for</span> <span class="n">meta_</span> <span class="ow">in</span> <span class="n">meta</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">callback</span><span class="p">:</span>
                     <span class="c1"># Metadata doesn&#39;t count as a &quot;step&quot;</span>
-                    <span class="n">callback</span><span class="p">(</span><span class="n">item</span><span class="o">=</span><span class="n">task_id</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+                    <span class="n">callback</span><span class="p">(</span><span class="n">item</span><span class="o">=</span><span class="n">task_id</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="n">n_images</span><span class="p">)</span>
                 <span class="n">downloaded</span><span class="p">[</span><span class="n">task_id</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">meta_</span><span class="p">)</span>
 
             <span class="c1"># We might not know how many images will be downloaded</span>
-            <span class="n">steps_image</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">/</span> <span class="n">n_images</span> <span class="k">if</span> <span class="n">n_images</span> <span class="k">else</span> <span class="mi">0</span>
             <span class="k">for</span> <span class="n">image</span> <span class="ow">in</span> <span class="n">images</span><span class="p">:</span>
                 <span class="n">downloaded</span><span class="p">[</span><span class="n">task_id</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">callback</span><span class="p">:</span>
-                    <span class="n">callback</span><span class="p">(</span><span class="n">item</span><span class="o">=</span><span class="n">image</span><span class="o">.</span><span class="n">stem</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="n">steps_image</span><span class="p">)</span>
-
-            <span class="c1"># Update for all downloaded images at once if we didn&#39;t know</span>
-            <span class="c1"># a priori</span>
-            <span class="k">if</span> <span class="n">steps_image</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">callback</span><span class="p">:</span>
-                <span class="n">item</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">commonprefix</span><span class="p">(</span>
-                    <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">downloaded</span><span class="p">[</span><span class="n">task_id</span><span class="p">]])</span>
-                <span class="n">callback</span><span class="p">(</span><span class="n">item</span><span class="o">=</span><span class="n">item</span> <span class="o">+</span> <span class="s1">&#39;...&#39;</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+                    <span class="n">callback</span><span class="p">(</span><span class="n">item</span><span class="o">=</span><span class="n">image</span><span class="o">.</span><span class="n">stem</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">downloaded</span></div>
 
@@ -418,8 +410,8 @@
 <span class="sd">            Name of tracking info file (will be deleted if provided)</span>
 <span class="sd">        callback : callable</span>
 <span class="sd">            Callback function to execute after each file is deleted.</span>
-<span class="sd">            Should take arguments &quot;item&quot; and &quot;n_steps&quot;. Use this for</span>
-<span class="sd">            progress bars or other download status reporting</span>
+<span class="sd">            Should take arguments &quot;item&quot;, &quot;n_steps&quot;, and &quot;length&quot;.</span>
+<span class="sd">            Use this for progress bars or other download status reporting</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -435,7 +427,7 @@
         <span class="k">for</span> <span class="n">task_id</span><span class="p">,</span> <span class="n">n_images</span><span class="p">,</span> <span class="n">names</span> <span class="ow">in</span> <span class="n">iter_clean</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">names</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">callback</span><span class="p">:</span>
-                    <span class="n">callback</span><span class="p">(</span><span class="n">item</span><span class="o">=</span><span class="n">task_id</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">1</span> <span class="o">/</span> <span class="n">n_images</span><span class="p">)</span>
+                    <span class="n">callback</span><span class="p">(</span><span class="n">item</span><span class="o">=</span><span class="n">task_id</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="n">n_images</span><span class="p">)</span>
                 <span class="n">cleaned</span><span class="p">[</span><span class="n">task_id</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">cleaned</span></div>
