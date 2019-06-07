@@ -1,8 +1,8 @@
 .. _index:
 
-==================================================================
-``cedar`` - Create Earth engine Data cubes of Analytical Readiness
-==================================================================
+========================================================
+cedar (*reed-see*) - Rapid Earth Engine Datacube Creator
+========================================================
 
 cedar is a library and application to help download and preprocess
 satellite data to be "analysis ready data" (ARD) "data cube" as quickly as
