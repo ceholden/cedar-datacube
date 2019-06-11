@@ -68,25 +68,20 @@ class GCSStore(object):
         GCS client
     bucket : google.cloud.storage.bucket.Bucket
         GCS bucket
-    export_image_kwds : dict, optional
-        Additional keyword arguments to pass onto
-        :py:meth:`ee.batch.Export.image.toCloudStorage`
     """
-    def __init__(self, client, bucket, export_image_kwds=None):
+    def __init__(self, client, bucket):
         assert isinstance(client, storage.Client)
         assert isinstance(bucket, storage.Bucket)
         self.client = client
         self.bucket = bucket
-        self.export_image_kwds = export_image_kwds or {}
 
     @classmethod
-    def from_credentials(cls, bucket_name, credentials=None, project=None,
-                         **kwds):
+    def from_credentials(cls, bucket_name, credentials=None, project=None):
         """ Load Google Cloud Storage credentials and create store
         """
         client = build_gcs_client(credentials=credentials, project=project)
         bucket = client.get_bucket(bucket_name)
-        return cls(client, bucket, **kwds)
+        return cls(client, bucket)
 
     def list(self, path=None, pattern=None):
         """ List stored images or metadata
@@ -134,7 +129,7 @@ class GCSStore(object):
                            check=False)
         return blob.name
 
-    def store_image(self, image, name, path=None, **kwds):
+    def store_image(self, image, name, path=None, **export_image_kwds):
         """ Create ee.batch.Task to create and store "pre-ARD"
 
         Parameters
@@ -145,19 +140,15 @@ class GCSStore(object):
             Name of file/object to store
         path : str, optional
             Parent directory for file/object stored
-        kwds
-            Additional keyword arguments to export function (hint: "crs" and
-            "scale")
+        export_image_kwds : dict, optional
+            Additional keyword arguments to pass onto
+            :py:meth:`ee.batch.Export.image.toCloudStorage` (hint: ``scale`` & ``crs``)
 
         Returns
         -------
         ee.Task
             Earth Engine Task
         """
-        # Combine keywords, with function's overriding
-        kwds_ = kwds.copy()
-        kwds_.update(self.export_image_kwds)
-
         # Make parent directory
         fullname, basename, path_ = _combine_name_path(name, path)
         path_ = mkdir_p(self.bucket, path_)
@@ -171,7 +162,7 @@ class GCSStore(object):
             bucket=self.bucket.name,
             description=basename,
             fileNamePrefix=fullname,
-            **kwds
+            **export_image_kwds
         )
         return task
 

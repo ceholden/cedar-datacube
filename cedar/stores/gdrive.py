@@ -130,17 +130,13 @@ class GDriveStore(object):
     ----------
     service : googleapiclient.discovery.Resource
         Google Drive API service
-    export_image_kwds : dict, optional
-        Additional keyword arguments to pass onto ``toDrive``
     """
-    def __init__(self, service, export_image_kwds=None):
+    def __init__(self, service):
         assert isinstance(service, Resource)
         self.service = service
-        self.export_image_kwds = export_image_kwds or {}
 
     @classmethod
-    def from_credentials(cls, client_secrets_file=None, credentials_file=None,
-                         export_image_kwds=None):
+    def from_credentials(cls, client_secrets_file=None, credentials_file=None):
         """ Create and/or load credentials and create the store
 
         Parameters
@@ -150,14 +146,12 @@ class GDriveStore(object):
         credentials_file : str or Path
             Filename of user credentials to load, or to save to for future use.
             If not provided, will use default location.
-        export_image_kwds : dict, optional
-            Additional keyword arguments to pass onto ``toDrive``
         """
         creds, creds_file = get_credentials(
             client_secrets_file=client_secrets_file,
             credentials_file=credentials_file)
         gdrive = build_gdrive_service(credentials=creds)
-        return cls(gdrive, export_image_kwds=export_image_kwds)
+        return cls(gdrive)
 
     def list(self, path=None, pattern=None):
         """ List stored images or metadata
@@ -205,7 +199,7 @@ class GDriveStore(object):
                               path=path, check=True)
         return meta_id
 
-    def store_image(self, image, name, path=None, **kwds):
+    def store_image(self, image, name, path=None, **export_image_kwds):
         """ Create ee.batch.Task to create and store "pre-ARD"
 
         Parameters
@@ -216,21 +210,16 @@ class GDriveStore(object):
             Name of file/object to store
         path : str, optional
             Parent directory for file/object stored
-        kwds
-            Additional keyword arguments to export function (hint: "crs" and
-            "scale")
+        export_image_kwds : dict, optional
+            Additional keyword arguments to pass onto
+            :py:meth:`ee.batch.Export.image.toCloudStorage` (hint: ``scale`` & ``crs``)
 
         Returns
         -------
         ee.Task
             Earth Engine Task
         """
-        # Combine keywords, with function's overriding
-        kwds_ = kwds.copy()
-        kwds_.update(self.export_image_kwds)
-
         # TODO: warn / fail if `path` looks nested...
-
         # Make parent directory -- currently GEE interprets this directory as
         # a single, non-nested directory. So, "GEEARD/LT05" and "GEEARD/LE07"
         # won't be separate directories under "GEEARD/", but two directories
@@ -247,7 +236,7 @@ class GDriveStore(object):
             description=name,
             fileNamePrefix=name,
             driveFolder=path,
-            **kwds
+            **export_image_kwds
         )
         return task
 

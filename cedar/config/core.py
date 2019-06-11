@@ -91,16 +91,23 @@ class Config(object):
     def get_tracker(self):
         """ Get the GEEARDTracker described by this store
         """
-        # Create tile grid and store for tracker
-        tile_grid = self.get_tile_grid()
-        store = self.get_store()
+        # Copy tracker config
+        cfg = self.config['tracker'].copy()
 
-        # Get any tracker options and convert filters to ee.Filter
-        kwds_tracker = self.config['gee'].get('tracker', {}).copy()
+        # Create tile grid
+        tile_grid = self.get_tile_grid()
+
+        # Create store
+        service = cfg.pop('store').lower()
+        if service == 'gcs':
+            store = self.get_gcs_store()
+        elif service == 'gdrive':
+            store = self.get_gdrive_store()
+        else:
+            raise ValueError(f'Unknown `store_service` named "{service}"')
 
         # Create tracker
-        tracker = build.build_tracker(tile_grid, store, **kwds_tracker)
-
+        tracker = build.build_tracker(tile_grid, store, **cfg)
         return tracker
 
     def get_tile_grid(self):
@@ -114,17 +121,6 @@ class Config(object):
         grid_name = cfg.pop('grid_name', None)
         grid_filename = cfg.pop('grid_filename', None)
         return build.build_tile_grid(grid_name, grid_filename, **cfg)
-
-    def get_store(self):
-        """ Return the Store used in this configuration file
-        """
-        service = self.config['gee']['store_service'].lower()
-        if service == 'gcs':
-            return self.get_gcs_store()
-        elif service == 'gdrive':
-            return self.get_gdrive_store()
-        else:
-            raise ValueError(f'Unknown `store_service` named "{service}"')
 
     def get_gcs_store(self):
         """ Return a GCSStore described by this config

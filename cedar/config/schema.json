@@ -4,7 +4,7 @@
   "type": "object",
 
   "definitions": {
-    "stores": {
+    "tracker": {
       "export_image_kwds": {
           "description": "Additional keyword arguments to pass to toCloudStorage",
           "type": "object",
@@ -86,46 +86,45 @@
         }
       ]
     },
-    "gee": {
+    "tracker": {
       "type": "object",
       "properties": {
-        "store_service": {
+        "store": {
+          "type": "string",
+          "enum": ["gdrive", "gcs"]
+        },
+        "name_template": {
           "type": "string"
         },
-        "tracker": {
-          "type": "object",
-          "properties": {
-            "name_template": {
-              "type": "string"
-            },
-            "tracking_template": {
-              "type": "string"
-            },
-            "prefix_template": {
-              "type": "string"
-            },
-            "filters": {
-              "type": "array",
-              "items": {
-                "type": "object",
-                "properties": {
-                  "function": {
-                    "type": "string"
-                  },
-                  "name": {
-                    "type": "string"
-                  },
-                  "value": {
-                    "type": "number"
-                  }
-                },
-                "required": ["function"]
+        "tracking_template": {
+          "type": "string"
+        },
+        "prefix_template": {
+          "type": "string"
+        },
+        "export_image_kwds": {
+          "$ref": "#/definitions/tracker/export_image_kwds"
+        },
+        "filters": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "function": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "value": {
+                "type": "number"
               }
-            }
+            },
+            "required": ["function"]
           }
         }
       },
-      "required": ["store_service", "tracker"]
+      "required": ["store"]
     },
     "gcs": {
       "type": "object",
@@ -141,9 +140,6 @@
         "project": {
           "description": "Name of GCS project to use",
           "type": "string"
-        },
-        "export_image_kwds": {
-          "$ref": "#/definitions/stores/export_image_kwds"
         }
       },
       "required": ["bucket_name", "project"]
@@ -158,9 +154,6 @@
         "credentials_file": {
           "description": "Filename of user OAuth2 credentials for cedar",
           "type": "string"
-        },
-        "export_image_kwds": {
-          "$ref": "#/definitions/stores/export_image_kwds"
         }
       },
       "required": []
@@ -191,13 +184,5 @@
       "required": ["destination"]
     }
   },
-  "required": ["tile_grid", "gee", "ard"],
-  "anyOf": [
-    {
-      "required": ["gcs"]
-    },
-    {
-      "required": ["gdrive"]
-    }
-  ]
+  "required": ["tile_grid", "tracker", "ard"]
 }
