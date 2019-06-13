@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>cedar.stores.gdrive &mdash; cedar 0+untagged.50.g37352d4 documentation</title>
+  <title>cedar.stores.gdrive &mdash; cedar 0+untagged.50.gd9ce32e documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.g37352d4
+                0+untagged.50.gd9ce32e
               </div>
             
           
@@ -297,17 +297,13 @@
 <span class="sd">    ----------</span>
 <span class="sd">    service : googleapiclient.discovery.Resource</span>
 <span class="sd">        Google Drive API service</span>
-<span class="sd">    export_image_kwds : dict, optional</span>
-<span class="sd">        Additional keyword arguments to pass onto ``toDrive``</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">service</span><span class="p">,</span> <span class="n">export_image_kwds</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">service</span><span class="p">):</span>
         <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">service</span><span class="p">,</span> <span class="n">Resource</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">service</span> <span class="o">=</span> <span class="n">service</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">export_image_kwds</span> <span class="o">=</span> <span class="n">export_image_kwds</span> <span class="ow">or</span> <span class="p">{}</span>
 
 <div class="viewcode-block" id="GDriveStore.from_credentials"><a class="viewcode-back" href="../../../storage.html#cedar.stores.gdrive.GDriveStore.from_credentials">[docs]</a>    <span class="nd">@classmethod</span>
-    <span class="k">def</span> <span class="nf">from_credentials</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">client_secrets_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">credentials_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                         <span class="n">export_image_kwds</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">from_credentials</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">client_secrets_file</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">credentials_file</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Create and/or load credentials and create the store</span>
 
 <span class="sd">        Parameters</span>
@@ -317,14 +313,12 @@
 <span class="sd">        credentials_file : str or Path</span>
 <span class="sd">            Filename of user credentials to load, or to save to for future use.</span>
 <span class="sd">            If not provided, will use default location.</span>
-<span class="sd">        export_image_kwds : dict, optional</span>
-<span class="sd">            Additional keyword arguments to pass onto ``toDrive``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">creds</span><span class="p">,</span> <span class="n">creds_file</span> <span class="o">=</span> <span class="n">get_credentials</span><span class="p">(</span>
             <span class="n">client_secrets_file</span><span class="o">=</span><span class="n">client_secrets_file</span><span class="p">,</span>
             <span class="n">credentials_file</span><span class="o">=</span><span class="n">credentials_file</span><span class="p">)</span>
         <span class="n">gdrive</span> <span class="o">=</span> <span class="n">build_gdrive_service</span><span class="p">(</span><span class="n">credentials</span><span class="o">=</span><span class="n">creds</span><span class="p">)</span>
-        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">gdrive</span><span class="p">,</span> <span class="n">export_image_kwds</span><span class="o">=</span><span class="n">export_image_kwds</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">gdrive</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="GDriveStore.list"><a class="viewcode-back" href="../../../storage.html#cedar.stores.gdrive.GDriveStore.list">[docs]</a>    <span class="k">def</span> <span class="nf">list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; List stored images or metadata</span>
@@ -372,7 +366,7 @@
                               <span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">meta_id</span></div>
 
-<div class="viewcode-block" id="GDriveStore.store_image"><a class="viewcode-back" href="../../../storage.html#cedar.stores.gdrive.GDriveStore.store_image">[docs]</a>    <span class="k">def</span> <span class="nf">store_image</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+<div class="viewcode-block" id="GDriveStore.store_image"><a class="viewcode-back" href="../../../storage.html#cedar.stores.gdrive.GDriveStore.store_image">[docs]</a>    <span class="k">def</span> <span class="nf">store_image</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">export_image_kwds</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Create ee.batch.Task to create and store &quot;pre-ARD&quot;</span>
 
 <span class="sd">        Parameters</span>
@@ -383,21 +377,16 @@
 <span class="sd">            Name of file/object to store</span>
 <span class="sd">        path : str, optional</span>
 <span class="sd">            Parent directory for file/object stored</span>
-<span class="sd">        kwds</span>
-<span class="sd">            Additional keyword arguments to export function (hint: &quot;crs&quot; and</span>
-<span class="sd">            &quot;scale&quot;)</span>
+<span class="sd">        export_image_kwds : dict, optional</span>
+<span class="sd">            Additional keyword arguments to pass onto</span>
+<span class="sd">            :py:meth:`ee.batch.Export.image.toCloudStorage` (hint: ``scale`` &amp; ``crs``)</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
 <span class="sd">        ee.Task</span>
 <span class="sd">            Earth Engine Task</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># Combine keywords, with function&#39;s overriding</span>
-        <span class="n">kwds_</span> <span class="o">=</span> <span class="n">kwds</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-        <span class="n">kwds_</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">export_image_kwds</span><span class="p">)</span>
-
         <span class="c1"># TODO: warn / fail if `path` looks nested...</span>
-
         <span class="c1"># Make parent directory -- currently GEE interprets this directory as</span>
         <span class="c1"># a single, non-nested directory. So, &quot;GEEARD/LT05&quot; and &quot;GEEARD/LE07&quot;</span>
         <span class="c1"># won&#39;t be separate directories under &quot;GEEARD/&quot;, but two directories</span>
@@ -414,7 +403,7 @@
             <span class="n">description</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
             <span class="n">fileNamePrefix</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
             <span class="n">driveFolder</span><span class="o">=</span><span class="n">path</span><span class="p">,</span>
-            <span class="o">**</span><span class="n">kwds</span>
+            <span class="o">**</span><span class="n">export_image_kwds</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="n">task</span></div>
 

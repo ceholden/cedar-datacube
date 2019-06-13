@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Index &mdash; cedar 0+untagged.50.g37352d4 documentation</title>
+  <title>Index &mdash; cedar 0+untagged.50.gd9ce32e documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0+untagged.50.g37352d4
+                0+untagged.50.gd9ce32e
               </div>
             
           
@@ -197,6 +197,8 @@
 <h2 id="A">A</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="cedar/cedar.ordering.html#cedar.ordering.Order.add">add() (cedar.ordering.Order method)</a>
+</li>
       <li><a href="cedar/cedar.utils.html#cedar.utils.affine_to_str">affine_to_str() (in module cedar.utils)</a>
 </li>
   </ul></td>
@@ -261,6 +263,8 @@
 </li>
       <li><a href="cedar/cedar.exceptions.html#module-cedar.exceptions">cedar.exceptions (module)</a>
 </li>
+      <li><a href="cedar/cedar.ordering.html#module-cedar.ordering">cedar.ordering (module)</a>
+</li>
       <li><a href="cedar/cedar.preard.html#module-cedar.preard">cedar.preard (module)</a>
 </li>
       <li><a href="cedar/cedar.sensors.html#module-cedar.sensors">cedar.sensors (module)</a>
@@ -295,6 +299,8 @@
 </li>
       <li><a href="cedar/cedar.sensors.common.html#cedar.sensors.common.collection_metadata">collection_metadata() (in module cedar.sensors.common)</a>
 </li>
+      <li><a href="cedar/cedar.ordering.html#cedar.ordering.Order.collections">collections() (cedar.ordering.Order property)</a>
+</li>
       <li><a href="cedar/cedar.config.core.html#cedar.config.core.Config">Config (class in cedar.config.core)</a>
 </li>
       <li><a href="cedar/cedar.config.core.html#cedar.config.core.Config.config">config() (cedar.config.core.Config property)</a>
@@ -303,9 +309,7 @@
 </li>
       <li><a href="cedar/cedar.sensors.html#cedar.sensors.CREATE_ARD_COLLECTION">CREATE_ARD_COLLECTION (in module cedar.sensors)</a>
 </li>
-      <li><a href="cedar/cedar.tracking.html#cedar.tracking.create_submission_metadata">create_submission_metadata() (in module cedar.tracking)</a>
-</li>
-      <li><a href="cedar/cedar.tracking.html#cedar.tracking.create_task_metadata">create_task_metadata() (in module cedar.tracking)</a>
+      <li><a href="cedar/cedar.ordering.html#cedar.ordering.Order.create_submission">create_submission() (cedar.ordering.Order class method)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -399,23 +403,31 @@
 </li>
       <li><a href="cedar/cedar.stores.gdrive.html#cedar.stores.gdrive.get_credentials">get_credentials() (in module cedar.stores.gdrive)</a>, <a href="credentials.html#cedar.stores.gdrive.get_credentials">[1]</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="cedar/cedar.config.parse.html#cedar.config.parse.get_default_schema">get_default_schema() (in module cedar.config.parse)</a>
 </li>
       <li><a href="cedar/cedar.tracking.html#cedar.tracking.get_ee_tasks">get_ee_tasks() (in module cedar.tracking)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="cedar/cedar.utils.html#cedar.utils.get_file">get_file() (in module cedar.utils)</a>
 </li>
       <li><a href="cedar/cedar.config.core.html#cedar.config.core.Config.get_gcs_store">get_gcs_store() (cedar.config.core.Config method)</a>
 </li>
       <li><a href="cedar/cedar.config.core.html#cedar.config.core.Config.get_gdrive_store">get_gdrive_store() (cedar.config.core.Config method)</a>
 </li>
-      <li><a href="cedar/cedar.config.core.html#cedar.config.core.Config.get_store">get_store() (cedar.config.core.Config method)</a>
+      <li><a href="cedar/cedar.ordering.html#cedar.ordering.get_order_metadata">get_order_metadata() (in module cedar.ordering)</a>
+</li>
+      <li><a href="cedar/cedar.ordering.html#cedar.ordering.get_program_metadata">get_program_metadata() (in module cedar.ordering)</a>
+</li>
+      <li><a href="cedar/cedar.tracking.html#cedar.tracking.get_submission_info">get_submission_info() (in module cedar.tracking)</a>
+</li>
+      <li><a href="cedar/cedar.ordering.html#cedar.ordering.get_task_metadata">get_task_metadata() (in module cedar.ordering)</a>
 </li>
       <li><a href="cedar/cedar.config.core.html#cedar.config.core.Config.get_tile_grid">get_tile_grid() (cedar.config.core.Config method)</a>
 </li>
       <li><a href="cedar/cedar.config.core.html#cedar.config.core.Config.get_tracker">get_tracker() (cedar.config.core.Config method)</a>
+</li>
+      <li><a href="cedar/cedar.ordering.html#cedar.ordering.get_tracking_metadata">get_tracking_metadata() (in module cedar.ordering)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -490,6 +502,10 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="cedar/cedar.sensors.common.html#cedar.sensors.common.object_metadata">object_metadata() (in module cedar.sensors.common)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="cedar/cedar.ordering.html#cedar.ordering.Order">Order (class in cedar.ordering)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -601,9 +617,15 @@
 </li>
       <li><a href="cedar/cedar.cli.options.html#cedar.cli.options.STYLE_WARNING">STYLE_WARNING() (in module cedar.cli.options)</a>
 </li>
-      <li><a href="cedar/cedar.tracking.html#cedar.tracking.GEEARDTracker.submit">submit() (cedar.tracking.GEEARDTracker method)</a>
+      <li><a href="cedar/cedar.ordering.html#cedar.ordering.Order.submit">submit() (cedar.ordering.Order method)</a>
+
+      <ul>
+        <li><a href="cedar/cedar.tracking.html#cedar.tracking.GEEARDTracker.submit">(cedar.tracking.GEEARDTracker method)</a>
 </li>
+      </ul></li>
       <li><a href="cedar/cedar.submissions.html#cedar.submissions.submit_ard">submit_ard() (in module cedar.submissions)</a>
+</li>
+      <li><a href="cedar/cedar.ordering.html#cedar.ordering.submit_preard_task">submit_preard_task() (in module cedar.ordering)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -613,9 +635,11 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="cedar/cedar.tests.test_cedar.html#cedar.tests.test_cedar.test_package">test_package() (in module cedar.tests.test_cedar)</a>
 </li>
+      <li><a href="cedar/cedar.sensors.common.html#cedar.sensors.common.tile_geom">tile_geom() (in module cedar.sensors.common)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="cedar/cedar.sensors.common.html#cedar.sensors.common.tile_geom">tile_geom() (in module cedar.sensors.common)</a>
+      <li><a href="cedar/cedar.ordering.html#cedar.ordering.Order.tiles">tiles() (cedar.ordering.Order property)</a>
 </li>
       <li><a href="cedar/cedar.config.core.html#cedar.config.core.Config.to_yaml">to_yaml() (cedar.config.core.Config method)</a>
 </li>

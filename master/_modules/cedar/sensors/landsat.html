@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>cedar.sensors.landsat &mdash; cedar 0+untagged.50.g37352d4 documentation</title>
+  <title>cedar.sensors.landsat &mdash; cedar 0+untagged.50.gd9ce32e documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.g37352d4
+                0+untagged.50.gd9ce32e
               </div>
             
           
@@ -321,10 +321,8 @@
     <span class="c1"># Create overall metadata</span>
     <span class="n">band_names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">imgcol</span><span class="o">.</span><span class="n">first</span><span class="p">()</span><span class="o">.</span><span class="n">bandNames</span><span class="p">()</span><span class="o">.</span><span class="n">getInfo</span><span class="p">())</span>
     <span class="n">metadata</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s1">&#39;sensor&#39;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="s1">&#39;bands&#39;</span><span class="p">:</span> <span class="n">band_names</span><span class="p">,</span>
-            <span class="s1">&#39;nodata&#39;</span><span class="p">:</span> <span class="n">nodata</span><span class="p">,</span>
-        <span class="p">},</span>
+        <span class="s1">&#39;bands&#39;</span><span class="p">:</span> <span class="n">band_names</span><span class="p">,</span>
+        <span class="s1">&#39;nodata&#39;</span><span class="p">:</span> <span class="n">nodata</span><span class="p">,</span>
         <span class="s1">&#39;images&#39;</span><span class="p">:</span> <span class="n">images_metadata</span>
     <span class="p">}</span>
 

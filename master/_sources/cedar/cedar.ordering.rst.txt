@@ -1,0 +1,7 @@
+cedar.ordering module
+=====================
+
+.. automodule:: cedar.ordering
+   :members:
+   :undoc-members:
+   :show-inheritance:

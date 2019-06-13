@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>cedar.submissions module &mdash; cedar 0+untagged.50.g37352d4 documentation</title>
+  <title>cedar.submissions module &mdash; cedar 0+untagged.50.gd9ce32e documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.g37352d4
+                0+untagged.50.gd9ce32e
               </div>
             
           
@@ -196,7 +196,7 @@
 
 <dl class="function">
 <dt id="cedar.submissions.submit_ard">
-<code class="sig-prename descclassname">cedar.submissions.</code><code class="sig-name descname">submit_ard</code><span class="sig-paren">(</span><em class="sig-param">collection</em>, <em class="sig-param">tile</em>, <em class="sig-param">date_start</em>, <em class="sig-param">date_end</em>, <em class="sig-param">store</em>, <em class="sig-param">name_template='{collection}_h{tile.horizontal:03d}v{tile.vertical:03d}_{date_start}_{date_end}'</em>, <em class="sig-param">prefix_template='GEEARD/{collection}/h{tile.horizontal:03d}v{tile.vertical:03d}'</em>, <em class="sig-param">filters=None</em>, <em class="sig-param">freq=None</em>, <em class="sig-param">start=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/submissions.html#submit_ard"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.submissions.submit_ard" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">cedar.submissions.</code><code class="sig-name descname">submit_ard</code><span class="sig-paren">(</span><em class="sig-param">collection</em>, <em class="sig-param">tile</em>, <em class="sig-param">date_start</em>, <em class="sig-param">date_end</em>, <em class="sig-param">store</em>, <em class="sig-param">name_template='{collection}_h{tile.horizontal:03d}v{tile.vertical:03d}_{date_start}_{date_end}'</em>, <em class="sig-param">prefix_template='GEEARD/{collection}/h{tile.horizontal:03d}v{tile.vertical:03d}'</em>, <em class="sig-param">filters=None</em>, <em class="sig-param">export_image_kwds=None</em>, <em class="sig-param">start=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/submissions.html#submit_ard"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.submissions.submit_ard" title="Permalink to this definition">¶</a></dt>
 <dd><p>Submit a ee.Task to create ARD, and stores the ARD with metadata</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -209,9 +209,7 @@
 <li><p><strong>name_template</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – String template for the export filename</p></li>
 <li><p><strong>prefix_template</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – String template for the export prefix path</p></li>
 <li><p><strong>filters</strong> (<em>Sequence</em><em>[</em><em>ee.Filter</em><em>]</em>) – Additional filters to apply over image collection</p></li>
-<li><p><strong>freq</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – If provided, <code class="docutils literal notranslate"><span class="pre">date_start</span></code>, <code class="docutils literal notranslate"><span class="pre">date_end</span></code>, and <code class="docutils literal notranslate"><span class="pre">freq</span></code> are interpeted
-as the range for <a class="reference external" href="http://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.date_range.html#pandas.date_range" title="(in pandas v0.24.2)"><code class="xref py py-func docutils literal notranslate"><span class="pre">pandas.date_range()</span></code></a> and one or more Tasks
-will be submitted</p></li>
+<li><p><strong>export_image_kwds</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a><em>, </em><em>optional</em>) – Additional keyword arguments to pass onto <code class="docutils literal notranslate"><span class="pre">store.store_image</span></code></p></li>
 <li><p><strong>start</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em>, </em><em>optional</em>) – Start the Earth Engine task</p></li>
 </ul>
 </dd>

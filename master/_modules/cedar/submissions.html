@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>cedar.submissions &mdash; cedar 0+untagged.50.g37352d4 documentation</title>
+  <title>cedar.submissions &mdash; cedar 0+untagged.50.gd9ce32e documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.g37352d4
+                0+untagged.50.gd9ce32e
               </div>
             
           
@@ -222,7 +222,9 @@
 <div class="viewcode-block" id="submit_ard"><a class="viewcode-back" href="../../cedar/cedar.submissions.html#cedar.submissions.submit_ard">[docs]</a><span class="k">def</span> <span class="nf">submit_ard</span><span class="p">(</span><span class="n">collection</span><span class="p">,</span> <span class="n">tile</span><span class="p">,</span> <span class="n">date_start</span><span class="p">,</span> <span class="n">date_end</span><span class="p">,</span> <span class="n">store</span><span class="p">,</span>
                <span class="n">name_template</span><span class="o">=</span><span class="n">defaults</span><span class="o">.</span><span class="n">PREARD_NAME</span><span class="p">,</span>
                <span class="n">prefix_template</span><span class="o">=</span><span class="n">defaults</span><span class="o">.</span><span class="n">PREARD_PREFIX</span><span class="p">,</span>
-               <span class="n">filters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">freq</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+               <span class="n">filters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+               <span class="n">export_image_kwds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+               <span class="n">start</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Submit a ee.Task to create ARD, and stores the ARD with metadata</span>
 
 <span class="sd">    Parameters</span>
@@ -243,10 +245,8 @@
 <span class="sd">        String template for the export prefix path</span>
 <span class="sd">    filters : Sequence[ee.Filter]</span>
 <span class="sd">        Additional filters to apply over image collection</span>
-<span class="sd">    freq : str, optional</span>
-<span class="sd">        If provided, ``date_start``, ``date_end``, and ``freq`` are interpeted</span>
-<span class="sd">        as the range for :py:func:`pandas.date_range` and one or more Tasks</span>
-<span class="sd">        will be submitted</span>
+<span class="sd">    export_image_kwds : dict, optional</span>
+<span class="sd">        Additional keyword arguments to pass onto ``store.store_image``</span>
 <span class="sd">    start : bool, optional</span>
 <span class="sd">        Start the Earth Engine task</span>
 
@@ -260,12 +260,13 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Storing image and metadata using </span><span class="si">{store}</span><span class="s1">&#39;</span><span class="p">)</span>
 
-    <span class="c1"># Stores are agnostic about these keywords needed for image</span>
-    <span class="n">image_store_kwds</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="c1"># Keywords to pass onto store for images</span>
+    <span class="n">export_image_kwds</span> <span class="o">=</span> <span class="n">export_image_kwds</span> <span class="ow">or</span> <span class="p">{}</span>
+    <span class="n">export_image_kwds</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
         <span class="s1">&#39;crs&#39;</span><span class="p">:</span> <span class="n">tile</span><span class="o">.</span><span class="n">crs</span><span class="o">.</span><span class="n">wkt</span><span class="p">,</span>
         <span class="s1">&#39;crs_transform&#39;</span><span class="p">:</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">tile</span><span class="o">.</span><span class="n">transform</span><span class="p">[:</span><span class="mi">6</span><span class="p">]),</span>
         <span class="s1">&#39;dimensions&#39;</span><span class="p">:</span> <span class="n">f</span><span class="s1">&#39;</span><span class="si">{tile.width}</span><span class="s1">x</span><span class="si">{tile.height}</span><span class="s1">&#39;</span><span class="p">,</span>
-    <span class="p">}</span>
+    <span class="p">})</span>
 
     <span class="c1"># Split up period into 1 or more sub-periods if freq is given</span>
     <span class="n">date_periods</span> <span class="o">=</span> <span class="n">_parse_date_freq</span><span class="p">(</span><span class="n">date_start</span><span class="p">,</span> <span class="n">date_end</span><span class="p">,</span> <span class="n">freq</span><span class="p">)</span>
@@ -273,40 +274,37 @@
     <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Creating </span><span class="si">{n_periods}</span><span class="s1"> ARD slice(s) for date range&#39;</span><span class="p">)</span>
 
     <span class="n">out</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">start_</span><span class="p">,</span> <span class="n">end_</span> <span class="ow">in</span> <span class="n">date_periods</span><span class="p">:</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Creating ARD for &quot;</span><span class="si">{collection}</span><span class="s1">&quot; between </span><span class="si">{start_}</span><span class="s1">-</span><span class="si">{end_}</span><span class="s1">&#39;</span><span class="p">)</span>
-        <span class="c1"># Create export name and paths</span>
-        <span class="n">_args</span> <span class="o">=</span> <span class="p">(</span><span class="n">collection</span><span class="p">,</span> <span class="n">tile</span><span class="p">,</span> <span class="n">start_</span><span class="p">,</span> <span class="n">end_</span><span class="p">,</span> <span class="p">)</span>
-        <span class="n">name</span> <span class="o">=</span> <span class="n">format_export_string</span><span class="p">(</span><span class="n">name_template</span><span class="p">,</span> <span class="o">*</span><span class="n">_args</span><span class="p">)</span>
-        <span class="n">prefix</span> <span class="o">=</span> <span class="n">format_export_string</span><span class="p">(</span><span class="n">prefix_template</span><span class="p">,</span> <span class="o">*</span><span class="n">_args</span><span class="p">)</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Creating ARD for &quot;</span><span class="si">{collection}</span><span class="s1">&quot; between &#39;</span>
+                 <span class="n">f</span><span class="s1">&#39;</span><span class="si">{date_start}</span><span class="s1">-</span><span class="si">{date_end}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="c1"># Create export name and paths</span>
+    <span class="n">_args</span> <span class="o">=</span> <span class="p">(</span><span class="n">collection</span><span class="p">,</span> <span class="n">tile</span><span class="p">,</span> <span class="n">start_</span><span class="p">,</span> <span class="n">end_</span><span class="p">,</span> <span class="p">)</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">format_export_string</span><span class="p">(</span><span class="n">name_template</span><span class="p">,</span> <span class="o">*</span><span class="n">_args</span><span class="p">)</span>
+    <span class="n">prefix</span> <span class="o">=</span> <span class="n">format_export_string</span><span class="p">(</span><span class="n">prefix_template</span><span class="p">,</span> <span class="o">*</span><span class="n">_args</span><span class="p">)</span>
 
-        <span class="c1"># Create image &amp; metadata</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="c1"># Image is still &quot;unbounded&quot;, but will be given crs, transform,</span>
-            <span class="c1"># and size on export</span>
-            <span class="c1"># image_metadata should return keys &quot;sensor&quot; and &quot;images&quot;</span>
-            <span class="n">image</span><span class="p">,</span> <span class="n">image_metadata</span> <span class="o">=</span> <span class="n">_create_ard</span><span class="p">(</span><span class="n">collection</span><span class="p">,</span> <span class="n">tile</span><span class="p">,</span> <span class="n">start_</span><span class="p">,</span> <span class="n">end_</span><span class="p">,</span>
-                                                <span class="n">filters</span><span class="o">=</span><span class="n">filters</span><span class="p">)</span>
-        <span class="k">except</span> <span class="n">EmptyCollectionError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="c1"># Export &amp; store</span>
-            <span class="n">task</span> <span class="o">=</span> <span class="n">store</span><span class="o">.</span><span class="n">store_image</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="o">**</span><span class="n">image_store_kwds</span><span class="p">)</span>
+    <span class="c1"># Create image &amp; metadata</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="c1"># Image is still &quot;unbounded&quot;, but will be given crs, transform,</span>
+        <span class="c1"># and size on export</span>
+        <span class="c1"># image_metadata should return keys &quot;sensor&quot; and &quot;images&quot;</span>
+        <span class="n">image</span><span class="p">,</span> <span class="n">meta_images</span> <span class="o">=</span> <span class="n">_create_ard</span><span class="p">(</span><span class="n">collection</span><span class="p">,</span> <span class="n">tile</span><span class="p">,</span> <span class="n">date_start</span><span class="p">,</span> <span class="n">date_end</span><span class="p">,</span>
+                                         <span class="n">filters</span><span class="o">=</span><span class="n">filters</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">EmptyCollectionError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># Export &amp; store</span>
+        <span class="n">task</span> <span class="o">=</span> <span class="n">store</span><span class="o">.</span><span class="n">store_image</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="o">**</span><span class="n">export_image_kwds</span><span class="p">)</span>
 
-            <span class="c1"># Create metadata</span>
-            <span class="n">metadata</span> <span class="o">=</span> <span class="n">_submission_metadata</span><span class="p">(</span><span class="n">collection</span><span class="p">,</span> <span class="n">date_start</span><span class="p">,</span> <span class="n">date_end</span><span class="p">,</span>
-                                            <span class="n">freq</span><span class="p">)</span>
-            <span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;tile&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tile</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
-            <span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;task&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">_task_metadata</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>
-            <span class="n">metadata</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">image_metadata</span><span class="p">)</span>  <span class="c1"># &quot;sensor&quot; and &quot;images&quot; keys</span>
-            <span class="n">metadata_</span> <span class="o">=</span> <span class="n">store</span><span class="o">.</span><span class="n">store_metadata</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">prefix</span><span class="p">)</span>
+        <span class="c1"># Create metadata</span>
+        <span class="n">info</span> <span class="o">=</span> <span class="n">_submission_info</span><span class="p">(</span><span class="n">collection</span><span class="p">,</span> <span class="n">date_start</span><span class="p">,</span> <span class="n">date_end</span><span class="p">,</span> <span class="n">freq</span><span class="p">)</span>
+        <span class="n">info</span><span class="p">[</span><span class="s1">&#39;tile&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tile</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
+        <span class="n">info</span><span class="p">[</span><span class="s1">&#39;task&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">metadata</span><span class="o">.</span><span class="n">get_task_metadata</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>
+        <span class="n">info</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">image_metadata</span><span class="p">)</span>  <span class="c1"># &quot;sensor&quot; and &quot;images&quot; keys</span>
+        <span class="n">metadata_</span> <span class="o">=</span> <span class="n">store</span><span class="o">.</span><span class="n">store_metadata</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">prefix</span><span class="p">)</span>
 
-            <span class="k">if</span> <span class="n">start</span><span class="p">:</span>
-                <span class="n">task</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">start</span><span class="p">:</span>
+            <span class="n">task</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
 
-            <span class="n">out</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">task</span><span class="p">,</span> <span class="n">metadata_</span><span class="p">,</span> <span class="p">))</span>
-
-    <span class="k">return</span> <span class="n">out</span></div>
+    <span class="k">return</span> <span class="n">task</span><span class="p">,</span> <span class="n">metadata_</span></div>
 
 
 <span class="k">def</span> <span class="nf">_create_ard</span><span class="p">(</span><span class="n">collection</span><span class="p">,</span> <span class="n">tile</span><span class="p">,</span> <span class="n">date_start</span><span class="p">,</span> <span class="n">date_end</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
@@ -346,11 +344,6 @@
             <span class="s1">&#39;freq&#39;</span><span class="p">:</span> <span class="n">freq</span>
         <span class="p">},</span>
     <span class="p">}</span>
-
-
-<span class="k">def</span> <span class="nf">_task_metadata</span><span class="p">(</span><span class="n">task</span><span class="p">):</span>
-    <span class="n">attrs</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span>  <span class="c1"># &quot;config&quot; seems a bit much to store</span>
-    <span class="k">return</span> <span class="p">{</span><span class="n">attr</span><span class="p">:</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">attr</span><span class="p">)</span> <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">attrs</span><span class="p">}</span>
 </pre></div>
 
            </div>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>cedar.config.core &mdash; cedar 0+untagged.50.g37352d4 documentation</title>
+  <title>cedar.config.core &mdash; cedar 0+untagged.50.gd9ce32e documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.g37352d4
+                0+untagged.50.gd9ce32e
               </div>
             
           
@@ -258,16 +258,23 @@
 <div class="viewcode-block" id="Config.get_tracker"><a class="viewcode-back" href="../../../cedar/cedar.config.core.html#cedar.config.core.Config.get_tracker">[docs]</a>    <span class="k">def</span> <span class="nf">get_tracker</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Get the GEEARDTracker described by this store</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># Create tile grid and store for tracker</span>
-        <span class="n">tile_grid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_tile_grid</span><span class="p">()</span>
-        <span class="n">store</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_store</span><span class="p">()</span>
+        <span class="c1"># Copy tracker config</span>
+        <span class="n">cfg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;tracker&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
-        <span class="c1"># Get any tracker options and convert filters to ee.Filter</span>
-        <span class="n">kwds_tracker</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;gee&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;tracker&#39;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="c1"># Create tile grid</span>
+        <span class="n">tile_grid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_tile_grid</span><span class="p">()</span>
+
+        <span class="c1"># Create store</span>
+        <span class="n">service</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;store&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">service</span> <span class="o">==</span> <span class="s1">&#39;gcs&#39;</span><span class="p">:</span>
+            <span class="n">store</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_gcs_store</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">service</span> <span class="o">==</span> <span class="s1">&#39;gdrive&#39;</span><span class="p">:</span>
+            <span class="n">store</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_gdrive_store</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Unknown `store_service` named &quot;</span><span class="si">{service}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
 
         <span class="c1"># Create tracker</span>
-        <span class="n">tracker</span> <span class="o">=</span> <span class="n">build</span><span class="o">.</span><span class="n">build_tracker</span><span class="p">(</span><span class="n">tile_grid</span><span class="p">,</span> <span class="n">store</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds_tracker</span><span class="p">)</span>
-
+        <span class="n">tracker</span> <span class="o">=</span> <span class="n">build</span><span class="o">.</span><span class="n">build_tracker</span><span class="p">(</span><span class="n">tile_grid</span><span class="p">,</span> <span class="n">store</span><span class="p">,</span> <span class="o">**</span><span class="n">cfg</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">tracker</span></div>
 
 <div class="viewcode-block" id="Config.get_tile_grid"><a class="viewcode-back" href="../../../cedar/cedar.config.core.html#cedar.config.core.Config.get_tile_grid">[docs]</a>    <span class="k">def</span> <span class="nf">get_tile_grid</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -281,17 +288,6 @@
         <span class="n">grid_name</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;grid_name&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="n">grid_filename</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;grid_filename&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">build</span><span class="o">.</span><span class="n">build_tile_grid</span><span class="p">(</span><span class="n">grid_name</span><span class="p">,</span> <span class="n">grid_filename</span><span class="p">,</span> <span class="o">**</span><span class="n">cfg</span><span class="p">)</span></div>
-
-<div class="viewcode-block" id="Config.get_store"><a class="viewcode-back" href="../../../cedar/cedar.config.core.html#cedar.config.core.Config.get_store">[docs]</a>    <span class="k">def</span> <span class="nf">get_store</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Return the Store used in this configuration file</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">service</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;gee&#39;</span><span class="p">][</span><span class="s1">&#39;store_service&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">service</span> <span class="o">==</span> <span class="s1">&#39;gcs&#39;</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_gcs_store</span><span class="p">()</span>
-        <span class="k">elif</span> <span class="n">service</span> <span class="o">==</span> <span class="s1">&#39;gdrive&#39;</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_gdrive_store</span><span class="p">()</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Unknown `store_service` named &quot;</span><span class="si">{service}</span><span class="s1">&quot;&#39;</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Config.get_gcs_store"><a class="viewcode-back" href="../../../cedar/cedar.config.core.html#cedar.config.core.Config.get_gcs_store">[docs]</a>    <span class="k">def</span> <span class="nf">get_gcs_store</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Return a GCSStore described by this config</span>
