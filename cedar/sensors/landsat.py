@@ -154,10 +154,8 @@ def create_ard(collection, tile, date_start, date_end, filters=None,
     # Create overall metadata
     band_names = list(imgcol.first().bandNames().getInfo())
     metadata = {
-        'sensor': {
-            'bands': band_names,
-            'nodata': nodata,
-        },
+        'bands': band_names,
+        'nodata': nodata,
         'images': images_metadata
     }
 

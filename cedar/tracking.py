@@ -13,7 +13,7 @@ import pandas as pd
 
 from stems.gis.grids import TileGrid, Tile
 
-from . import defaults, submissions, utils
+from . import defaults, ordering, utils
 
 logger = logging.getLogger(__name__)
 
@@ -21,7 +21,7 @@ _STR_FORMATTER = string.Formatter()
 
 
 class GEEARDTracker(object):
-    """ Tracker for GEE ARD task submission
+    """ CEDAR "pre-ARD" order tracker
 
     Parameters
     ----------
@@ -34,20 +34,22 @@ class GEEARDTracker(object):
         Earth Engine filters to apply, either as ee.Filter objects or
         dictionaries that describe the filter
     """
-
-
     def __init__(self, tile_grid, store,
                  name_template=defaults.PREARD_NAME,
-                 tracking_template=defaults.PREARD_TRACKING,
                  prefix_template=defaults.PREARD_PREFIX,
-                 filters=None):
+                 tracking_template=defaults.PREARD_TRACKING,
+                 tracking_prefix=defaults.PREARD_TRACKING_PREFIX,
+                 filters=None,
+                 export_image_kwds=None):
         assert isinstance(tile_grid, TileGrid)
         self.tile_grid = tile_grid
         self.store = store
         self.name_template = name_template
-        self.tracking_template = tracking_template
         self.prefix_template = prefix_template
+        self.tracking_template = tracking_template
+        self.tracking_prefix = tracking_prefix
         self._filters = filters or []
+        self.export_image_kwds = export_image_kwds or {}
 
     @property
     def filters(self):
@@ -57,7 +59,7 @@ class GEEARDTracker(object):
         return _create_filters(self._filters)
 
     def submit(self, collections, tile_indices,
-               date_start, date_end, freq=defaults.PREARD_FREQ):
+               period_start, period_end, period_freq=None):
         """ Submit and track GEE pre-ARD tasks
 
         Parameters
@@ -66,13 +68,14 @@ class GEEARDTracker(object):
             GEE image collection name(s)
         tile_indices : Sequence[(int, int)]
             Tuple(s) of rows/columns in TileGrid to process
-        date_start : dt.datetime
-            Starting period
-        date_end : dt.datetime
-            Ending period
-        freq : str, optional
-            Submit pre-ARD tasks for periods between ``date_start`` and
-            ``date_end`` with this frequency
+        period_start : dt.datetime
+            Starting period date
+        period_end : dt.datetime
+            Ending period date
+        period_freq : str, optional
+            If provided, ``period_start``, ``period_end``, and ``period_freq``
+            are interpeted as the range for :py:func:`pandas.date_range` and
+            one or more Tasks will be submitted
 
         Returns
         -------
@@ -88,47 +91,50 @@ class GEEARDTracker(object):
         if isinstance(tile_indices[0], int):
             tile_indices = [tile_indices]
 
-        # Create metadata about task submission process
-        meta_submission = create_submission_metadata(
-            self.name_template, self.prefix_template,
-            self.store, self.filters)
+        # Get tiles
+        tiles = [self.tile_grid[index] for index in tile_indices]
 
-        # Store metadata about each task submitted
-        meta_tasks = []
-        # Loop over product of collections & tiles 
-        iter_submit = itertools.product(collections, tile_indices)
-        for collection, tile_index in iter_submit:
-            logger.debug(f'Submitting "{collection}" - "{tile_index}"')
-            # Find the tile
-            tile = self.tile_grid[tile_index]
+        # Split up period into 1 or more sub-periods if freq is given
+        periods = _parse_date_freq(period_start, period_end, period_freq)
+        logger.debug(f'Creating {len(periods)} ARD slice(s) for date range')
 
-            # Create, returning the task and stored metadata name
-            tasks_and_metadata = submissions.submit_ard(
-                collection, tile, date_start, date_end,
-                self.store,
+        # Create tracking name
+        namespace = {
+            'collections': collections,
+            'tiles': tiles,
+            'tile_indices': tile_indices,
+            'period_start': period_start,
+            'period_end': period_end,
+            'period_freq': period_freq,
+            'now': dt.datetime.now().isoformat()
+        }
+        tracking_name = self.tracking_template.format(**namespace)
+
+        # Create submission info
+        submission_info = get_submission_info(self.tile_grid, tile_indices,
+                                              period_start, period_end,
+                                              period_freq)
+
+        # Determine parameters for each submission
+        iter_submit = list(itertools.product(collections, tiles, periods))
+
+        # Create an order - submits on context exit
+        with ordering.Order.create_submission(
+                tracking_name, self.tracking_prefix, self.store,
                 name_template=self.name_template,
                 prefix_template=self.prefix_template,
-                filters=self.filters,
-                freq=freq,
-                start=False)
+                submission_info=submission_info,
+                export_image_kwds=self.export_image_kwds) as order:
+            # Loop over product of collections, tiles, and dates
+            for collection, tile, (date_start, date_end) in iter_submit:
+                logger.debug(
+                    f'Ordering "{collection}" - '
+                    f'"h{tile.horizontal:03d}v{tile.vertical:03d} - '
+                    f'{date_start.isoformat()} to {date_end.isoformat()}')
+                order.add(collection, tile, date_start, date_end,
+                          filters=self.filters)
 
-            # Common metadata for all tasks in this loop
-            task_meta = _tracking_info_metadata(
-                collection, tile, date_start, date_end)
-
-            # Start and get metadata for each task
-            for task, _ in tasks_and_metadata:
-                task.start()
-                task_meta_ = task_meta.copy()
-                task_meta_.update(_tracking_task_metadata(task))
-                meta_tasks.append(task_meta_)
-
-        # Get tracking info name and store it
-        tracking_name = self._tracking_name(date_start, date_end)
-        tracking_info = {'submission': meta_submission, 'tasks': meta_tasks}
-        tracking_id = self.store.store_metadata(tracking_info, tracking_name,
-                                                path=self.prefix_template)
-        return tracking_name, tracking_id
+        return order.tracking_name, order.tracking_id
 
     def list(self, pattern=None):
         """ Return a list of all tracking metadata
@@ -149,7 +155,7 @@ class GEEARDTracker(object):
         if pattern is None:
             d = defaultdict(lambda: '*')
             pattern = self.tracking_template.format_map(d).split('*')[0]
-        return self.store.list(path=self.prefix_template, pattern=pattern)
+        return self.store.list(path=self.tracking_prefix, pattern=pattern)
 
     def read(self, name):
         """ Returns stored tracking information as dict
@@ -165,7 +171,7 @@ class GEEARDTracker(object):
         dict
             JSON tracking info data as a dict
         """
-        return self.store.read_metadata(name, path=self.prefix_template)
+        return self.store.read_metadata(name, path=self.tracking_prefix)
 
     def update(self, name):
         """ Refresh and reupload tracking information by checking with the GEE
@@ -262,7 +268,7 @@ class GEEARDTracker(object):
         iter_clean = clean_tracked(tracking_info, self.store)
 
         if tracking_name:
-            self.store.remove(tracking_name, self.prefix_template)
+            self.store.remove(tracking_name, self.tracking_prefix)
 
         cleaned = defaultdict(list)
         for task_id, n_images, names in iter_clean:
@@ -272,15 +278,6 @@ class GEEARDTracker(object):
                 cleaned[task_id].append(name)
 
         return cleaned
-
-    def _tracking_name(self, date_start, date_end):
-        infos = {
-            'date_start': _strftime_image(date_start),
-            'date_end': _strftime_image(date_end),
-            'today': _strftime_track(dt.datetime.today()),
-        }
-        tracking_name = self.tracking_template.format(**infos)
-        return tracking_name
 
     @property
     def _tracking_template_findall(self):
@@ -376,110 +373,23 @@ def update_tracking_info(tracking_info):
         Input tracking info updated with GEE task status
     """
     tracking_info = tracking_info.copy()
-    tracked_tasks = tracking_info['tasks']
+    tracked_orders = tracking_info['orders']
 
     ee_tasks = get_ee_tasks()
 
     updated = []
-    for info in tracked_tasks:
-        id_ = info['id']
+    for info in tracked_orders:
+        id_ = info['status']['id']
         task = ee_tasks.get(id_, None)
         if task:
-            info_ = _tracking_task_metadata(task)
+            info_ = ordering.get_task_metadata(task)
             info.update(info_)
         else:
             logger.debug('Could not update information for task id="{id_}"')
         updated.append(info)
 
-    tracking_info['tasks'] = updated
-
+    tracking_info['orders'] = updated
     return tracking_info
-
-
-def create_submission_metadata(name, prefix, store, filters):
-    """ Build up task submission tracking metadata
-    """
-    # Encode filters as JSON (ugly, but at least we can save info)
-    filter_ = [_serialize_filter(f) for f in filters]
-    # Grab export kwargs from `store`
-    # TODO: where should this data come from...
-    export_ = store.export_image_kwds
-    return {
-        'submitted': _strftime_track(dt.datetime.now()),
-        'store': {
-            'name': name,
-            'prefix': prefix,
-        },
-        'export': export_,
-        'filters': filter_,
-    }
-
-
-def create_task_metadata(collection, tile, date_start, date_end,
-                         task, metadata_dst):
-    """ Build up image data processing tracking metadata
-    """
-    # `date_[start|end]` should be the full range of request, not necessarily
-    # what the task is working on
-    return {
-        'collection': collection,
-        'tile.horizontal': tile.horizontal,
-        'tile.vertical': tile.vertical,
-        'date_start': _strftime_image(date_start),
-        'date_end': _strftime_image(date_end),
-        'name': task.config['description'],
-        'prefix': task
-    }
-
-
-def _tracking_info_metadata(collection, tile, date_start, date_end):
-    """ Create general task tracking metadata
-    """
-    meta = {
-        'collection': collection,
-        'tile_row': tile.vertical,
-        'tile_col': tile.horizontal,
-        'tile_bounds': tile.bounds,
-        'tile_crs_wkt': tile.crs.wkt,
-        'tile_transform': utils.affine_to_str(tile.transform[:6]),
-        'date_start': _strftime_image(date_start),
-        'date_end': _strftime_image(date_end),
-    }
-    return meta
-
-
-def _tracking_task_metadata(task):
-    """ Get task name/prefix/(bucket) and ID
-    """
-    info = {}
-    # When active, task config information has:
-    # GDrive keys:
-    #    description, dimensions, crs, fileFormat, driveFolder, crs_transform,
-    #    driveFileNamePrefix, json
-    # GCS keys:
-    #    description, dimensions, crs, fileFormat, crs_transform, outputBucket,
-    #    outputPrefix, json
-    bucket = task.config.get('outputBucket', '')
-    if bucket:  # GCS
-        info['name'] = task.config['description']
-        info['prefix'] = task.config['outputPrefix'].rstrip(name)
-    elif 'driveFolder' in task.config:  # GDrive
-        info['name'] = task.config['driveFileNamePrefix']
-        info['prefix'] = task.config['driveFolder']
-    # Otherwise we're updating something a task
-
-    status = task.status()
-    info.update({
-        'bucket_name': bucket,
-        'id': status['id'],
-        'state': status['state'],
-        # Attributes available post-run
-        'creation_timestamp_ms': status.get('creation_timestamp_ms', ''),
-        'update_timestamp_ms': status.get('update_timestamp_ms', ''),
-        'start_timestamp_ms': status.get('start_timestamp_ms', ''),
-        'output_url': status.get('output_url', [])
-    })
-    return info
 
 
 def get_ee_tasks():
@@ -493,8 +403,32 @@ def get_ee_tasks():
     return {task.id: task for task in ee.batch.Task.list()}
 
 
-def _serialize_filter(ee_filter):
-    return ee.serializer.encode(ee_filter)
+def get_submission_info(tile_grid, tile_indices,
+                        period_start, period_end, period_freq):
+    """ Return information about tracked order submissions
+    """
+    return {
+        'submitted': dt.datetime.today().isoformat(),
+        'tile_grid': tile_grid.to_dict(),
+        'tile_indices': list(tile_indices),
+        'period_start': period_start.isoformat(),
+        'period_end': period_end.isoformat(),
+        'period_freq': period_freq
+    }
+
+
+def _parse_date_freq(start, end, freq=None):
+    import pandas as pd  # hiding because it can be expensive to import
+    start_ = pd.to_datetime(start).to_pydatetime()
+    end_ = pd.to_datetime(end).to_pydatetime()
+    if freq is None:
+        return list(zip([start], [end]))
+    else:
+        # Add offset to make inclusive of end date
+        from pandas.tseries.frequencies import to_offset
+        offset = to_offset(freq)
+        times = pd.date_range(start, end + offset, freq=freq).to_pydatetime()
+        return list(zip(times[:-1], times[1:]))
 
 
 def _strftime(d, strf):

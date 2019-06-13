@@ -16,21 +16,21 @@ logger = logging.getLogger(__name__)
 @click.command('submit', short_help='Submit "pre-ARD" data processing tasks')
 @click.argument('image_collection', nargs=-1, type=str, required=True)
 @click.option('--index', '-i', nargs=2, type=int, multiple=True,
-              help='TileGrid (row, col) index(es) to submit')
+  help='TileGrid (row, col) index(es) to submit')
 @click.option('--row', '-r', type=int, multiple=True,
-              help='TileGrid row(s) to submit. Use in conjunction with `--col`')
+  help='TileGrid row(s) to submit. Use in conjunction with `--col`')
 @click.option('--col', '-c', type=int, multiple=True,
-              help='TileGrid col(s) to submit. Use in conjunction with `--row`')
-@click.option('--date_start', callback=cli_options.cb_time,
-              help='Starting time period for submission')
-@click.option('--date_end', callback=cli_options.cb_time,
-              help='Ending time period for submission')
+  help='TileGrid col(s) to submit. Use in conjunction with `--row`')
+@click.option('--period_start', callback=cli_options.cb_time,
+  help='Starting time period for submission')
+@click.option('--period_end', callback=cli_options.cb_time,
+  help='Ending time period for submission')
+@click.option('--period_freq', type=str, default=defaults.PREARD_FREQ,
+  help='Split start/end time into periods of this frequency')
 @cli_options.opt_date_format
-@click.option('--freq', type=str, default=defaults.PREARD_FREQ,
-              help='Split start/end time into')
 @click.pass_context
 def submit(ctx, image_collection, index, row, col,
-           date_start, date_end, date_format, freq):
+ period_start, period_end, period_freq, date_format):
     """ Submit
     """
     # Need index OR (row AND col) -- blame index param if it goes wrong
@@ -39,23 +39,24 @@ def submit(ctx, image_collection, index, row, col,
         if row or col:
             raise click.BadParameter(
                 'Cannot use `--index` with `--row` or `--col`',
-                 ctx=ctx, param=index_param)
+                ctx=ctx, param=index_param)
     elif row and col:
         if index:
             raise click.BadParameter(
                 'Cannot use `--row` and `--col` with `--index`',
-                 ctx=ctx, param=index_param)
+                ctx=ctx, param=index_param)
         index = list(itertools.product(row, col))
     else:
         raise click.BadParameter(
             'Must specify `--index` OR both `--row` and `--col`',
-             ctx=ctx, param=index_param)
+            ctx=ctx, param=index_param)
 
-    # Eventually we'll support not having a date_start/date_end, but not yet
-    if not date_start or not date_end:
-        date_start_param = options.fetch_param(ctx, 'date_start')[1]
-        raise click.BadParameter('Must pass starting/ending time',
-                                 ctx=ctx, param=date_start_param)
+    # Eventually we'll support not having a period_start/period_end, but not yet
+    if not period_start or not period_end:
+        name = f'period_{"start" if not period_start else "end"}'
+        param = options.fetch_param(ctx, name)[1]
+        raise click.BadParameter(f'Must pass {name}ing period',
+                                 ctx=ctx, param=param)
 
     # Check that we know about the image collection
     from cedar.sensors import CREATE_ARD_COLLECTION
@@ -71,20 +72,21 @@ def submit(ctx, image_collection, index, row, col,
     import ee
     ee.Initialize()
 
-    hvs = [f"h{c:04d}c{r:04d}" for r, c in index]
+    msg = [
+        f'Tiles: {", ".join([f"h{c:04d}c{r:04d}" for r, c in index])}',
+        f'Collections: {", ".join(image_collection)}',
+        f'Time period: {period_start.isoformat()} - {period_end.isoformat()}',
+        f'At frequency: {period_freq}'
+    ]
     click.echo('Submitting preARD tasks for:')
-    click.echo(f'    Tile Index: {", ".join(hvs)}')
-    click.echo(f'    Collections: {", ".join(image_collection)}')
-    click.echo(f'    Time period: {date_start.strftime("%Y-%m-%d")} - '
-               f'{date_end.strftime("%Y-%m-%d")}')
-    click.echo(f'    At frequency: {freq}')
+    click.echo("\n".join([f"    {s}" for s in msg]))
 
     # Submit!
     tracking_info_name, tracking_info_id = tracker.submit(
         image_collection,
         index,
-        date_start, date_end,
-        freq=freq
+        period_start, period_end,
+        period_freq=period_freq
     )
     click.echo('Wrote job tracking to store object named '
                f'"{tracking_info_name}" ({tracking_info_id})')
