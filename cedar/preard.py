@@ -37,10 +37,12 @@ def process_preard(metadata, images, chunks=None):
     xr.Dataset
         pre-ARD processed to (in memory) ARD format that can be written to disk
     """
+
+    image_metadata = metadata['image']
     # Read metadata and determine key attributes
     times = pd.to_datetime([_ard_image_timestamp(images)
-                            for images in metadata['images']]).values
-    bands = metadata['sensor']['bands']
+                            for images in image_metadata['images']]).values
+    bands = image_metadata['bands']
 
     # Create pre-ARD DataArray
     preard_da = read_preard(images, chunks=chunks)
@@ -52,23 +54,24 @@ def process_preard(metadata, images, chunks=None):
     ard_ds = preard_to_ard(preard_da, times, bands)
 
     # Attach attribute metadata
-    order_collection = metadata['order']['collection']
-    order_time = metadata['order']['submitted']
-    order_version = metadata['cedar']
-    order_start = metadata['order']['date_start']
-    order_end = metadata['order']['date_end']
+    version = metadata['program']['version']
+    order_metadata = metadata['order']
+    collection = order_metadata['collection']
+    submitted = order_metadata.get('submitted', 'UNKNOWN TIME')
+    date_start = order_metadata['date_start']
+    date_end = order_metadata['date_end']
     dt_now = dt.datetime.today().strftime("%Y%m%dT%H%M%S")
 
     attrs = {
-        'title': f'Collection "{order_collection}" Analysis Ready Data',
+        'title': f'Collection "{collection}" Analysis Ready Data',
         'history': '\n'.join([
-            (f'{order_time} - Ordered pre-ARD from GEE for collection '
-             f'"{order_collection}" between {order_start}-{order_end} using '
-             f'`cedar={order_version}`'),
+            (f'{submitted} - Ordered pre-ARD from GEE for collection '
+             f'"{collection}" between {date_start}-{date_end} using '
+             f'`cedar={version}`'),
              f'{dt_now} - Converted to ARD using `cedar={__version__}`'
         ]),
-        'source': f'Google Earth Engine Collection "{order_collection}"',
-        'images': json.dumps(metadata['images'])
+        'source': f'Google Earth Engine Collection "{collection}"',
+        'images': json.dumps(image_metadata['images'])
     }
     ard_ds.attrs = attrs
 
@@ -170,7 +173,7 @@ def ard_netcdf_encoding(ard_ds, metadata, **encoding_kwds):
         NetCDF encoding to use with :py:meth:`xarray.Dataset.to_netcdf`
     """
     assert 'nodata' not in encoding_kwds
-    nodata = metadata['sensor'].get('nodata', None)
+    nodata = metadata['image'].get('nodata', None)
     encoding = netcdf_encoding(ard_ds, nodata=nodata, **encoding_kwds)
     return encoding
 

@@ -39,7 +39,7 @@ def download(ctx, tracking_name, dest, overwrite):
     click.echo(f'Retrieving info about pre-ARD in "{tracking_name}"')
     tracking_info = tracker.read(tracking_name)
 
-    n_tasks = len(tracking_info['tasks'])
+    n_tasks = len(tracking_info['orders'])
     click.echo(f'Downloading data for {n_tasks} tasks')
     with click.progressbar(label='Downloading',
                            item_show_func=_item_show_func,

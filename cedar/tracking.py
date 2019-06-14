@@ -214,7 +214,7 @@ class GEEARDTracker(object):
             Key value pairs mapping GEE task IDs to the filenames of
             downloaded data. Wrap it in a ``dict`` to make it not lazy
         """
-        logger.debug(f'Downloading for {len(tracking_info["tasks"])} tasks')
+        logger.debug(f'Downloading for {len(tracking_info["orders"])} tasks')
         iter_download = download_tracked(tracking_info, self.store, dest,
                                          overwrite=overwrite)
 
@@ -316,11 +316,11 @@ def download_tracked(tracking_info, store, dest, overwrite=False):
     else:
         assert dest_.is_dir()
 
-    tasks = tracking_info['tasks']
-    for task in tasks:
-        # Get info about task
-        id_, name, prefix = task['id'], task['name'], task['prefix']
-        n_images = len(task.get('output_url', [])) or None
+    orders = tracking_info['orders']
+    for order in orders:
+        # Get info about order
+        id_, name, prefix = order['status']['id'], order['name'], order['prefix']
+        n_images = len(order.get('output_url', [])) or None
 
         # Retrieve image and metadata
         dst_meta = store.retrieve_metadata(dest, name, prefix,
@@ -344,13 +344,13 @@ def clean_tracked(tracking_info, store):
     Yields
     ------
     id : str
-        Task ID
+        Order GEE Task ID
     names : generator
         Generator that deletes files and returns their names
     """
-    tasks = tracking_info['tasks']
-    for task in tasks:
-        id_, name, prefix = task['id'], task['name'], task['prefix']
+    orders = tracking_info['orders']
+    for order in orders:
+        id_, name, prefix = order['id'], order['name'], order['prefix']
         logger.debug(f'Deleting image and metadata for id={id_}, '
                      f'name="{name}", prefix="{prefix}"')
 

@@ -49,30 +49,28 @@ def convert(ctx, preard, dest, overwrite, scheduler, nprocs, nthreads):
     click.echo(f"Found metadata for {len(preard_files)} pre-ARD to convert")
 
     # Destination directory from config file, or overriden from CLI
-    dest = dest or ard_cfg['destination']
+    dest_dir_tmpl = dest or ard_cfg['destination']
 
     for i, (meta, images) in enumerate(preard_files.items()):
         # Read metadata first so we know what is in order
         metadata = read_metadata(meta)
 
         # Destination can depend on info in metadata - format it
-        dest_ = Path(Template(dest).render(**metadata))
+        dest_dir = Path(Template(dest_dir_tmpl).render(**metadata))
+        dest_ = dest_dir.joinpath(meta.stem + '.nc')
 
         if dest_.exists() and not overwrite:
             click.echo(f'Already processed "{meta.stem}" to "{dest_}"')
             continue
 
         click.echo(f'Processing pre-ARD "{meta.stem}" to destination "{dest_}"')
-        dest_.mkdir(parents=True, exist_ok=True)
+        dest_.parent.mkdir(parents=True, exist_ok=True)
 
         # Read TIFF files into ARD-like xr.Dataset
         ard_ds = process_preard(metadata, images)
 
         # Determine encoding
         encoding = ard_netcdf_encoding(ard_ds, metadata, **encoding_cfg)
-
-        # Setup write to NetCDF
-        dest_ = dest_.joinpath(meta.stem + '.nc')
 
         with renamed_upon_completion(dest_) as tmp:
             ard_ds_ = ard_ds.to_netcdf(tmp, encoding=encoding, compute=False)

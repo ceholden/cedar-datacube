@@ -193,7 +193,8 @@ def get_program_metadata():
     """
     return {
         "name": __package__,
-        "version": __version__
+        "version": __version__,
+        "ee": ee.__version__
     }
 
 
@@ -221,7 +222,8 @@ def get_order_metadata(collection, date_start, date_end, filters):
         'collection': collection,
         'date_start': date_start.isoformat(),
         'date_end': date_end.isoformat(),
-        'filters': [_serialize_filter(filter) for filter in filters]
+        'filters': [_serialize_filter(filter) for filter in filters],
+        'submitted': dt.datetime.now().isoformat()
     }
 
 
