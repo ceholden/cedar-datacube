@@ -21,7 +21,6 @@ Submodules
    cedar.exceptions
    cedar.ordering
    cedar.preard
-   cedar.submissions
    cedar.tracking
    cedar.utils
 

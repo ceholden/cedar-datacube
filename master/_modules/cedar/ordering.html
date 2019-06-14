@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>cedar.ordering &mdash; cedar 0+untagged.50.gd9ce32e documentation</title>
+  <title>cedar.ordering &mdash; cedar 0+untagged.50.g445d249 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.gd9ce32e
+                0+untagged.50.g445d249
               </div>
             
           
@@ -405,6 +405,8 @@
 <span class="sd">    dict</span>
 <span class="sd">        Task metadata</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">info</span> <span class="o">=</span> <span class="p">{}</span>
+
     <span class="c1"># When active, task config information has:</span>
     <span class="c1"># GDrive keys:</span>
     <span class="c1">#    description, dimensions, crs, fileFormat, driveFolder, crs_transform,</span>
@@ -414,25 +416,22 @@
     <span class="c1">#    outputPrefix, json</span>
     <span class="n">bucket</span> <span class="o">=</span> <span class="n">task</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;outputBucket&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">bucket</span><span class="p">:</span>  <span class="c1"># GCS</span>
-        <span class="n">name</span> <span class="o">=</span> <span class="n">task</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;description&#39;</span><span class="p">]</span>
-        <span class="n">prefix</span> <span class="o">=</span> <span class="n">task</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;outputPrefix&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">info</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">task</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;description&#39;</span><span class="p">]</span>
+        <span class="n">info</span><span class="p">[</span><span class="s1">&#39;prefix&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">task</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;outputPrefix&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
     <span class="k">elif</span> <span class="s1">&#39;driveFolder&#39;</span> <span class="ow">in</span> <span class="n">task</span><span class="o">.</span><span class="n">config</span><span class="p">:</span>  <span class="c1"># GDrive</span>
-        <span class="n">name</span> <span class="o">=</span> <span class="n">task</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;driveFileNamePrefix&#39;</span><span class="p">]</span>
-        <span class="n">prefix</span> <span class="o">=</span> <span class="n">task</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;driveFolder&#39;</span><span class="p">]</span>
+        <span class="n">info</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">task</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;driveFileNamePrefix&#39;</span><span class="p">]</span>
+        <span class="n">info</span><span class="p">[</span><span class="s1">&#39;prefix&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">task</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;driveFolder&#39;</span><span class="p">]</span>
 
+    <span class="c1"># When submitted/complete, we can get status info</span>
     <span class="n">status</span> <span class="o">=</span> <span class="n">task</span><span class="o">.</span><span class="n">status</span><span class="p">()</span>
-    <span class="n">info</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
-        <span class="s2">&quot;prefix&quot;</span><span class="p">:</span> <span class="n">prefix</span><span class="p">,</span>
-        <span class="s2">&quot;status&quot;</span><span class="p">:</span> <span class="p">{</span>
-            <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">status</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">],</span>
-            <span class="s2">&quot;state&quot;</span><span class="p">:</span> <span class="n">status</span><span class="p">[</span><span class="s2">&quot;state&quot;</span><span class="p">],</span>
-            <span class="c1"># Attributes available post-run</span>
-            <span class="s1">&#39;creation_timestamp_ms&#39;</span><span class="p">:</span> <span class="n">status</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;creation_timestamp_ms&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
-            <span class="s1">&#39;update_timestamp_ms&#39;</span><span class="p">:</span> <span class="n">status</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;update_timestamp_ms&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
-            <span class="s1">&#39;start_timestamp_ms&#39;</span><span class="p">:</span> <span class="n">status</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;start_timestamp_ms&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
-            <span class="s1">&#39;output_url&#39;</span><span class="p">:</span> <span class="n">status</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;output_url&#39;</span><span class="p">,</span> <span class="p">[])</span>
-        <span class="p">}</span>
+    <span class="n">info</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;id&quot;</span><span class="p">:</span> <span class="n">status</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">],</span>
+        <span class="s2">&quot;state&quot;</span><span class="p">:</span> <span class="n">status</span><span class="p">[</span><span class="s2">&quot;state&quot;</span><span class="p">],</span>
+        <span class="c1"># Attributes available post-run</span>
+        <span class="s1">&#39;creation_timestamp_ms&#39;</span><span class="p">:</span> <span class="n">status</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;creation_timestamp_ms&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;update_timestamp_ms&#39;</span><span class="p">:</span> <span class="n">status</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;update_timestamp_ms&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;start_timestamp_ms&#39;</span><span class="p">:</span> <span class="n">status</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;start_timestamp_ms&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;output_url&#39;</span><span class="p">:</span> <span class="n">status</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;output_url&#39;</span><span class="p">,</span> <span class="p">[])</span>
     <span class="p">}</span>
     <span class="k">return</span> <span class="n">info</span></div>
 

@@ -1,7 +1,0 @@
-cedar.submissions module
-========================
-
-.. automodule:: cedar.submissions
-   :members:
-   :undoc-members:
-   :show-inheritance:
