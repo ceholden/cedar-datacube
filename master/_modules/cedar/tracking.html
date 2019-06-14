@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>cedar.tracking &mdash; cedar 0+untagged.50.g445d249 documentation</title>
+  <title>cedar.tracking &mdash; cedar 0+untagged.50.gcee5b94 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.g445d249
+                0+untagged.50.gcee5b94
               </div>
             
           
@@ -381,7 +381,7 @@
 <span class="sd">            Key value pairs mapping GEE task IDs to the filenames of</span>
 <span class="sd">            downloaded data. Wrap it in a ``dict`` to make it not lazy</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Downloading for {len(tracking_info[&quot;tasks&quot;])} tasks&#39;</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Downloading for {len(tracking_info[&quot;orders&quot;])} tasks&#39;</span><span class="p">)</span>
         <span class="n">iter_download</span> <span class="o">=</span> <span class="n">download_tracked</span><span class="p">(</span><span class="n">tracking_info</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">store</span><span class="p">,</span> <span class="n">dest</span><span class="p">,</span>
                                          <span class="n">overwrite</span><span class="o">=</span><span class="n">overwrite</span><span class="p">)</span>
 
@@ -483,11 +483,11 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">assert</span> <span class="n">dest_</span><span class="o">.</span><span class="n">is_dir</span><span class="p">()</span>
 
-    <span class="n">tasks</span> <span class="o">=</span> <span class="n">tracking_info</span><span class="p">[</span><span class="s1">&#39;tasks&#39;</span><span class="p">]</span>
-    <span class="k">for</span> <span class="n">task</span> <span class="ow">in</span> <span class="n">tasks</span><span class="p">:</span>
-        <span class="c1"># Get info about task</span>
-        <span class="n">id_</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">prefix</span> <span class="o">=</span> <span class="n">task</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">],</span> <span class="n">task</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">],</span> <span class="n">task</span><span class="p">[</span><span class="s1">&#39;prefix&#39;</span><span class="p">]</span>
-        <span class="n">n_images</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">task</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;output_url&#39;</span><span class="p">,</span> <span class="p">[]))</span> <span class="ow">or</span> <span class="kc">None</span>
+    <span class="n">orders</span> <span class="o">=</span> <span class="n">tracking_info</span><span class="p">[</span><span class="s1">&#39;orders&#39;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">order</span> <span class="ow">in</span> <span class="n">orders</span><span class="p">:</span>
+        <span class="c1"># Get info about order</span>
+        <span class="n">id_</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">prefix</span> <span class="o">=</span> <span class="n">order</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">][</span><span class="s1">&#39;id&#39;</span><span class="p">],</span> <span class="n">order</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">],</span> <span class="n">order</span><span class="p">[</span><span class="s1">&#39;prefix&#39;</span><span class="p">]</span>
+        <span class="n">n_images</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">order</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;output_url&#39;</span><span class="p">,</span> <span class="p">[]))</span> <span class="ow">or</span> <span class="kc">None</span>
 
         <span class="c1"># Retrieve image and metadata</span>
         <span class="n">dst_meta</span> <span class="o">=</span> <span class="n">store</span><span class="o">.</span><span class="n">retrieve_metadata</span><span class="p">(</span><span class="n">dest</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span>
@@ -511,13 +511,13 @@
 <span class="sd">    Yields</span>
 <span class="sd">    ------</span>
 <span class="sd">    id : str</span>
-<span class="sd">        Task ID</span>
+<span class="sd">        Order GEE Task ID</span>
 <span class="sd">    names : generator</span>
 <span class="sd">        Generator that deletes files and returns their names</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">tasks</span> <span class="o">=</span> <span class="n">tracking_info</span><span class="p">[</span><span class="s1">&#39;tasks&#39;</span><span class="p">]</span>
-    <span class="k">for</span> <span class="n">task</span> <span class="ow">in</span> <span class="n">tasks</span><span class="p">:</span>
-        <span class="n">id_</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">prefix</span> <span class="o">=</span> <span class="n">task</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">],</span> <span class="n">task</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">],</span> <span class="n">task</span><span class="p">[</span><span class="s1">&#39;prefix&#39;</span><span class="p">]</span>
+    <span class="n">orders</span> <span class="o">=</span> <span class="n">tracking_info</span><span class="p">[</span><span class="s1">&#39;orders&#39;</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">order</span> <span class="ow">in</span> <span class="n">orders</span><span class="p">:</span>
+        <span class="n">id_</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">prefix</span> <span class="o">=</span> <span class="n">order</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">],</span> <span class="n">order</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">],</span> <span class="n">order</span><span class="p">[</span><span class="s1">&#39;prefix&#39;</span><span class="p">]</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Deleting image and metadata for id=</span><span class="si">{id_}</span><span class="s1">, &#39;</span>
                      <span class="n">f</span><span class="s1">&#39;name=&quot;</span><span class="si">{name}</span><span class="s1">&quot;, prefix=&quot;</span><span class="si">{prefix}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
 

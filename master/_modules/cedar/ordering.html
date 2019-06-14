@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>cedar.ordering &mdash; cedar 0+untagged.50.g445d249 documentation</title>
+  <title>cedar.ordering &mdash; cedar 0+untagged.50.gcee5b94 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.g445d249
+                0+untagged.50.gcee5b94
               </div>
             
           
@@ -360,7 +360,8 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="p">{</span>
         <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">__package__</span><span class="p">,</span>
-        <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="n">__version__</span>
+        <span class="s2">&quot;version&quot;</span><span class="p">:</span> <span class="n">__version__</span><span class="p">,</span>
+        <span class="s2">&quot;ee&quot;</span><span class="p">:</span> <span class="n">ee</span><span class="o">.</span><span class="n">__version__</span>
     <span class="p">}</span></div>
 
 
@@ -388,7 +389,8 @@
         <span class="s1">&#39;collection&#39;</span><span class="p">:</span> <span class="n">collection</span><span class="p">,</span>
         <span class="s1">&#39;date_start&#39;</span><span class="p">:</span> <span class="n">date_start</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(),</span>
         <span class="s1">&#39;date_end&#39;</span><span class="p">:</span> <span class="n">date_end</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(),</span>
-        <span class="s1">&#39;filters&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">_serialize_filter</span><span class="p">(</span><span class="nb">filter</span><span class="p">)</span> <span class="k">for</span> <span class="nb">filter</span> <span class="ow">in</span> <span class="n">filters</span><span class="p">]</span>
+        <span class="s1">&#39;filters&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">_serialize_filter</span><span class="p">(</span><span class="nb">filter</span><span class="p">)</span> <span class="k">for</span> <span class="nb">filter</span> <span class="ow">in</span> <span class="n">filters</span><span class="p">],</span>
+        <span class="s1">&#39;submitted&#39;</span><span class="p">:</span> <span class="n">dt</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
     <span class="p">}</span></div>
 
 

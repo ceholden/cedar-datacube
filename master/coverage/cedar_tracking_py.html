@@ -750,7 +750,7 @@
 <p id="t214" class="pln"><span class="str">            Key value pairs mapping GEE task IDs to the filenames of</span><span class="strut">&nbsp;</span></p>
 <p id="t215" class="pln"><span class="str">            downloaded data. Wrap it in a ``dict`` to make it not lazy</span><span class="strut">&nbsp;</span></p>
 <p id="t216" class="pln"><span class="str">        """</span><span class="strut">&nbsp;</span></p>
-<p id="t217" class="stm mis">        <span class="nam">logger</span><span class="op">.</span><span class="nam">debug</span><span class="op">(</span><span class="str">f'Downloading for {len(tracking_info["tasks"])} tasks'</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t217" class="stm mis">        <span class="nam">logger</span><span class="op">.</span><span class="nam">debug</span><span class="op">(</span><span class="str">f'Downloading for {len(tracking_info["orders"])} tasks'</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t218" class="stm mis">        <span class="nam">iter_download</span> <span class="op">=</span> <span class="nam">download_tracked</span><span class="op">(</span><span class="nam">tracking_info</span><span class="op">,</span> <span class="nam">self</span><span class="op">.</span><span class="nam">store</span><span class="op">,</span> <span class="nam">dest</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
 <p id="t219" class="pln">                                         <span class="nam">overwrite</span><span class="op">=</span><span class="nam">overwrite</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t220" class="pln"><span class="strut">&nbsp;</span></p>
@@ -852,11 +852,11 @@
 <p id="t316" class="pln">    <span class="key">else</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t317" class="stm mis">        <span class="key">assert</span> <span class="nam">dest_</span><span class="op">.</span><span class="nam">is_dir</span><span class="op">(</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t318" class="pln"><span class="strut">&nbsp;</span></p>
-<p id="t319" class="stm mis">    <span class="nam">tasks</span> <span class="op">=</span> <span class="nam">tracking_info</span><span class="op">[</span><span class="str">'tasks'</span><span class="op">]</span><span class="strut">&nbsp;</span></p>
-<p id="t320" class="stm mis">    <span class="key">for</span> <span class="nam">task</span> <span class="key">in</span> <span class="nam">tasks</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t321" class="pln">        <span class="com"># Get info about task</span><span class="strut">&nbsp;</span></p>
-<p id="t322" class="stm mis">        <span class="nam">id_</span><span class="op">,</span> <span class="nam">name</span><span class="op">,</span> <span class="nam">prefix</span> <span class="op">=</span> <span class="nam">task</span><span class="op">[</span><span class="str">'id'</span><span class="op">]</span><span class="op">,</span> <span class="nam">task</span><span class="op">[</span><span class="str">'name'</span><span class="op">]</span><span class="op">,</span> <span class="nam">task</span><span class="op">[</span><span class="str">'prefix'</span><span class="op">]</span><span class="strut">&nbsp;</span></p>
-<p id="t323" class="stm mis">        <span class="nam">n_images</span> <span class="op">=</span> <span class="nam">len</span><span class="op">(</span><span class="nam">task</span><span class="op">.</span><span class="nam">get</span><span class="op">(</span><span class="str">'output_url'</span><span class="op">,</span> <span class="op">[</span><span class="op">]</span><span class="op">)</span><span class="op">)</span> <span class="key">or</span> <span class="key">None</span><span class="strut">&nbsp;</span></p>
+<p id="t319" class="stm mis">    <span class="nam">orders</span> <span class="op">=</span> <span class="nam">tracking_info</span><span class="op">[</span><span class="str">'orders'</span><span class="op">]</span><span class="strut">&nbsp;</span></p>
+<p id="t320" class="stm mis">    <span class="key">for</span> <span class="nam">order</span> <span class="key">in</span> <span class="nam">orders</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
+<p id="t321" class="pln">        <span class="com"># Get info about order</span><span class="strut">&nbsp;</span></p>
+<p id="t322" class="stm mis">        <span class="nam">id_</span><span class="op">,</span> <span class="nam">name</span><span class="op">,</span> <span class="nam">prefix</span> <span class="op">=</span> <span class="nam">order</span><span class="op">[</span><span class="str">'status'</span><span class="op">]</span><span class="op">[</span><span class="str">'id'</span><span class="op">]</span><span class="op">,</span> <span class="nam">order</span><span class="op">[</span><span class="str">'name'</span><span class="op">]</span><span class="op">,</span> <span class="nam">order</span><span class="op">[</span><span class="str">'prefix'</span><span class="op">]</span><span class="strut">&nbsp;</span></p>
+<p id="t323" class="stm mis">        <span class="nam">n_images</span> <span class="op">=</span> <span class="nam">len</span><span class="op">(</span><span class="nam">order</span><span class="op">.</span><span class="nam">get</span><span class="op">(</span><span class="str">'output_url'</span><span class="op">,</span> <span class="op">[</span><span class="op">]</span><span class="op">)</span><span class="op">)</span> <span class="key">or</span> <span class="key">None</span><span class="strut">&nbsp;</span></p>
 <p id="t324" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t325" class="pln">        <span class="com"># Retrieve image and metadata</span><span class="strut">&nbsp;</span></p>
 <p id="t326" class="stm mis">        <span class="nam">dst_meta</span> <span class="op">=</span> <span class="nam">store</span><span class="op">.</span><span class="nam">retrieve_metadata</span><span class="op">(</span><span class="nam">dest</span><span class="op">,</span> <span class="nam">name</span><span class="op">,</span> <span class="nam">prefix</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
@@ -880,13 +880,13 @@
 <p id="t344" class="pln"><span class="str">    Yields</span><span class="strut">&nbsp;</span></p>
 <p id="t345" class="pln"><span class="str">    ------</span><span class="strut">&nbsp;</span></p>
 <p id="t346" class="pln"><span class="str">    id : str</span><span class="strut">&nbsp;</span></p>
-<p id="t347" class="pln"><span class="str">        Task ID</span><span class="strut">&nbsp;</span></p>
+<p id="t347" class="pln"><span class="str">        Order GEE Task ID</span><span class="strut">&nbsp;</span></p>
 <p id="t348" class="pln"><span class="str">    names : generator</span><span class="strut">&nbsp;</span></p>
 <p id="t349" class="pln"><span class="str">        Generator that deletes files and returns their names</span><span class="strut">&nbsp;</span></p>
 <p id="t350" class="pln"><span class="str">    """</span><span class="strut">&nbsp;</span></p>
-<p id="t351" class="stm mis">    <span class="nam">tasks</span> <span class="op">=</span> <span class="nam">tracking_info</span><span class="op">[</span><span class="str">'tasks'</span><span class="op">]</span><span class="strut">&nbsp;</span></p>
-<p id="t352" class="stm mis">    <span class="key">for</span> <span class="nam">task</span> <span class="key">in</span> <span class="nam">tasks</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t353" class="stm mis">        <span class="nam">id_</span><span class="op">,</span> <span class="nam">name</span><span class="op">,</span> <span class="nam">prefix</span> <span class="op">=</span> <span class="nam">task</span><span class="op">[</span><span class="str">'id'</span><span class="op">]</span><span class="op">,</span> <span class="nam">task</span><span class="op">[</span><span class="str">'name'</span><span class="op">]</span><span class="op">,</span> <span class="nam">task</span><span class="op">[</span><span class="str">'prefix'</span><span class="op">]</span><span class="strut">&nbsp;</span></p>
+<p id="t351" class="stm mis">    <span class="nam">orders</span> <span class="op">=</span> <span class="nam">tracking_info</span><span class="op">[</span><span class="str">'orders'</span><span class="op">]</span><span class="strut">&nbsp;</span></p>
+<p id="t352" class="stm mis">    <span class="key">for</span> <span class="nam">order</span> <span class="key">in</span> <span class="nam">orders</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
+<p id="t353" class="stm mis">        <span class="nam">id_</span><span class="op">,</span> <span class="nam">name</span><span class="op">,</span> <span class="nam">prefix</span> <span class="op">=</span> <span class="nam">order</span><span class="op">[</span><span class="str">'id'</span><span class="op">]</span><span class="op">,</span> <span class="nam">order</span><span class="op">[</span><span class="str">'name'</span><span class="op">]</span><span class="op">,</span> <span class="nam">order</span><span class="op">[</span><span class="str">'prefix'</span><span class="op">]</span><span class="strut">&nbsp;</span></p>
 <p id="t354" class="stm mis">        <span class="nam">logger</span><span class="op">.</span><span class="nam">debug</span><span class="op">(</span><span class="str">f'Deleting image and metadata for id={id_}, '</span><span class="strut">&nbsp;</span></p>
 <p id="t355" class="pln">                     <span class="str">f'name="{name}", prefix="{prefix}"'</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t356" class="pln"><span class="strut">&nbsp;</span></p>
@@ -1008,7 +1008,7 @@
     <div class="content">
         <p>
             <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.io">coverage.py v4.5.3</a>,
-            created at 2019-06-14 12:53
+            created at 2019-06-14 13:51
         </p>
     </div>
 </div>
