@@ -22,8 +22,9 @@ tile_grid:
 tracker:
   store: gdrive
   name_template: "{collection}_h{tile.horizontal:03d}v{tile.vertical:03d}_{date_start}_{date_end}"
+  prefix_template: "CEDAR"
   tracking_template: "TRACKING_PERIOD{date_start}-{date_end}_TASK{today}"
-  prefix_template: "GEEARD"
+  tracking_prefix: "CEDAR_TRACKING"
   export_image_kwds:
     shardSize: 256
     fileDimensions: 512
@@ -49,16 +50,13 @@ gcs:
 gdrive:
   client_secrets_file: client_secrets.json
   credentials_file: credentials.json
-  export_image_kwds:
-    shardSize: 256
-    fileDimensions: 512
 
 
 #######################
 # ARD Storage Options #
 #######################
 ard:
-  destination: "ARD/{{ order['collection'] }}/h{{ '%03d' % tile['index'][1] }}v{{ '%03d' %  tile['index'][0] }}"
+  destination: "ARD/{collection}/h{tile.horizontal:03d}v{tile.vertical:03d}"
   encoding:
     chunks:
       x: 250
