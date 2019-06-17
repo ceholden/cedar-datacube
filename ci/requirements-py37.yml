@@ -38,6 +38,7 @@ dependencies:
   # docs
   - sphinx
   - sphinx_rtd_theme
+  - sphinxcontrib-programoutput
   - numpydoc
   - ipython
   - pip:

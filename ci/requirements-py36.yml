@@ -37,6 +37,7 @@ dependencies:
   - mock
   # docs
   - sphinx
+  - sphinxcontrib-programoutput
   - sphinx_rtd_theme
   - numpydoc
   - ipython
