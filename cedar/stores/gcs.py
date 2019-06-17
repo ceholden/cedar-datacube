@@ -24,6 +24,8 @@ METADATA_ENCODING = 'utf-8'
 SCOPES = [
     'https://www.googleapis.com/auth/devstorage.read_write'
 ]
+ENVVAR_CREDENTIALS = 'GOOGLE_APPLICATION_CREDENTIALS'
+ENVVAR_PROJECT = 'GOOGLE_CLOUD_PROJECT'
 
 
 def build_gcs_client(credentials=None, project=None):
@@ -52,10 +54,18 @@ def build_gcs_client(credentials=None, project=None):
     ----------
     .. [1] https://cloud.google.com/storage/docs/reference/libraries#setting_up_authentication
     """
+    if credentials is None and ENVVAR_CREDENTIALS in os.environ:
+        credentials = os.environ[ENVVAR_CREDENTIALS]
+        logger.debug('Got GCS credentials from environment variable')
+    if project is None and ENVVAR_PROJECT in os.environ:
+        project = os.environ[ENVVAR_PROJECT]
+        logger.debug('Got GCS project from environment variable')
+
     credentials = service_account.Credentials.from_service_account_file(
         credentials,
         scopes=SCOPES)
     client = storage.Client(project=project, credentials=credentials)
+
     return client
 
 

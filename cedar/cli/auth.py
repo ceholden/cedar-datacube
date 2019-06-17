@@ -1,6 +1,7 @@
 """ CLI for `cedar auth`
 """
 import logging
+import os
 from pathlib import Path
 
 import click
@@ -92,11 +93,47 @@ def auth_gdrive(ctx, client_secrets_file, credentials_file, browser):
 
 
 @group_auth.command('gcs', help='Login to use Google Cloud Storage')
+@click.option('--service_account_file', type=click.Path(resolve_path=True),
+              envvar='GOOGLE_APPLICATION_CREDENTIALS',
+              help='Google service account file for GCS')
+@click.option('--project', envvar='GOOGLE_CLOUD_PROJECT',
+              type=str, help='GCS project to use')
 @click.pass_context
-def auth_gcs(ctx):
+def auth_gcs(ctx, service_account_file, project):
+    """ Test authenticating to Google Cloud Storage
+    """
     # TODO: try to build gcs service
     from cedar.stores import gcs
-    raise NotImplementedError("TODO")
+
+    config = options.fetch_config(ctx, False)
+    config_gcs = config.get('gcs', {})
+
+    # Service account file preference: CLI option > config
+    service_account_file_ = (service_account_file or
+                             config_gcs.get('service_account_file', None))
+    envvar_creds = os.environ.get('GOOGLE_APPLICATION_CREDENTIALS', None)
+    if not service_account_file_ and not envvar_creds:
+        raise click.BadParameter(
+            'Must specify `service_account_file` in `gcs` section of '
+            'config file', param_hint='service_account_file')
+
+    project_ = project or config_gcs.get('project', None)
+    if not project_:
+        raise click.BadParameter(
+            'Must specify `project` in `gcs` section of config file',
+            param_hint='project')
+
+    try:
+        client = gcs.build_gcs_client(service_account_file_, project=project_)
+    except Exception as e:
+        click.echo('Could not authenticate to Google Cloud Storage')
+        raise e
+    else:
+        click.echo('Authenticated using service account file '
+                   f'"{service_account_file}" and project "{project}"')
+        if service_account_file or project:
+            click.echo('Make sure to add this information to the `gcs` '
+                       'section of your configuration file')
 
 
 @group_auth.command('clear', help='Clear credentials')
