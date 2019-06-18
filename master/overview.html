@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Overview &mdash; cedar 0+untagged.50.gcdddbf3 documentation</title>
+  <title>Overview &mdash; cedar 0+untagged.50.g74f573f documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                0+untagged.50.gcdddbf3
+                0+untagged.50.g74f573f
               </div>
             
           
@@ -92,16 +92,20 @@
 </ul>
 <p class="caption"><span class="caption-text">User Guide</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Overview</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="credentials.html">Credentials</a></li>
-<li class="toctree-l1"><a class="reference internal" href="storage.html">Storage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="config.html">Configuration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="submissions.html">Task Submissions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="submissions.html">Pre-ARD Order Submissions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="download.html">Download</a></li>
 <li class="toctree-l1"><a class="reference internal" href="convert.html">Pre-ARD to ARD Conversion</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Help and Reference</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">Command Line Interface Programs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="storage.html">Storage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="dev.html">Developer Notes</a></li>
 <li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
 </ul>
@@ -172,7 +176,53 @@
             
   <div class="section" id="overview">
 <span id="id1"></span><h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
-<p>Overview of GEE ARD creation steps.</p>
+<p>The Google Earth Engine (GEE) has massive computational resources, entire
+archives of data from many popular satellites, and an API that allows us
+to run many common image processing tasks <span id="id2">[gorelick2017google]</span>.
+For this reason, the GEE is an excellent resource for finding and
+preprocessing time series of satellite data to the point where it is
+“analysis ready”. Data that is “analysis ready” is generally considered
+to be preprocessed to a minimum set of requirements and organized to
+facilitate user analysis without much effort
+(<span id="id3">[dwyer2018analysis]</span><span id="id4">[lewis2017australian]</span> and <a class="reference external" href="http://ceos.org/ard/">CEOS</a>):</p>
+<p>In this package, “Analysis Ready Data” (ARD) means:</p>
+<ol class="arabic simple">
+<li><p>Preprocessed to a high enough level to be consistent over time
+(e.g., surface reflectance)</p></li>
+<li><p>Reprojected or projected into some projection suitable for large
+scale analysis</p></li>
+<li><p>Clipped into non-overlapping tiles, usually by combining sensor acquisition
+“paths” and “rows”. For Landsat data, this also means removal of the
+“north-south” overlap present in WRS-2 scenes.</p></li>
+<li><p>Stored in a format suitable for time series analysis (e.g., NetCDF4)</p></li>
+</ol>
+<p>The CEDAR tool has a number of functions to accomplish the first 3 steps on
+the GEE for a given sensor image collection. Currently, only
+Landsat Collection 1 Surface Reflectance data are supported. These functions
+generate “pre-ARD” images (<code class="docutils literal notranslate"><span class="pre">ee.Image</span></code>) and “image metadata”, which
+is required because images exported from the Earth Engine after preprocessing
+lose their basic metadata information (sensor, acquisition times, etc). The
+CEDAR application also generates “tracking metadata” about the orders it
+creates. The “tracking metadata” allows us to download the “pre-ARD” and
+“image metadata” at a later point for further processing into ARD.</p>
+<p>There are 5 main steps to creating this Analysis Ready Data using CEDAR and the
+Google Earth Engine (GEE).</p>
+<img alt="_images/cedar_flowchart.png" src="_images/cedar_flowchart.png" />
+<ol class="arabic simple">
+<li><p>Authenticating</p></li>
+<li><p>Configuration file creation</p></li>
+<li><p>“Pre-ARD” order submission</p></li>
+<li><p>Order tracking and download</p></li>
+<li><p>Conversion of “pre-ARD” and “image metadata” into ARD</p></li>
+</ol>
+<div class="section" id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<ul class="simple" id="bibtex-bibliography-overview-0">
+<li><p>John Dwyer, David Roy, Brian Sauer, Calli Jenkerson, Hankui Zhang, and Leo Lymburner. Analysis ready data: enabling analysis of the landsat archive. <em>Remote Sensing</em>, 10(9):1363, 2018.</p></li>
+<li><p>Noel Gorelick, Matt Hancher, Mike Dixon, Simon Ilyushchenko, David Thau, and Rebecca Moore. Google earth engine: planetary-scale geospatial analysis for everyone. <em>Remote Sensing of Environment</em>, 202:18–27, 2017.</p></li>
+<li><p>Adam Lewis, Simon Oliver, Leo Lymburner, Ben Evans, Lesley Wyborn, Norman Mueller, Gregory Raevksi, Jeremy Hooke, Rob Woodcock, Joshua Sixsmith, and others. The australian geoscience data cube—foundations and lessons learned. <em>Remote Sensing of Environment</em>, 202:276–292, 2017.</p></li>
+</ul>
+</div>
 </div>
 
 

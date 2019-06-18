@@ -10,6 +10,7 @@ Submodules
    cedar.cli.config
    cedar.cli.console
    cedar.cli.convert
+   cedar.cli.gee
    cedar.cli.main
    cedar.cli.options
    cedar.cli.status
