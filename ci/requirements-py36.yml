@@ -36,6 +36,7 @@ dependencies:
   - mock
   # docs
   - sphinx
+  - sphinxcontrib-bibtex
   - sphinxcontrib-programoutput
   - sphinx_rtd_theme
   - numpydoc

@@ -51,7 +51,8 @@ extensions = [
     'numpydoc',
     'IPython.sphinxext.ipython_console_highlighting',
     'IPython.sphinxext.ipython_directive',
-    'sphinxcontrib.programoutput'
+    'sphinxcontrib.programoutput',
+    'sphinxcontrib.bibtex'
 ]
 # https://github.com/numpy/numpydoc/issues/69
 numpydoc_show_class_members = False
