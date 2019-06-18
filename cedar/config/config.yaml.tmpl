@@ -6,11 +6,17 @@
 # Tile Grid #
 #############
 tile_grid:
+  # Name of the grid
   name: WGS84 1x1deg ~30m
+  # CRS as Well Known Text
   crs: GEOGCS["WGS 84",DATUM["WGS_1984",SPHEROID["WGS 84",6378137,298.257223563,AUTHORITY["EPSG","7030"]],AUTHORITY["EPSG","6326"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.0174532925199433,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4326"]]
+  # Upper left X/Y coordinates
   ul: [-180.0, 80.0]
+  # Pixel X/Y resolution
   res: [0.00025, 0.00025]
+  # Number of pixels in X/Y dimensions for each tile
   size: [40000, 40000]
+  # Minimum and maximum rows (vertical) and column (horizontal)
   limits:
   - [0, 13]
   - [0, 36]
@@ -20,15 +26,27 @@ tile_grid:
 # Google Earth Engine #
 #######################
 tracker:
+  # Name of storage backend -- should be "gcs" or "gdrive"
   store: gdrive
+  # Template for "pre-ARD" image and metadata name and prefix
+  # Available keys are:
+  #   "collection", "tile", "date_start", "date_end", and "now"
   name_template: "{collection}_h{tile.horizontal:03d}v{tile.vertical:03d}_{date_start}_{date_end}"
   prefix_template: "CEDAR"
+  # Template for order tracking file name and prefix
+  # Available keys are:
+  #   "collection", "tiles", "tile_indices", "period_start", "period_end",
+  #   "period_freq", and "now"
   tracking_template: "TRACKING_PERIOD{date_start}-{date_end}_TASK{today}"
   tracking_prefix: "CEDAR_TRACKING"
+  # Image export options for ``toDrive`` and ``toCloudStorage``
+  # See https://developers.google.com/earth-engine/exporting#exporting-images
   export_image_kwds:
     shardSize: 256
     fileDimensions: 512
     cloudOptimized: true
+  # ImageCollection EarthEngine filters to apply before ordering
+  # See https://developers.google.com/earth-engine/ic_filtering
   filters:
     - function: 'lte'
       name: 'CLOUD_COVER_LAND'
@@ -56,7 +74,11 @@ gdrive:
 # ARD Storage Options #
 #######################
 ard:
+  # Directory name pattern for converted ARD. Available keys are:
+  #   "collection", "date_start", "date_end", and "tile"
   destination: "ARD/{collection}/h{tile.horizontal:03d}v{tile.vertical:03d}"
+  # NetCDF4 image encoding options
+  # See http://xarray.pydata.org/en/stable/io.html#writing-encoded-data
   encoding:
     chunks:
       x: 250
