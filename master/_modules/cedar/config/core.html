@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>cedar.config.core &mdash; cedar 0+untagged.50.g6854784 documentation</title>
+  <title>cedar.config.core &mdash; cedar 0+untagged.50.gcdddbf3 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.g6854784
+                0+untagged.50.gcdddbf3
               </div>
             
           
@@ -167,6 +167,7 @@
   <h1>Source code for cedar.config.core</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot; Configuration file handling</span>
 <span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">Mapping</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="k">import</span> <span class="n">Path</span>
@@ -182,26 +183,29 @@
 <span class="n">TEMPLATE_FILE</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="n">TEMPLATE_FILENAME</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="Config"><a class="viewcode-back" href="../../../cedar/cedar.config.core.html#cedar.config.core.Config">[docs]</a><span class="k">class</span> <span class="nc">Config</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; cedar configuration file</span>
+<div class="viewcode-block" id="Config"><a class="viewcode-back" href="../../../cedar/cedar.config.core.html#cedar.config.core.Config">[docs]</a><span class="k">class</span> <span class="nc">Config</span><span class="p">(</span><span class="n">Mapping</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; CEDAR configuration file</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="n">SCHEMA</span> <span class="o">=</span> <span class="n">parse</span><span class="o">.</span><span class="n">get_default_schema</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="n">config</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">schema</span> <span class="o">=</span> <span class="n">schema</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_config</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">schema</span> <span class="o">=</span> <span class="p">(</span><span class="n">schema</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">SCHEMA</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">parse</span><span class="o">.</span><span class="n">validate_with_defaults</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">schema</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Config.validate"><a class="viewcode-back" href="../../../cedar/cedar.config.core.html#cedar.config.core.Config.validate">[docs]</a>    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Validate the configuration against schema</span>
+    <span class="c1"># Mapping methods</span>
+    <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
 
-<span class="sd">        Raises</span>
-<span class="sd">        ------</span>
-<span class="sd">        ValidationError</span>
-<span class="sd">            Raised if there&#39;s an issue</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">parse</span><span class="o">.</span><span class="n">validate_with_defaults</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">SCHEMA</span><span class="p">)</span></div>
+    <span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="n">key</span>
 
+    <span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="p">)</span>
+
+    <span class="c1"># Class create/serialize methods</span>
 <div class="viewcode-block" id="Config.from_yaml"><a class="viewcode-back" href="../../../cedar/cedar.config.core.html#cedar.config.core.Config.from_yaml">[docs]</a>    <span class="nd">@classmethod</span>
     <span class="k">def</span> <span class="nf">from_yaml</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Load from a YAML configuration file</span>
@@ -216,7 +220,7 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_yaml</span><span class="p">(</span><span class="n">TEMPLATE_FILE</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="n">schema</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="Config.to_yaml"><a class="viewcode-back" href="../../../cedar/cedar.config.core.html#cedar.config.core.Config.to_yaml">[docs]</a>    <span class="k">def</span> <span class="nf">to_yaml</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Config.to_yaml"><a class="viewcode-back" href="../../../cedar/cedar.config.core.html#cedar.config.core.Config.to_yaml">[docs]</a>    <span class="k">def</span> <span class="nf">to_yaml</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dest</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Write to a YAML (file, if ``dest`` is provided)</span>
 
 <span class="sd">        Parameters</span>
@@ -230,36 +234,33 @@
 <span class="sd">            Either the filename written to, or a str containing the</span>
 <span class="sd">            YAML data if ``dest`` is ``None``</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">kwds</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;indent&#39;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s1">&#39;sort_keys&#39;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span>
         <span class="k">if</span> <span class="n">dest</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">dest</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">dst</span><span class="p">:</span>
-                <span class="n">dmp</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="n">dst</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+                <span class="n">dmp</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="p">,</span> <span class="n">stream</span><span class="o">=</span><span class="n">dst</span><span class="p">,</span>
+                                     <span class="n">indent</span><span class="o">=</span><span class="n">indent</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="n">sort_keys</span><span class="p">,</span>
+                                     <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">dst</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span></div>
+            <span class="k">return</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="p">,</span>
+                                  <span class="n">indent</span><span class="o">=</span><span class="n">indent</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="n">sort_keys</span><span class="p">,</span>
+                                  <span class="o">**</span><span class="n">kwds</span><span class="p">)</span></div>
 
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">config</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_config</span>
+    <span class="c1"># Getter-s for various objects this config describes</span>
+<div class="viewcode-block" id="Config.validate"><a class="viewcode-back" href="../../../cedar/cedar.config.core.html#cedar.config.core.Config.validate">[docs]</a>    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Validate the configuration against schema</span>
 
-    <span class="nd">@config</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">config</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
-        <span class="n">value_</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-        <span class="n">parse</span><span class="o">.</span><span class="n">validate_with_defaults</span><span class="p">(</span><span class="n">value_</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">SCHEMA</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_config</span> <span class="o">=</span> <span class="n">value_</span>
-
-<div class="viewcode-block" id="Config.as_parsed"><a class="viewcode-back" href="../../../cedar/cedar.config.core.html#cedar.config.core.Config.as_parsed">[docs]</a>    <span class="k">def</span> <span class="nf">as_parsed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Parse the config, returning a new, more explicit Config</span>
+<span class="sd">        Raises</span>
+<span class="sd">        ------</span>
+<span class="sd">        ValidationError</span>
+<span class="sd">            Raised if there&#39;s an issue</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># TODO: use &quot;get_tile_grid().to_dict()&quot;, etc to fill in all of the</span>
-        <span class="c1"># values that might be missing or defaults. Make it an option maybe?</span>
-        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;TODO&quot;</span><span class="p">)</span></div>
+        <span class="n">parse</span><span class="o">.</span><span class="n">validate_with_defaults</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">schema</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Config.get_tracker"><a class="viewcode-back" href="../../../cedar/cedar.config.core.html#cedar.config.core.Config.get_tracker">[docs]</a>    <span class="k">def</span> <span class="nf">get_tracker</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Get the GEEARDTracker described by this store</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Copy tracker config</span>
-        <span class="n">cfg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;tracker&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">cfg</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="s1">&#39;tracker&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 
         <span class="c1"># Create tile grid</span>
         <span class="n">tile_grid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_tile_grid</span><span class="p">()</span>
@@ -284,7 +285,7 @@
 <span class="sd">        -------</span>
 <span class="sd">        stems.gis.grids.TileGrid</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">cfg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;tile_grid&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="n">cfg</span> <span class="o">=</span> <span class="bp">self</span><span class="p">[</span><span class="s1">&#39;tile_grid&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
         <span class="n">grid_name</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;grid_name&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="n">grid_filename</span> <span class="o">=</span> <span class="n">cfg</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;grid_filename&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">build</span><span class="o">.</span><span class="n">build_tile_grid</span><span class="p">(</span><span class="n">grid_name</span><span class="p">,</span> <span class="n">grid_filename</span><span class="p">,</span> <span class="o">**</span><span class="n">cfg</span><span class="p">)</span></div>
@@ -293,7 +294,7 @@
         <span class="sd">&quot;&quot;&quot; Return a GCSStore described by this config</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">from</span> <span class="nn">cedar.stores.gcs</span> <span class="k">import</span> <span class="n">GCSStore</span>
-        <span class="n">cfg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;gcs&#39;</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="n">cfg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;gcs&#39;</span><span class="p">,</span> <span class="p">{})</span>
         <span class="n">store</span> <span class="o">=</span> <span class="n">GCS</span><span class="o">.</span><span class="n">from_credentials</span><span class="p">(</span><span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">store</span></div>
 
@@ -301,7 +302,7 @@
         <span class="sd">&quot;&quot;&quot; Return a GDriveStore described by this config</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="kn">from</span> <span class="nn">cedar.stores.gdrive</span> <span class="k">import</span> <span class="n">GDriveStore</span>
-        <span class="n">cfg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;gdrive&#39;</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="n">cfg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;gdrive&#39;</span><span class="p">,</span> <span class="p">{})</span>
         <span class="n">store</span> <span class="o">=</span> <span class="n">GDriveStore</span><span class="o">.</span><span class="n">from_credentials</span><span class="p">(</span><span class="o">**</span><span class="n">cfg</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">store</span></div></div>
 </pre></div>

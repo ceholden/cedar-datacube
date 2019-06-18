@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>cedar.stores.gcs &mdash; cedar 0+untagged.50.g6854784 documentation</title>
+  <title>cedar.stores.gcs &mdash; cedar 0+untagged.50.gcdddbf3 documentation</title>
   
 
   
@@ -58,7 +58,7 @@
             
             
               <div class="version">
-                0+untagged.50.g6854784
+                0+untagged.50.gcdddbf3
               </div>
             
           
@@ -191,6 +191,8 @@
 <span class="n">SCOPES</span> <span class="o">=</span> <span class="p">[</span>
     <span class="s1">&#39;https://www.googleapis.com/auth/devstorage.read_write&#39;</span>
 <span class="p">]</span>
+<span class="n">ENVVAR_CREDENTIALS</span> <span class="o">=</span> <span class="s1">&#39;GOOGLE_APPLICATION_CREDENTIALS&#39;</span>
+<span class="n">ENVVAR_PROJECT</span> <span class="o">=</span> <span class="s1">&#39;GOOGLE_CLOUD_PROJECT&#39;</span>
 
 
 <div class="viewcode-block" id="build_gcs_client"><a class="viewcode-back" href="../../../credentials.html#cedar.stores.gcs.build_gcs_client">[docs]</a><span class="k">def</span> <span class="nf">build_gcs_client</span><span class="p">(</span><span class="n">credentials</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">project</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -219,10 +221,18 @@
 <span class="sd">    ----------</span>
 <span class="sd">    .. [1] https://cloud.google.com/storage/docs/reference/libraries#setting_up_authentication</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">credentials</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">ENVVAR_CREDENTIALS</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+        <span class="n">credentials</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="n">ENVVAR_CREDENTIALS</span><span class="p">]</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Got GCS credentials from environment variable&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">project</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">ENVVAR_PROJECT</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+        <span class="n">project</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="n">ENVVAR_PROJECT</span><span class="p">]</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Got GCS project from environment variable&#39;</span><span class="p">)</span>
+
     <span class="n">credentials</span> <span class="o">=</span> <span class="n">service_account</span><span class="o">.</span><span class="n">Credentials</span><span class="o">.</span><span class="n">from_service_account_file</span><span class="p">(</span>
         <span class="n">credentials</span><span class="p">,</span>
         <span class="n">scopes</span><span class="o">=</span><span class="n">SCOPES</span><span class="p">)</span>
     <span class="n">client</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">Client</span><span class="p">(</span><span class="n">project</span><span class="o">=</span><span class="n">project</span><span class="p">,</span> <span class="n">credentials</span><span class="o">=</span><span class="n">credentials</span><span class="p">)</span>
+
     <span class="k">return</span> <span class="n">client</span></div>
 
 
