@@ -202,7 +202,7 @@
 <p id="t39" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t40" class="pln">    <span class="com"># Get configuration and any encoding provided</span><span class="strut">&nbsp;</span></p>
 <p id="t41" class="stm mis">    <span class="nam">cfg</span> <span class="op">=</span> <span class="nam">options</span><span class="op">.</span><span class="nam">fetch_config</span><span class="op">(</span><span class="nam">ctx</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
-<p id="t42" class="stm mis">    <span class="nam">ard_cfg</span> <span class="op">=</span> <span class="nam">cfg</span><span class="op">.</span><span class="nam">config</span><span class="op">[</span><span class="str">'ard'</span><span class="op">]</span><span class="strut">&nbsp;</span></p>
+<p id="t42" class="stm mis">    <span class="nam">ard_cfg</span> <span class="op">=</span> <span class="nam">cfg</span><span class="op">[</span><span class="str">'ard'</span><span class="op">]</span><span class="strut">&nbsp;</span></p>
 <p id="t43" class="stm mis">    <span class="nam">encoding_cfg</span> <span class="op">=</span> <span class="nam">ard_cfg</span><span class="op">.</span><span class="nam">get</span><span class="op">(</span><span class="str">'encoding'</span><span class="op">,</span> <span class="op">{</span><span class="op">}</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t44" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t45" class="stm mis">    <span class="nam">preard_files</span> <span class="op">=</span> <span class="nam">find_preard</span><span class="op">(</span><span class="nam">preard</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
@@ -250,7 +250,7 @@
 <p id="t87" class="stm mis">    <span class="key">from</span> <span class="nam">stems</span><span class="op">.</span><span class="nam">gis</span><span class="op">.</span><span class="nam">grids</span> <span class="key">import</span> <span class="nam">Tile</span><span class="strut">&nbsp;</span></p>
 <p id="t88" class="stm mis">    <span class="nam">namespace</span> <span class="op">=</span> <span class="nam">metadata</span><span class="op">[</span><span class="str">'order'</span><span class="op">]</span><span class="op">.</span><span class="nam">copy</span><span class="op">(</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t89" class="stm mis">    <span class="nam">namespace</span><span class="op">[</span><span class="str">'tile'</span><span class="op">]</span> <span class="op">=</span> <span class="nam">Tile</span><span class="op">.</span><span class="nam">from_dict</span><span class="op">(</span><span class="nam">metadata</span><span class="op">[</span><span class="str">'tile'</span><span class="op">]</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
-<p id="t90" class="stm mis">    <span class="nam">dest_dir</span> <span class="op">=</span> <span class="nam">Path</span><span class="op">(</span><span class="nam">dest_dir_tmpl</span><span class="op">.</span><span class="nam">format</span><span class="op">(</span><span class="op">**</span><span class="nam">namespace</span><span class="op">)</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t90" class="stm mis">    <span class="nam">dest_dir</span> <span class="op">=</span> <span class="nam">Path</span><span class="op">(</span><span class="nam">dest_dir_template</span><span class="op">.</span><span class="nam">format</span><span class="op">(</span><span class="op">**</span><span class="nam">namespace</span><span class="op">)</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t91" class="stm mis">    <span class="key">return</span> <span class="nam">dest_dir</span><span class="strut">&nbsp;</span></p>
 
             </td>
@@ -262,7 +262,7 @@
     <div class="content">
         <p>
             <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.io">coverage.py v4.5.3</a>,
-            created at 2019-06-18 18:59
+            created at 2019-06-18 20:32
         </p>
     </div>
 </div>
