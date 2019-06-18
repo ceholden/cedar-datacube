@@ -39,7 +39,7 @@ def convert(ctx, preard, dest, overwrite, scheduler, nprocs, nthreads):
 
     # Get configuration and any encoding provided
     cfg = options.fetch_config(ctx)
-    ard_cfg = cfg.config['ard']
+    ard_cfg = cfg['ard']
     encoding_cfg = ard_cfg.get('encoding', {})
 
     preard_files = find_preard(preard)
@@ -87,5 +87,5 @@ def create_dest_dir(dest_dir_template, metadata):
     from stems.gis.grids import Tile
     namespace = metadata['order'].copy()
     namespace['tile'] = Tile.from_dict(metadata['tile'])
-    dest_dir = Path(dest_dir_tmpl.format(**namespace))
+    dest_dir = Path(dest_dir_template.format(**namespace))
     return dest_dir
