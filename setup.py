@@ -53,6 +53,11 @@ ENTRY_POINTS = {
     ]
 }
 
+PACKAGE_DATA = {
+    'cedar-datacube': ['cedar/config/schema.json',
+                       'cedar/config/config.yml.tmpl']
+}
+
 
 PYTHON_REQUIRES = '>=3.6'
 INSTALL_REQUIRES = [
@@ -90,6 +95,7 @@ setup(
     packages=find_packages(),
     entry_points=ENTRY_POINTS,
     zip_safe=False,
+    package_data=PACKAGE_DATA,
     include_package_data=True,
     python_requires=PYTHON_REQUIRES,
     install_requires=INSTALL_REQUIRES,
