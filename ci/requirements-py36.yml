@@ -18,7 +18,6 @@ dependencies:
   - xarray
   - jsonschema
   - pyyaml
-  - jinja2
   # EarthEngine
   - pycrypto
   - pyopenssl

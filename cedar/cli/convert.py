@@ -24,7 +24,6 @@ def convert(ctx, preard, dest, overwrite, scheduler, nprocs, nthreads):
     """ Convert "pre-ARD" GeoTIFF(s) to ARD data cubes in NetCDF4 format
     """
     from dask.diagnostics import ProgressBar
-    from jinja2 import Template
     from stems.utils import renamed_upon_completion
 
     from cedar.preard import (ard_netcdf_encoding, find_preard,
@@ -56,7 +55,7 @@ def convert(ctx, preard, dest, overwrite, scheduler, nprocs, nthreads):
         metadata = read_metadata(meta)
 
         # Destination can depend on info in metadata - format it
-        dest_dir = Path(Template(dest_dir_tmpl).render(**metadata))
+        dest_dir = create_dest_dir(dest_dir_tmpl, metadata)
         dest_ = dest_dir.joinpath(meta.stem + '.nc')
 
         if dest_.exists() and not overwrite:
@@ -80,3 +79,13 @@ def convert(ctx, preard, dest, overwrite, scheduler, nprocs, nthreads):
                 out = ard_ds_.compute()
 
     click.echo('Complete')
+
+
+def create_dest_dir(dest_dir_template, metadata):
+    """ Create str format metadata and return formatted template
+    """
+    from stems.gis.grids import Tile
+    namespace = metadata['order'].copy()
+    namespace['tile'] = Tile.from_dict(metadata['tile'])
+    dest_dir = Path(dest_dir_tmpl.format(**namespace))
+    return dest_dir
