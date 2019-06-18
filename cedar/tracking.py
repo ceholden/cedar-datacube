@@ -279,11 +279,6 @@ class GEEARDTracker(object):
 
         return cleaned
 
-    @property
-    def _tracking_template_findall(self):
-        keys = [i[1] for i in _STR_FORMATTER.parse(self.tracking_template)]
-        return self.tracking_template.format(**{k: '*' for k in keys})
-
 
 def download_tracked(tracking_info, store, dest, overwrite=False):
     """ Download stored "pre-ARD" and metadata described by tracking info
@@ -319,7 +314,8 @@ def download_tracked(tracking_info, store, dest, overwrite=False):
     orders = tracking_info['orders']
     for order in orders:
         # Get info about order
-        id_, name, prefix = order['status']['id'], order['name'], order['prefix']
+        id_ = order['status']['id']
+        name, prefix = order['name'], order['prefix']
         n_images = len(order.get('output_url', [])) or None
 
         # Retrieve image and metadata
@@ -350,7 +346,8 @@ def clean_tracked(tracking_info, store):
     """
     orders = tracking_info['orders']
     for order in orders:
-        id_, name, prefix = order['id'], order['name'], order['prefix']
+        id_ = order['status']['id']
+        name, prefix = order['name'], order['prefix']
         logger.debug(f'Deleting image and metadata for id={id_}, '
                      f'name="{name}", prefix="{prefix}"')
 
