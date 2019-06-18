@@ -59,4 +59,4 @@ def config_print(ctx):
     """ This program should help you check your config file is valid
     """
     cfg = options.fetch_config(ctx)
-    click.echo(json.dumps(cfg.config, indent=2))
+    click.echo(cfg.to_yaml(indent=2))

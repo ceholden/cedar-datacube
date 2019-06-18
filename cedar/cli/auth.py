@@ -75,7 +75,7 @@ def auth_gdrive(ctx, client_secrets_file, credentials_file, browser):
     # CLI overrides info from config, if passed
     config = options.fetch_config(ctx, False)
     if config:
-        cfg = config.config.get('gdrive', {})
+        cfg = config.get('gdrive', {})
         client_secrets_file = _override_from_cfg(
             client_secrets_file, 'client_secrets_file', cfg)
         credentials_file = _override_from_cfg(
@@ -142,16 +142,15 @@ def auth_gcs(ctx, service_account_file, project):
 def clear(ctx, yes):
     """ Delete credentials files
     """
-    from cedar.config import Config
     config = options.fetch_config(ctx, False)
 
     to_clear = []
 
-    config_gdrive = config.config.get('gdrive', {}) if config else {}
+    config_gdrive = config.get('gdrive', {})
     to_clear.extend(_get_gdrive_creds(config_gdrive))
 
     # TODO: get GCS cred files
-    config_gcs = config.config.get('gcs', {}) if config else {}
+    config_gcs = config.get('gcs', {})
 
     removed = []
     for cred_file in to_clear:

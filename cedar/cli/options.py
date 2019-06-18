@@ -72,7 +72,7 @@ def fetch_config(ctx, fail_if_missing=True):
                '(`CEDAR_CONFIG_FILE=CONFIG_FILE cedar ...`)')
         raise click.BadParameter(msg, ctx=ctx_, param=param)
     else:
-        return None
+        return {}
 
 
 opt_config_file = click.option(

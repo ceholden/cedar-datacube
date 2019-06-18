@@ -1,5 +1,6 @@
 """ Configuration file handling
 """
+from collections import Mapping
 import logging
 import os
 from pathlib import Path
@@ -15,26 +16,29 @@ TEMPLATE_FILENAME = 'config.yaml.tmpl'
 TEMPLATE_FILE = Path(__file__).parent.joinpath(TEMPLATE_FILENAME)
 
 
-class Config(object):
-    """ cedar configuration file
+class Config(Mapping):
+    """ CEDAR configuration file
     """
 
     SCHEMA = parse.get_default_schema()
 
     def __init__(self, config, schema=None):
-        self.config = config
-        self.schema = schema
+        self._config = config.copy()
+        self.schema = (schema or self.SCHEMA).copy()
+        parse.validate_with_defaults(self._config, schema=self.schema)
 
-    def validate(self):
-        """ Validate the configuration against schema
+    # Mapping methods
+    def __getitem__(self, key):
+        return self._config[key]
 
-        Raises
-        ------
-        ValidationError
-            Raised if there's an issue
-        """
-        parse.validate_with_defaults(self.config, schema=self.SCHEMA)
+    def __iter__(self):
+        for key in self._config:
+            yield key
 
+    def __len__(self):
+        return len(self._config)
+
+    # Class create/serialize methods
     @classmethod
     def from_yaml(cls, filename, schema=None):
         """ Load from a YAML configuration file
@@ -49,7 +53,7 @@ class Config(object):
         """
         return cls.from_yaml(TEMPLATE_FILE, schema=schema)
 
-    def to_yaml(self, dest=None):
+    def to_yaml(self, dest=None, indent=2, sort_keys=False, **kwds):
         """ Write to a YAML (file, if ``dest`` is provided)
 
         Parameters
@@ -63,36 +67,33 @@ class Config(object):
             Either the filename written to, or a str containing the
             YAML data if ``dest`` is ``None``
         """
-        kwds = {'indent': 2, 'sort_keys': False}
         if dest is not None:
             with open(dest, 'w') as dst:
-                dmp = yaml.safe_dump(self.config, stream=dst, **kwds)
+                dmp = yaml.safe_dump(self._config, stream=dst,
+                                     indent=indent, sort_keys=sort_keys,
+                                     **kwds)
             return dst
         else:
-            return yaml.safe_dump(self.config, **kwds)
+            return yaml.safe_dump(self._config,
+                                  indent=indent, sort_keys=sort_keys,
+                                  **kwds)
 
-    @property
-    def config(self):
-        return self._config
+    # Getter-s for various objects this config describes
+    def validate(self):
+        """ Validate the configuration against schema
 
-    @config.setter
-    def config(self, value):
-        value_ = value.copy()
-        parse.validate_with_defaults(value_, schema=self.SCHEMA)
-        self._config = value_
-
-    def as_parsed(self):
-        """ Parse the config, returning a new, more explicit Config
+        Raises
+        ------
+        ValidationError
+            Raised if there's an issue
         """
-        # TODO: use "get_tile_grid().to_dict()", etc to fill in all of the
-        # values that might be missing or defaults. Make it an option maybe?
-        raise NotImplementedError("TODO")
+        parse.validate_with_defaults(self, schema=self.schema)
 
     def get_tracker(self):
         """ Get the GEEARDTracker described by this store
         """
         # Copy tracker config
-        cfg = self.config['tracker'].copy()
+        cfg = self['tracker'].copy()
 
         # Create tile grid
         tile_grid = self.get_tile_grid()
@@ -117,7 +118,7 @@ class Config(object):
         -------
         stems.gis.grids.TileGrid
         """
-        cfg = self.config['tile_grid'].copy()
+        cfg = self['tile_grid'].copy()
         grid_name = cfg.pop('grid_name', None)
         grid_filename = cfg.pop('grid_filename', None)
         return build.build_tile_grid(grid_name, grid_filename, **cfg)
@@ -126,7 +127,7 @@ class Config(object):
         """ Return a GCSStore described by this config
         """
         from cedar.stores.gcs import GCSStore
-        cfg = self.config.get('gcs', {})
+        cfg = self.get('gcs', {})
         store = GCS.from_credentials(**kwds)
         return store
 
@@ -134,6 +135,6 @@ class Config(object):
         """ Return a GDriveStore described by this config
         """
         from cedar.stores.gdrive import GDriveStore
-        cfg = self.config.get('gdrive', {})
+        cfg = self.get('gdrive', {})
         store = GDriveStore.from_credentials(**cfg)
         return store
