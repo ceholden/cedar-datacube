@@ -47,6 +47,7 @@ ENTRY_POINTS = {
         'console=cedar.cli.console:console',
         'convert=cedar.cli.convert:convert',
         'download=cedar.cli.storage:download',
+        'gee=cedar.cli.gee:group_gee',
         'status=cedar.cli.status:group_status',
         'submit=cedar.cli.submit:submit',
     ]
