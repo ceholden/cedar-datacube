@@ -27,7 +27,6 @@ and working with N-dimensional data (netCDF4_ and xarray_), and parallelization
 
    overview
    credentials
-   storage
    config
    submissions
    download
@@ -37,6 +36,8 @@ and working with N-dimensional data (netCDF4_ and xarray_), and parallelization
    :maxdepth: 1
    :caption: Help and Reference
 
+   cli
+   storage
    dev
    api
 
