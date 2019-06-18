@@ -18,7 +18,7 @@ def group_config(ctx):
 
 
 @group_config.command('template', short_help='Generate a config file template')
-@click.argument('dest', type=click.Path(dir_okay=False))
+@click.argument('dest', required=False, type=click.Path(dir_okay=False))
 @click.option('--comment', is_flag=True, help='Comment out the template file')
 @click.pass_context
 def config_template(ctx, dest, comment):
@@ -26,23 +26,26 @@ def config_template(ctx, dest, comment):
     """
     from cedar.config import TEMPLATE_FILE
 
-    dest = Path(dest)
-    dest.parent.mkdir(parents=True, exist_ok=True)
-
     with open(str(TEMPLATE_FILE)) as template:
         lines = list(template)
 
-        if comment:
-            lines = ['# ' + line if not line.startswith('#') else line
-                     for line in lines]
+    if comment:
+        lines = ['# ' + line if not line.startswith('#') else line
+                 for line in lines]
+
+    if dest:
+        dest = Path(dest)
+        dest.parent.mkdir(parents=True, exist_ok=True)
 
         tmp = f'{dest}.tmp.{os.getpid()}'
         with open(tmp, 'w') as tmp_dst:
             tmp_dst.write(''.join(lines))
-
         shutil.move(str(tmp), str(dest))
 
-    click.echo(f'Wrote template file to "{dest}"')
+        click.echo(f'Wrote template file to "{dest}"')
+    else:
+        for line in lines:
+            click.echo(line, nl=False)
 
 
 @group_config.command('build', short_help='Interactively build a config file')
