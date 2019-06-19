@@ -18,32 +18,6 @@ def group_status(ctx):
         ee.Initialize()
 
 
-@group_status.command('tasks', short_help='List Google Earth Engine tasks')
-@click.option('--list', 'list_tasks', is_flag=True,
-              help='List information for all tasks')
-@click.pass_context
-def tasks(ctx, list_tasks):
-    """ Get info about Google Earth Engine tasks
-    """
-    from cedar.tracking import get_ee_tasks
-    tasks = get_ee_tasks()
-
-    # Summarize
-    totals = defaultdict(lambda: 0)
-    for task in tasks.values():
-        totals[task.state] += 1
-    click.echo('Task summary:')
-    for state, count in totals.items():
-        click.echo(f'    {state}: {count}')
-
-    # Print out verbose info
-    if list_tasks:
-        click.echo('Tasks:')
-        for id_, task in tasks.items():
-            click.echo(f'{id_} - {task.state} - {task.task_type}=>'
-                       f'{task.config["description"]}')
-
-
 @group_status.command('list', short_help='List tracked metadata')
 @click.pass_context
 def list(ctx):
