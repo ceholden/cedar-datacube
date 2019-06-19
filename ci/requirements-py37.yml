@@ -19,11 +19,13 @@ dependencies:
   - jsonschema
   - pyyaml
   # EarthEngine
-  - pycrypto
-  - pyopenssl
-  - six
-  - oauth2client
-  - requests
+  - earthengine-api
+  # Storage
+  - google-api-core
+  - google-api-python-client
+  - google-auth-httplib2
+  - google-auth-oauthlib
+  - google-cloud-storage
   # CLI
   - click
   - click-plugins
@@ -44,14 +46,5 @@ dependencies:
   - pip:
     # STEMS - private repo url for now...
     - git+ssh://git@github.com/ceholden/stems.git
-    # EarthEngine
-    - earthengine-api
-    # Google Drive
-    - google-api-python-client
-    - google-auth-httplib2
-    - google-auth-oauthlib
-    # GCS
-    - google-cloud-storage
     # docs
     - coverage-badge
-    - sphinxcontrib-bibtex
