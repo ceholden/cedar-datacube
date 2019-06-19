@@ -57,9 +57,22 @@ def config_build(ctx, dest):
 
 
 @group_config.command('print', short_help='Parse and print config file')
+@click.argument('config_file',
+                type=click.Path(dir_okay=False, resolve_path=True))
 @click.pass_context
-def config_print(ctx):
+def config_print(ctx, config_file):
     """ This program should help you check your config file is valid
     """
-    cfg = options.fetch_config(ctx)
-    click.echo(cfg.to_yaml(indent=2))
+    from jsonschema.exceptions import ValidationError
+    from cedar.config import Config
+
+    try:
+        cfg = Config.from_yaml(config_file)
+    except ValidationError as ve:
+        click.echo(f'Configuration file failed to validate: "{ve.message}"')
+        raise click.Abort()
+    except Exception as e:
+        click.echo(f'Could not parse configuration file "{config_file}":\n{e}')
+        raise click.Abort()
+    else:
+        click.echo(cfg.to_yaml(indent=2))
