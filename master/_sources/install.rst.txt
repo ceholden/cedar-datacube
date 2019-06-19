@@ -108,20 +108,20 @@ You can either clone the public repository:
 
 .. code-block:: console
 
-    $ git clone git://github.com/ceholden/cedar
+    $ git clone git://github.com/ceholden/cedar-datacube
 
 Once you have a copy of the source, you can install it with:
 
 .. code-block:: console
 
-    $ cd cedar/
+    $ cd cedar-datacube/
     $ pip install -e .
 
 or
 
 .. code-block:: console
 
-    $ pip install -e cedar/
+    $ pip install -e cedar-datacube/
 
 
 The flag, ``-e``, is recommended to tell ``pip`` to make the installation
@@ -134,8 +134,8 @@ Alternatively, you can use ``pip`` to install it in one step,
 
 .. code-block:: console
 
-   $ pip install git+ssh://git@github.com/ceholden/cedar.git
+   $ pip install git+ssh://git@github.com/ceholden/cedar-datacube.git
 
 
 .. _conda: http://conda.io
-.. _Github repo: https://github.com/ceholden/cedar
+.. _Github repo: https://github.com/ceholden/cedar-datacube
