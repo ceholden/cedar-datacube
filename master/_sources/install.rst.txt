@@ -65,6 +65,8 @@ Documentation is built using Sphinx and requires:
 - numpydoc
 
 
+.. _instructions:
+
 Instructions
 ------------
 
@@ -78,7 +80,7 @@ the ``ci/`` directory (we use these for our continuous integration tests):
 
 .. code-block:: console
 
-   $ conda create -n cedar -f ci/requirements-py37.yml
+   $ conda env create -n cedar -f ci/requirements-py37.yml
 
 
 With the conda environment created, you can activate it as follows:
@@ -110,7 +112,9 @@ You can either clone the public repository:
 
     $ git clone git@github.com:ceholden/cedar-datacube
 
-Once you have a copy of the source, you can install it with:
+Make sure you have installed the package dependencies before proceeding
+(see Instructions_). Once you have a copy of the source, you can install it
+with:
 
 .. code-block:: console
 

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Installation &mdash; cedar 0+untagged.50.g3994c0d documentation</title>
+  <title>Installation &mdash; cedar 0+untagged.50.ga94a2ab documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                0+untagged.50.g3994c0d
+                0+untagged.50.ga94a2ab
               </div>
             
           
@@ -249,14 +249,14 @@ Engine, including downloading ARD from the GEE, you will need the following:</p>
 </div>
 </div>
 <div class="section" id="instructions">
-<h2>Instructions<a class="headerlink" href="#instructions" title="Permalink to this headline">¶</a></h2>
+<span id="id1"></span><h2>Instructions<a class="headerlink" href="#instructions" title="Permalink to this headline">¶</a></h2>
 <p>cedar is a pure Python package, but it sits on top of a pile of dependencies
 that may be difficult to install. The easiest way to install all of these
 dependencies is using the <a class="reference external" href="http://conda.io">conda</a> tool.</p>
 <p>With <a class="reference external" href="http://conda.io">conda</a> installed and ready to use, you can install all the required
 dependencies for this library using one of the “environment” files located in
 the <code class="docutils literal notranslate"><span class="pre">ci/</span></code> directory (we use these for our continuous integration tests):</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> conda create -n cedar -f ci/requirements-py37.yml
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> conda env create -n cedar -f ci/requirements-py37.yml
 </pre></div>
 </div>
 <p>With the conda environment created, you can activate it as follows:</p>
@@ -277,7 +277,9 @@ either download the source from Github and install it using <code class="docutil
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> git clone git@github.com:ceholden/cedar-datacube
 </pre></div>
 </div>
-<p>Once you have a copy of the source, you can install it with:</p>
+<p>Make sure you have installed the package dependencies before proceeding
+(see <a class="reference internal" href="#instructions">Instructions</a>). Once you have a copy of the source, you can install it
+with:</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> <span class="nb">cd</span> cedar-datacube/
 <span class="gp">$</span> pip install -e .
 </pre></div>
