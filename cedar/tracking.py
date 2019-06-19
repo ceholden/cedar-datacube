@@ -103,8 +103,8 @@ class GEEARDTracker(object):
             'collections': collections,
             'tiles': tiles,
             'tile_indices': tile_indices,
-            'period_start': period_start,
-            'period_end': period_end,
+            'period_start': period_start.isoformat(),
+            'period_end': period_end.isoformat(),
             'period_freq': period_freq,
             'now': dt.datetime.now().isoformat()
         }
