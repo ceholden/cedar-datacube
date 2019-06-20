@@ -12,8 +12,6 @@ logger = logging.getLogger(__name__)
 
 
 # Help links
-DOCS_INSTALL_GEE = 'https://developers.google.com/earth-engine/python_install_manual'
-DOCS_AUTH_GEE = 'https://developers.google.com/earth-engine/python_install_manual#setting-up-authentication-credentials'
 DOCS_AUTH_GCS = ''
 DOCS_AUTH_GDRIVE = ''
 
@@ -32,22 +30,13 @@ def auth_gee(ctx):
     If it doesn't work, please make sure you've authenticated by running
     >>> earthengine authenticate
     """
-    try:
-        import ee
-    except ImportError:
-        msg = ('Could not load Earth Engine Python API. Please install '
-               '`earthengine` and try again. '
-               'More information at:\n{DOCS_INSTALL_GEE}')
-        click.echo(options.STYLE_ERROR(msg))
-        raise click.Abort()
+    from cedar.utils import load_ee
 
     try:
-        ee.Initialize()
+        ee = load_ee(True)
     except Exception as e:
-        msg = ('Could not authenticate to Earth Engine. Please make sure you '
-               f'are authenticated. More information at:\n{DOCS_AUTH_GEE}')
-        click.echo(options.STYLE_ERROR(str(e)))
-        click.echo(options.STYLE_ERROR(msg))
+        click.echo('Could not load and initialize the Earth Engine API')
+        click.echo(e)
         raise click.Abort()
     else:
         click.echo(options.STYLE_INFO('Authenticated'))

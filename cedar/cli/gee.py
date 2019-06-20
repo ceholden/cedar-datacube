@@ -11,10 +11,7 @@ from . import options
 @click.group('gee', short_help='Check status GEE tasks')
 @click.pass_context
 def group_gee(ctx):
-    # Only initialize if we have a subcommand
-    if ctx.invoked_subcommand:
-        import ee
-        ee.Initialize()
+    pass
 
 
 @group_gee.command('tasks', short_help='List Google Earth Engine tasks')
@@ -24,7 +21,10 @@ def group_gee(ctx):
 def tasks(ctx, list_tasks):
     """ Get info about Google Earth Engine tasks
     """
+    from cedar.utils import load_ee
     from cedar.tracking import get_ee_tasks
+
+    ee = load_ee(True)
     tasks = get_ee_tasks()
 
     # Summarize

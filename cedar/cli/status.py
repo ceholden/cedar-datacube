@@ -12,10 +12,7 @@ from . import options
 @click.group('status', short_help='Check status of tasks and exports')
 @click.pass_context
 def group_status(ctx):
-    # Only initialize if we have a subcommand
-    if ctx.invoked_subcommand:
-        import ee
-        ee.Initialize()
+    pass
 
 
 @group_status.command('list', short_help='List tracked metadata')
@@ -55,6 +52,9 @@ def read(ctx, tracking_name):
 def update(ctx, tracking_name):
     """ Update job submission tracking info
     """
+    from cedar.utils import load_ee
+    ee = load_ee(True)
+
     logger = ctx.obj['logger']
     config = options.fetch_config(ctx)
     tracker = config.get_tracker()

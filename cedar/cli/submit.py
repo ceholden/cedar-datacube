@@ -30,9 +30,12 @@ logger = logging.getLogger(__name__)
 @cli_options.opt_date_format
 @click.pass_context
 def submit(ctx, image_collection, index, row, col,
- period_start, period_end, period_freq, date_format):
-    """ Submit
+           period_start, period_end, period_freq, date_format):
+    """ Submit "pre-ARD" processing orders and create tracking metadata
     """
+    from cedar.sensors import CREATE_ARD_COLLECTION
+    from cedar.utils import load_ee
+
     # Need index OR (row AND col) -- blame index param if it goes wrong
     _, index_param = options.fetch_param(ctx, 'index')
     if index:
@@ -59,7 +62,6 @@ def submit(ctx, image_collection, index, row, col,
                                  ctx=ctx, param=param)
 
     # Check that we know about the image collection
-    from cedar.sensors import CREATE_ARD_COLLECTION
     for collection in image_collection:
         if collection not in CREATE_ARD_COLLECTION:
             raise KeyError(f'Unknown image collection "{collection}"')
@@ -69,8 +71,7 @@ def submit(ctx, image_collection, index, row, col,
     tracker = config.get_tracker()
 
     # Login to EE
-    import ee
-    ee.Initialize()
+    ee = load_ee(True)
 
     msg = [
         f'Tiles: {", ".join([f"h{c:04d}c{r:04d}" for r, c in index])}',
