@@ -4,4 +4,10 @@
 Frequently Asked Questions
 ==========================
 
-No FAQs yet.
+
+What is "pre-ARD"
+~~~~~~~~~~~~~~~~~
+
+Data that is fully preprocesed but needs to be
+:ref:`converted <cli_cedar_convert>` into a new format to meet the
+definition of ARD.

@@ -59,7 +59,7 @@ Sections
 +---------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------+
 | tracking_prefix     | Template for order tracking file name. Available keys are "collection", "tiles", "tile_indices", "period_start", "period_end", "period_freq", and "now".     |
 +---------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| export_image_kwds   | Image export options for ``toDrive`` and ``toCloudStorage``. See https://developers.google.com/earth-engine/exporting#exporting-images                       |
+| export_image_kwds   | Image export options for ``toDrive`` and ``toCloudStorage``. See docs on `Exporting Images`_ and the `changelog <_changelog_export>`_ for info on keywords   |
 +---------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------+
 | filters             | ImageCollection EarthEngine filters to apply before ordering. See https://developers.google.com/earth-engine/ic_filtering                                    |
 +---------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -113,3 +113,8 @@ the ``cedar config template`` program to do this:
 .. code-block:: bash
 
     cedar config template
+
+
+
+.. _Exporting Images: https://developers.google.com/earth-engine/exporting#exporting-images
+.. _changelog_export: https://developers.google.com/earth-engine/changelog#2016-10-27

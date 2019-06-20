@@ -29,8 +29,10 @@ and working with N-dimensional data (netCDF4_ and xarray_), and parallelization
    credentials
    config
    submissions
+   tracking
    download
    convert
+   cleaning
 
 .. toctree::
    :maxdepth: 1
