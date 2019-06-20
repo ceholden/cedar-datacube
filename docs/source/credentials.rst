@@ -7,7 +7,10 @@ Credentials
 You will need a Google account that has access to,
 
 * Google Earth Engine
-* Google Drive OR Google Cloud Storage
+* PICK ONE OF THE FOLLOWING
+
+    * Google Drive
+    * Google Cloud Storage
 
 
 .. _gee_creds_gee:
