@@ -155,11 +155,7 @@ def submit_preard_task(image, image_metadata, name, prefix, tile, store,
     """
     # Prepare 
     export_image_kwds = export_image_kwds or {}
-    export_image_kwds.update({
-        'crs': tile.crs.wkt,
-        'crs_transform': json.dumps(tile.transform[:6]),
-        'dimensions': f'{tile.width}x{tile.height}',
-    })
+    export_image_kwds.update(tile_export_image_kwds(tile))
 
     # Create EE task
     task = store.store_image(image, name, prefix, **export_image_kwds)
@@ -181,6 +177,27 @@ def submit_preard_task(image, image_metadata, name, prefix, tile, store,
     metadata_id = store.store_metadata(metadata, name, prefix)
 
     return task, metadata, metadata_id
+
+
+def tile_export_image_kwds(tile):
+    """ Returns keywords to tile exported ``ee.Image`` by reprojecting/clipping
+
+    Parameters
+    ----------
+    tile : stems.gis.grids.Tile
+        A tile
+
+    Returns
+    -------
+    dict[str, str]
+        Keywords "crs", "crs_transform", and "dimensions"
+    """
+    kwds = {
+        'crs': tile.crs.wkt,
+        'crs_transform': json.dumps(tile.transform[:6]),
+        'dimensions': f'{tile.width}x{tile.height}',
+    }
+    return kwds
 
 
 def get_program_metadata():
