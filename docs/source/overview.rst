@@ -59,5 +59,6 @@ References
 
 .. bibliography:: references.bib
    :cited:
+   :style: unsrt
 
 .. _CEOS: http://ceos.org/ard/
