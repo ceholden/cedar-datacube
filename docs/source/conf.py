@@ -211,6 +211,9 @@ html_context = dict(
     github_version="master",
     conf_py_path="/docs/source/",
     source_suffix=".rst",
+    css_files=[
+        '_static/theme_overrides.css',  # override wide tables in RTD theme
+    ]
 )
 
 # If true, "Created using Sphinx" is shown in the HTML footer.
