@@ -1,0 +1,131 @@
+{
+  "program": {
+    "name": "cedar",
+    "version": "0+untagged.211.g56b601e",
+    "ee": "0.1.182"
+  },
+  "order": {
+    "collection": "LANDSAT/LE07/C01/T1_SR",
+    "date_start": "2007-01-01T00:00:00",
+    "date_end": "2012-01-01T00:00:00",
+    "filters": [
+      {
+        "type": "CompoundValue",
+        "scope": [
+          [
+            "0",
+            {
+              "type": "Invocation",
+              "arguments": {
+                "leftField": "CLOUD_COVER_LAND",
+                "rightValue": 80.0
+              },
+              "functionName": "Filter.greaterThan"
+            }
+          ],
+          [
+            "1",
+            {
+              "type": "Invocation",
+              "arguments": {
+                "filter": {
+                  "type": "ValueRef",
+                  "value": "0"
+                }
+              },
+              "functionName": "Filter.not"
+            }
+          ]
+        ],
+        "value": {
+          "type": "ValueRef",
+          "value": "1"
+        }
+      }
+    ],
+    "submitted": "2019-06-19T15:13:26.781977"
+  },
+  "tile": {
+    "index": [
+      52,
+      71
+    ],
+    "crs": "PROJCS[\"BU MEaSUREs Lambert Azimuthal Equal Area - NA - V00\",GEOGCS[\"GCS_WGS_1984\",DATUM[\"D_WGS_1984\",SPHEROID[\"WGS_1984\",6378137.0,298.257223563]],PRIMEM[\"Greenwich\",0.0],UNIT[\"degree\",0.0174532925199433]],PROJECTION[\"Lambert_Azimuthal_Equal_Area\"],PARAMETER[\"false_easting\",0.0],PARAMETER[\"false_northing\",0.0],PARAMETER[\"longitude_of_center\",-100],PARAMETER[\"latitude_of_center\",50],UNIT[\"meter\",1.0]]",
+    "bounds": [
+      3016330.0,
+      -2873535.0,
+      3166330.0,
+      -2723535.0
+    ],
+    "res": [
+      30,
+      30
+    ],
+    "size": [
+      5000,
+      5000
+    ]
+  },
+  "store": {
+    "service": "GDriveStore",
+    "export_image_kwds": {
+      "shardSize": 256,
+      "fileDimensions": 512,
+      "cloudOptimized": true,
+      "crs": "PROJCS[\"BU MEaSUREs Lambert Azimuthal Equal Area - NA - V00\",GEOGCS[\"GCS_WGS_1984\",DATUM[\"D_WGS_1984\",SPHEROID[\"WGS_1984\",6378137.0,298.257223563]],PRIMEM[\"Greenwich\",0.0],UNIT[\"degree\",0.0174532925199433]],PROJECTION[\"Lambert_Azimuthal_Equal_Area\"],PARAMETER[\"false_easting\",0.0],PARAMETER[\"false_northing\",0.0],PARAMETER[\"longitude_of_center\",-100],PARAMETER[\"latitude_of_center\",50],UNIT[\"meter\",1.0]]",
+      "crs_transform": "[30.0, 0.0, 3016330.0, 0.0, -30.0, -2723535.0]",
+      "dimensions": "5000x5000"
+    }
+  },
+  "task": {
+    "name": "LANDSAT_LE07_C01_T1_SR_h071v052_2007-01-01_2012-01-01",
+    "prefix": "CEDAR_PREARD",
+    "status": {
+      "id": "7BUI2AIAG6YVSY5MO2FNF3Q7",
+      "state": "UNSUBMITTED",
+      "creation_timestamp_ms": 0,
+      "update_timestamp_ms": "",
+      "start_timestamp_ms": "",
+      "output_url": []
+    }
+  },
+  "image": {
+    "bands": [
+      "blue",
+      "green",
+      "red",
+      "nir",
+      "swir1",
+      "swir2",
+      "thermal",
+      "pixel_qa"
+    ],
+    "nodata": -9999,
+    "images": [
+      [
+        {
+          "CLOUD_COVER": 35.0,
+          "CLOUD_COVER_LAND": 41.0,
+          "EARTH_SUN_DISTANCE": 0.983646,
+          "ESPA_VERSION": "2_19_0c",
+          "GEOMETRIC_RMSE_MODEL": 3.811,
+          "GEOMETRIC_RMSE_MODEL_X": 2.694,
+          "GEOMETRIC_RMSE_MODEL_Y": 2.696,
+          "IMAGE_QUALITY": 9.0,
+          "LANDSAT_ID": "LE07_L1TP_007047_20070115_20170105_01_T1",
+          "LEVEL1_PRODUCTION_DATE": 1483594841000.0,
+          "SATELLITE": "LANDSAT_7",
+          "SENSING_TIME": "2007-01-15T14:52:47.6135798Z",
+          "SOLAR_AZIMUTH_ANGLE": 143.177383,
+          "SOLAR_ZENITH_ANGLE": 48.971226,
+          "SR_APP_VERSION": "LEDAPS_3.2.0",
+          "WRS_PATH": 7.0,
+          "WRS_ROW": 47.0,
+          "system:id": "LANDSAT/LE07/C01/T1_SR/LE07_007047_20070115",
+          "system:time_start": 1168872767610.0,
+          "system:version": 1522144802013102
+        }
+      ]
+    ]
+  }
+}

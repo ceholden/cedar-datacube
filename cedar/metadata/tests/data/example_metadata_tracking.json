@@ -1,0 +1,98 @@
+{
+  "program": {
+    "name": "cedar",
+    "version": "0+untagged.211.g56b601e",
+    "ee": "0.1.182"
+  },
+  "submission": {
+    "submitted": "2019-06-19T15:12:18.270257",
+    "tile_grid": {
+      "ul": [
+        -7633670.0,
+        5076465.0
+      ],
+      "crs": "PROJCS[\"BU MEaSUREs Lambert Azimuthal Equal Area - NA - V00\",GEOGCS[\"GCS_WGS_1984\",DATUM[\"D_WGS_1984\",SPHEROID[\"WGS_1984\",6378137.0,298.257223563]],PRIMEM[\"Greenwich\",0.0],UNIT[\"degree\",0.0174532925199433]],PROJECTION[\"Lambert_Azimuthal_Equal_Area\"],PARAMETER[\"false_easting\",0.0],PARAMETER[\"false_northing\",0.0],PARAMETER[\"longitude_of_center\",-100],PARAMETER[\"latitude_of_center\",50],UNIT[\"meter\",1.0]]",
+      "res": [
+        30,
+        30
+      ],
+      "size": [
+        5000,
+        5000
+      ],
+      "limits": [
+        [
+          0,
+          64
+        ],
+        [
+          0,
+          84
+        ]
+      ],
+      "name": "BU MEaSUREs - NA - V00"
+    },
+    "tile_indices": [
+      [
+        52,
+        69
+      ]
+    ],
+    "period_start": "1997-01-01T00:00:00",
+    "period_end": "2020-01-01T00:00:00",
+    "period_freq": "5YS"
+  },
+  "tracking": {
+    "submitted": "2019-06-19T15:14:10.782701",
+    "name": "TRACKING_SUB2019-06-19T15:12:18.270236_PERIOD1997-01-01 00:00:00-2020-01-01T00:00:00",
+    "prefix": "CEDAR_TRACK",
+    "collections": [
+      "LANDSAT/LE07/C01/T1_SR"
+    ],
+    "tiles": [
+      {
+        "index": [
+          53,
+          71
+        ],
+        "crs": "PROJCS[\"BU MEaSUREs Lambert Azimuthal Equal Area - NA - V00\",GEOGCS[\"GCS_WGS_1984\",DATUM[\"D_WGS_1984\",SPHEROID[\"WGS_1984\",6378137.0,298.257223563]],PRIMEM[\"Greenwich\",0.0],UNIT[\"degree\",0.0174532925199433]],PROJECTION[\"Lambert_Azimuthal_Equal_Area\"],PARAMETER[\"false_easting\",0.0],PARAMETER[\"false_northing\",0.0],PARAMETER[\"longitude_of_center\",-100],PARAMETER[\"latitude_of_center\",50],UNIT[\"meter\",1.0]]",
+        "bounds": [
+          3016330.0,
+          -3023535.0,
+          3166330.0,
+          -2873535.0
+        ],
+        "res": [
+          30,
+          30
+        ],
+        "size": [
+          5000,
+          5000
+        ]
+      }
+    ],
+    "name_template": "{collection}_h{tile.horizontal:03d}v{tile.vertical:03d}_{date_start}_{date_end}",
+    "prefix_template": "CEDAR_PREARD"
+  },
+  "orders": [
+    {
+      "name": "LANDSAT_LE07_C01_T1_SR_h069v052_1997-01-01_2002-01-01",
+      "prefix": "CEDAR_PREARD",
+      "status": {
+        "id": "6XKXWIQNWYF6MKYXA2NA77O7",
+        "state": "COMPLETED",
+        "creation_timestamp_ms": 1560971651273,
+        "update_timestamp_ms": 1560973859435,
+        "start_timestamp_ms": 1560973082955,
+        "output_url": [
+          "https://drive.google.com/#folders/1F9ZtKqOO9Bz_no4Vw6VSLMSReOAeJa1B",
+          "https://drive.google.com/#folders/1F9ZtKqOO9Bz_no4Vw6VSLMSReOAeJa1B"
+        ]
+      }
+    }
+  ],
+  "metadata": [
+    "1r3HwlnBySE8WAv-Ms4_CUs3TkHhDFu9n"
+  ]
+}
