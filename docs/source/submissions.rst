@@ -1,4 +1,4 @@
-.. submissions_:
+.. _submissions:
 
 ==========================
 "Pre-ARD" Order Submission
@@ -23,6 +23,7 @@ to be converted into a new format to meet the definition of ARD. This
    * GeoTIFF images created by exporting a "pre-ARD" ``ee.Image`` to a storage
      location.
    * Usually consists of multiple pieces to keep each GeoTIFF below 4GB
+
 2. "Pre-ARD" metadata
 
    * Information about the order, storage, and tile
@@ -37,4 +38,3 @@ to be converted into a new format to meet the definition of ARD. This
 .. image:: figures/cedar_flowchart.png
    :alt: Flowchart describing the process of creating Analysis Ready Data using
          CEDAR
-
