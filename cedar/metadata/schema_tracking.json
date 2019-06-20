@@ -1,0 +1,205 @@
+{
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "The Root Schema",
+  "required": [
+    "program",
+    "submission",
+    "tracking",
+    "orders",
+    "metadata"
+  ],
+  "properties": {
+    "program": { "$ref": "schema_definitions.json#/program" },
+    "submission": {
+      "$id": "#/properties/submission",
+      "type": "object",
+      "title": "The Submission Schema",
+      "required": [
+        "submitted",
+        "tile_grid",
+        "tile_indices",
+        "period_start",
+        "period_end",
+        "period_freq"
+      ],
+      "properties": {
+        "submitted": {
+          "$id": "#/properties/submission/properties/submitted",
+          "type": "string",
+          "title": "The Submitted Schema",
+          "default": "",
+          "examples": [
+            "2019-06-19T15:12:18.270257"
+          ],
+          "pattern": "^(.*)$"
+        },
+        "tile_grid": { "$ref": "schema_definitions.json#/tile_grid" },
+        "tile_indices": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            }
+          }
+        },
+        "period_start": {
+          "type": "string"
+        },
+        "period_end": {
+          "type": "string"
+        },
+        "period_freq": {
+          "type": "string"
+        }
+      }
+    },
+    "tracking": {
+      "$id": "#/properties/tracking",
+      "type": "object",
+      "required": [
+        "submitted",
+        "name",
+        "prefix",
+        "collections",
+        "tiles",
+        "name_template",
+        "prefix_template"
+      ],
+      "properties": {
+        "submitted": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string",
+          "pattern": "^(.*)$"
+        },
+        "prefix": {
+          "type": "string",
+          "pattern": "^(.*)$"
+        },
+        "collections": {
+          "$id": "#/properties/tracking/properties/collections",
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^(.*)$"
+          }
+        },
+        "tiles": {
+          "$id": "#/properties/tracking/properties/tiles",
+          "type": "array",
+          "items": {
+            "$id": "#/properties/tracking/properties/tiles/items",
+            "type": "object",
+            "required": [
+              "index",
+              "crs",
+              "bounds",
+              "res",
+              "size"
+            ],
+            "properties": {
+              "index": {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                }
+              },
+              "crs": {
+                "type": "string"
+              },
+              "bounds": {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                }
+              },
+              "res": {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                }
+              },
+              "size": {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        },
+        "name_template": {
+          "type": "string",
+          "pattern": "^(.*)$"
+        },
+        "prefix_template": {
+          "type": "string",
+          "pattern": "^(.*)$"
+        }
+      }
+    },
+    "orders": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "prefix",
+          "status"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "pattern": "^(.*)$"
+          },
+          "prefix": {
+            "type": "string",
+            "pattern": "^(.*)$"
+          },
+          "status": {
+            "type": "object",
+            "required": [
+              "id",
+              "state",
+              "creation_timestamp_ms",
+              "update_timestamp_ms",
+              "start_timestamp_ms",
+              "output_url"
+            ],
+            "properties": {
+              "id": {
+                "type": "string",
+                "pattern": "^(.*)$"
+              },
+              "state": {
+                "type": "string",
+                "pattern": "^(.*)$"
+              },
+              "creation_timestamp_ms": { "$ref": "schema_definitions.json#/timestamp" },
+              "update_timestamp_ms": { "$ref": "schema_definitions.json#/timestamp" },
+              "start_timestamp_ms": { "$ref": "schema_definitions.json#/timestamp" },
+              "output_url": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "pattern": "^(.*)$"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "metadata": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^(.*)$"
+      }
+    }
+  }
+}

@@ -1,0 +1,144 @@
+{
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+ "title": "Schema for CEDAR 'pre-ARD' image metadata",
+  "required": [
+    "program",
+    "order",
+    "tile",
+    "store",
+    "task",
+    "image"
+  ],
+  "properties": {
+    "program": { "$ref": "schema_definitions.json#/program" },
+    "order": {
+      "type": "object",
+      "title": "The Order Schema",
+      "required": [
+        "collection",
+        "date_start",
+        "date_end",
+        "filters",
+        "submitted"
+      ],
+      "properties": {
+        "collection": {
+          "type": "string",
+          "pattern": "^(.*)$"
+        },
+        "date_start": {
+          "type": "string",
+          "pattern": "^(.*)$"
+        },
+        "date_end": {
+          "type": "string",
+          "pattern": "^(.*)$"
+        },
+        "filters": {
+          "type": "array"
+        },
+        "submitted": {
+          "type": "string",
+          "pattern": "^(.*)$"
+        }
+      }
+    },
+    "tile": { "$ref": "schema_definitions.json#/tile" },
+    "store": {
+      "type": "object",
+      "required": [
+        "service",
+        "export_image_kwds"
+      ],
+      "properties": {
+        "service": {
+          "type": "string",
+          "enum": ["GDriveStore", "GCSStore"]
+        },
+        "export_image_kwds": {
+          "type": "object",
+          "properties": {
+            "shardSize": { "type": "integer" },
+            "fileDimensions": { "type": "integer" },
+            "cloudOptimized": { "type": "boolean" }
+          }
+        }
+      }
+    },
+    "task": {
+      "type": "object",
+      "required": [
+        "name",
+        "prefix",
+        "status"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "pattern": "^(.*)$"
+        },
+        "prefix": {
+          "type": "string",
+          "pattern": "^(.*)$"
+        },
+        "status": {
+          "type": "object",
+          "required": [
+            "id",
+            "state",
+            "creation_timestamp_ms",
+            "update_timestamp_ms",
+            "start_timestamp_ms",
+            "output_url"
+          ],
+          "properties": {
+            "id": {
+              "type": "string",
+              "pattern": "^(.*)$"
+            },
+            "state": {
+              "type": "string"
+            },
+            "creation_timestamp_ms": {
+              "$ref": "schema_definitions.json#/timestamp"
+            },
+            "update_timestamp_ms": {
+              "$ref": "schema_definitions.json#/timestamp"
+            },
+            "start_timestamp_ms": {
+              "$ref": "schema_definitions.json#/timestamp"
+            },
+            "output_url": {
+              "type": "array"
+            }
+          }
+        }
+      }
+    },
+    "image": {
+      "type": "object",
+      "required": [
+        "bands",
+        "nodata",
+        "images"
+      ],
+      "properties": {
+        "bands": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^(.*)$"
+          }
+        },
+        "nodata": {
+          "type": "number"
+        },
+        "images": {
+          "type": "array"
+        }
+      }
+    }
+  }
+}
