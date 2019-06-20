@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Command Line Interface Programs &mdash; cedar 0+untagged.50.g4087d9f documentation</title>
+  <title>Command Line Interface Programs &mdash; cedar 0+untagged.50.g73e2230 documentation</title>
   
 
   
@@ -33,10 +33,11 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/theme_overrides.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Storage" href="storage.html" />
-    <link rel="prev" title="Pre-ARD to ARD Conversion" href="convert.html" /> 
+    <link rel="prev" title="Cleaning “pre-ARD” from Storage" href="cleaning.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -60,7 +61,7 @@
             
             
               <div class="version">
-                0+untagged.50.g4087d9f
+                0+untagged.50.g73e2230
               </div>
             
           
@@ -95,9 +96,11 @@
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="credentials.html">Credentials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="config.html">Configuration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="submissions.html">Pre-ARD Order Submissions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="submissions.html">“Pre-ARD” Order Submission</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tracking.html">Pre-ARD Order Tracking</a></li>
 <li class="toctree-l1"><a class="reference internal" href="download.html">Download</a></li>
 <li class="toctree-l1"><a class="reference internal" href="convert.html">Pre-ARD to ARD Conversion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cleaning.html">Cleaning “pre-ARD” from Storage</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Help and Reference</span></p>
 <ul class="current">
@@ -127,6 +130,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#cedar-download"><code class="docutils literal notranslate"><span class="pre">cedar</span> <span class="pre">download</span></code></a></li>
 <li class="toctree-l2"><a class="reference internal" href="#cedar-clean"><code class="docutils literal notranslate"><span class="pre">cedar</span> <span class="pre">clean</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="#cedar-convert"><code class="docutils literal notranslate"><span class="pre">cedar</span> <span class="pre">convert</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="storage.html">Storage</a></li>
@@ -184,7 +188,7 @@
         
             
             
-              <a href="https://github.com/ceholden/cedar/blob/master/docs/source/cli.rst" class="fa fa-github"> Edit on GitHub</a>
+              <a href="https://github.com/ceholden/cedar-datacube/blob/master/docs/source/cli.rst" class="fa fa-github"> Edit on GitHub</a>
             
           
         
@@ -260,7 +264,7 @@ Options:
 </div>
 </div>
 <div class="section" id="cedar-auth-gdrive">
-<h3><code class="docutils literal notranslate"><span class="pre">cedar</span> <span class="pre">auth</span> <span class="pre">gdrive</span></code><a class="headerlink" href="#cedar-auth-gdrive" title="Permalink to this headline">¶</a></h3>
+<span id="cli-auth-gdrive"></span><h3><code class="docutils literal notranslate"><span class="pre">cedar</span> <span class="pre">auth</span> <span class="pre">gdrive</span></code><a class="headerlink" href="#cedar-auth-gdrive" title="Permalink to this headline">¶</a></h3>
 <p>Used to help authenticate and test authentication with the Google Drive API.</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Usage: cedar auth gdrive [OPTIONS]
 
@@ -276,7 +280,7 @@ Options:
 </div>
 </div>
 <div class="section" id="cedar-auth-gcs">
-<h3><code class="docutils literal notranslate"><span class="pre">cedar</span> <span class="pre">auth</span> <span class="pre">gcs</span></code><a class="headerlink" href="#cedar-auth-gcs" title="Permalink to this headline">¶</a></h3>
+<span id="cli-auth-gcs"></span><h3><code class="docutils literal notranslate"><span class="pre">cedar</span> <span class="pre">auth</span> <span class="pre">gcs</span></code><a class="headerlink" href="#cedar-auth-gcs" title="Permalink to this headline">¶</a></h3>
 <p>Used to test authentication with the Google Cloud Storage API.</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Usage: cedar auth gcs [OPTIONS]
 
@@ -291,10 +295,10 @@ Options:
 </div>
 </div>
 <div class="section" id="cedar-config">
-<h2><code class="docutils literal notranslate"><span class="pre">cedar</span> <span class="pre">config</span></code><a class="headerlink" href="#cedar-config" title="Permalink to this headline">¶</a></h2>
+<span id="cli-cedar-config"></span><h2><code class="docutils literal notranslate"><span class="pre">cedar</span> <span class="pre">config</span></code><a class="headerlink" href="#cedar-config" title="Permalink to this headline">¶</a></h2>
 <p>The group of commands used to generate and validate configuration files.</p>
 <div class="section" id="cedar-config-print">
-<h3><code class="docutils literal notranslate"><span class="pre">cedar</span> <span class="pre">config</span> <span class="pre">print</span></code><a class="headerlink" href="#cedar-config-print" title="Permalink to this headline">¶</a></h3>
+<span id="cli-cedar-config-print"></span><h3><code class="docutils literal notranslate"><span class="pre">cedar</span> <span class="pre">config</span> <span class="pre">print</span></code><a class="headerlink" href="#cedar-config-print" title="Permalink to this headline">¶</a></h3>
 <p>Validates and prints your configuration file.</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Usage: cedar config print [OPTIONS] CONFIG_FILE
 
@@ -306,7 +310,7 @@ Options:
 </div>
 </div>
 <div class="section" id="cedar-config-template">
-<h3><code class="docutils literal notranslate"><span class="pre">cedar</span> <span class="pre">config</span> <span class="pre">template</span></code><a class="headerlink" href="#cedar-config-template" title="Permalink to this headline">¶</a></h3>
+<span id="cli-cedar-config-template"></span><h3><code class="docutils literal notranslate"><span class="pre">cedar</span> <span class="pre">config</span> <span class="pre">template</span></code><a class="headerlink" href="#cedar-config-template" title="Permalink to this headline">¶</a></h3>
 <p>Prints or saves a template configuration file that you can modify.</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Usage: cedar config template [OPTIONS] [DEST]
 
@@ -320,11 +324,11 @@ Options:
 </div>
 </div>
 <div class="section" id="cedar-submit">
-<h2><code class="docutils literal notranslate"><span class="pre">cedar</span> <span class="pre">submit</span></code><a class="headerlink" href="#cedar-submit" title="Permalink to this headline">¶</a></h2>
+<span id="cli-cedar-submit"></span><h2><code class="docutils literal notranslate"><span class="pre">cedar</span> <span class="pre">submit</span></code><a class="headerlink" href="#cedar-submit" title="Permalink to this headline">¶</a></h2>
 <p>Command to submit “pre-ARD” creation orders to the GEE.</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Usage: cedar submit [OPTIONS] IMAGE_COLLECTION...
 
-  Submit
+  Submit &quot;pre-ARD&quot; processing orders and create tracking metadata
 
 Options:
   -i, --index INTEGER...  TileGrid (row, col) index(es) to submit
@@ -353,43 +357,15 @@ Commands:
 </pre></div>
 </div>
 <div class="section" id="cedar-gee-tasks">
-<h3><code class="docutils literal notranslate"><span class="pre">cedar</span> <span class="pre">gee</span> <span class="pre">tasks</span></code><a class="headerlink" href="#cedar-gee-tasks" title="Permalink to this headline">¶</a></h3>
+<span id="cli-cedar-gee-tasks"></span><h3><code class="docutils literal notranslate"><span class="pre">cedar</span> <span class="pre">gee</span> <span class="pre">tasks</span></code><a class="headerlink" href="#cedar-gee-tasks" title="Permalink to this headline">¶</a></h3>
 <p>List or summarize GEE tasks</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Traceback (most recent call last):
-  File &quot;/home/travis/miniconda/envs/test_env/lib/python3.7/site-packages/ee/_helpers.py&quot;, line 35, in _GetPersistentCredentials
-    tokens = json.load(open(oauth.get_credentials_path()))
-FileNotFoundError: [Errno 2] No such file or directory: &#39;/home/travis/.config/earthengine/credentials&#39;
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Usage: cedar gee tasks [OPTIONS]
 
-During handling of the above exception, another exception occurred:
+  Get info about Google Earth Engine tasks
 
-Traceback (most recent call last):
-  File &quot;/home/travis/miniconda/envs/test_env/bin/cedar&quot;, line 11, in &lt;module&gt;
-    load_entry_point(&#39;cedar-datacube&#39;, &#39;console_scripts&#39;, &#39;cedar&#39;)()
-  File &quot;/home/travis/miniconda/envs/test_env/lib/python3.7/site-packages/click/core.py&quot;, line 764, in __call__
-    return self.main(*args, **kwargs)
-  File &quot;/home/travis/miniconda/envs/test_env/lib/python3.7/site-packages/click/core.py&quot;, line 717, in main
-    rv = self.invoke(ctx)
-  File &quot;/home/travis/miniconda/envs/test_env/lib/python3.7/site-packages/click/core.py&quot;, line 1137, in invoke
-    return _process_result(sub_ctx.command.invoke(sub_ctx))
-  File &quot;/home/travis/miniconda/envs/test_env/lib/python3.7/site-packages/click/core.py&quot;, line 1134, in invoke
-    Command.invoke(self, ctx)
-  File &quot;/home/travis/miniconda/envs/test_env/lib/python3.7/site-packages/click/core.py&quot;, line 956, in invoke
-    return ctx.invoke(self.callback, **ctx.params)
-  File &quot;/home/travis/miniconda/envs/test_env/lib/python3.7/site-packages/click/core.py&quot;, line 555, in invoke
-    return callback(*args, **kwargs)
-  File &quot;/home/travis/miniconda/envs/test_env/lib/python3.7/site-packages/click/decorators.py&quot;, line 17, in new_func
-    return f(get_current_context(), *args, **kwargs)
-  File &quot;/home/travis/build/ceholden/cedar-datacube/cedar/cli/gee.py&quot;, line 17, in group_gee
-    ee.Initialize()
-  File &quot;/home/travis/miniconda/envs/test_env/lib/python3.7/site-packages/ee/__init__.py&quot;, line 98, in Initialize
-    credentials = _GetPersistentCredentials()
-  File &quot;/home/travis/miniconda/envs/test_env/lib/python3.7/site-packages/ee/_helpers.py&quot;, line 45, in _GetPersistentCredentials
-    raise EEException(&#39;Please authorize access to your Earth Engine account &#39;
-ee.ee_exception.EEException: Please authorize access to your Earth Engine account by running
-
-earthengine authenticate
-
-in your command line, and then retry.
+Options:
+  --list      List information for all tasks
+  -h, --help  Show this message and exit.
 </pre></div>
 </div>
 </div>
@@ -409,131 +385,44 @@ Commands:
 </pre></div>
 </div>
 <div class="section" id="cedar-status-list">
-<h3><code class="docutils literal notranslate"><span class="pre">cedar</span> <span class="pre">status</span> <span class="pre">list</span></code><a class="headerlink" href="#cedar-status-list" title="Permalink to this headline">¶</a></h3>
+<span id="cli-cedar-status-list"></span><h3><code class="docutils literal notranslate"><span class="pre">cedar</span> <span class="pre">status</span> <span class="pre">list</span></code><a class="headerlink" href="#cedar-status-list" title="Permalink to this headline">¶</a></h3>
 <p>List tracked “pre-ARD” orders.</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Traceback (most recent call last):
-  File &quot;/home/travis/miniconda/envs/test_env/lib/python3.7/site-packages/ee/_helpers.py&quot;, line 35, in _GetPersistentCredentials
-    tokens = json.load(open(oauth.get_credentials_path()))
-FileNotFoundError: [Errno 2] No such file or directory: &#39;/home/travis/.config/earthengine/credentials&#39;
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Usage: cedar status list [OPTIONS]
 
-During handling of the above exception, another exception occurred:
+  List tracked orders
 
-Traceback (most recent call last):
-  File &quot;/home/travis/miniconda/envs/test_env/bin/cedar&quot;, line 11, in &lt;module&gt;
-    load_entry_point(&#39;cedar-datacube&#39;, &#39;console_scripts&#39;, &#39;cedar&#39;)()
-  File &quot;/home/travis/miniconda/envs/test_env/lib/python3.7/site-packages/click/core.py&quot;, line 764, in __call__
-    return self.main(*args, **kwargs)
-  File &quot;/home/travis/miniconda/envs/test_env/lib/python3.7/site-packages/click/core.py&quot;, line 717, in main
-    rv = self.invoke(ctx)
-  File &quot;/home/travis/miniconda/envs/test_env/lib/python3.7/site-packages/click/core.py&quot;, line 1137, in invoke
-    return _process_result(sub_ctx.command.invoke(sub_ctx))
-  File &quot;/home/travis/miniconda/envs/test_env/lib/python3.7/site-packages/click/core.py&quot;, line 1134, in invoke
-    Command.invoke(self, ctx)
-  File &quot;/home/travis/miniconda/envs/test_env/lib/python3.7/site-packages/click/core.py&quot;, line 956, in invoke
-    return ctx.invoke(self.callback, **ctx.params)
-  File &quot;/home/travis/miniconda/envs/test_env/lib/python3.7/site-packages/click/core.py&quot;, line 555, in invoke
-    return callback(*args, **kwargs)
-  File &quot;/home/travis/miniconda/envs/test_env/lib/python3.7/site-packages/click/decorators.py&quot;, line 17, in new_func
-    return f(get_current_context(), *args, **kwargs)
-  File &quot;/home/travis/build/ceholden/cedar-datacube/cedar/cli/status.py&quot;, line 18, in group_status
-    ee.Initialize()
-  File &quot;/home/travis/miniconda/envs/test_env/lib/python3.7/site-packages/ee/__init__.py&quot;, line 98, in Initialize
-    credentials = _GetPersistentCredentials()
-  File &quot;/home/travis/miniconda/envs/test_env/lib/python3.7/site-packages/ee/_helpers.py&quot;, line 45, in _GetPersistentCredentials
-    raise EEException(&#39;Please authorize access to your Earth Engine account &#39;
-ee.ee_exception.EEException: Please authorize access to your Earth Engine account by running
-
-earthengine authenticate
-
-in your command line, and then retry.
+Options:
+  -h, --help  Show this message and exit.
 </pre></div>
 </div>
 </div>
 <div class="section" id="cedar-status-read">
-<h3><code class="docutils literal notranslate"><span class="pre">cedar</span> <span class="pre">status</span> <span class="pre">read</span></code><a class="headerlink" href="#cedar-status-read" title="Permalink to this headline">¶</a></h3>
+<span id="cli-cedar-status-read"></span><h3><code class="docutils literal notranslate"><span class="pre">cedar</span> <span class="pre">status</span> <span class="pre">read</span></code><a class="headerlink" href="#cedar-status-read" title="Permalink to this headline">¶</a></h3>
 <p>Read “pre-ARD” order tracking metadata</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Traceback (most recent call last):
-  File &quot;/home/travis/miniconda/envs/test_env/lib/python3.7/site-packages/ee/_helpers.py&quot;, line 35, in _GetPersistentCredentials
-    tokens = json.load(open(oauth.get_credentials_path()))
-FileNotFoundError: [Errno 2] No such file or directory: &#39;/home/travis/.config/earthengine/credentials&#39;
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Usage: cedar status read [OPTIONS] TRACKING_NAME
 
-During handling of the above exception, another exception occurred:
+  Print job submission tracking info
 
-Traceback (most recent call last):
-  File &quot;/home/travis/miniconda/envs/test_env/bin/cedar&quot;, line 11, in &lt;module&gt;
-    load_entry_point(&#39;cedar-datacube&#39;, &#39;console_scripts&#39;, &#39;cedar&#39;)()
-  File &quot;/home/travis/miniconda/envs/test_env/lib/python3.7/site-packages/click/core.py&quot;, line 764, in __call__
-    return self.main(*args, **kwargs)
-  File &quot;/home/travis/miniconda/envs/test_env/lib/python3.7/site-packages/click/core.py&quot;, line 717, in main
-    rv = self.invoke(ctx)
-  File &quot;/home/travis/miniconda/envs/test_env/lib/python3.7/site-packages/click/core.py&quot;, line 1137, in invoke
-    return _process_result(sub_ctx.command.invoke(sub_ctx))
-  File &quot;/home/travis/miniconda/envs/test_env/lib/python3.7/site-packages/click/core.py&quot;, line 1134, in invoke
-    Command.invoke(self, ctx)
-  File &quot;/home/travis/miniconda/envs/test_env/lib/python3.7/site-packages/click/core.py&quot;, line 956, in invoke
-    return ctx.invoke(self.callback, **ctx.params)
-  File &quot;/home/travis/miniconda/envs/test_env/lib/python3.7/site-packages/click/core.py&quot;, line 555, in invoke
-    return callback(*args, **kwargs)
-  File &quot;/home/travis/miniconda/envs/test_env/lib/python3.7/site-packages/click/decorators.py&quot;, line 17, in new_func
-    return f(get_current_context(), *args, **kwargs)
-  File &quot;/home/travis/build/ceholden/cedar-datacube/cedar/cli/status.py&quot;, line 18, in group_status
-    ee.Initialize()
-  File &quot;/home/travis/miniconda/envs/test_env/lib/python3.7/site-packages/ee/__init__.py&quot;, line 98, in Initialize
-    credentials = _GetPersistentCredentials()
-  File &quot;/home/travis/miniconda/envs/test_env/lib/python3.7/site-packages/ee/_helpers.py&quot;, line 45, in _GetPersistentCredentials
-    raise EEException(&#39;Please authorize access to your Earth Engine account &#39;
-ee.ee_exception.EEException: Please authorize access to your Earth Engine account by running
-
-earthengine authenticate
-
-in your command line, and then retry.
+Options:
+  -h, --help  Show this message and exit.
 </pre></div>
 </div>
 </div>
 <div class="section" id="cedar-status-update">
-<h3><code class="docutils literal notranslate"><span class="pre">cedar</span> <span class="pre">status</span> <span class="pre">update</span></code><a class="headerlink" href="#cedar-status-update" title="Permalink to this headline">¶</a></h3>
+<span id="cli-cedar-status-update"></span><h3><code class="docutils literal notranslate"><span class="pre">cedar</span> <span class="pre">status</span> <span class="pre">update</span></code><a class="headerlink" href="#cedar-status-update" title="Permalink to this headline">¶</a></h3>
 <p>Read “pre-ARD” order tracking metadata and update with GEE task status</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Traceback (most recent call last):
-  File &quot;/home/travis/miniconda/envs/test_env/lib/python3.7/site-packages/ee/_helpers.py&quot;, line 35, in _GetPersistentCredentials
-    tokens = json.load(open(oauth.get_credentials_path()))
-FileNotFoundError: [Errno 2] No such file or directory: &#39;/home/travis/.config/earthengine/credentials&#39;
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Usage: cedar status update [OPTIONS] TRACKING_NAME
 
-During handling of the above exception, another exception occurred:
+  Update job submission tracking info
 
-Traceback (most recent call last):
-  File &quot;/home/travis/miniconda/envs/test_env/bin/cedar&quot;, line 11, in &lt;module&gt;
-    load_entry_point(&#39;cedar-datacube&#39;, &#39;console_scripts&#39;, &#39;cedar&#39;)()
-  File &quot;/home/travis/miniconda/envs/test_env/lib/python3.7/site-packages/click/core.py&quot;, line 764, in __call__
-    return self.main(*args, **kwargs)
-  File &quot;/home/travis/miniconda/envs/test_env/lib/python3.7/site-packages/click/core.py&quot;, line 717, in main
-    rv = self.invoke(ctx)
-  File &quot;/home/travis/miniconda/envs/test_env/lib/python3.7/site-packages/click/core.py&quot;, line 1137, in invoke
-    return _process_result(sub_ctx.command.invoke(sub_ctx))
-  File &quot;/home/travis/miniconda/envs/test_env/lib/python3.7/site-packages/click/core.py&quot;, line 1134, in invoke
-    Command.invoke(self, ctx)
-  File &quot;/home/travis/miniconda/envs/test_env/lib/python3.7/site-packages/click/core.py&quot;, line 956, in invoke
-    return ctx.invoke(self.callback, **ctx.params)
-  File &quot;/home/travis/miniconda/envs/test_env/lib/python3.7/site-packages/click/core.py&quot;, line 555, in invoke
-    return callback(*args, **kwargs)
-  File &quot;/home/travis/miniconda/envs/test_env/lib/python3.7/site-packages/click/decorators.py&quot;, line 17, in new_func
-    return f(get_current_context(), *args, **kwargs)
-  File &quot;/home/travis/build/ceholden/cedar-datacube/cedar/cli/status.py&quot;, line 18, in group_status
-    ee.Initialize()
-  File &quot;/home/travis/miniconda/envs/test_env/lib/python3.7/site-packages/ee/__init__.py&quot;, line 98, in Initialize
-    credentials = _GetPersistentCredentials()
-  File &quot;/home/travis/miniconda/envs/test_env/lib/python3.7/site-packages/ee/_helpers.py&quot;, line 45, in _GetPersistentCredentials
-    raise EEException(&#39;Please authorize access to your Earth Engine account &#39;
-ee.ee_exception.EEException: Please authorize access to your Earth Engine account by running
-
-earthengine authenticate
-
-in your command line, and then retry.
+Options:
+  -h, --help  Show this message and exit.
 </pre></div>
 </div>
 </div>
 </div>
 <div class="section" id="cedar-download">
-<h2><code class="docutils literal notranslate"><span class="pre">cedar</span> <span class="pre">download</span></code><a class="headerlink" href="#cedar-download" title="Permalink to this headline">¶</a></h2>
+<span id="cli-cedar-download"></span><h2><code class="docutils literal notranslate"><span class="pre">cedar</span> <span class="pre">download</span></code><a class="headerlink" href="#cedar-download" title="Permalink to this headline">¶</a></h2>
 <p>Read “pre-ARD” order tracking metadata and update with GEE task status</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Usage: cedar download [OPTIONS] TRACKING_NAME
 
@@ -556,7 +445,7 @@ Options:
 </div>
 </div>
 <div class="section" id="cedar-clean">
-<h2><code class="docutils literal notranslate"><span class="pre">cedar</span> <span class="pre">clean</span></code><a class="headerlink" href="#cedar-clean" title="Permalink to this headline">¶</a></h2>
+<span id="cli-cedar-clean"></span><h2><code class="docutils literal notranslate"><span class="pre">cedar</span> <span class="pre">clean</span></code><a class="headerlink" href="#cedar-clean" title="Permalink to this headline">¶</a></h2>
 <p>Delete “pre-ARD” images and metadata that have been exported to your storage
 as part of a CEDAR order.</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Usage: cedar clean [OPTIONS] TRACKING_NAME
@@ -566,6 +455,25 @@ as part of a CEDAR order.</p>
 Options:
   --keep-tracking  Preserve tracking information (deleted by default)
   -h, --help       Show this message and exit.
+</pre></div>
+</div>
+</div>
+<div class="section" id="cedar-convert">
+<span id="cli-cedar-convert"></span><h2><code class="docutils literal notranslate"><span class="pre">cedar</span> <span class="pre">convert</span></code><a class="headerlink" href="#cedar-convert" title="Permalink to this headline">¶</a></h2>
+<p>Convert “pre-ARD” images and metadata (GeoTIFFs and JSON) to ARD.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Usage: cedar convert [OPTIONS] PREARD
+
+  Convert &quot;pre-ARD&quot; GeoTIFF(s) to ARD data cubes in NetCDF4 format
+
+Options:
+  --dest DIRECTORY    Override config file destination directory
+  --scheduler TEXT    Scheduler address or backend (&quot;threads&quot; or &quot;processes&quot;).
+                      Creates a `LocalCluster` if `nprocs` or `nthreads` are
+                      specified but no address is given.
+  --nprocs INTEGER    Number of workers to create
+  --nthreads INTEGER  Number of threads per worker
+  --overwrite         Overwrite existing files
+  -h, --help          Show this message and exit.
 </pre></div>
 </div>
 </div>
@@ -582,7 +490,7 @@ Options:
         <a href="storage.html" class="btn btn-neutral float-right" title="Storage" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="convert.html" class="btn btn-neutral float-left" title="Pre-ARD to ARD Conversion" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="cleaning.html" class="btn btn-neutral float-left" title="Cleaning “pre-ARD” from Storage" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

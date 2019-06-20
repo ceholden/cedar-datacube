@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>cedar.ordering &mdash; cedar 0+untagged.50.g4087d9f documentation</title>
+  <title>cedar.ordering &mdash; cedar 0+untagged.50.g73e2230 documentation</title>
   
 
   
@@ -33,6 +33,7 @@
   
   <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
 </head>
@@ -58,7 +59,7 @@
             
             
               <div class="version">
-                0+untagged.50.g4087d9f
+                0+untagged.50.g73e2230
               </div>
             
           
@@ -93,9 +94,11 @@
 <li class="toctree-l1"><a class="reference internal" href="../../overview.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../credentials.html">Credentials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../config.html">Configuration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../submissions.html">Pre-ARD Order Submissions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../submissions.html">“Pre-ARD” Order Submission</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tracking.html">Pre-ARD Order Tracking</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../download.html">Download</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../convert.html">Pre-ARD to ARD Conversion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cleaning.html">Cleaning “pre-ARD” from Storage</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Help and Reference</span></p>
 <ul>
@@ -323,11 +326,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Prepare </span>
     <span class="n">export_image_kwds</span> <span class="o">=</span> <span class="n">export_image_kwds</span> <span class="ow">or</span> <span class="p">{}</span>
-    <span class="n">export_image_kwds</span><span class="o">.</span><span class="n">update</span><span class="p">({</span>
-        <span class="s1">&#39;crs&#39;</span><span class="p">:</span> <span class="n">tile</span><span class="o">.</span><span class="n">crs</span><span class="o">.</span><span class="n">wkt</span><span class="p">,</span>
-        <span class="s1">&#39;crs_transform&#39;</span><span class="p">:</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">tile</span><span class="o">.</span><span class="n">transform</span><span class="p">[:</span><span class="mi">6</span><span class="p">]),</span>
-        <span class="s1">&#39;dimensions&#39;</span><span class="p">:</span> <span class="n">f</span><span class="s1">&#39;</span><span class="si">{tile.width}</span><span class="s1">x</span><span class="si">{tile.height}</span><span class="s1">&#39;</span><span class="p">,</span>
-    <span class="p">})</span>
+    <span class="n">export_image_kwds</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">tile_export_image_kwds</span><span class="p">(</span><span class="n">tile</span><span class="p">))</span>
 
     <span class="c1"># Create EE task</span>
     <span class="n">task</span> <span class="o">=</span> <span class="n">store</span><span class="o">.</span><span class="n">store_image</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="o">**</span><span class="n">export_image_kwds</span><span class="p">)</span>
@@ -349,6 +348,27 @@
     <span class="n">metadata_id</span> <span class="o">=</span> <span class="n">store</span><span class="o">.</span><span class="n">store_metadata</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">prefix</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">task</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span> <span class="n">metadata_id</span></div>
+
+
+<div class="viewcode-block" id="tile_export_image_kwds"><a class="viewcode-back" href="../../cedar/cedar.ordering.html#cedar.ordering.tile_export_image_kwds">[docs]</a><span class="k">def</span> <span class="nf">tile_export_image_kwds</span><span class="p">(</span><span class="n">tile</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Returns keywords to tile exported ``ee.Image`` by reprojecting/clipping</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    tile : stems.gis.grids.Tile</span>
+<span class="sd">        A tile</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict[str, str]</span>
+<span class="sd">        Keywords &quot;crs&quot;, &quot;crs_transform&quot;, and &quot;dimensions&quot;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">kwds</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;crs&#39;</span><span class="p">:</span> <span class="n">tile</span><span class="o">.</span><span class="n">crs</span><span class="o">.</span><span class="n">wkt</span><span class="p">,</span>
+        <span class="s1">&#39;crs_transform&#39;</span><span class="p">:</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">tile</span><span class="o">.</span><span class="n">transform</span><span class="p">[:</span><span class="mi">6</span><span class="p">]),</span>
+        <span class="s1">&#39;dimensions&#39;</span><span class="p">:</span> <span class="n">f</span><span class="s1">&#39;</span><span class="si">{tile.width}</span><span class="s1">x</span><span class="si">{tile.height}</span><span class="s1">&#39;</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">kwds</span></div>
 
 
 <div class="viewcode-block" id="get_program_metadata"><a class="viewcode-back" href="../../cedar/cedar.ordering.html#cedar.ordering.get_program_metadata">[docs]</a><span class="k">def</span> <span class="nf">get_program_metadata</span><span class="p">():</span>

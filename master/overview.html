@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Overview &mdash; cedar 0+untagged.50.g4087d9f documentation</title>
+  <title>Overview &mdash; cedar 0+untagged.50.g73e2230 documentation</title>
   
 
   
@@ -33,6 +33,7 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/theme_overrides.css" type="text/css" />
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Credentials" href="credentials.html" />
@@ -60,7 +61,7 @@
             
             
               <div class="version">
-                0+untagged.50.g4087d9f
+                0+untagged.50.g73e2230
               </div>
             
           
@@ -98,9 +99,11 @@
 </li>
 <li class="toctree-l1"><a class="reference internal" href="credentials.html">Credentials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="config.html">Configuration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="submissions.html">Pre-ARD Order Submissions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="submissions.html">“Pre-ARD” Order Submission</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tracking.html">Pre-ARD Order Tracking</a></li>
 <li class="toctree-l1"><a class="reference internal" href="download.html">Download</a></li>
 <li class="toctree-l1"><a class="reference internal" href="convert.html">Pre-ARD to ARD Conversion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cleaning.html">Cleaning “pre-ARD” from Storage</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Help and Reference</span></p>
 <ul>
@@ -160,7 +163,7 @@
         
             
             
-              <a href="https://github.com/ceholden/cedar/blob/master/docs/source/overview.rst" class="fa fa-github"> Edit on GitHub</a>
+              <a href="https://github.com/ceholden/cedar-datacube/blob/master/docs/source/overview.rst" class="fa fa-github"> Edit on GitHub</a>
             
           
         
@@ -178,13 +181,13 @@
 <span id="id1"></span><h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
 <p>The Google Earth Engine (GEE) has massive computational resources, entire
 archives of data from many popular satellites, and an API that allows us
-to run many common image processing tasks <span id="id2">[gorelick2017google]</span>.
+to run many common image processing tasks <a class="reference internal" href="#gorelick2017google" id="id2">[GHD+17]</a>.
 For this reason, the GEE is an excellent resource for finding and
 preprocessing time series of satellite data to the point where it is
 “analysis ready”. Data that is “analysis ready” is generally considered
 to be preprocessed to a minimum set of requirements and organized to
 facilitate user analysis without much effort
-(<span id="id3">[dwyer2018analysis]</span><span id="id4">[lewis2017australian]</span> and <a class="reference external" href="http://ceos.org/ard/">CEOS</a>):</p>
+(<a class="reference internal" href="#dwyer2018analysis" id="id3">[DRS+18]</a><a class="reference internal" href="#lewis2017australian" id="id4">[LOL+17]</a> and <a class="reference external" href="http://ceos.org/ard/">CEOS</a>):</p>
 <p>In this package, “Analysis Ready Data” (ARD) means:</p>
 <ol class="arabic simple">
 <li><p>Preprocessed to a high enough level to be consistent over time
@@ -205,23 +208,31 @@ lose their basic metadata information (sensor, acquisition times, etc). The
 CEDAR application also generates “tracking metadata” about the orders it
 creates. The “tracking metadata” allows us to download the “pre-ARD” and
 “image metadata” at a later point for further processing into ARD.</p>
-<p>There are 5 main steps to creating this Analysis Ready Data using CEDAR and the
+<p>There are 6 main steps to creating this Analysis Ready Data using CEDAR and the
 Google Earth Engine (GEE).</p>
-<img alt="_images/cedar_flowchart.png" src="_images/cedar_flowchart.png" />
+<img alt="Flowchart describing the process of creating Analysis Ready Data using CEDAR" src="_images/cedar_flowchart.png" />
 <ol class="arabic simple">
-<li><p>Authenticating</p></li>
-<li><p>Configuration file creation</p></li>
-<li><p>“Pre-ARD” order submission</p></li>
-<li><p>Order tracking and download</p></li>
-<li><p>Conversion of “pre-ARD” and “image metadata” into ARD</p></li>
+<li><p><a class="reference internal" href="credentials.html#credentials"><span class="std std-ref">Authenticating</span></a> to services</p></li>
+<li><p><a class="reference internal" href="config.html#config"><span class="std std-ref">Configuration file</span></a> creation</p></li>
+<li><p>“Pre-ARD” order <span class="xref std std-ref">submission</span></p></li>
+<li><p>Order <a class="reference internal" href="tracking.html#tracking"><span class="std std-ref">tracking</span></a> and <a class="reference internal" href="download.html#download"><span class="std std-ref">download</span></a></p></li>
+<li><p><a class="reference internal" href="convert.html#convert"><span class="std std-ref">Conversion</span></a> of “pre-ARD” and “image metadata” into ARD</p></li>
+<li><p><a class="reference internal" href="cleaning.html#cleaning"><span class="std std-ref">Deleting</span></a> of tracked “pre-ARD” data from storage</p></li>
 </ol>
 <div class="section" id="references">
 <h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
-<ul class="simple" id="bibtex-bibliography-overview-0">
-<li><p>John Dwyer, David Roy, Brian Sauer, Calli Jenkerson, Hankui Zhang, and Leo Lymburner. Analysis ready data: enabling analysis of the landsat archive. <em>Remote Sensing</em>, 10(9):1363, 2018.</p></li>
-<li><p>Noel Gorelick, Matt Hancher, Mike Dixon, Simon Ilyushchenko, David Thau, and Rebecca Moore. Google earth engine: planetary-scale geospatial analysis for everyone. <em>Remote Sensing of Environment</em>, 202:18–27, 2017.</p></li>
-<li><p>Adam Lewis, Simon Oliver, Leo Lymburner, Ben Evans, Lesley Wyborn, Norman Mueller, Gregory Raevksi, Jeremy Hooke, Rob Woodcock, Joshua Sixsmith, and others. The australian geoscience data cube—foundations and lessons learned. <em>Remote Sensing of Environment</em>, 202:276–292, 2017.</p></li>
-</ul>
+<p id="bibtex-bibliography-overview-0"><dl class="citation">
+<dt class="label" id="dwyer2018analysis"><span class="brackets"><a class="fn-backref" href="#id3">DRS+18</a></span></dt>
+<dd><p>John Dwyer, David Roy, Brian Sauer, Calli Jenkerson, Hankui Zhang, and Leo Lymburner. Analysis ready data: enabling analysis of the landsat archive. <em>Remote Sensing</em>, 10(9):1363, 2018.</p>
+</dd>
+<dt class="label" id="gorelick2017google"><span class="brackets"><a class="fn-backref" href="#id2">GHD+17</a></span></dt>
+<dd><p>Noel Gorelick, Matt Hancher, Mike Dixon, Simon Ilyushchenko, David Thau, and Rebecca Moore. Google earth engine: planetary-scale geospatial analysis for everyone. <em>Remote Sensing of Environment</em>, 202:18–27, 2017.</p>
+</dd>
+<dt class="label" id="lewis2017australian"><span class="brackets"><a class="fn-backref" href="#id4">LOL+17</a></span></dt>
+<dd><p>Adam Lewis, Simon Oliver, Leo Lymburner, Ben Evans, Lesley Wyborn, Norman Mueller, Gregory Raevksi, Jeremy Hooke, Rob Woodcock, Joshua Sixsmith, and others. The australian geoscience data cube—foundations and lessons learned. <em>Remote Sensing of Environment</em>, 202:276–292, 2017.</p>
+</dd>
+</dl>
+</p>
 </div>
 </div>
 

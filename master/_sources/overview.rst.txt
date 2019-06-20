@@ -38,25 +38,26 @@ CEDAR application also generates "tracking metadata" about the orders it
 creates. The "tracking metadata" allows us to download the "pre-ARD" and
 "image metadata" at a later point for further processing into ARD.
 
-There are 5 main steps to creating this Analysis Ready Data using CEDAR and the
+There are 6 main steps to creating this Analysis Ready Data using CEDAR and the
 Google Earth Engine (GEE).
 
 .. image:: figures/cedar_flowchart.png
+   :alt: Flowchart describing the process of creating Analysis Ready Data using
+         CEDAR
 
 
-1. Authenticating
-2. Configuration file creation
-3. "Pre-ARD" order submission
-4. Order tracking and download
-5. Conversion of "pre-ARD" and "image metadata" into ARD
-
+1. :ref:`Authenticating <credentials>` to services
+2. :ref:`Configuration file <config>` creation
+3. "Pre-ARD" order :ref:`submission <submissions>`
+4. Order :ref:`tracking <tracking>` and :ref:`download <download>`
+5. :ref:`Conversion <convert>` of "pre-ARD" and "image metadata" into ARD
+6. :ref:`Deleting <cleaning>` of tracked "pre-ARD" data from storage
 
 
 References
 ~~~~~~~~~~
 
 .. bibliography:: references.bib
-   :list: bullet
-   :all:
+   :cited:
 
 .. _CEOS: http://ceos.org/ard/

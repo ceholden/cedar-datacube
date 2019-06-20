@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Index &mdash; cedar 0+untagged.50.g4087d9f documentation</title>
+  <title>Index &mdash; cedar 0+untagged.50.g73e2230 documentation</title>
   
 
   
@@ -34,6 +34,7 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/theme_overrides.css" type="text/css" />
     <link rel="index" title="Index" href="#" />
     <link rel="search" title="Search" href="search.html" /> 
 </head>
@@ -59,7 +60,7 @@
             
             
               <div class="version">
-                0+untagged.50.g4087d9f
+                0+untagged.50.g73e2230
               </div>
             
           
@@ -94,9 +95,11 @@
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="credentials.html">Credentials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="config.html">Configuration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="submissions.html">Pre-ARD Order Submissions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="submissions.html">“Pre-ARD” Order Submission</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tracking.html">Pre-ARD Order Tracking</a></li>
 <li class="toctree-l1"><a class="reference internal" href="download.html">Download</a></li>
 <li class="toctree-l1"><a class="reference internal" href="convert.html">Pre-ARD to ARD Conversion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cleaning.html">Cleaning “pre-ARD” from Storage</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Help and Reference</span></p>
 <ul>
@@ -156,7 +159,7 @@
         
             
             
-              <a href="https://github.com/ceholden/cedar/blob/master/docs/source/genindex.rst" class="fa fa-github"> Edit on GitHub</a>
+              <a href="https://github.com/ceholden/cedar-datacube/blob/master/docs/source/genindex.rst" class="fa fa-github"> Edit on GitHub</a>
             
           
         
@@ -450,17 +453,19 @@
       </ul></li>
       <li><a href="cedar/cedar.stores.gcs.html#cedar.stores.gcs.list_blobs">list_blobs() (in module cedar.stores.gcs)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="cedar/cedar.stores.gcs.html#cedar.stores.gcs.list_dirs">list_dirs() (in module cedar.stores.gcs)</a>
 
       <ul>
         <li><a href="cedar/cedar.stores.gdrive.html#cedar.stores.gdrive.list_dirs">(in module cedar.stores.gdrive)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="cedar/cedar.stores.gdrive.html#cedar.stores.gdrive.list_objects">list_objects() (in module cedar.stores.gdrive)</a>
 </li>
       <li><a href="cedar/cedar.stores.gdrive.html#cedar.stores.gdrive.load_credentials">load_credentials() (in module cedar.stores.gdrive)</a>
+</li>
+      <li><a href="cedar/cedar.utils.html#cedar.utils.load_ee">load_ee() (in module cedar.utils)</a>
 </li>
       <li><a href="cedar/cedar.tests.html#cedar.tests.loose_version">loose_version() (in module cedar.tests)</a>
 </li>
@@ -630,10 +635,12 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="cedar/cedar.tests.test_cedar.html#cedar.tests.test_cedar.test_package">test_package() (in module cedar.tests.test_cedar)</a>
 </li>
-      <li><a href="cedar/cedar.sensors.common.html#cedar.sensors.common.tile_geom">tile_geom() (in module cedar.sensors.common)</a>
+      <li><a href="cedar/cedar.ordering.html#cedar.ordering.tile_export_image_kwds">tile_export_image_kwds() (in module cedar.ordering)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="cedar/cedar.sensors.common.html#cedar.sensors.common.tile_geom">tile_geom() (in module cedar.sensors.common)</a>
+</li>
       <li><a href="cedar/cedar.ordering.html#cedar.ordering.Order.tiles">tiles() (cedar.ordering.Order property)</a>
 </li>
       <li><a href="cedar/cedar.config.core.html#cedar.config.core.Config.to_yaml">to_yaml() (cedar.config.core.Config method)</a>

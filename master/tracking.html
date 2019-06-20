@@ -1,0 +1,357 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Pre-ARD Order Tracking &mdash; cedar 0+untagged.50.g73e2230 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/theme_overrides.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Download" href="download.html" />
+    <link rel="prev" title="“Pre-ARD” Order Submission" href="submissions.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> cedar
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0+untagged.50.g73e2230
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="credentials.html">Credentials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="submissions.html">“Pre-ARD” Order Submission</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Pre-ARD Order Tracking</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#track">Track</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#list-orders">List Orders</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#read-order-details">Read Order Details</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#update-order-status">Update Order Status</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="download.html">Download</a></li>
+<li class="toctree-l1"><a class="reference internal" href="convert.html">Pre-ARD to ARD Conversion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cleaning.html">Cleaning “pre-ARD” from Storage</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Help and Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">Command Line Interface Programs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="storage.html">Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dev.html">Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">cedar</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Pre-ARD Order Tracking</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/ceholden/cedar-datacube/blob/master/docs/source/tracking.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="pre-ard-order-tracking">
+<span id="tracking"></span><h1>Pre-ARD Order Tracking<a class="headerlink" href="#pre-ard-order-tracking" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="track">
+<h2>Track<a class="headerlink" href="#track" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="list-orders">
+<h3>List Orders<a class="headerlink" href="#list-orders" title="Permalink to this headline">¶</a></h3>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ cedar status list
+Tracked orders:
+TRACKING_2019-06-13T18:34:41.107256.json
+TRACKING_2019-06-13T18:35:35.372640.json
+TRACKING_2019-06-13T18:36:27.512984.json
+TRACKING_2019-06-13T18:37:21.075480.json
+TRACKING_2019-06-13T18:38:14.069616.json
+</pre></div>
+</div>
+</div>
+<div class="section" id="read-order-details">
+<h3>Read Order Details<a class="headerlink" href="#read-order-details" title="Permalink to this headline">¶</a></h3>
+<p>You can use the <code class="docutils literal notranslate"><span class="pre">cedar</span> <span class="pre">status</span> <span class="pre">read</span></code> program to check the information about
+a “pre-ARD” order. Unless this tracking metadata has been updated, it will
+be as written during the submission process.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ cedar status <span class="nb">read</span> TRACKING_2019-06-13T18:34:41.107256.json
+Submission info:
+<span class="o">{</span>
+  <span class="s2">&quot;program&quot;</span>: <span class="o">{</span>
+    <span class="s2">&quot;name&quot;</span>: <span class="s2">&quot;cedar&quot;</span>,
+    <span class="s2">&quot;version&quot;</span>: <span class="s2">&quot;0+untagged.192.gd9ce32e&quot;</span>
+  <span class="o">}</span>,
+  <span class="s2">&quot;submission&quot;</span>: <span class="o">{</span>
+    <span class="s2">&quot;submitted&quot;</span>: <span class="s2">&quot;2019-06-13T18:34:41.107283&quot;</span>,
+    <span class="s2">&quot;tile_grid&quot;</span>: <span class="o">{</span>...<span class="o">}</span>,
+    <span class="s2">&quot;tile_indices&quot;</span>: <span class="o">[[</span><span class="m">32</span>, <span class="m">64</span><span class="o">]]</span>,
+    <span class="s2">&quot;period_start&quot;</span>: <span class="s2">&quot;1997-01-01T00:00:00&quot;</span>,
+    <span class="s2">&quot;period_end&quot;</span>: <span class="s2">&quot;2020-01-01T00:00:00&quot;</span>,
+    <span class="s2">&quot;period_freq&quot;</span>: <span class="s2">&quot;5YS&quot;</span>
+  <span class="o">}</span>,
+  <span class="s2">&quot;tracking&quot;</span>: <span class="o">{</span>
+    <span class="s2">&quot;submitted&quot;</span>: <span class="s2">&quot;2019-06-13T18:35:25.749564&quot;</span>,
+    <span class="s2">&quot;name&quot;</span>: <span class="s2">&quot;TRACKING_2019-06-13T18:34:41.107256&quot;</span>,
+    <span class="s2">&quot;prefix&quot;</span>: <span class="s2">&quot;CEDAR_TRACK&quot;</span>,
+    <span class="s2">&quot;collections&quot;</span>: <span class="o">[</span>
+      <span class="s2">&quot;LANDSAT/LC08/C01/T1_SR&quot;</span>,
+      <span class="s2">&quot;LANDSAT/LE07/C01/T1_SR&quot;</span>,
+      <span class="s2">&quot;LANDSAT/LT05/C01/T1_SR&quot;</span>
+    <span class="o">]</span>,
+    <span class="s2">&quot;tiles&quot;</span>: <span class="o">[{</span>...<span class="o">}]</span>,
+    <span class="s2">&quot;name_template&quot;</span>: <span class="s2">&quot;{collection}_h{tile.horizontal:03d}v{tile.vertical:03d}_{date_start}_{date_end}&quot;</span>,
+    <span class="s2">&quot;prefix_template&quot;</span>: <span class="s2">&quot;CEDAR_PREARD&quot;</span>
+  <span class="o">}</span>,
+  <span class="s2">&quot;orders&quot;</span>: <span class="o">[{</span>
+    <span class="s2">&quot;name&quot;</span>: <span class="s2">&quot;LANDSAT_LC08_C01_T1_SR_h064v032_2012-01-01_2017-01-01&quot;</span>,
+    <span class="s2">&quot;prefix&quot;</span>: <span class="s2">&quot;CEDAR_PREARD&quot;</span>,
+    <span class="s2">&quot;status&quot;</span>: <span class="o">{</span>
+      <span class="s2">&quot;id&quot;</span>: <span class="s2">&quot;V3ZZJUPNEP5PH3NPI2W6W23I&quot;</span>,
+      <span class="s2">&quot;state&quot;</span>: <span class="s2">&quot;COMPLETED&quot;</span>,
+      <span class="s2">&quot;creation_timestamp_ms&quot;</span>: <span class="m">1560465326355</span>,
+      <span class="s2">&quot;update_timestamp_ms&quot;</span>: <span class="m">1560466250359</span>,
+      <span class="s2">&quot;start_timestamp_ms&quot;</span>: <span class="m">1560465617988</span>,
+      <span class="s2">&quot;output_url&quot;</span>: <span class="o">[]</span>
+    <span class="o">}</span>
+  <span class="o">}</span>, ...<span class="o">]</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="update-order-status">
+<h3>Update Order Status<a class="headerlink" href="#update-order-status" title="Permalink to this headline">¶</a></h3>
+<p>After an order has been submitted, you can use the <code class="docutils literal notranslate"><span class="pre">cedar</span> <span class="pre">status</span> <span class="pre">update</span></code> to
+update tracking metadata with the status of the Google Earth Engine “pre-ARD”
+tasks. Specifically, the information about each task within the <code class="docutils literal notranslate"><span class="pre">orders</span></code>
+section will have new information about the task state (<code class="docutils literal notranslate"><span class="pre">id</span></code>),
+timestamps (<code class="docutils literal notranslate"><span class="pre">creation_timestamp_ms</span></code>, <code class="docutils literal notranslate"><span class="pre">update_timestamp_ms</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">start_timestamp_ms</span></code>), and the output locations of the “pre-ARD” images
+(<code class="docutils literal notranslate"><span class="pre">output_url</span></code>).</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ cedar status update TRACKING_2019-06-13T18:34:41.107256.json
+Submission info:
+<span class="o">{</span>
+  <span class="s2">&quot;program&quot;</span>: <span class="o">{</span>
+    <span class="s2">&quot;name&quot;</span>: <span class="s2">&quot;cedar&quot;</span>,
+    <span class="s2">&quot;version&quot;</span>: <span class="s2">&quot;0+untagged.192.gd9ce32e&quot;</span>
+  <span class="o">}</span>,
+  <span class="s2">&quot;submission&quot;</span>: <span class="o">{</span>
+    <span class="s2">&quot;submitted&quot;</span>: <span class="s2">&quot;2019-06-13T18:34:41.107283&quot;</span>,
+    <span class="s2">&quot;tile_grid&quot;</span>: <span class="o">{</span>...<span class="o">}</span>,
+    <span class="s2">&quot;tile_indices&quot;</span>: <span class="o">[[</span><span class="m">32</span>, <span class="m">64</span><span class="o">]]</span>,
+    <span class="s2">&quot;period_start&quot;</span>: <span class="s2">&quot;1997-01-01T00:00:00&quot;</span>,
+    <span class="s2">&quot;period_end&quot;</span>: <span class="s2">&quot;2020-01-01T00:00:00&quot;</span>,
+    <span class="s2">&quot;period_freq&quot;</span>: <span class="s2">&quot;5YS&quot;</span>
+  <span class="o">}</span>,
+  <span class="s2">&quot;tracking&quot;</span>: <span class="o">{</span>
+    <span class="s2">&quot;submitted&quot;</span>: <span class="s2">&quot;2019-06-13T18:35:25.749564&quot;</span>,
+    <span class="s2">&quot;name&quot;</span>: <span class="s2">&quot;TRACKING_2019-06-13T18:34:41.107256&quot;</span>,
+    <span class="s2">&quot;prefix&quot;</span>: <span class="s2">&quot;CEDAR_TRACK&quot;</span>,
+    <span class="s2">&quot;collections&quot;</span>: <span class="o">[</span>
+      <span class="s2">&quot;LANDSAT/LC08/C01/T1_SR&quot;</span>,
+      <span class="s2">&quot;LANDSAT/LE07/C01/T1_SR&quot;</span>,
+      <span class="s2">&quot;LANDSAT/LT05/C01/T1_SR&quot;</span>
+    <span class="o">]</span>,
+    <span class="s2">&quot;tiles&quot;</span>: <span class="o">[{</span>...<span class="o">}]</span>,
+    <span class="s2">&quot;name_template&quot;</span>: <span class="s2">&quot;{collection}_h{tile.horizontal:03d}v{tile.vertical:03d}_{date_start}_{date_end}&quot;</span>,
+    <span class="s2">&quot;prefix_template&quot;</span>: <span class="s2">&quot;CEDAR_PREARD&quot;</span>
+  <span class="o">}</span>,
+  <span class="s2">&quot;orders&quot;</span>: <span class="o">[{</span>
+    <span class="s2">&quot;name&quot;</span>: <span class="s2">&quot;LANDSAT_LC08_C01_T1_SR_h064v032_2012-01-01_2017-01-01&quot;</span>,
+    <span class="s2">&quot;prefix&quot;</span>: <span class="s2">&quot;CEDAR_PREARD&quot;</span>,
+    <span class="s2">&quot;status&quot;</span>: <span class="o">{</span>
+      <span class="s2">&quot;id&quot;</span>: <span class="s2">&quot;V3ZZJUPNEP5PH3NPI2W6W23I&quot;</span>,
+      <span class="s2">&quot;state&quot;</span>: <span class="s2">&quot;COMPLETED&quot;</span>,
+      <span class="s2">&quot;creation_timestamp_ms&quot;</span>: <span class="m">1560465326355</span>,
+      <span class="s2">&quot;update_timestamp_ms&quot;</span>: <span class="m">1560466250359</span>,
+      <span class="s2">&quot;start_timestamp_ms&quot;</span>: <span class="m">1560465617988</span>,
+      <span class="s2">&quot;output_url&quot;</span>: <span class="o">[</span>
+        <span class="s2">&quot;https://drive.google.com/#folders/1F9ZtKqOO9Bz_no4Vw6VSLMSReOAeJa1B&quot;</span>,
+        <span class="s2">&quot;https://drive.google.com/#folders/1F9ZtKqOO9Bz_no4Vw6VSLMSReOAeJa1B&quot;</span>,
+        ...
+      <span class="o">]</span>
+    <span class="o">}</span>
+  <span class="o">}</span>, ...<span class="o">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="download.html" class="btn btn-neutral float-right" title="Download" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="submissions.html" class="btn btn-neutral float-left" title="“Pre-ARD” Order Submission" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Chris Holden
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

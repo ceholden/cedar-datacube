@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>cedar.utils &mdash; cedar 0+untagged.50.g4087d9f documentation</title>
+  <title>cedar.utils &mdash; cedar 0+untagged.50.g73e2230 documentation</title>
   
 
   
@@ -33,6 +33,7 @@
   
   <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" /> 
 </head>
@@ -58,7 +59,7 @@
             
             
               <div class="version">
-                0+untagged.50.g4087d9f
+                0+untagged.50.g73e2230
               </div>
             
           
@@ -93,9 +94,11 @@
 <li class="toctree-l1"><a class="reference internal" href="../../overview.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../credentials.html">Credentials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../config.html">Configuration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../../submissions.html">Pre-ARD Order Submissions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../submissions.html">“Pre-ARD” Order Submission</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tracking.html">Pre-ARD Order Tracking</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../download.html">Download</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../../convert.html">Pre-ARD to ARD Conversion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cleaning.html">Cleaning “pre-ARD” from Storage</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Help and Reference</span></p>
 <ul>
@@ -224,6 +227,58 @@
     <span class="sd">&quot;&quot;&quot; Return a string representatin of an affine.Affine transform</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">transform</span><span class="p">[:</span><span class="mi">6</span><span class="p">]))</span></div>
+
+
+<div class="viewcode-block" id="load_ee"><a class="viewcode-back" href="../../cedar/cedar.utils.html#cedar.utils.load_ee">[docs]</a><span class="k">def</span> <span class="nf">load_ee</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Import and initialize the EE API, handling errors</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    initialize : bool, optional</span>
+<span class="sd">        Try to initialize the EE API, or not</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    object</span>
+<span class="sd">        Earth Engine API module ``ee``</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ImportError</span>
+<span class="sd">        Raised if the Earth Engine cannot be imported</span>
+<span class="sd">    ee.ee_exceptions.EEException</span>
+<span class="sd">        Raised if the Earth Engine cannot be initialized, typically because</span>
+<span class="sd">        you haven&#39;t authenticated yet.</span>
+<span class="sd">    Exception</span>
+<span class="sd">        Passes other exceptions caused by :py:func:`ee.Initialize`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">import</span> <span class="nn">ee</span> <span class="k">as</span> <span class="nn">ee_api</span>
+    <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">ie</span><span class="p">:</span>
+        <span class="n">docs</span> <span class="o">=</span> <span class="s1">&#39;https://developers.google.com/earth-engine/python_install&#39;</span>
+        <span class="n">pip_info</span> <span class="o">=</span> <span class="s1">&#39;`pip` (&quot;pip install earthengine-api&quot;)&#39;</span>
+        <span class="n">conda_info</span> <span class="o">=</span> <span class="s1">&#39;`conda` (&quot;conda install -c conda-forge earthengine-api&quot;)&#39;</span>
+        <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+            <span class="n">f</span><span class="s1">&#39;Cannot import the Earth Engine API. Please install the package, &#39;</span>
+            <span class="n">f</span><span class="s1">&#39;which is available through </span><span class="si">{pip_info}</span><span class="s1"> or </span><span class="si">{conda_info}</span><span class="s1">. Visit &#39;</span>
+            <span class="n">f</span><span class="s1">&#39;&quot;</span><span class="si">{docs}</span><span class="s1">&quot; for more information.&#39;</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">initialize</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">ee_api</span><span class="o">.</span><span class="n">Initialize</span><span class="p">()</span>
+            <span class="k">except</span> <span class="n">ee_api</span><span class="o">.</span><span class="n">ee_exception</span><span class="o">.</span><span class="n">EEException</span> <span class="k">as</span> <span class="n">eee</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">eee</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span>
+                    <span class="s1">&#39;Could not initialize EarthEngine API. Depending on the &#39;</span>
+                    <span class="s1">&#39;error, this might be caused by network access issues.&#39;</span>
+                <span class="p">)</span>
+                <span class="k">raise</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">ee_api</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">ee_api</span></div>
 </pre></div>
 
            </div>
