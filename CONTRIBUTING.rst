@@ -13,7 +13,7 @@ Contributing feedback, bug reports, etc.
 ----------------------------------------
 
 The best way of giving feedback is the use of the `issue tracker on
-Github <https://github.com/ceholden/cedar/issues>`__
+Github <https://github.com/ceholden/cedar-datacube/issues>`__
 as this tracker is open and publicly visible, is relatively well formed, and
 integrates well as all of the development is done on Github. Emailing me is not
 an efficient way of making suggestions or reporting bugs because it limits
@@ -27,14 +27,14 @@ limited to:
 -  The full log, including the entire stack traceback, of the command or
    API reference that is causing the problem
 -  The configuration file used for your dataset and run parameters
--  The version of ``cedar``
+-  The version of ``cedar-datacube``
 
-   -  ``python -c 'import cedar; print(cedar.__version__)'``
+   -  ``python -c 'import cedar-datacube; print(cedar.__version__)'``
    -  If you are using a development build (i.e., if you cloned
       ``master`` and did not check out a tag), please include the SHA-1
       hash of the last commit
 
--  The version of dependencies used by ``cedar``
+-  The version of dependencies used by ``cedar-datacube``
 
    -  ``pip freeze``
 
@@ -57,12 +57,10 @@ Github's PR interface.
 Conventions
 ~~~~~~~~~~~
 
-The ``cedar`` project follows a few conventions when
+The ``cedar-datacube`` project follows a few conventions when
 writing code:
 
-1. Write your code to be compatible with Python 2.7 and 3.5+. The
-   ``six`` module is a dependency for this project, so use it if you
-   need to.
+1. It's 2019 or later. Write your code to be compatible with Python 3.6+.
 2. All public functions, classes, methods, etc. must have useful and
    informative docstrings. This project uses `NumPy docstring`_ style
 3. All code contributions must adhere to the `Python style guide,
@@ -89,8 +87,8 @@ Example
 
    ::
 
-       $ git clone git@github.com:YOUR_USERNAME/cedar.git
-       $ cd cedar/
+       $ git clone git@github.com:YOUR_USERNAME/cedar-datacube.git
+       $ cd cedar-datacube/
 
 3. Create a branch for your bug fix or feature addition. As a
    convention, it is useful to name this branch as a reference to the
@@ -112,7 +110,7 @@ Example
        $ git add -p your_modified_files
        $ git commit -m "This is a description of the changes made"
 
-   Push your code changes to your forked copy of ``cedar``:
+   Push your code changes to your forked copy of ``cedar-datacube``:
 
    ::
 
@@ -129,5 +127,5 @@ Try not to be an ass and cite scientific work when making contributions
 that relate to a published algorithm.
 
 
-.. _TravisCI: https://travis-ci.org/ceholden/cedar/
+.. _TravisCI: https://travis-ci.org/ceholden/cedar-datacube/
 .. _NumPy docstring: https://github.com/numpy/numpy/blob/master/doc/HOWTO_DOCUMENT.rst.txt
