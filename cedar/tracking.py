@@ -111,7 +111,8 @@ class GEEARDTracker(object):
         tracking_name = self.tracking_template.format(**namespace)
 
         # Create submission info
-        submission_info = get_submission_info(self.tile_grid, tile_indices,
+        submission_info = get_submission_info(self.tile_grid, collections,
+                                              tile_indices,
                                               period_start, period_end,
                                               period_freq)
 
@@ -400,12 +401,13 @@ def get_ee_tasks():
     return {task.id: task for task in ee.batch.Task.list()}
 
 
-def get_submission_info(tile_grid, tile_indices,
+def get_submission_info(tile_grid, collections, tile_indices,
                         period_start, period_end, period_freq):
     """ Return information about tracked order submissions
     """
     return {
         'submitted': dt.datetime.today().isoformat(),
+        'collections': collection,
         'tile_grid': tile_grid.to_dict(),
         'tile_indices': list(tile_indices),
         'period_start': period_start.isoformat(),
