@@ -11,7 +11,7 @@ from stems.gis.grids import Tile
 
 from . import __version__
 from . import defaults
-from .exceptions import EmptyCollectionError
+from .exceptions import EmptyCollectionError, EmptyOrderError
 from .sensors import CREATE_ARD_COLLECTION
 
 logger = logging.getLogger(__name__)
@@ -104,7 +104,9 @@ class Order(object):
         """ Submit "pre-ARD" for a collection and tile to be processed
         """
         if not self._items:
-            raise ValueError('No items in order to submit (see ``Order.add``)')
+            raise EmptyOrderError(
+                'No items in order to submit (see ``Order.add``)'
+            )
 
         submitted = []
         for item in self._items:
