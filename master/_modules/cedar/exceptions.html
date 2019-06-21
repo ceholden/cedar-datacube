@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>cedar.exceptions &mdash; cedar 0+untagged.49.g792ee46 documentation</title>
+  <title>cedar.exceptions &mdash; cedar 0+untagged.51.g965eadb documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0+untagged.49.g792ee46
+                0+untagged.51.g965eadb
               </div>
             
           
@@ -173,8 +173,14 @@
 <span class="sd">&quot;&quot;&quot;</span>
 
 
-<div class="viewcode-block" id="EmptyCollectionError"><a class="viewcode-back" href="../../cedar/cedar.exceptions.html#cedar.exceptions.EmptyCollectionError">[docs]</a><span class="k">class</span> <span class="nc">EmptyCollectionError</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot; Exception raised when trying to create ARD from an empty set of images</span>
+<div class="viewcode-block" id="EmptyCollectionError"><a class="viewcode-back" href="../../cedar/cedar.exceptions.html#cedar.exceptions.EmptyCollectionError">[docs]</a><span class="k">class</span> <span class="nc">EmptyCollectionError</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Raised when trying to create pre-ARD from an empty set of images</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="EmptyOrderError"><a class="viewcode-back" href="../../cedar/cedar.exceptions.html#cedar.exceptions.EmptyOrderError">[docs]</a><span class="k">class</span> <span class="nc">EmptyOrderError</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Raised when trying to submit an empty pre-ARD order</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">pass</span></div>
 </pre></div>
