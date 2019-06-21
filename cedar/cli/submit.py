@@ -33,6 +33,7 @@ def submit(ctx, image_collection, index, row, col,
            period_start, period_end, period_freq, date_format):
     """ Submit "pre-ARD" processing orders and create tracking metadata
     """
+    from cedar.exceptions import EmptyOrderError
     from cedar.sensors import CREATE_ARD_COLLECTION
     from cedar.utils import load_ee
 
@@ -83,14 +84,23 @@ def submit(ctx, image_collection, index, row, col,
     click.echo("\n".join([f"    {s}" for s in msg]))
 
     # Submit!
-    tracking_info_name, tracking_info_id = tracker.submit(
-        image_collection,
-        index,
-        period_start, period_end,
-        period_freq=period_freq
-    )
-    click.echo('Wrote job tracking to store object named '
-               f'"{tracking_info_name}" ({tracking_info_id})')
+    try:
+        tracking_info_name, tracking_info_id = tracker.submit(
+            image_collection,
+            index,
+            period_start, period_end,
+            period_freq=period_freq
+        )
+        click.echo('Wrote job tracking to store object named '
+                   f'"{tracking_info_name}" ({tracking_info_id})')
+    except EmptyOrderError as ece:
+        click.echo(ece)
+        click.echo('Did not find data to order. Check your search parameters')
+        raise click.Abort()
+    except Exception as e:
+        click.echo(e)
+        click.echo('Unknown error occurred. See exception printed above')
+        raise click.Abort()
 
 
 # def _check_imgcol(ctx, image_collection):
