@@ -102,6 +102,21 @@ class Order(object):
 
     def submit(self, store, submission_info=None, export_image_kwds=None):
         """ Submit "pre-ARD" for a collection and tile to be processed
+
+        Parameters
+        ----------
+        store : cedar.stores.GDriveStore or cedar.stores.GCSStore
+            Storage backend to use
+        submission_info : dict, optional
+            Information to include in tracking metadata about the submission
+        export_image_kwds : dict, optional
+            Additional keywords to pass onto ``store.store_image``
+
+        Returns
+        -------
+        tracking_id : str
+            Tracking metadata object identitifer (an object ID for Google Drive
+            or a remote path for GCS)
         """
         if not self._items:
             raise EmptyOrderError(

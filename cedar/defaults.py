@@ -25,11 +25,11 @@ PREARD_FREQ = '1YS'
 #: str: Default pre-ARD image export name template
 PREARD_NAME = "{collection}_h{tile.horizontal:03d}v{tile.vertical:03d}_{date_start}_{date_end}"
 #: str: Default pre-ARD image export prefix/path template
-PREARD_PREFIX = "GEEARD/{collection}/h{tile.horizontal:03d}v{tile.vertical:03d}"
+PREARD_PREFIX = "CEDAR_PREARD"
 #: str: Default pre-ARD task tracking name template
 PREARD_TRACKING = 'TRACKING_PERIOD{date_start}-{date_end}_TASK{today}'
 #: str: Default pre-ARD task tracking prefix/path
-PREARD_TRACKING_PREFIX = 'GEEARD_TRACKING'
+PREARD_TRACKING_PREFIX = 'CEDAR_TRACKING'
 
 
 EXPORT_IMAGE_STRFTIME = '%Y%m%d'

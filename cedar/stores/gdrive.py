@@ -221,8 +221,8 @@ class GDriveStore(object):
         """
         # TODO: warn / fail if `path` looks nested...
         # Make parent directory -- currently GEE interprets this directory as
-        # a single, non-nested directory. So, "GEEARD/LT05" and "GEEARD/LE07"
-        # won't be separate directories under "GEEARD/", but two directories
+        # a single, non-nested directory. So, "PREARD/LT05" and "PREARD/LE07"
+        # won't be separate directories under "PREARD/", but two directories
         # stored in the root of your drive.
         # As such, we use mkdir here (for now?)
         if path is not None:

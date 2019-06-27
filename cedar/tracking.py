@@ -20,7 +20,7 @@ logger = logging.getLogger(__name__)
 _STR_FORMATTER = string.Formatter()
 
 
-class GEEARDTracker(object):
+class Tracker(object):
     """ CEDAR "pre-ARD" order tracker
 
     Parameters
@@ -146,7 +146,7 @@ class GEEARDTracker(object):
             Search pattern for tracking info. Specify to subset to specific
             tracking info (e.g., from some date). If ``None`` provided,
             looks for tracking information matching
-            :py:attr:`~GEEARDTracker.tracking_template`
+            :py:attr:`~Tracker.tracking_template`
 
         Returns
         -------
@@ -165,7 +165,7 @@ class GEEARDTracker(object):
         ----------
         name : str
             Name of tracking metadata (e.g., taken from running
-            :func:`~GEEARDTracker.list_tracking`)
+            :func:`~Tracker.list_tracking`)
 
         Returns
         -------
@@ -181,7 +181,7 @@ class GEEARDTracker(object):
         ----------
         name : str
             Name of tracking metadata (e.g., taken from running
-            :func:`~GEEARDTracker.list_tracking`)
+            :func:`~Tracker.list_tracking`)
 
         Returns
         -------

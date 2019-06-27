@@ -90,7 +90,7 @@ class Config(Mapping):
         parse.validate_with_defaults(self, schema=self.schema)
 
     def get_tracker(self):
-        """ Get the GEEARDTracker described by this store
+        """ Get the Tracker described by this store
         """
         # Copy tracker config
         cfg = self['tracker'].copy()
