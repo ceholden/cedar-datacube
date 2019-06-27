@@ -54,6 +54,26 @@ Google Earth Engine (GEE).
 6. :ref:`Deleting <cleaning>` of tracked "pre-ARD" data from storage
 
 
+Limitations
+-----------
+
+This tool is useful for rapidly creating remote sensing time series that are
+"analysis ready" by using the free (to non-commercial users) resources of the
+Google Earth Engine. Accomplishing this, however, requires that you have a
+Google service (Google Drive or Google Cloud Storage) to use as an export
+destination. Specifically, this tool creates large amounts of data that
+you'll need to be able to store and download, which may incurr costs.
+
+Storage on cloud services like Google Cloud Storage is comparatively cheap
+compared to charges incurred from downloading ("egress" charges), which may
+be considerable. Storage on the Google Drive is paid for as a storage cap
+(e.g., 1 terrabyte) rather than being billed for specific usage (e.g., 1 TB for
+a month). Downloading from the Google Drive is not metered and does not appear
+to have a quota. Many institutions may also have "G Suite" accounts with large
+or "unlimited" storage, making Google Drive a good storage choice in these
+cases.
+
+
 References
 ~~~~~~~~~~
 
