@@ -46,6 +46,17 @@ Sections
 ``tracker``
 -----------
 
+Configure how "pre-ARD" is exported to Google Drive or Google Cloud Storage,
+including how images (GeoTIFFs and JSON metadata) and tracking information
+(JSON) are given filenames.
+
+Configuration items with the affix ``_template`` may be given as Python format string
+(see Python language `f-string docs`_). Templates are provided keys (see table
+below for specifics) that allows you to embed useful information, like the
+tile, collection, and date range for your "pre-ARD" images or the timestamp of
+your order in the tracking metadata filename.
+
+
 +---------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------+
 | Key                 | Description                                                                                                                                                  |
 +=====================+==============================================================================================================================================================+
@@ -55,9 +66,9 @@ Sections
 +---------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------+
 | prefix_template     | Template for "pre-ARD" image and metadata prefix. Available keys are "collection", "tile", "date_start", "date_end", and "now".                              |
 +---------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| tracking_template   | Template for order tracking file name. Available keys are "collection", "tiles", "tile_indices", "period_start", "period_end", "period_freq", and "now".     |
+| tracking_template   | Template for order tracking file name. Available keys are "collections", "tiles", "tile_indices", "period_start", "period_end", "period_freq", and "now".    |
 +---------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------+
-| tracking_prefix     | Template for order tracking file name. Available keys are "collection", "tiles", "tile_indices", "period_start", "period_end", "period_freq", and "now".     |
+| tracking_prefix     | Order tracking file prefix folder                                                                                                                            |
 +---------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------+
 | export_image_kwds   | Image export options for ``toDrive`` and ``toCloudStorage``. See docs on `Exporting Images`_ and the `changelog <_changelog_export>`_ for info on keywords   |
 +---------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------+
@@ -82,6 +93,11 @@ Sections
 ``gdrive``
 ----------
 
+Credentials information for Google Drive. It may be more convenient in many
+cases, such as using cedar on your own computer, to use
+the ``cedar auth gdrive`` (see :ref:`usage<cli_auth_gdrive>`) command to
+login and store your credentials (in ``~/.config/cedar/credentials.json``).
+
 +-----------------------+-----------------------------------------------+
 | Key                   | Description                                   |
 +=======================+===============================================+
@@ -93,6 +109,9 @@ Sections
 
 ``ard``
 -------
+
+Settings for how "pre-ARD" GeoTIFF imagery and JSON metadata are converted into
+"ARD" NetCDF files.
 
 +-------------+------------------------------------------------------------------------------------------------------------------+
 | Key         | Description                                                                                                      |
@@ -118,3 +137,4 @@ the ``cedar config template`` program to do this:
 
 .. _Exporting Images: https://developers.google.com/earth-engine/exporting#exporting-images
 .. _changelog_export: https://developers.google.com/earth-engine/changelog#2016-10-27
+.. _f-string docs: https://docs.python.org/3/library/string.html#formatstrings
