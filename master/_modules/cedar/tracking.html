@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>cedar.tracking &mdash; cedar 0+untagged.51.g965eadb documentation</title>
+  <title>cedar.tracking &mdash; cedar 0+untagged.51.g6caab64 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0+untagged.51.g965eadb
+                0+untagged.51.g6caab64
               </div>
             
           
@@ -191,7 +191,7 @@
 <span class="n">_STR_FORMATTER</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">Formatter</span><span class="p">()</span>
 
 
-<div class="viewcode-block" id="GEEARDTracker"><a class="viewcode-back" href="../../cedar/cedar.tracking.html#cedar.tracking.GEEARDTracker">[docs]</a><span class="k">class</span> <span class="nc">GEEARDTracker</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="Tracker"><a class="viewcode-back" href="../../cedar/cedar.tracking.html#cedar.tracking.Tracker">[docs]</a><span class="k">class</span> <span class="nc">Tracker</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; CEDAR &quot;pre-ARD&quot; order tracker</span>
 
 <span class="sd">    Parameters</span>
@@ -229,7 +229,7 @@
         <span class="c1"># Convert from dict as needed</span>
         <span class="k">return</span> <span class="n">_create_filters</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_filters</span><span class="p">)</span>
 
-<div class="viewcode-block" id="GEEARDTracker.submit"><a class="viewcode-back" href="../../cedar/cedar.tracking.html#cedar.tracking.GEEARDTracker.submit">[docs]</a>    <span class="k">def</span> <span class="nf">submit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collections</span><span class="p">,</span> <span class="n">tile_indices</span><span class="p">,</span>
+<div class="viewcode-block" id="Tracker.submit"><a class="viewcode-back" href="../../cedar/cedar.tracking.html#cedar.tracking.Tracker.submit">[docs]</a>    <span class="k">def</span> <span class="nf">submit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collections</span><span class="p">,</span> <span class="n">tile_indices</span><span class="p">,</span>
                <span class="n">period_start</span><span class="p">,</span> <span class="n">period_end</span><span class="p">,</span> <span class="n">period_freq</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Submit and track GEE pre-ARD tasks</span>
 
@@ -308,7 +308,7 @@
 
         <span class="k">return</span> <span class="n">order</span><span class="o">.</span><span class="n">tracking_name</span><span class="p">,</span> <span class="n">order</span><span class="o">.</span><span class="n">tracking_id</span></div>
 
-<div class="viewcode-block" id="GEEARDTracker.list"><a class="viewcode-back" href="../../cedar/cedar.tracking.html#cedar.tracking.GEEARDTracker.list">[docs]</a>    <span class="k">def</span> <span class="nf">list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Tracker.list"><a class="viewcode-back" href="../../cedar/cedar.tracking.html#cedar.tracking.Tracker.list">[docs]</a>    <span class="k">def</span> <span class="nf">list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Return a list of all tracking metadata</span>
 
 <span class="sd">        Parameters</span>
@@ -317,7 +317,7 @@
 <span class="sd">            Search pattern for tracking info. Specify to subset to specific</span>
 <span class="sd">            tracking info (e.g., from some date). If ``None`` provided,</span>
 <span class="sd">            looks for tracking information matching</span>
-<span class="sd">            :py:attr:`~GEEARDTracker.tracking_template`</span>
+<span class="sd">            :py:attr:`~Tracker.tracking_template`</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -329,14 +329,14 @@
             <span class="n">pattern</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tracking_template</span><span class="o">.</span><span class="n">format_map</span><span class="p">(</span><span class="n">d</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;*&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">store</span><span class="o">.</span><span class="n">list</span><span class="p">(</span><span class="n">path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tracking_prefix</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="n">pattern</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="GEEARDTracker.read"><a class="viewcode-back" href="../../cedar/cedar.tracking.html#cedar.tracking.GEEARDTracker.read">[docs]</a>    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+<div class="viewcode-block" id="Tracker.read"><a class="viewcode-back" href="../../cedar/cedar.tracking.html#cedar.tracking.Tracker.read">[docs]</a>    <span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Returns stored tracking information as dict</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        name : str</span>
 <span class="sd">            Name of tracking metadata (e.g., taken from running</span>
-<span class="sd">            :func:`~GEEARDTracker.list_tracking`)</span>
+<span class="sd">            :func:`~Tracker.list_tracking`)</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -345,14 +345,14 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">store</span><span class="o">.</span><span class="n">read_metadata</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">tracking_prefix</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="GEEARDTracker.update"><a class="viewcode-back" href="../../cedar/cedar.tracking.html#cedar.tracking.GEEARDTracker.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+<div class="viewcode-block" id="Tracker.update"><a class="viewcode-back" href="../../cedar/cedar.tracking.html#cedar.tracking.Tracker.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Refresh and reupload tracking information by checking with the GEE</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        name : str</span>
 <span class="sd">            Name of tracking metadata (e.g., taken from running</span>
-<span class="sd">            :func:`~GEEARDTracker.list_tracking`)</span>
+<span class="sd">            :func:`~Tracker.list_tracking`)</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -364,7 +364,7 @@
         <span class="n">name_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">store</span><span class="o">.</span><span class="n">store_metadata</span><span class="p">(</span><span class="n">tracking_info</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">tracking_info_updated</span></div>
 
-<div class="viewcode-block" id="GEEARDTracker.download"><a class="viewcode-back" href="../../cedar/cedar.tracking.html#cedar.tracking.GEEARDTracker.download">[docs]</a>    <span class="k">def</span> <span class="nf">download</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tracking_info</span><span class="p">,</span> <span class="n">dest</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Tracker.download"><a class="viewcode-back" href="../../cedar/cedar.tracking.html#cedar.tracking.Tracker.download">[docs]</a>    <span class="k">def</span> <span class="nf">download</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tracking_info</span><span class="p">,</span> <span class="n">dest</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Download &quot;pre-ARD&quot; and metadata to a directory</span>
 
 <span class="sd">        Parameters</span>
@@ -418,7 +418,7 @@
 
         <span class="k">return</span> <span class="n">downloaded</span></div>
 
-<div class="viewcode-block" id="GEEARDTracker.clean"><a class="viewcode-back" href="../../cedar/cedar.tracking.html#cedar.tracking.GEEARDTracker.clean">[docs]</a>    <span class="k">def</span> <span class="nf">clean</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tracking_info</span><span class="p">,</span> <span class="n">tracking_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="Tracker.clean"><a class="viewcode-back" href="../../cedar/cedar.tracking.html#cedar.tracking.Tracker.clean">[docs]</a>    <span class="k">def</span> <span class="nf">clean</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tracking_info</span><span class="p">,</span> <span class="n">tracking_name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Clean &quot;pre-ARD&quot; imagery, metadata, and tracking metadata off GCS</span>
 
 <span class="sd">        Parameters</span>

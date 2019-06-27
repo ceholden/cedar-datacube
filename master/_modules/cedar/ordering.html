@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>cedar.ordering &mdash; cedar 0+untagged.51.g965eadb documentation</title>
+  <title>cedar.ordering &mdash; cedar 0+untagged.51.g6caab64 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0+untagged.51.g965eadb
+                0+untagged.51.g6caab64
               </div>
             
           
@@ -273,6 +273,21 @@
 
 <div class="viewcode-block" id="Order.submit"><a class="viewcode-back" href="../../cedar/cedar.ordering.html#cedar.ordering.Order.submit">[docs]</a>    <span class="k">def</span> <span class="nf">submit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">store</span><span class="p">,</span> <span class="n">submission_info</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">export_image_kwds</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Submit &quot;pre-ARD&quot; for a collection and tile to be processed</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        store : cedar.stores.GDriveStore or cedar.stores.GCSStore</span>
+<span class="sd">            Storage backend to use</span>
+<span class="sd">        submission_info : dict, optional</span>
+<span class="sd">            Information to include in tracking metadata about the submission</span>
+<span class="sd">        export_image_kwds : dict, optional</span>
+<span class="sd">            Additional keywords to pass onto ``store.store_image``</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        tracking_id : str</span>
+<span class="sd">            Tracking metadata object identitifer (an object ID for Google Drive</span>
+<span class="sd">            or a remote path for GCS)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">EmptyOrderError</span><span class="p">(</span>

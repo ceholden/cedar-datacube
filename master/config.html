@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Configuration &mdash; cedar 0+untagged.51.g965eadb documentation</title>
+  <title>Configuration &mdash; cedar 0+untagged.51.g6caab64 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0+untagged.51.g965eadb
+                0+untagged.51.g6caab64
               </div>
             
           
@@ -239,6 +239,14 @@ parametrization of the tile grid and different export locations.</p>
 </div>
 <div class="section" id="tracker">
 <h3><code class="docutils literal notranslate"><span class="pre">tracker</span></code><a class="headerlink" href="#tracker" title="Permalink to this headline">¶</a></h3>
+<p>Configure how “pre-ARD” is exported to Google Drive or Google Cloud Storage,
+including how images (GeoTIFFs and JSON metadata) and tracking information
+(JSON) are given filenames.</p>
+<p>Configuration items with the affix <code class="docutils literal notranslate"><span class="pre">_template</span></code> may be given as Python format string
+(see Python language <a class="reference external" href="https://docs.python.org/3/library/string.html#formatstrings">f-string docs</a>). Templates are provided keys (see table
+below for specifics) that allows you to embed useful information, like the
+tile, collection, and date range for your “pre-ARD” images or the timestamp of
+your order in the tracking metadata filename.</p>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 12%" />
@@ -260,10 +268,10 @@ parametrization of the tile grid and different export locations.</p>
 <td><p>Template for “pre-ARD” image and metadata prefix. Available keys are “collection”, “tile”, “date_start”, “date_end”, and “now”.</p></td>
 </tr>
 <tr class="row-odd"><td><p>tracking_template</p></td>
-<td><p>Template for order tracking file name. Available keys are “collection”, “tiles”, “tile_indices”, “period_start”, “period_end”, “period_freq”, and “now”.</p></td>
+<td><p>Template for order tracking file name. Available keys are “collections”, “tiles”, “tile_indices”, “period_start”, “period_end”, “period_freq”, and “now”.</p></td>
 </tr>
 <tr class="row-even"><td><p>tracking_prefix</p></td>
-<td><p>Template for order tracking file name. Available keys are “collection”, “tiles”, “tile_indices”, “period_start”, “period_end”, “period_freq”, and “now”.</p></td>
+<td><p>Order tracking file prefix folder</p></td>
 </tr>
 <tr class="row-odd"><td><p>export_image_kwds</p></td>
 <td><p>Image export options for <code class="docutils literal notranslate"><span class="pre">toDrive</span></code> and <code class="docutils literal notranslate"><span class="pre">toCloudStorage</span></code>. See docs on <a class="reference external" href="https://developers.google.com/earth-engine/exporting#exporting-images">Exporting Images</a> and the <a class="reference external" href="_changelog_export">changelog</a> for info on keywords</p></td>
@@ -301,6 +309,10 @@ parametrization of the tile grid and different export locations.</p>
 </div>
 <div class="section" id="gdrive">
 <h3><code class="docutils literal notranslate"><span class="pre">gdrive</span></code><a class="headerlink" href="#gdrive" title="Permalink to this headline">¶</a></h3>
+<p>Credentials information for Google Drive. It may be more convenient in many
+cases, such as using cedar on your own computer, to use
+the <code class="docutils literal notranslate"><span class="pre">cedar</span> <span class="pre">auth</span> <span class="pre">gdrive</span></code> (see <a class="reference internal" href="cli.html#cli-auth-gdrive"><span class="std std-ref">usage</span></a>) command to
+login and store your credentials (in <code class="docutils literal notranslate"><span class="pre">~/.config/cedar/credentials.json</span></code>).</p>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 33%" />
@@ -323,6 +335,8 @@ parametrization of the tile grid and different export locations.</p>
 </div>
 <div class="section" id="ard">
 <h3><code class="docutils literal notranslate"><span class="pre">ard</span></code><a class="headerlink" href="#ard" title="Permalink to this headline">¶</a></h3>
+<p>Settings for how “pre-ARD” GeoTIFF imagery and JSON metadata are converted into
+“ARD” NetCDF files.</p>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 10%" />

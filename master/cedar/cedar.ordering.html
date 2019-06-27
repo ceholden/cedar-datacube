@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>cedar.ordering module &mdash; cedar 0+untagged.51.g965eadb documentation</title>
+  <title>cedar.ordering module &mdash; cedar 0+untagged.51.g6caab64 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0+untagged.51.g965eadb
+                0+untagged.51.g6caab64
               </div>
             
           
@@ -205,6 +205,22 @@
 <dt id="cedar.ordering.Order.submit">
 <code class="sig-name descname">submit</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">store</em>, <em class="sig-param">submission_info=None</em>, <em class="sig-param">export_image_kwds=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/ordering.html#Order.submit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.ordering.Order.submit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Submit “pre-ARD” for a collection and tile to be processed</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>store</strong> (<em>cedar.stores.GDriveStore</em><em> or </em><em>cedar.stores.GCSStore</em>) – Storage backend to use</p></li>
+<li><p><strong>submission_info</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a><em>, </em><em>optional</em>) – Information to include in tracking metadata about the submission</p></li>
+<li><p><strong>export_image_kwds</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a><em>, </em><em>optional</em>) – Additional keywords to pass onto <code class="docutils literal notranslate"><span class="pre">store.store_image</span></code></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>tracking_id</strong> – Tracking metadata object identitifer (an object ID for Google Drive
+or a remote path for GCS)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Overview &mdash; cedar 0+untagged.51.g965eadb documentation</title>
+  <title>Overview &mdash; cedar 0+untagged.51.g6caab64 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0+untagged.51.g965eadb
+                0+untagged.51.g6caab64
               </div>
             
           
@@ -94,7 +94,10 @@
 <p class="caption"><span class="caption-text">User Guide</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Overview</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#references">References</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#limitations">Limitations</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="credentials.html">Credentials</a></li>
@@ -219,8 +222,24 @@ Google Earth Engine (GEE).</p>
 <li><p><a class="reference internal" href="convert.html#convert"><span class="std std-ref">Conversion</span></a> of “pre-ARD” and “image metadata” into ARD</p></li>
 <li><p><a class="reference internal" href="cleaning.html#cleaning"><span class="std std-ref">Deleting</span></a> of tracked “pre-ARD” data from storage</p></li>
 </ol>
+<div class="section" id="limitations">
+<h2>Limitations<a class="headerlink" href="#limitations" title="Permalink to this headline">¶</a></h2>
+<p>This tool is useful for rapidly creating remote sensing time series that are
+“analysis ready” by using the free (to non-commercial users) resources of the
+Google Earth Engine. Accomplishing this, however, requires that you have a
+Google service (Google Drive or Google Cloud Storage) to use as an export
+destination. Specifically, this tool creates large amounts of data that
+you’ll need to be able to store and download, which may incurr costs.</p>
+<p>Storage on cloud services like Google Cloud Storage is comparatively cheap
+compared to charges incurred from downloading (“egress” charges), which may
+be considerable. Storage on the Google Drive is paid for as a storage cap
+(e.g., 1 terrabyte) rather than being billed for specific usage (e.g., 1 TB for
+a month). Downloading from the Google Drive is not metered and does not appear
+to have a quota. Many institutions may also have “G Suite” accounts with large
+or “unlimited” storage, making Google Drive a good storage choice in these
+cases.</p>
 <div class="section" id="references">
-<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<h3>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h3>
 <p id="bibtex-bibliography-overview-0"><dl class="citation">
 <dt class="label" id="gorelick2017google"><span class="brackets"><a class="fn-backref" href="#id2">1</a></span></dt>
 <dd><p>Noel Gorelick, Matt Hancher, Mike Dixon, Simon Ilyushchenko, David Thau, and Rebecca Moore. Google earth engine: planetary-scale geospatial analysis for everyone. <em>Remote Sensing of Environment</em>, 202:18–27, 2017.</p>
@@ -233,6 +252,7 @@ Google Earth Engine (GEE).</p>
 </dd>
 </dl>
 </p>
+</div>
 </div>
 </div>
 
