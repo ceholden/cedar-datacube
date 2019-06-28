@@ -69,7 +69,7 @@ def fetch_config(ctx, fail_if_missing=True):
         msg = ('Must specify configuration file. Pass it to the program as '
                'an option to the main program (`cedar -C CONFIG_FILE ...`) '
                'or using the environment variable '
-               '(`CEDAR_CONFIG_FILE=CONFIG_FILE cedar ...`)')
+               f'(`{defaults.ENVVAR_CONFIG_FILE}=CONFIG_FILE cedar ...`)')
         raise click.BadParameter(msg, ctx=ctx_, param=param)
     else:
         return {}
