@@ -407,7 +407,7 @@ def get_submission_info(tile_grid, collections, tile_indices,
     """
     return {
         'submitted': dt.datetime.today().isoformat(),
-        'collections': collection,
+        'collections': collections,
         'tile_grid': tile_grid.to_dict(),
         'tile_indices': list(tile_indices),
         'period_start': period_start.isoformat(),
