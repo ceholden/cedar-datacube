@@ -240,7 +240,7 @@
 <p id="t69" class="stm mis">        <span class="nam">msg</span> <span class="op">=</span> <span class="op">(</span><span class="str">'Must specify configuration file. Pass it to the program as '</span><span class="strut">&nbsp;</span></p>
 <p id="t70" class="pln">               <span class="str">'an option to the main program (`cedar -C CONFIG_FILE ...`) '</span><span class="strut">&nbsp;</span></p>
 <p id="t71" class="pln">               <span class="str">'or using the environment variable '</span><span class="strut">&nbsp;</span></p>
-<p id="t72" class="pln">               <span class="str">'(`CEDAR_CONFIG_FILE=CONFIG_FILE cedar ...`)'</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t72" class="pln">               <span class="str">f'(`{defaults.ENVVAR_CONFIG_FILE}=CONFIG_FILE cedar ...`)'</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t73" class="stm mis">        <span class="key">raise</span> <span class="nam">click</span><span class="op">.</span><span class="nam">BadParameter</span><span class="op">(</span><span class="nam">msg</span><span class="op">,</span> <span class="nam">ctx</span><span class="op">=</span><span class="nam">ctx_</span><span class="op">,</span> <span class="nam">param</span><span class="op">=</span><span class="nam">param</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t74" class="pln">    <span class="key">else</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t75" class="stm mis">        <span class="key">return</span> <span class="op">{</span><span class="op">}</span><span class="strut">&nbsp;</span></p>
@@ -278,7 +278,7 @@
     <div class="content">
         <p>
             <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.io">coverage.py v4.5.3</a>,
-            created at 2019-06-28 03:20
+            created at 2019-06-28 21:38
         </p>
     </div>
 </div>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Command Line Interface Programs &mdash; cedar 0+untagged.51.gce1d67c documentation</title>
+  <title>Command Line Interface Programs &mdash; cedar 0+untagged.51.gc3c6af7 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0+untagged.51.gce1d67c
+                0+untagged.51.gc3c6af7
               </div>
             
           
@@ -225,7 +225,7 @@ Commands:
   clean     Clean/delete exported &quot;pre-ARD&quot; data from storage
   config    Create or check cedar configuration files
   console   Enter cedar interactive console
-  convert   † Warning: could not load plugin. See `cedar convert --help`.
+  convert   Convert downloaded &quot;pre-ARD&quot; data to ARD NetCDFs
   download  Download exported &quot;pre-ARD&quot; data from storage
   gee       Check status GEE tasks
   status    Check status of tasks and exports
@@ -461,19 +461,19 @@ Options:
 <div class="section" id="cedar-convert">
 <span id="cli-cedar-convert"></span><h2><code class="docutils literal notranslate"><span class="pre">cedar</span> <span class="pre">convert</span></code><a class="headerlink" href="#cedar-convert" title="Permalink to this headline">¶</a></h2>
 <p>Convert “pre-ARD” images and metadata (GeoTIFFs and JSON) to ARD.</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Warning: entry point could not be loaded. Contact its author for help.
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Usage: cedar convert [OPTIONS] PREARD
 
-
-Traceback (most recent call last):
-  File &quot;/home/travis/miniconda/envs/test_env/lib/python3.7/site-packages/click_plugins/core.py&quot;, line 37, in decorator
-    group.add_command(entry_point.load())
-  File &quot;/home/travis/miniconda/envs/test_env/lib/python3.7/site-packages/pkg_resources/__init__.py&quot;, line 2434, in load
-    return self.resolve()
-  File &quot;/home/travis/miniconda/envs/test_env/lib/python3.7/site-packages/pkg_resources/__init__.py&quot;, line 2440, in resolve
-    module = __import__(self.module_name, fromlist=[&#39;__name__&#39;], level=0)
-  File &quot;/home/travis/build/ceholden/cedar-datacube/cedar/cli/convert.py&quot;, line 18, in &lt;module&gt;
-    @cli_options.opt_scheduler
-AttributeError: module &#39;stems.cli.options&#39; has no attribute &#39;opt_scheduler&#39;
+  Convert &quot;pre-ARD&quot; GeoTIFF(s) to ARD data cubes in NetCDF4 format
+
+Options:
+  --dest DIRECTORY             Override config file destination directory
+  --executor &lt;CHOICE TEXT&gt;...  Configure parallel processing options for Dask
+                               locally (&quot;sync&quot;, &quot;threads&quot;, or &quot;processes&quot;) or
+                               using Distributed (&quot;distributed&quot;). Must provide
+                               either worker count or scheduler address
+                               (ip:port).  [default: sync, None]
+  --overwrite                  Overwrite existing files
+  -h, --help                   Show this message and exit.
 </pre></div>
 </div>
 </div>
