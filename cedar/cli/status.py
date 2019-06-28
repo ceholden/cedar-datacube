@@ -20,6 +20,8 @@ def group_status(ctx):
 def list(ctx):
     """ List tracked orders
     """
+    logger = ctx.obj['logger']
+
     config = options.fetch_config(ctx)
     tracker = config.get_tracker()
 
@@ -27,7 +29,8 @@ def list(ctx):
     tracked_infos = tracker.list()
 
     # Display
-    click.echo('Tracked orders:')
+    if logger.level <= logging.WARNING:
+        click.echo('Tracked orders:')
     for tracked_info in tracked_infos:
         click.echo(tracked_info)
 
