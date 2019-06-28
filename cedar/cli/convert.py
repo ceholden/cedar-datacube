@@ -15,12 +15,10 @@ from . import options
 @click.argument('preard', type=click.Path(exists=True, resolve_path=True))
 @click.option('--dest', type=click.Path(file_okay=False, resolve_path=True),
               help='Override config file destination directory')
-@cli_options.opt_scheduler
-@cli_options.opt_nprocs
-@cli_options.opt_nthreads
+@cli_options.opt_executor
 @options.opt_overwrite
 @click.pass_context
-def convert(ctx, preard, dest, overwrite, scheduler, nprocs, nthreads):
+def convert(ctx, preard, dest, overwrite, executor):
     """ Convert "pre-ARD" GeoTIFF(s) to ARD data cubes in NetCDF4 format
     """
     from dask.diagnostics import ProgressBar
@@ -29,11 +27,11 @@ def convert(ctx, preard, dest, overwrite, scheduler, nprocs, nthreads):
     from cedar.preard import (ard_netcdf_encoding, find_preard,
                               process_preard, read_metadata)
 
-    # Provide debug info for the scheduler
+    # Provide debug info for the executor
     logger = ctx.obj['logger']
-    if scheduler is not None and logger.level == logging.DEBUG:
+    if executor is not None and logger.level == logging.DEBUG:
         from stems.executor import executor_info
-        info = executor_info(scheduler)
+        info = executor_info(executor)
         for i in info:
             logger.debug(i)
 
