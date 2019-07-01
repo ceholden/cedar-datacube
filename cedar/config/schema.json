@@ -6,17 +6,24 @@
   "definitions": {
     "tracker": {
       "export_image_kwds": {
-          "description": "Additional keyword arguments to pass to toCloudStorage",
-          "type": "object",
-          "default": {},
-          "properties": {
-            "shardSize": {
-              "type": "integer"
-            },
-            "fileDimensions": {
-              "type": "integer"
-            }
+        "description": "Additional keyword arguments to pass to toCloudStorage",
+        "type": "object",
+        "default": {},
+        "properties": {
+          "shardSize": {
+            "type": "integer"
+          },
+          "fileDimensions": {
+            "type": "integer"
           }
+        },
+        "not": {
+          "anyOf": [
+            { "required": ["crs" ] },
+            { "required": [ "crsTransform" ] },
+            { "required": [ "dimensions" ]}
+          ]
+        }
       }
     }
   },
