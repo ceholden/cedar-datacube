@@ -1,5 +1,6 @@
 """ Tests for :py:mod:`cedar.metadata.core`
 """
+from collections.abc import Mapping
 from datetime import datetime
 import json
 import os
@@ -12,13 +13,75 @@ from cedar.metadata import core
 DATA = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'data')
 
 
+# =============================================================================
+# TrackingMetadata
+def test_tracking_metadata_cls(example_tracking_data):
+    # test creation
+    md = core.TrackingMetadata(example_tracking_data)
+    assert isinstance(md, Mapping)
+
+    sections = ('program', 'submission', 'tracking', 'orders', 'metadata', )
+
+    # test as Mapping
+    assert all([k in sections for k in md])
+    assert len(md) == len(sections)
+
+    # test properties/attrs
+    for k in sections:
+        assert getattr(md, k) == md[k]
+
+
+def test_tracking_metadata_from_file(example_tracking_data,
+                                     example_tracking_filename):
+    # Should be equivalent -- from file or data
+    md_file = core.TrackingMetadata.from_file(example_tracking_filename)
+    md_data = core.TrackingMetadata(example_tracking_data)
+    assert md_file == md_data
+    ex = simulate_orders(ready=30, failed=1, unsubmitted=3)
+
+
+# =============================================================================
+# Print / repr / etc
+def test_check_undefined_runtime(example_unsubmitted_order):
+    assert core.check_runtime(example_unsubmitted_order) == -1
+
+
+def test_check_completed_runtime(example_completed_order):
+    assert core.check_runtime(example_completed_order) == 80000
+
+
+def test_check_active_runtime(example_active_order):
+    assert core.check_runtime(example_active_order) == 80000
+
+
+def test_convert_empty_datetime_to_print():
+    assert core.convert_datetime_to_print(0) == 'NaN'
+    assert core.convert_datetime_to_print('') == 'NaN'
+
+def test_convert_datetime_to_print():
+    now_timestamp_string = datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%f")
+    assert (core.convert_datetime_to_print(now_timestamp_string) ==
+            datetime.fromtimestamp(time.time()).strftime("%Y-%m-%d %H:%M:%S"))
+
+
+# def test_print_selected_tiles
+# def test_output_url_set
+# def test_info_program
+# def test_info_submission
+# def test_info_orders
+# def test_info_orders_specific
+# def test_info_order
+# def test_info_status
+
+# =============================================================================
+# Fixtures / helpers
 @pytest.fixture
 def example_tracking_filename(request):
     return os.path.join(DATA, "example_metadata_tracking.json")
 
 
 @pytest.fixture
-def example_tracking_file(example_tracking_filename):
+def example_tracking_data(example_tracking_filename):
     with open(example_tracking_filename) as json_file:
         return json.load(json_file)
 
@@ -128,30 +191,3 @@ def example_active_order():
       }
     }
     return order
-
-
-def test_check_undefined_runtime(example_unsubmitted_order):
-    assert core.check_runtime(example_unsubmitted_order) == -1
-
-def test_check_completed_runtime(example_completed_order):
-    assert core.check_runtime(example_completed_order) == 80000
-
-def test_check_active_runtime(example_active_order):
-    assert core.check_runtime(example_active_order) == 80000
-
-def test_convert_empty_datetime_to_print():
-    assert core.convert_datetime_to_print(0) == 'NaN'
-    assert core.convert_datetime_to_print('') == 'NaN'
-
-def test_convert_datetime_to_print():
-    now_timestamp_string = datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%f")
-    assert core.convert_datetime_to_print(now_timestamp_string) == datetime.fromtimestamp(time.time()).strftime("%Y-%m-%d %H:%M:%S")
-
-# def test_print_selected_tiles
-# def test_output_url_set
-# def test_info_program
-# def test_info_submission
-# def test_info_orders
-# def test_info_orders_specific
-# def test_info_order
-# def test_info_status

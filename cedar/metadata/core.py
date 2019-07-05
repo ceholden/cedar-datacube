@@ -1,22 +1,71 @@
 """ Classes and other core tools for tracking & image metadata
 """
+from collections import Mapping
 import datetime as dt
+import json
+import os
 import time
 
 
-# Getter functions getting information from a dictionary.
-def get_status_program_info(data):
-    return data['program']
+_HERE = os.path.abspath(os.path.dirname(__file__))
+SCHEMA_TRACKING = os.path.join(_HERE, 'schema_tracking.json')
+SCHEMA_IMAGE = os.path.join(_HERE, 'schema_image.json')
 
 
-def get_status_submission_info(data):
-    # Obtain Submission Information from a tracking_data
-    return data['submission']
+class TrackingMetadata(Mapping):
 
+    def __init__(self, metadata, schema=None):
+        self._metadata = metadata
+        self.schema = schema
+        # TODO -- validate
 
-def get_status_orders_info(data):
-    # Obtain a list of orders made in the submission
-    return data['orders']
+    @classmethod
+    def from_file(cls, filename, schema=None):
+        """ Create from a tracking metadata file
+        """
+        with open(filename) as src:
+            metadata = json.load(src)
+        return cls(metadata, schema=schema)
+
+    # Mapping object requirements
+    def __getitem__(self, key):
+        return self._metadata[key]
+
+    def __len__(self):
+        return len(self._metadata)
+
+    def __iter__(self):
+        return iter(self._metadata)
+
+    # Main sections -- make them available as attributes
+    @property
+    def program(self):
+        return self['program']
+
+    @property
+    def submission(self):
+        return self['submission']
+
+    @property
+    def tracking(self):
+        return self['tracking']
+
+    @property
+    def orders(self):
+        return self['orders']
+
+    @property
+    def metadata(self):
+        return self['metadata']
+
+    # repr, printing, etc info
+    def __repr__(self):
+        # TODO
+        return "CEDAR Tracking Metadata"
+
+    def __html_repr__(self):
+        # TODO
+        return "CEDAR Tracking Metadata"
 
 
 def get_order_statistics(orders_info):
