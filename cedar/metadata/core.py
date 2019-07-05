@@ -1,36 +1,7 @@
-
+""" Classes and other core tools for tracking & image metadata
+"""
 import datetime as dt
 import time
-
-import pprint
-
-# Input: JSON file
-
-
-###############################################################
-# Dummy functions which does not work right now
-def get_tracking_file(tracking_id):
-    # #TODO: make this function return a dictionary representing the tracking file
-    return {}
-
-
-# cedar status list
-def list_submissions(data):
-    # #TODO: how to get all the submissions?
-    submissions = []
-    submission_names = []
-    for submission in submissions:
-        submission_names.append(get_tracking_file(submission)['tracking']['name'])
-    return submission_names
-
-
-# cedar status update <tracking_id>
-def update_order(data, tracking_id):
-    # # TODO: update the status of a submission with given tracking_id
-    update_notice = f'Updated status of submission: {tracking_id}'
-    return [update_notice]
-
-###############################################################
 
 
 # Getter functions getting information from a dictionary.
@@ -47,8 +18,6 @@ def get_status_orders_info(data):
     # Obtain a list of orders made in the submission
     return data['orders']
 
-
-# Helper functions
 
 def get_order_statistics(orders_info):
     orders_stats = dict()
@@ -191,7 +160,7 @@ def info_order(orders_info, order_indice):
     return output
 
 
-# # cedar status info <tracking_id> --program --submission --orders --order <order_indices>
+# cedar status info <tracking_id> --program --submission --orders --order <order_indices>
 def info_status(tracking_data, show_program_info=True, show_submission_info=True, show_orders_info=True,
                 show_order_specific=True, show_order=True, order_indice=3):
     """
@@ -217,7 +186,7 @@ def info_status(tracking_data, show_program_info=True, show_submission_info=True
         Optional argument with default value of False. Specified by the '--order <order_indice>' flag in CLI.
         order_indice must be specified when this flag is raised.
         Shows specific information on a single order specified
-    order_indice : int, optional
+    order_indices : int, optional
         Optional argument with default value of -1. Specified by the '--program' flag in CLI.
         Used as an argument for show_order flag to specify which order to be displayed
 
@@ -227,24 +196,22 @@ def info_status(tracking_data, show_program_info=True, show_submission_info=True
         Outputs a list of strings. Each element in the list represents a line in CLI.
     """
     output = []
+
     if show_program_info:
         program_info = get_status_program_info(tracking_data)
         output += info_program(program_info)
+
     if show_submission_info:
         submission_info = get_status_submission_info(tracking_data)
         output += info_submission(submission_info)
+
     orders_info = get_status_orders_info(tracking_data)
     if show_orders_info or show_order_specific:
         output += info_orders(orders_info)
         if show_order_specific:
             output += info_orders_specific(orders_info)
+
     if show_order and order_indice != -1:
         output += info_order(orders_info, order_indice)
+
     return output
-
-
-# Output: List of strings that should be outputted
-
-
-if __name__ == '__main__':
-    pass
