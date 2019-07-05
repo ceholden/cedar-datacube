@@ -86,6 +86,15 @@ def example_tracking_data(example_tracking_filename):
         return json.load(json_file)
 
 
+def simulate_orders(**n_per_state):
+    def make_order(state):
+        return {'status': {'state': state}}
+    orders = []
+    for state, n in n_per_state.items():
+        orders.extend([make_order(state.upper()) for i in range(n)])
+    return orders
+
+
 @pytest.fixture
 def example_tracking_program_info():
     program_info = {
