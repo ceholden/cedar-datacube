@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>cedar.stores.gdrive &mdash; cedar 0+untagged.51.ge6b1f01 documentation</title>
+  <title>cedar.stores.gdrive &mdash; cedar 0+untagged.50.g07485fb documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0+untagged.51.ge6b1f01
+                0+untagged.50.g07485fb
               </div>
             
           
@@ -842,7 +842,8 @@
 
 
 <span class="c1"># TODO: memoize</span>
-<div class="viewcode-block" id="list_objects"><a class="viewcode-back" href="../../../cedar/cedar.stores.gdrive.html#cedar.stores.gdrive.list_objects">[docs]</a><span class="k">def</span> <span class="nf">list_objects</span><span class="p">(</span><span class="n">service</span><span class="p">,</span> <span class="n">parent_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<div class="viewcode-block" id="list_objects"><a class="viewcode-back" href="../../../cedar/cedar.stores.gdrive.html#cedar.stores.gdrive.list_objects">[docs]</a><span class="nd">@retry</span><span class="o">.</span><span class="n">Retry</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">list_objects</span><span class="p">(</span><span class="n">service</span><span class="p">,</span> <span class="n">parent_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                  <span class="n">appProperties</span><span class="o">=</span><span class="n">defaults</span><span class="o">.</span><span class="n">GDRIVE_USE_APPPROPERTIES</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; List files/folders on Google Drive</span>
 
