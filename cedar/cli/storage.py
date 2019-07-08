@@ -36,7 +36,7 @@ def download(ctx, tracking_name, dest, overwrite):
         # remove any extension listed
         dest = Path(tracking_name).stem
 
-    click.echo(f'Retrieving info about pre-ARD in "{tracking_name}"')
+    click.echo(f'Retrieving pre-ARD from tracking info: {tracking_name}')
     tracking_info = tracker.read(tracking_name)
 
     n_tasks = len(tracking_info['orders'])
