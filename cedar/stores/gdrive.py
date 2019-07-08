@@ -671,6 +671,7 @@ def exists(service, name, parent_id=None, directory=False, trashed=False,
 
 
 # TODO: memoize
+@retry.Retry()
 def list_objects(service, parent_id=None, name=None, q=None,
                  appProperties=defaults.GDRIVE_USE_APPPROPERTIES):
     """ List files/folders on Google Drive
