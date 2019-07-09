@@ -98,7 +98,7 @@ def find_preard(path, metadata_pattern='*.json'):
     """
     path = Path(path)
     if path.is_dir():
-        metadata = path.glob(metadata_pattern)
+        metadata = list(path.glob(metadata_pattern))
     else:
         metadata = [path]
 
