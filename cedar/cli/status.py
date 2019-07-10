@@ -41,12 +41,14 @@ def list(ctx):
 def read(ctx, tracking_name):
     """ Print job submission tracking info
     """
+    from cedar.metadata import TrackingMetadata
+
     logger = ctx.obj['logger']
     config = options.fetch_config(ctx)
     tracker = config.get_tracker()
 
-    info = tracker.read(tracking_name)
-    _print_tracking_info(info, logger.level)
+    info = TrackingMetadata(tracker.read(tracking_name))
+    click.echo(info)
 
 
 @group_status.command('update', short_help='Update and print job tracking info')
@@ -63,13 +65,4 @@ def update(ctx, tracking_name):
     tracker = config.get_tracker()
 
     info = tracker.update(tracking_name)
-    _print_tracking_info(info, logger.level)
-
-
-# TODO: this should be part of tracking info class
-def _print_tracking_info(info, level=logging.INFO):
-    # Display
-    info_str = json.dumps(info, indent=2)
-    if level <= logging.WARNING:
-        click.echo('Submission info: ')
-    click.echo(info_str)
+    click.echo('Complete')

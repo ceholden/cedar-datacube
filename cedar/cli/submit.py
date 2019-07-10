@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 
 @click.command('submit', short_help='Submit "pre-ARD" data processing tasks')
 @click.argument('image_collection', nargs=-1, type=str, required=True)
-@click.option('--index', '-i', nargs=2, type=int, multiple=True,
+@click.option('--index', '-i', nargs=2, type=(int, int), multiple=True,
   help='TileGrid (row, col) index(es) to submit')
 @click.option('--row', '-r', type=int, multiple=True,
   help='TileGrid row(s) to submit. Use in conjunction with `--col`')
