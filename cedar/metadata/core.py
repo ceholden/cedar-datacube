@@ -204,7 +204,7 @@ def summarize_orders(orders):
         order_states[summary['state']] += 1
     order_states = dict(order_states)
 
-    runtimes = np.array([
+    runtimes = np.asarray([
         summary['runtime'] for summary in summaries
         if summary['runtime'] is not None
     ])
@@ -215,8 +215,8 @@ def summarize_orders(orders):
         'runtimes': {
             'total': runtimes.sum(),
             'n': runtimes.size,
-            'mean': np.mean(runtimes),
-            'std': np.std(runtimes)
+            'mean': np.mean(runtimes) if runtimes.size else np.nan,
+            'std': np.std(runtimes) if runtimes.size else np.nan
         }
     }
 
