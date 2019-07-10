@@ -75,7 +75,7 @@ def submit(ctx, image_collection, index, row, col,
     ee = load_ee(True)
 
     msg = [
-        f'Tiles: {", ".join([f"h{c:04d}c{r:04d}" for r, c in index])}',
+        f'Tiles: {", ".join([f"h{c:04d}v{r:04d}" for r, c in index])}',
         f'Collections: {", ".join(image_collection)}',
         f'Time period: {period_start.isoformat()} - {period_end.isoformat()}',
         f'At frequency: {period_freq}'

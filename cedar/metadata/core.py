@@ -109,17 +109,17 @@ def repr_tracking_tracking(info):
 def repr_tracking_orders(info, show_states=True, show_runtimes=True):
     summary = summarize_orders(info)
 
-    lines = [
-        f'* Count: {len(info)}'
-    ]
+    lines = [f'* Count: {len(info)}']
     if show_states:
         lines_ = [f'- {state}: {n}' for state, n in summary['states'].items()]
         lines.extend(wrapping_indent(lines_, '* States:').splitlines())
+
     if show_runtimes:
         s_mean, s_std = [_format_runtime(summary['runtimes'][k])
                          for k in ('mean', 'std', )]
         line = f'* Runtime: {s_mean} +/- {s_std} minutes'
         lines.append(line)
+
     return wrapping_indent(lines, 'Orders:')
 
 
@@ -230,4 +230,7 @@ def wrapping_indent(lines, heading='', length=4):
 
 
 def _format_runtime(time_ms):
-    return '{0:02.2f}'.format(time_ms / 60 / 1000)
+    if time_ms:
+        return '{0:02.2f}'.format(time_ms / 60. / 1000.)
+    else:
+        return 'nan'

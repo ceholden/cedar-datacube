@@ -37,18 +37,30 @@ def list(ctx):
 
 @group_status.command('read', short_help='Read and print job tracking info')
 @options.arg_tracking_name
+@click.option('--order', 'order_id', type=int, multiple=True,
+              help='Display verbose info about a specific order')
+@click.option('--all', 'all_orders', is_flag=True,
+              help='Display verbose info about all orders')
 @click.pass_context
-def read(ctx, tracking_name):
+def read(ctx, tracking_name, order_id, all_orders):
     """ Print job submission tracking info
     """
-    from cedar.metadata import TrackingMetadata
+    from cedar.metadata.core import TrackingMetadata, repr_tracking
 
     logger = ctx.obj['logger']
     config = options.fetch_config(ctx)
     tracker = config.get_tracker()
 
     info = TrackingMetadata(tracker.read(tracking_name))
-    click.echo(info)
+
+    if all_orders:
+        show_orders = True
+    elif order_id:
+        show_orders = order_id
+    else:
+        show_orders = None
+
+    click.echo(repr_tracking(info, show_orders=show_orders))
 
 
 @group_status.command('update', short_help='Update and print job tracking info')
