@@ -3,6 +3,7 @@
 from collections import defaultdict
 import json
 import logging
+from pathlib import Path
 
 import click
 
@@ -63,12 +64,19 @@ def read(ctx, tracking_name, order_id, all_orders):
     click.echo(repr_tracking(info, show_orders=show_orders))
 
 
-@group_status.command('update', short_help='Update and print job tracking info')
-@options.arg_tracking_name
+@group_status.command('update', short_help='Update tracking info')
+@click.argument('tracking_name', nargs=-1, required=False, type=str)
+@click.option('--all', 'all_', is_flag=True, help='Update all tracked orders')
+@click.option('--dest', type=click.Path(file_okay=False, resolve_path=True),
+              help='Save a local copy of tracking information to this folder')
 @click.pass_context
-def update(ctx, tracking_name):
+def update(ctx, tracking_name, all_, dest):
     """ Update job submission tracking info
     """
+    if all_ and tracking_name:
+        raise click.BadParameter('Cannot specify tracking names AND `--all`',
+                                 param_hint='--all')
+
     from cedar.utils import load_ee
     ee = load_ee(True)
 
@@ -76,5 +84,17 @@ def update(ctx, tracking_name):
     config = options.fetch_config(ctx)
     tracker = config.get_tracker()
 
-    info = tracker.update(tracking_name)
+    if all_:
+        tracking_name = tracker.list()
+
+    dest = Path(dest) if dest else None
+    dest.mkdir(exist_ok=True, parents=True)
+
+    for name in tracking_name:
+        info = tracker.update(name)
+        if dest:
+            dest_ = dest.joinpath(name)
+            with open(str(dest_), 'w') as dst:
+                json.dump(info, dst, indent=2)
+
     click.echo('Complete')
