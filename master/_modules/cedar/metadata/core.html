@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>cedar.metadata.core &mdash; cedar 0+untagged.51.ge96ab87 documentation</title>
+  <title>cedar.metadata.core &mdash; cedar 0+untagged.51.gf86bc2f documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0+untagged.51.ge96ab87
+                0+untagged.51.gf86bc2f
               </div>
             
           
@@ -350,6 +350,7 @@
         <span class="n">f</span><span class="s1">&#39;- ID: </span><span class="si">{summary[&quot;id&quot;]}</span><span class="s1">&#39;</span><span class="p">,</span>
         <span class="n">f</span><span class="s1">&#39;- Task state: </span><span class="si">{summary[&quot;state&quot;]}</span><span class="s1">&#39;</span><span class="p">,</span>
         <span class="n">f</span><span class="s1">&#39;- Runtime: </span><span class="si">{s_runtime}</span><span class="s1"> minutes&#39;</span><span class="p">,</span>
+        <span class="n">f</span><span class="s1">&#39;- Image pieces: </span><span class="si">{summary[&quot;n_images&quot;]}</span><span class="s1">&#39;</span><span class="p">,</span>
         <span class="n">f</span><span class="s1">&#39;- Output URL: </span><span class="si">{summary[&quot;output_url&quot;]}</span><span class="s1">&#39;</span><span class="p">,</span>
     <span class="p">]</span>
     <span class="k">return</span> <span class="n">_heading_indent</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">header</span><span class="p">)</span></div>
@@ -401,6 +402,7 @@
     <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;runtime&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">calculate_order_runtime</span><span class="p">(</span>
         <span class="n">order</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">][</span><span class="s1">&#39;start_timestamp_ms&#39;</span><span class="p">],</span>
         <span class="n">order</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">][</span><span class="s1">&#39;update_timestamp_ms&#39;</span><span class="p">])</span>
+    <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;n_images&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">order</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">][</span><span class="s1">&#39;output_url&#39;</span><span class="p">])</span>
     <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;output_url&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">order</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">][</span><span class="s1">&#39;output_url&#39;</span><span class="p">]))</span>
 
     <span class="k">return</span> <span class="n">summary</span>
