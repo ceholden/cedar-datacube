@@ -15,7 +15,7 @@ logger = logging.getLogger(__name__)
 
 @click.command('submit', short_help='Submit "pre-ARD" data processing tasks')
 @click.argument('image_collection', nargs=-1, type=str, required=True)
-@click.option('--index', '-i', nargs=2, type=int, multiple=True,
+@click.option('--index', '-i', nargs=2, type=(int, int), multiple=True,
   help='TileGrid (row, col) index(es) to submit')
 @click.option('--row', '-r', type=int, multiple=True,
   help='TileGrid row(s) to submit. Use in conjunction with `--col`')
@@ -75,7 +75,7 @@ def submit(ctx, image_collection, index, row, col,
     ee = load_ee(True)
 
     msg = [
-        f'Tiles: {", ".join([f"h{c:04d}c{r:04d}" for r, c in index])}',
+        f'Tiles: {", ".join([f"h{c:04d}v{r:04d}" for r, c in index])}',
         f'Collections: {", ".join(image_collection)}',
         f'Time period: {period_start.isoformat()} - {period_end.isoformat()}',
         f'At frequency: {period_freq}'

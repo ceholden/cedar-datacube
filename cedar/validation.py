@@ -1,34 +1,22 @@
-""" Parse and validate a configuration file
+""" JSON Schema validation helpers
 """
 import json
 import os
 from pathlib import Path
 
-from jsonschema import Draft7Validator, validators
+from jsonschema import Draft7Validator, RefResolver, validators
 
 
-DEFAULT_SCHEMA_FILENAME = 'schema.json'
-DEFAULT_SCHEMA_FILE = os.path.join(os.path.dirname(__file__),
-                                   DEFAULT_SCHEMA_FILENAME)
-
-
-def validate_with_defaults(obj, schema=None):
+def validate_with_defaults(obj, schema, resolve=None):
     """ Validate a configuration file and fill in defaults (modifies ``obj``)
     """
-    if schema is None:
-        schema = get_default_schema()
-    validator = DefaultValidatingDraft7Validator(schema)
+    if resolve:
+        resolver = RefResolver('file://' + str(resolve) + '/', schema)
+    else:
+        resolver = None
+
+    validator = DefaultValidatingDraft7Validator(schema, resolver=resolver)
     validator.validate(obj)
-
-
-_DEFAULT_SCHEMA = None
-def get_default_schema():
-    # skip reloading from disk after first time
-    global _DEFAULT_SCHEMA
-    if _DEFAULT_SCHEMA is None:
-        with open(DEFAULT_SCHEMA_FILE) as f:
-            _DEFAULT_SCHEMA = json.load(f)
-    return _DEFAULT_SCHEMA.copy()
 
 
 # Adapted from python-jsonschema FAQ

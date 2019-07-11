@@ -99,10 +99,11 @@ class Tracker(object):
         logger.debug(f'Creating {len(periods)} ARD slice(s) for date range')
 
         # Create tracking name
+        s_tile_indices = [f'h{h:03d}v{v:03d}' for h, v in tile_indices]
         namespace = {
             'collections': collections,
             'tiles': tiles,
-            'tile_indices': tile_indices,
+            'tile_indices': '_'.join(s_tile_indices),
             'period_start': period_start.isoformat(),
             'period_end': period_end.isoformat(),
             'period_freq': period_freq,

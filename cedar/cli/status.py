@@ -3,6 +3,7 @@
 from collections import defaultdict
 import json
 import logging
+from pathlib import Path
 
 import click
 
@@ -35,26 +36,47 @@ def list(ctx):
         click.echo(tracked_info)
 
 
-@group_status.command('read', short_help='Read and print job tracking info')
+@group_status.command('print', short_help='Print job tracking info')
 @options.arg_tracking_name
+@click.option('--order', 'order_id', type=int, multiple=True,
+              help='Display verbose info about a specific order')
+@click.option('--all', 'all_orders', is_flag=True,
+              help='Display verbose info about all orders')
 @click.pass_context
-def read(ctx, tracking_name):
+def print(ctx, tracking_name, order_id, all_orders):
     """ Print job submission tracking info
     """
+    from cedar.metadata.core import TrackingMetadata, repr_tracking
+
     logger = ctx.obj['logger']
     config = options.fetch_config(ctx)
     tracker = config.get_tracker()
 
-    info = tracker.read(tracking_name)
-    _print_tracking_info(info, logger.level)
+    info = TrackingMetadata(tracker.read(tracking_name))
+
+    if all_orders:
+        show_orders = True
+    elif order_id:
+        show_orders = order_id
+    else:
+        show_orders = None
+
+    click.echo(repr_tracking(info, show_orders=show_orders))
 
 
-@group_status.command('update', short_help='Update and print job tracking info')
-@options.arg_tracking_name
+@group_status.command('update', short_help='Update tracking info')
+@click.argument('tracking_name', nargs=-1, required=False, type=str)
+@click.option('--all', 'all_', is_flag=True, help='Update all tracked orders')
+@click.option('--dest', type=click.Path(file_okay=False, resolve_path=True),
+              help='Save a local copy of tracking information to this folder')
 @click.pass_context
-def update(ctx, tracking_name):
+def update(ctx, tracking_name, all_, dest):
     """ Update job submission tracking info
     """
+    if all_ and tracking_name:
+        raise click.BadParameter('Cannot specify tracking names AND `--all`',
+                                 param_hint='--all')
+
     from cedar.utils import load_ee
     ee = load_ee(True)
 
@@ -62,14 +84,22 @@ def update(ctx, tracking_name):
     config = options.fetch_config(ctx)
     tracker = config.get_tracker()
 
-    info = tracker.update(tracking_name)
-    _print_tracking_info(info, logger.level)
+    if all_:
+        tracking_name = tracker.list()
 
+    dest = Path(dest) if dest else None
 
-# TODO: this should be part of tracking info class
-def _print_tracking_info(info, level=logging.INFO):
-    # Display
-    info_str = json.dumps(info, indent=2)
-    if level <= logging.WARNING:
-        click.echo('Submission info: ')
-    click.echo(info_str)
+    for name in tracking_name:
+        if logger.level <= logging.WARNING:
+            click.echo(f'Updating "{name}"')
+
+        info = tracker.update(name)
+
+        if dest:
+            dest.mkdir(exist_ok=True, parents=True)
+            dest_ = dest.joinpath(name)
+            with open(str(dest_), 'w') as dst:
+                json.dump(info, dst, indent=2)
+
+    if logger.level <= logging.WARNING:
+        click.echo('Complete')
