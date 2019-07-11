@@ -25,7 +25,7 @@ class Config(Mapping):
     def __init__(self, config, schema=None):
         self._config = config.copy()
         self.schema = (schema or self.SCHEMA).copy()
-        parse.validate_with_defaults(self._config, schema=self.schema)
+        self.validate()
 
     # Mapping methods
     def __getitem__(self, key):
@@ -87,7 +87,7 @@ class Config(Mapping):
         ValidationError
             Raised if there's an issue
         """
-        parse.validate_with_defaults(self, schema=self.schema)
+        parse.validate_with_defaults(self._config, schema=self.schema)
 
     def get_tracker(self):
         """ Get the Tracker described by this store
