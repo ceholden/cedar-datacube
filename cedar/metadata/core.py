@@ -3,14 +3,16 @@
 from collections import Mapping, defaultdict
 import datetime as dt
 import json
-import os
+from pathlib import Path
 
 import numpy as np
 
+from .. import validation
 
-_HERE = os.path.abspath(os.path.dirname(__file__))
-SCHEMA_TRACKING = os.path.join(_HERE, 'schema_tracking.json')
-SCHEMA_IMAGE = os.path.join(_HERE, 'schema_image.json')
+
+_HERE = Path(__file__).resolve().parent
+SCHEMA_TRACKING = _HERE.joinpath('schema_tracking.json')
+SCHEMA_IMAGE = _HERE.joinpath('schema_image.json')
 
 
 class TrackingMetadata(Mapping):
@@ -62,11 +64,12 @@ class TrackingMetadata(Mapping):
 
     # schema
     def validate(self):
-        pass
+        validation.validate_with_defaults(self._metadata, self.schema,
+                                          resolve=SCHEMA_TRACKING.parent)
 
     @staticmethod
     def _load_schema(filename=SCHEMA_TRACKING):
-        with open(filename) as src:
+        with open(str(filename)) as src:
             return json.load(src)
 
     # repr, printing, etc info

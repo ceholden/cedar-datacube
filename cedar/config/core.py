@@ -2,12 +2,13 @@
 """
 from collections import Mapping
 import logging
+import json
 import os
 from pathlib import Path
 import yaml
 
-from .. import defaults
-from . import build, parse
+from .. import defaults, validation
+from . import build
 
 logger = logging.getLogger(__name__)
 
@@ -15,16 +16,17 @@ logger = logging.getLogger(__name__)
 TEMPLATE_FILENAME = 'config.yaml.tmpl'
 TEMPLATE_FILE = Path(__file__).parent.joinpath(TEMPLATE_FILENAME)
 
+SCHEMA_FILENAME = 'schema.json'
+SCHEMA_FILE = os.path.join(os.path.dirname(__file__), SCHEMA_FILENAME)
+
 
 class Config(Mapping):
     """ CEDAR configuration file
     """
 
-    SCHEMA = parse.get_default_schema()
-
     def __init__(self, config, schema=None):
         self._config = config.copy()
-        self.schema = (schema or self.SCHEMA).copy()
+        self.schema = schema or self._load_schema()
         self.validate()
 
     # Mapping methods
@@ -79,6 +81,11 @@ class Config(Mapping):
                                   **kwds)
 
     # Getter-s for various objects this config describes
+    @staticmethod
+    def _load_schema(filename=SCHEMA_FILE):
+        with open(filename) as src:
+            return json.load(src)
+
     def validate(self):
         """ Validate the configuration against schema
 
@@ -87,7 +94,7 @@ class Config(Mapping):
         ValidationError
             Raised if there's an issue
         """
-        parse.validate_with_defaults(self._config, schema=self.schema)
+        validation.validate_with_defaults(self._config, schema=self.schema)
 
     def get_tracker(self):
         """ Get the Tracker described by this store
