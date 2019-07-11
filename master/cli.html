@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Command Line Interface Programs &mdash; cedar 0+untagged.51.g5e0a2ce documentation</title>
+  <title>Command Line Interface Programs &mdash; cedar 0+untagged.51.ge96ab87 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0+untagged.51.g5e0a2ce
+                0+untagged.51.ge96ab87
               </div>
             
           
@@ -124,7 +124,7 @@
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#cedar-status"><code class="docutils literal notranslate"><span class="pre">cedar</span> <span class="pre">status</span></code></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#cedar-status-list"><code class="docutils literal notranslate"><span class="pre">cedar</span> <span class="pre">status</span> <span class="pre">list</span></code></a></li>
-<li class="toctree-l3"><a class="reference internal" href="#cedar-status-read"><code class="docutils literal notranslate"><span class="pre">cedar</span> <span class="pre">status</span> <span class="pre">read</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cedar-status-print"><code class="docutils literal notranslate"><span class="pre">cedar</span> <span class="pre">status</span> <span class="pre">print</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#cedar-status-update"><code class="docutils literal notranslate"><span class="pre">cedar</span> <span class="pre">status</span> <span class="pre">update</span></code></a></li>
 </ul>
 </li>
@@ -331,16 +331,18 @@ Options:
   Submit &quot;pre-ARD&quot; processing orders and create tracking metadata
 
 Options:
-  -i, --index INTEGER...  TileGrid (row, col) index(es) to submit
-  -r, --row INTEGER       TileGrid row(s) to submit. Use in conjunction with
-                          `--col`
-  -c, --col INTEGER       TileGrid col(s) to submit. Use in conjunction with
-                          `--row`
-  --period_start TEXT     Starting time period for submission
-  --period_end TEXT       Ending time period for submission
-  --period_freq TEXT      Split start/end time into periods of this frequency
-  --date_format TEXT      Format string for dates  [default: %Y-%m-%d]
-  -h, --help              Show this message and exit.
+  -i, --index &lt;INTEGER INTEGER&gt;...
+                                  TileGrid (row, col) index(es) to submit
+  -r, --row INTEGER               TileGrid row(s) to submit. Use in
+                                  conjunction with `--col`
+  -c, --col INTEGER               TileGrid col(s) to submit. Use in
+                                  conjunction with `--row`
+  --period_start TEXT             Starting time period for submission
+  --period_end TEXT               Ending time period for submission
+  --period_freq TEXT              Split start/end time into periods of this
+                                  frequency
+  --date_format TEXT              Format string for dates  [default: %Y-%m-%d]
+  -h, --help                      Show this message and exit.
 </pre></div>
 </div>
 </div>
@@ -380,8 +382,8 @@ Options:
 
 Commands:
   list    List tracked metadata
-  read    Read and print job tracking info
-  update  Update and print job tracking info
+  print   Print job tracking info
+  update  Update tracking info
 </pre></div>
 </div>
 <div class="section" id="cedar-status-list">
@@ -396,27 +398,31 @@ Options:
 </pre></div>
 </div>
 </div>
-<div class="section" id="cedar-status-read">
-<span id="cli-cedar-status-read"></span><h3><code class="docutils literal notranslate"><span class="pre">cedar</span> <span class="pre">status</span> <span class="pre">read</span></code><a class="headerlink" href="#cedar-status-read" title="Permalink to this headline">¶</a></h3>
-<p>Read “pre-ARD” order tracking metadata</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Usage: cedar status read [OPTIONS] TRACKING_NAME
+<div class="section" id="cedar-status-print">
+<span id="cli-cedar-status-read"></span><h3><code class="docutils literal notranslate"><span class="pre">cedar</span> <span class="pre">status</span> <span class="pre">print</span></code><a class="headerlink" href="#cedar-status-print" title="Permalink to this headline">¶</a></h3>
+<p>Print “pre-ARD” order tracking metadata</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Usage: cedar status print [OPTIONS] TRACKING_NAME
 
   Print job submission tracking info
 
 Options:
-  -h, --help  Show this message and exit.
+  --order INTEGER  Display verbose info about a specific order
+  --all            Display verbose info about all orders
+  -h, --help       Show this message and exit.
 </pre></div>
 </div>
 </div>
 <div class="section" id="cedar-status-update">
 <span id="cli-cedar-status-update"></span><h3><code class="docutils literal notranslate"><span class="pre">cedar</span> <span class="pre">status</span> <span class="pre">update</span></code><a class="headerlink" href="#cedar-status-update" title="Permalink to this headline">¶</a></h3>
 <p>Read “pre-ARD” order tracking metadata and update with GEE task status</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Usage: cedar status update [OPTIONS] TRACKING_NAME
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Usage: cedar status update [OPTIONS] [TRACKING_NAME]...
 
   Update job submission tracking info
 
 Options:
-  -h, --help  Show this message and exit.
+  --all             Update all tracked orders
+  --dest DIRECTORY  Save a local copy of tracking information to this folder
+  -h, --help        Show this message and exit.
 </pre></div>
 </div>
 </div>

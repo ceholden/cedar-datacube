@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Pre-ARD to ARD Conversion &mdash; cedar 0+untagged.51.g5e0a2ce documentation</title>
+  <title>Pre-ARD to ARD Conversion &mdash; cedar 0+untagged.51.ge96ab87 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0+untagged.51.g5e0a2ce
+                0+untagged.51.ge96ab87
               </div>
             
           
@@ -99,7 +99,10 @@
 <li class="toctree-l1"><a class="reference internal" href="submissions.html">“Pre-ARD” Order Submission</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tracking.html">Pre-ARD Order Tracking</a></li>
 <li class="toctree-l1"><a class="reference internal" href="download.html">Download</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Pre-ARD to ARD Conversion</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Pre-ARD to ARD Conversion</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#tips">Tips</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="cleaning.html">Cleaning “pre-ARD” from Storage</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Help and Reference</span></p>
@@ -176,7 +179,17 @@
             
   <div class="section" id="pre-ard-to-ard-conversion">
 <span id="convert"></span><h1>Pre-ARD to ARD Conversion<a class="headerlink" href="#pre-ard-to-ard-conversion" title="Permalink to this headline">¶</a></h1>
-<p>TODO</p>
+<div class="section" id="tips">
+<h2>Tips<a class="headerlink" href="#tips" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>When specifying the ARD destination directory (either in the configuration
+file or by overriding using <code class="docutils literal notranslate"><span class="pre">cedar</span> <span class="pre">convert</span> <span class="pre">--dest</span> <span class="pre">DEST</span></code>), you may wish
+to use an environment variable for the root destination directory. This
+variable will be expanded before determining the destination path. Using
+environment variables is common for batch processing because it allows
+you to manipulate variables or other data without modifying the config file.</p></li>
+</ul>
+</div>
 </div>
 
 

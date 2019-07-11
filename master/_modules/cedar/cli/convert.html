@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>cedar.cli.convert &mdash; cedar 0+untagged.51.g5e0a2ce documentation</title>
+  <title>cedar.cli.convert &mdash; cedar 0+untagged.51.ge96ab87 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0+untagged.51.g5e0a2ce
+                0+untagged.51.ge96ab87
               </div>
             
           
@@ -172,6 +172,7 @@
 <span></span><span class="sd">&quot;&quot;&quot; CLI for converting &quot;pre-ARD&quot; to ARD data cubes</span>
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">os.path</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="k">import</span> <span class="n">Path</span>
 
 <span class="kn">import</span> <span class="nn">click</span>
@@ -218,6 +219,7 @@
 
     <span class="c1"># Destination directory from config file, or overriden from CLI</span>
     <span class="n">dest_dir_tmpl</span> <span class="o">=</span> <span class="n">dest</span> <span class="ow">or</span> <span class="n">ard_cfg</span><span class="p">[</span><span class="s1">&#39;destination&#39;</span><span class="p">]</span>
+    <span class="n">dest_dir_tmpl</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expandvars</span><span class="p">(</span><span class="n">dest_dir_tmpl</span><span class="p">)</span>
 
     <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">meta</span><span class="p">,</span> <span class="n">images</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">preard_files</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
         <span class="c1"># Read metadata first so we know what is in order</span>

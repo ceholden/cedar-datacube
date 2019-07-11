@@ -202,7 +202,7 @@
 <p id="t15" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t16" class="stm mis"><span class="op">@</span><span class="nam">click</span><span class="op">.</span><span class="nam">command</span><span class="op">(</span><span class="str">'submit'</span><span class="op">,</span> <span class="nam">short_help</span><span class="op">=</span><span class="str">'Submit "pre-ARD" data processing tasks'</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t17" class="stm mis"><span class="op">@</span><span class="nam">click</span><span class="op">.</span><span class="nam">argument</span><span class="op">(</span><span class="str">'image_collection'</span><span class="op">,</span> <span class="nam">nargs</span><span class="op">=</span><span class="op">-</span><span class="num">1</span><span class="op">,</span> <span class="nam">type</span><span class="op">=</span><span class="nam">str</span><span class="op">,</span> <span class="nam">required</span><span class="op">=</span><span class="key">True</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
-<p id="t18" class="stm mis"><span class="op">@</span><span class="nam">click</span><span class="op">.</span><span class="nam">option</span><span class="op">(</span><span class="str">'--index'</span><span class="op">,</span> <span class="str">'-i'</span><span class="op">,</span> <span class="nam">nargs</span><span class="op">=</span><span class="num">2</span><span class="op">,</span> <span class="nam">type</span><span class="op">=</span><span class="nam">int</span><span class="op">,</span> <span class="nam">multiple</span><span class="op">=</span><span class="key">True</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
+<p id="t18" class="stm mis"><span class="op">@</span><span class="nam">click</span><span class="op">.</span><span class="nam">option</span><span class="op">(</span><span class="str">'--index'</span><span class="op">,</span> <span class="str">'-i'</span><span class="op">,</span> <span class="nam">nargs</span><span class="op">=</span><span class="num">2</span><span class="op">,</span> <span class="nam">type</span><span class="op">=</span><span class="op">(</span><span class="nam">int</span><span class="op">,</span> <span class="nam">int</span><span class="op">)</span><span class="op">,</span> <span class="nam">multiple</span><span class="op">=</span><span class="key">True</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
 <p id="t19" class="pln">  <span class="nam">help</span><span class="op">=</span><span class="str">'TileGrid (row, col) index(es) to submit'</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t20" class="stm mis"><span class="op">@</span><span class="nam">click</span><span class="op">.</span><span class="nam">option</span><span class="op">(</span><span class="str">'--row'</span><span class="op">,</span> <span class="str">'-r'</span><span class="op">,</span> <span class="nam">type</span><span class="op">=</span><span class="nam">int</span><span class="op">,</span> <span class="nam">multiple</span><span class="op">=</span><span class="key">True</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
 <p id="t21" class="pln">  <span class="nam">help</span><span class="op">=</span><span class="str">'TileGrid row(s) to submit. Use in conjunction with `--col`'</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
@@ -262,7 +262,7 @@
 <p id="t75" class="stm mis">    <span class="nam">ee</span> <span class="op">=</span> <span class="nam">load_ee</span><span class="op">(</span><span class="key">True</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t76" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t77" class="stm mis">    <span class="nam">msg</span> <span class="op">=</span> <span class="op">[</span><span class="strut">&nbsp;</span></p>
-<p id="t78" class="pln">        <span class="str">f'Tiles: {", ".join([f"h{c:04d}c{r:04d}" for r, c in index])}'</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
+<p id="t78" class="pln">        <span class="str">f'Tiles: {", ".join([f"h{c:04d}v{r:04d}" for r, c in index])}'</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
 <p id="t79" class="pln">        <span class="str">f'Collections: {", ".join(image_collection)}'</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
 <p id="t80" class="pln">        <span class="str">f'Time period: {period_start.isoformat()} - {period_end.isoformat()}'</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
 <p id="t81" class="pln">        <span class="str">f'At frequency: {period_freq}'</span><span class="strut">&nbsp;</span></p>
@@ -310,7 +310,7 @@
     <div class="content">
         <p>
             <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.io">coverage.py v4.5.3</a>,
-            created at 2019-07-09 17:06
+            created at 2019-07-11 20:44
         </p>
     </div>
 </div>

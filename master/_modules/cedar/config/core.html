@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>cedar.config.core &mdash; cedar 0+untagged.51.g5e0a2ce documentation</title>
+  <title>cedar.config.core &mdash; cedar 0+untagged.51.ge96ab87 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0+untagged.51.g5e0a2ce
+                0+untagged.51.ge96ab87
               </div>
             
           
@@ -173,12 +173,13 @@
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">Mapping</span>
 <span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="k">import</span> <span class="n">Path</span>
 <span class="kn">import</span> <span class="nn">yaml</span>
 
-<span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">defaults</span>
-<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">build</span><span class="p">,</span> <span class="n">parse</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">defaults</span><span class="p">,</span> <span class="n">validation</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">build</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
@@ -186,17 +187,18 @@
 <span class="n">TEMPLATE_FILENAME</span> <span class="o">=</span> <span class="s1">&#39;config.yaml.tmpl&#39;</span>
 <span class="n">TEMPLATE_FILE</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="n">TEMPLATE_FILENAME</span><span class="p">)</span>
 
+<span class="n">SCHEMA_FILENAME</span> <span class="o">=</span> <span class="s1">&#39;schema.json&#39;</span>
+<span class="n">SCHEMA_FILE</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">),</span> <span class="n">SCHEMA_FILENAME</span><span class="p">)</span>
+
 
 <div class="viewcode-block" id="Config"><a class="viewcode-back" href="../../../cedar/cedar.config.core.html#cedar.config.core.Config">[docs]</a><span class="k">class</span> <span class="nc">Config</span><span class="p">(</span><span class="n">Mapping</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; CEDAR configuration file</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">SCHEMA</span> <span class="o">=</span> <span class="n">parse</span><span class="o">.</span><span class="n">get_default_schema</span><span class="p">()</span>
-
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_config</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">schema</span> <span class="o">=</span> <span class="p">(</span><span class="n">schema</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">SCHEMA</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-        <span class="n">parse</span><span class="o">.</span><span class="n">validate_with_defaults</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">schema</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">schema</span> <span class="o">=</span> <span class="n">schema</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_schema</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span>
 
     <span class="c1"># Mapping methods</span>
     <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
@@ -250,6 +252,11 @@
                                   <span class="o">**</span><span class="n">kwds</span><span class="p">)</span></div>
 
     <span class="c1"># Getter-s for various objects this config describes</span>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_load_schema</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">SCHEMA_FILE</span><span class="p">):</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="k">as</span> <span class="n">src</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">src</span><span class="p">)</span>
+
 <div class="viewcode-block" id="Config.validate"><a class="viewcode-back" href="../../../cedar/cedar.config.core.html#cedar.config.core.Config.validate">[docs]</a>    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Validate the configuration against schema</span>
 
@@ -258,7 +265,7 @@
 <span class="sd">        ValidationError</span>
 <span class="sd">            Raised if there&#39;s an issue</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">parse</span><span class="o">.</span><span class="n">validate_with_defaults</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">schema</span><span class="p">)</span></div>
+        <span class="n">validation</span><span class="o">.</span><span class="n">validate_with_defaults</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_config</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">schema</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Config.get_tracker"><a class="viewcode-back" href="../../../cedar/cedar.config.core.html#cedar.config.core.Config.get_tracker">[docs]</a>    <span class="k">def</span> <span class="nf">get_tracker</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Get the Tracker described by this store</span>

@@ -8,6 +8,7 @@ Subpackages
 
    cedar.cli
    cedar.config
+   cedar.metadata
    cedar.sensors
    cedar.stores
    cedar.tests
@@ -23,6 +24,7 @@ Submodules
    cedar.preard
    cedar.tracking
    cedar.utils
+   cedar.validation
 
 Module contents
 ---------------

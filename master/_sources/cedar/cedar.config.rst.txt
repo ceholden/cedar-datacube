@@ -8,7 +8,6 @@ Submodules
 
    cedar.config.build
    cedar.config.core
-   cedar.config.parse
 
 Module contents
 ---------------
