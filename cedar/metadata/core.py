@@ -14,11 +14,12 @@ SCHEMA_IMAGE = os.path.join(_HERE, 'schema_image.json')
 
 
 class TrackingMetadata(Mapping):
-
+    """ CEDAR order tracking metadata
+    """
     def __init__(self, metadata, schema=None):
         self._metadata = metadata
-        self.schema = schema
-        # TODO -- validate
+        self.schema = schema or self._load_schema()
+        self.validate()
 
     @classmethod
     def from_file(cls, filename, schema=None):
@@ -59,11 +60,20 @@ class TrackingMetadata(Mapping):
     def metadata(self):
         return self['metadata']
 
+    # schema
+    def validate(self):
+        pass
+
+    @staticmethod
+    def _load_schema(filename=SCHEMA_TRACKING):
+        with open(filename) as src:
+            return json.load(src)
+
     # repr, printing, etc info
     def __repr__(self):
         return repr_tracking(self)
 
-    def __html_repr__(self):
+    def _repr_html_(self):
         # TODO
         return "CEDAR Tracking Metadata"
 
