@@ -78,75 +78,6 @@ class TrackingMetadata(Mapping):
         return "CEDAR Tracking Metadata"
 
 
-def repr_metadata_program(info):
-    lines = [
-        f'* {info["name"]}={info["version"]}',
-        f'* earthengine-api={info["ee"]}'
-    ]
-    return wrapping_indent(lines, 'Program Info:')
-
-
-def repr_tracking_submission(info):
-    tile_indices = [f'({i[0]}, {i[1]})' for i in info['tile_indices']]
-
-    period_info = [
-        f'* Start: {info["period_start"]}',
-        f'* End:   {info["period_end"]}',
-        f'* Freq:  {info["period_freq"]}'
-    ]
-    period_info_str = wrapping_indent(period_info, '* Period: ', 8)
-
-    lines = [
-        f'* Submitted on {info["submitted"]}',
-        f'* Tile Grid: "{info["tile_grid"]["name"]}"',
-        f'* Tile Indices : {", ".join(tile_indices)}',
-        period_info_str
-    ]
-    return wrapping_indent(lines, 'Submission Info:')
-
-
-def repr_tracking_tracking(info):
-    lines = [
-        f'* Name: {info["name"]}',
-        f'* Prefix: {info["prefix"]}',
-        f'* Collections: {", ".join(info["collections"])}',
-        f'* Image template: {info["name_template"]}',
-        f'* Image prefix: {info["prefix_template"]}'
-    ]
-    return wrapping_indent(lines, 'Tracking Info:')
-
-
-def repr_tracking_orders(info, show_states=True, show_runtimes=True):
-    summary = summarize_orders(info)
-
-    lines = [f'* Count: {len(info)}']
-    if show_states:
-        lines_ = [f'- {state}: {n}' for state, n in summary['states'].items()]
-        lines.extend(wrapping_indent(lines_, '* States:').splitlines())
-
-    if show_runtimes:
-        s_mean, s_std = [_format_runtime(summary['runtimes'][k])
-                         for k in ('mean', 'std', )]
-        line = f'* Runtime: {s_mean} +/- {s_std} minutes'
-        lines.append(line)
-
-    return wrapping_indent(lines, 'Orders:')
-
-
-def repr_metadata_order(info, header='Order:'):
-    summary = summarize_order(info)
-    s_runtime = _format_runtime(summary['runtime'])
-    lines = [
-        f'- Name: {summary["name"]}',
-        f'- Prefix: {summary["prefix"]}',
-        f'- ID: {summary["id"]}',
-        f'- Task state: {summary["state"]}',
-        f'- Runtime: {s_runtime} minutes',
-        f'- Output URL: {summary["output_url"]}',
-    ]
-    return wrapping_indent(lines, header)
-
-
 def repr_tracking(tracking_data,
                   show_program=True, show_submission=True, show_tracking=True,
                   show_states=True, show_runtimes=True,
@@ -168,7 +99,7 @@ def repr_tracking(tracking_data,
                                       show_runtimes=show_runtimes))
 
     if show_orders is not None:
-        # Handle 'True', which is shortcut to showing all order details 
+        # Handle 'True', which is shortcut to showing all order details
         if show_orders is True:
             show_orders = range(len(tracking_data['orders']))
 
@@ -181,8 +112,76 @@ def repr_tracking(tracking_data,
     return '\n'.join(lines)
 
 
-# =============================================================================
-def calculate_order_runtime(start_time, update_time, nan=None):
+def repr_metadata_program(info):
+    lines = [
+        f'* {info["name"]}={info["version"]}',
+        f'* earthengine-api={info["ee"]}'
+    ]
+    return _heading_indent(lines, 'Program Info:')
+
+
+def repr_tracking_submission(info):
+    tile_indices = [f'({i[0]}, {i[1]})' for i in info['tile_indices']]
+
+    period_info = [
+        f'* Start: {info["period_start"]}',
+        f'* End:   {info["period_end"]}',
+        f'* Freq:  {info["period_freq"]}'
+    ]
+    period_info_str = _heading_indent(period_info, '* Period: ', 8)
+
+    lines = [
+        f'* Submitted on {info["submitted"]}',
+        f'* Tile Grid: "{info["tile_grid"]["name"]}"',
+        f'* Tile Indices : {", ".join(tile_indices)}',
+        period_info_str
+    ]
+    return _heading_indent(lines, 'Submission Info:')
+
+
+def repr_tracking_tracking(info):
+    lines = [
+        f'* Name: {info["name"]}',
+        f'* Prefix: {info["prefix"]}',
+        f'* Collections: {", ".join(info["collections"])}',
+        f'* Image template: {info["name_template"]}',
+        f'* Image prefix: {info["prefix_template"]}'
+    ]
+    return _heading_indent(lines, 'Tracking Info:')
+
+
+def repr_tracking_orders(info, show_states=True, show_runtimes=True):
+    lines = [f'* Count: {len(info)}']
+    if show_states:
+        states = summarize_states(info)
+        lines_ = [f'- {state}: {n}' for state, n in states.items()]
+        lines.extend(_heading_indent(lines_, '* States:').splitlines())
+
+    if show_runtimes:
+        runtimes = summarize_runtimes(info)
+        mean = _format_runtime(runtimes['mean'])
+        std = _format_runtime(runtimes['std'])
+        line = f'* Runtime: {mean} +/- {std} minutes'
+        lines.append(line)
+
+    return _heading_indent(lines, 'Orders:')
+
+
+def repr_metadata_order(info, header='Order:'):
+    summary = _summarize_order(info)
+    s_runtime = _format_runtime(summary['runtime'])
+    lines = [
+        f'- Name: {summary["name"]}',
+        f'- Prefix: {summary["prefix"]}',
+        f'- ID: {summary["id"]}',
+        f'- Task state: {summary["state"]}',
+        f'- Runtime: {s_runtime} minutes',
+        f'- Output URL: {summary["output_url"]}',
+    ]
+    return _heading_indent(lines, header)
+
+
+def calculate_order_runtime(start_time, update_time, nan=np.nan):
     if start_time and update_time:
         return update_time - start_time
     elif start_time:
@@ -192,7 +191,36 @@ def calculate_order_runtime(start_time, update_time, nan=None):
         return nan
 
 
-def summarize_order(order):
+def summarize_states(orders):
+    """ Returns tallies of order task status
+    """
+    order_states = defaultdict(lambda: 0)
+    for order in orders:
+        order_states[order['status']['state']] += 1
+    return dict(order_states)
+
+
+def summarize_runtimes(orders):
+    """ Summarize runtimes of order tasks
+    """
+    runtimes = []
+    for order in orders:
+        runtime = calculate_order_runtime(
+            order['status']['start_timestamp_ms'],
+            order['status']['update_timestamp_ms'])
+        runtimes.append(runtime)
+    runtimes = np.asarray(runtimes)
+
+    return {
+        'runtimes': runtimes,
+        'total': np.nansum(runtimes),
+        'n': np.isfinite(runtimes).sum(),
+        'mean': np.nanmean(runtimes) if runtimes.size else np.nan,
+        'std': np.nanstd(runtimes) if runtimes.size else np.nan
+    }
+
+
+def _summarize_order(order):
     summary = {k: order[k] for k in ('name', 'prefix', )}
     summary['id'] = order['status']['id']
     summary['state'] = order['status']['state']
@@ -204,34 +232,7 @@ def summarize_order(order):
     return summary
 
 
-def summarize_orders(orders):
-    """ Return summaries and stats (counts by state & runtimes) of all orders
-    """
-    summaries = [summarize_order(o) for o in orders]
-
-    order_states = defaultdict(lambda: 0)
-    for summary in summaries:
-        order_states[summary['state']] += 1
-    order_states = dict(order_states)
-
-    runtimes = np.asarray([
-        summary['runtime'] for summary in summaries
-        if summary['runtime'] is not None
-    ])
-
-    return {
-        'summaries': summaries,
-        'states': order_states,
-        'runtimes': {
-            'total': runtimes.sum(),
-            'n': runtimes.size,
-            'mean': np.mean(runtimes) if runtimes.size else np.nan,
-            'std': np.std(runtimes) if runtimes.size else np.nan
-        }
-    }
-
-
-def wrapping_indent(lines, heading='', length=4):
+def _heading_indent(lines, heading='', length=4):
     indent = '\n' + ' ' * length
     if heading:
         lines = [heading] + lines
