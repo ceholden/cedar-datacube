@@ -129,12 +129,12 @@ List tracked "pre-ARD" orders.
 
 .. _cli_cedar_status_read:
 
-``cedar status read``
----------------------
+``cedar status print``
+----------------------
 
-Read "pre-ARD" order tracking metadata
+Print "pre-ARD" order tracking metadata
 
-.. program-output:: cedar status read --help
+.. program-output:: cedar status print --help
 
 
 .. _cli_cedar_status_update:
