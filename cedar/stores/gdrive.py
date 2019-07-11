@@ -212,7 +212,8 @@ class GDriveStore(object):
             Parent directory for file/object stored
         export_image_kwds : dict, optional
             Additional keyword arguments to pass onto
-            :py:meth:`ee.batch.Export.image.toCloudStorage` (hint: ``scale`` & ``crs``)
+            :py:meth:`ee.batch.Export.image.toCloudStorage`
+            (hint: ``scale`` & ``crs``)
 
         Returns
         -------
