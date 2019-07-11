@@ -179,6 +179,7 @@ def repr_metadata_order(info, header='Order:'):
         f'- ID: {summary["id"]}',
         f'- Task state: {summary["state"]}',
         f'- Runtime: {s_runtime} minutes',
+        f'- Image pieces: {summary["n_images"]}',
         f'- Output URL: {summary["output_url"]}',
     ]
     return _heading_indent(lines, header)
@@ -230,6 +231,7 @@ def _summarize_order(order):
     summary['runtime'] = calculate_order_runtime(
         order['status']['start_timestamp_ms'],
         order['status']['update_timestamp_ms'])
+    summary['n_images'] = len(order['status']['output_url'])
     summary['output_url'] = list(set(order['status']['output_url']))
 
     return summary
