@@ -1,6 +1,7 @@
 """ CLI for converting "pre-ARD" to ARD data cubes
 """
 import logging
+import os.path
 from pathlib import Path
 
 import click
@@ -47,6 +48,7 @@ def convert(ctx, preard, dest, overwrite, executor):
 
     # Destination directory from config file, or overriden from CLI
     dest_dir_tmpl = dest or ard_cfg['destination']
+    dest_dir_tmpl = os.path.expandvars(dest_dir_tmpl)
 
     for i, (meta, images) in enumerate(preard_files.items()):
         # Read metadata first so we know what is in order
