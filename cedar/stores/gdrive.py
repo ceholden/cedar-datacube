@@ -665,8 +665,9 @@ def exists(service, name, parent_id=None, directory=False, trashed=False,
             idx = match_name.index(True)
             return results[idx]['id']
         else:
+            id_ = results[0]['id']
             logger.debug(f'Returning first of {n_results} matches -- id={id_}')
-            return results[0]['id']
+            return id_
     else:
         return ''
 
