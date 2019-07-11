@@ -88,13 +88,18 @@ def update(ctx, tracking_name, all_, dest):
         tracking_name = tracker.list()
 
     dest = Path(dest) if dest else None
-    dest.mkdir(exist_ok=True, parents=True)
 
     for name in tracking_name:
+        if logger.level <= logging.WARNING:
+            click.echo(f'Updating "{name}"')
+
         info = tracker.update(name)
+
         if dest:
+            dest.mkdir(exist_ok=True, parents=True)
             dest_ = dest.joinpath(name)
             with open(str(dest_), 'w') as dst:
                 json.dump(info, dst, indent=2)
 
-    click.echo('Complete')
+    if logger.level <= logging.WARNING:
+        click.echo('Complete')
