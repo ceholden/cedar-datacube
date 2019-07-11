@@ -5,6 +5,8 @@ channels:
 dependencies:
   - python>=3.7
   - pip
+  # temp fix for gdal
+  - cfitsio=3.430
   # core
   - affine
   - dask
