@@ -76,6 +76,27 @@ class TrackingMetadata(Mapping):
     def metadata(self):
         return self['metadata']
 
+    @property
+    def states(self):
+        """ dict: Summary of EE task status for this order
+        """
+        return summarize_states(self.orders)
+
+    @property
+    def progress(self):
+        """ float: Percent of EE tasks completed in this order
+        """
+        states = self.states
+        n = sum(states.values())
+        n_completed = states.get(_EE_COMPLETED, 0)
+        return n_completed / n if n_completed else 0.
+
+    @property
+    def complete(self):
+        """ bool: True if all orders have completed
+        """
+        return list(self.states) == [_EE_COMPLETED]
+
     # schema
     def validate(self):
         validation.validate_with_defaults(self._metadata, self.schema,
@@ -267,3 +288,12 @@ def _format_runtime(time_ms):
         return '{0:02.2f}'.format(time_ms / 60. / 1000.)
     else:
         return 'nan'
+
+
+_EE_UNSUBMITTED = 'UNSUBMITTED'
+_EE_READY = 'READY'
+_EE_RUNNING = 'RUNNING'
+_EE_COMPLETED = 'COMPLETED'
+_EE_FAILED = 'FAILED'
+_EE_CANCEL_REQUESTED = 'CANCEL_REQUESTED'
+_EE_CANCELLED = 'CANCELLED'

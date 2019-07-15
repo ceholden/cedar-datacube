@@ -64,6 +64,36 @@ def print(ctx, tracking_name, order_id, all_orders):
     click.echo(repr_tracking(info, show_orders=show_orders))
 
 
+@group_status.command('completed', short_help='Check if order has completed')
+@click.argument('tracking_name', type=str)
+@options.opt_update_order
+@click.pass_context
+def completed(ctx, tracking_name, update_):
+    """ Print percent of order completed & exit 1 if not complete
+    """
+    from cedar.metadata.core import TrackingMetadata
+
+    logger = ctx.obj['logger']
+    config = options.fetch_config(ctx)
+    tracker = config.get_tracker()
+
+    if update_:
+        info = tracker.update(tracking_name)
+    else:
+        info = tracker.read(tracking_name)
+
+    info = TrackingMetadata(info)
+    percent = info.progress
+
+    if logger.level <= logging.WARNING:
+        click.echo(f'Percent complete: {percent * 100. :03.2f}')
+
+    if percent == 1.0:
+        ctx.exit(0)
+    else:
+        ctx.exit(1)
+
+
 @group_status.command('update', short_help='Update tracking info')
 @click.argument('tracking_name', required=False, type=str)
 @click.option('--all', 'all_', is_flag=True, help='Update all tracked orders')
