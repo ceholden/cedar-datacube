@@ -30,10 +30,13 @@ def list(ctx):
     tracked_infos = tracker.list()
 
     # Display
-    if logger.level <= logging.WARNING:
-        click.echo('Tracked orders:')
-    for tracked_info in tracked_infos:
-        click.echo(tracked_info)
+    if tracked_infos:
+        if logger.level <= logging.WARNING:
+            click.echo('Tracked orders:')
+        for tracked_info in tracked_infos:
+            click.echo(tracked_info)
+    else:
+        click.echo('No tracked orders')
 
 
 @group_status.command('print', short_help='Print job tracking info')
