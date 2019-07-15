@@ -269,15 +269,15 @@ class Tracker(object):
         """
         iter_clean = clean_tracked(tracking_info, self.store)
 
-        if tracking_name:
-            self.store.remove(tracking_name, self.tracking_prefix)
-
         cleaned = defaultdict(list)
         for task_id, n_images, names in iter_clean:
             for name in names:
                 if callback:
                     callback(item=task_id, n_steps=1 / n_images)
                 cleaned[task_id].append(name)
+
+        if tracking_name:
+            self.store.remove(tracking_name, self.tracking_prefix)
 
         return cleaned
 
