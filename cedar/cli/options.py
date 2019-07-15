@@ -12,6 +12,7 @@ from .. import defaults
 # Arguments
 arg_tracking_name = click.argument('tracking_name', type=str)
 
+
 # Types
 type_path_file = click.Path(exists=True, dir_okay=False, resolve_path=True)
 
@@ -21,6 +22,11 @@ opt_browser = click.option(
     help='Open a web browser instead of terminal to authenticate')
 opt_overwrite = click.option('--overwrite', is_flag=True,
                              help='Overwrite existing files')
+
+
+opt_update_order = click.option(
+    '--update', 'update_', is_flag=True,
+    help='Update the tracking info before continuing')
 
 
 # =============================================================================

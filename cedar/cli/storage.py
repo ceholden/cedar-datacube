@@ -10,8 +10,7 @@ from . import options
 @click.command('download',
                short_help='Download exported "pre-ARD" data from storage')
 @options.arg_tracking_name
-@click.option('--update', 'update_', is_flag=True,
-              help='Update the tracking info before downloading')
+@options.opt_update_order
 @click.option('--clean', 'clean_', is_flag=True,
               help='Run `cedar clean` for order if successful')
 @click.option('--dest', 'dest_dir',
