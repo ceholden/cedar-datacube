@@ -10,34 +10,48 @@ from . import options
 @click.command('download',
                short_help='Download exported "pre-ARD" data from storage')
 @options.arg_tracking_name
-@click.option('--dest',
+@click.option('--update', 'update_', is_flag=True,
+              help='Update the tracking info before downloading')
+@click.option('--clean', 'clean_', is_flag=True,
+              help='Run `cedar clean` for order if successful')
+@click.option('--dest', 'dest_dir',
               type=click.Path(file_okay=False, resolve_path=True),
-              help='Specify destination directory. Otherwise downloads to '
-                   'a directory based on the tracking name')
+              help='Specify destination root directory. If not specified, '
+                   'downloads order into current directory')
 @options.opt_overwrite
 @click.pass_context
-def download(ctx, tracking_name, dest, overwrite):
-    """ Download pre-ARD described by tracking information
+def download(ctx, tracking_name, update_, clean_, dest_dir, overwrite):
+    """ Download pre-ARD for a tracked order
+
+    Downloads data into a directory named after the order name. Pass
+    ``--dest`` to change the root location of this directory.
 
     \b
     TODO
     ----
-    * Progressbar is not very accurate
-    * We don't check status
-    * Limit to some tasks (?)
     * Silence / don't use progressbar if we're quiet
-    * Only download some tasks
     """
     config = options.fetch_config(ctx)
     tracker = config.get_tracker()
 
+    # Rename to remove .json
+    tracking_name = tracking_name.rstrip('.json')
+
     # Destination defaults to tracking_name
-    if dest is None:
+    if dest_dir is None:
         # remove any extension listed
-        dest = Path(tracking_name).stem
+        dest_dir = Path('.').resolve()
+    else:
+        dest_dir = Path(dest_dir)
+    dest = dest_dir.joinpath(tracking_name)
 
     click.echo(f'Retrieving pre-ARD from tracking info: {tracking_name}')
-    tracking_info = tracker.read(tracking_name)
+    if update_:
+        from cedar.utils import load_ee
+        load_ee()
+        tracking_info = tracker.update(tracking_name)
+    else:
+        tracking_info = tracker.read(tracking_name)
 
     n_tasks = len(tracking_info['orders'])
     click.echo(f'Downloading data for {n_tasks} tasks')
@@ -47,6 +61,10 @@ def download(ctx, tracking_name, dest, overwrite):
         cb_bar = _make_callback(bar)
         dl_info = tracker.download(tracking_info, dest,
                                    overwrite=overwrite, callback=cb_bar)
+
+    if clean_:
+        clean_info = _do_clean(tracker, tracking_name, tracking_info, False)
+
     click.echo('Complete!')
 
 
@@ -65,9 +83,14 @@ def clean(ctx, tracking_name, keep_tracking):
     click.echo(f'Retrieving info about pre-ARD in "{tracking_name}"')
     tracking_info = tracker.read(tracking_name)
 
-    n_orders = len(tracking_info['orders'])
     click.echo(f'Cleaning data for {n_orders} orders')
+    clean_info = _do_clean(tracker, tracking_name, tracking_info, keep_tracking)
 
+    click.echo('Complete!')
+
+
+def _do_clean(tracker, tracking_name, tracking_info, keep_tracking=False):
+    n_orders = len(tracking_info['orders'])
     with click.progressbar(label='Cleaning',
                            item_show_func=_item_show_func,
                            length=n_orders) as bar:
@@ -77,7 +100,7 @@ def clean(ctx, tracking_name, keep_tracking):
             tracking_name=None if keep_tracking else tracking_name,
             callback=cb_bar
         )
-    click.echo('Complete!')
+    return clean_info
 
 
 def _make_callback(bar):
@@ -85,6 +108,7 @@ def _make_callback(bar):
         bar.current_item = item
         bar.update(n_steps)
     return callback
+
 
 def _item_show_func(item):
     return str(item) if item else ''
