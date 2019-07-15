@@ -17,6 +17,13 @@ SCHEMA_IMAGE = _HERE.joinpath('schema_image.json')
 
 class TrackingMetadata(Mapping):
     """ CEDAR order tracking metadata
+
+    Parameters
+    ----------
+    metadata : dict
+        Tracking metadata information as a dict
+    schema : dict, optional
+        Validate metadata against a specific schema
     """
     def __init__(self, metadata, schema=None):
         self._metadata = metadata
@@ -29,6 +36,13 @@ class TrackingMetadata(Mapping):
         """
         with open(filename) as src:
             metadata = json.load(src)
+        return cls(metadata, schema=schema)
+
+    @classmethod
+    def from_json(cls, json_str, schema=None):
+        """ Load tracking metadata from a JSON string
+        """
+        metadata = json.loads(json_str)
         return cls(metadata, schema=schema)
 
     # Mapping object requirements
@@ -81,6 +95,8 @@ class TrackingMetadata(Mapping):
         return "CEDAR Tracking Metadata"
 
 
+# -----------------------------------------------------------------------------
+# String repr
 def repr_tracking(tracking_data,
                   show_program=True, show_submission=True, show_tracking=True,
                   show_states=True, show_runtimes=True,
@@ -90,14 +106,14 @@ def repr_tracking(tracking_data,
     lines = []
 
     if show_program:
-        lines.append(repr_metadata_program(tracking_data['program']))
+        lines.extend(repr_metadata_program(tracking_data['program']))
     if show_submission:
-        lines.append(repr_tracking_submission(tracking_data['submission']))
+        lines.extend(repr_tracking_submission(tracking_data['submission']))
     if show_tracking:
-        lines.append(repr_tracking_tracking(tracking_data['tracking']))
+        lines.extend(repr_tracking_tracking(tracking_data['tracking']))
 
     # Top level order information is always added
-    lines.append(repr_tracking_orders(tracking_data['orders'],
+    lines.extend(repr_tracking_orders(tracking_data['orders'],
                                       show_states=show_states,
                                       show_runtimes=show_runtimes))
 
@@ -110,55 +126,57 @@ def repr_tracking(tracking_data,
         for order_id in show_orders:
             order_md = tracking_data['orders'][order_id]
             order_repr = repr_metadata_order(order_md, f'Order #{order_id}')
-            lines.append(order_repr)
+            lines.extend(order_repr)
 
     return '\n'.join(lines)
 
 
-def repr_metadata_program(info):
-    lines = [
+def repr_metadata_program(info, header='Program Info:'):
+    lines = _indent([
         f'* {info["name"]}={info["version"]}',
         f'* earthengine-api={info["ee"]}'
-    ]
-    return _heading_indent(lines, 'Program Info:')
+    ], n=1)
+    return [header] + lines
 
 
-def repr_tracking_submission(info):
+def repr_tracking_submission(info, header='Submission Info:'):
     tile_indices = [f'({i[0]}, {i[1]})' for i in info['tile_indices']]
 
-    period_info = [
+    # Format subsection first so it can be added as a string
+    period_info_str = ['* Period: '] + _indent([
         f'* Start: {info["period_start"]}',
         f'* End:   {info["period_end"]}',
         f'* Freq:  {info["period_freq"]}'
-    ]
-    period_info_str = _heading_indent(period_info, '* Period: ', 8)
+    ], n=2)
 
-    lines = [
+    lines = _indent([
         f'* Submitted on {info["submitted"]}',
         f'* Tile Grid: "{info["tile_grid"]["name"]}"',
         f'* Tile Indices : {", ".join(tile_indices)}',
-        period_info_str
-    ]
-    return _heading_indent(lines, 'Submission Info:')
+        '\n'.join(period_info_str)
+    ])
+    return [header] + lines
 
 
-def repr_tracking_tracking(info):
-    lines = [
+def repr_tracking_tracking(info, header='Tracking Info'):
+    lines = _indent([
         f'* Name: {info["name"]}',
         f'* Prefix: {info["prefix"]}',
         f'* Collections: {", ".join(info["collections"])}',
         f'* Image template: {info["name_template"]}',
         f'* Image prefix: {info["prefix_template"]}'
-    ]
-    return _heading_indent(lines, 'Tracking Info:')
+    ], n=1)
+    return [header] + lines
 
 
-def repr_tracking_orders(info, show_states=True, show_runtimes=True):
+def repr_tracking_orders(info, show_states=True, show_runtimes=True,
+                         header='Orders'):
     lines = [f'* Count: {len(info)}']
     if show_states:
         states = summarize_states(info)
         lines_ = [f'- {state}: {n}' for state, n in states.items()]
-        lines.extend(_heading_indent(lines_, '* States:').splitlines())
+        lines.append('* States: ')
+        lines.extend(_indent(lines_, n=1))
 
     if show_runtimes:
         runtimes = summarize_runtimes(info)
@@ -167,13 +185,13 @@ def repr_tracking_orders(info, show_states=True, show_runtimes=True):
         line = f'* Runtime: {mean} +/- {std} minutes'
         lines.append(line)
 
-    return _heading_indent(lines, 'Orders:')
+    return [header] + _indent(lines)
 
 
 def repr_metadata_order(info, header='Order:'):
     summary = _summarize_order(info)
     s_runtime = _format_runtime(summary['runtime'])
-    lines = [
+    lines = _indent([
         f'- Name: {summary["name"]}',
         f'- Prefix: {summary["prefix"]}',
         f'- ID: {summary["id"]}',
@@ -181,10 +199,12 @@ def repr_metadata_order(info, header='Order:'):
         f'- Runtime: {s_runtime} minutes',
         f'- Image pieces: {summary["n_images"]}',
         f'- Output URL: {summary["output_url"]}',
-    ]
-    return _heading_indent(lines, header)
+    ], n=1)
+    return [header] + lines
 
 
+# -----------------------------------------------------------------------------
+# Calculations
 def calculate_order_runtime(start_time, update_time, nan=np.nan):
     if start_time and update_time:
         return update_time - start_time
@@ -237,12 +257,9 @@ def _summarize_order(order):
     return summary
 
 
-def _heading_indent(lines, heading='', length=4):
-    indent = '\n' + ' ' * length
-    if heading:
-        lines = [heading] + lines
-    return indent.join(lines)
-
+# Helpers
+def _indent(lines, n=1, length=4):
+    return [' ' * n * length + line for line in lines]
 
 
 def _format_runtime(time_ms):
