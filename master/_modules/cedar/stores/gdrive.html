@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>cedar.stores.gdrive &mdash; cedar 0+untagged.51.gf1bfb40 documentation</title>
+  <title>cedar.stores.gdrive &mdash; cedar 0+untagged.51.ge09a9be documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0+untagged.51.gf1bfb40
+                0+untagged.51.ge09a9be
               </div>
             
           
@@ -924,7 +924,8 @@
     <span class="k">return</span> <span class="n">list_objects</span><span class="p">(</span><span class="n">service</span><span class="p">,</span> <span class="n">parent_id</span><span class="o">=</span><span class="n">parent_id</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="n">q</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="delete"><a class="viewcode-back" href="../../../cedar/cedar.stores.gdrive.html#cedar.stores.gdrive.delete">[docs]</a><span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="n">service</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">parent_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+<span class="nd">@retry</span><span class="o">.</span><span class="n">Retry</span>
+<span class="k">def</span> <span class="nf">delete</span><span class="p">(</span><span class="n">service</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">parent_id</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
            <span class="n">appProperties</span><span class="o">=</span><span class="n">defaults</span><span class="o">.</span><span class="n">GDRIVE_USE_APPPROPERTIES</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Delete a file/folder on Google Drive</span>
 
@@ -946,7 +947,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">name_id</span> <span class="o">=</span> <span class="n">exists</span><span class="p">(</span><span class="n">service</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">parent_id</span><span class="o">=</span><span class="n">parent_id</span><span class="p">)</span>
     <span class="n">resp</span> <span class="o">=</span> <span class="n">service</span><span class="o">.</span><span class="n">files</span><span class="p">()</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="n">fileId</span><span class="o">=</span><span class="n">name_id</span><span class="p">)</span><span class="o">.</span><span class="n">execute</span><span class="p">()</span>
-    <span class="k">return</span> <span class="n">name_id</span></div>
+    <span class="k">return</span> <span class="n">name_id</span>
 
 
 <span class="k">def</span> <span class="nf">_path_to_parent_id</span><span class="p">(</span><span class="n">service</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
