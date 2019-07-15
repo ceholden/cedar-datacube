@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Command Line Interface Programs &mdash; cedar 0+untagged.51.g7cc5527 documentation</title>
+  <title>Command Line Interface Programs &mdash; cedar 0+untagged.51.gfa82398 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0+untagged.51.g7cc5527
+                0+untagged.51.gfa82398
               </div>
             
           
@@ -381,9 +381,10 @@ Options:
   -h, --help  Show this message and exit.
 
 Commands:
-  list    List tracked metadata
-  print   Print job tracking info
-  update  Update tracking info
+  completed  Check if order has completed
+  list       List tracked metadata
+  print      Print job tracking info
+  update     Update tracking info
 </pre></div>
 </div>
 <div class="section" id="cedar-status-list">
@@ -415,7 +416,7 @@ Options:
 <div class="section" id="cedar-status-update">
 <span id="cli-cedar-status-update"></span><h3><code class="docutils literal notranslate"><span class="pre">cedar</span> <span class="pre">status</span> <span class="pre">update</span></code><a class="headerlink" href="#cedar-status-update" title="Permalink to this headline">¶</a></h3>
 <p>Read “pre-ARD” order tracking metadata and update with GEE task status</p>
-<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Usage: cedar status update [OPTIONS] [TRACKING_NAME]...
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Usage: cedar status update [OPTIONS] [TRACKING_NAME]
 
   Update job submission tracking info
 
@@ -442,7 +443,7 @@ Options:
   * Silence / don&#39;t use progressbar if we&#39;re quiet
 
 Options:
-  --update          Update the tracking info before downloading
+  --update          Update the tracking info before continuing
   --clean           Run `cedar clean` for order if successful
   --dest DIRECTORY  Specify destination root directory. If not specified,
                     downloads order into current directory

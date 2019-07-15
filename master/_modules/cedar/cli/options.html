@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>cedar.cli.options &mdash; cedar 0+untagged.51.g7cc5527 documentation</title>
+  <title>cedar.cli.options &mdash; cedar 0+untagged.51.gfa82398 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0+untagged.51.g7cc5527
+                0+untagged.51.gfa82398
               </div>
             
           
@@ -183,6 +183,7 @@
 <span class="c1"># Arguments</span>
 <span class="n">arg_tracking_name</span> <span class="o">=</span> <span class="n">click</span><span class="o">.</span><span class="n">argument</span><span class="p">(</span><span class="s1">&#39;tracking_name&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
 
+
 <span class="c1"># Types</span>
 <span class="n">type_path_file</span> <span class="o">=</span> <span class="n">click</span><span class="o">.</span><span class="n">Path</span><span class="p">(</span><span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">dir_okay</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">resolve_path</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
@@ -192,6 +193,11 @@
     <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Open a web browser instead of terminal to authenticate&#39;</span><span class="p">)</span>
 <span class="n">opt_overwrite</span> <span class="o">=</span> <span class="n">click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s1">&#39;--overwrite&#39;</span><span class="p">,</span> <span class="n">is_flag</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                              <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Overwrite existing files&#39;</span><span class="p">)</span>
+
+
+<span class="n">opt_update_order</span> <span class="o">=</span> <span class="n">click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span>
+    <span class="s1">&#39;--update&#39;</span><span class="p">,</span> <span class="s1">&#39;update_&#39;</span><span class="p">,</span> <span class="n">is_flag</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Update the tracking info before continuing&#39;</span><span class="p">)</span>
 
 
 <span class="c1"># =============================================================================</span>

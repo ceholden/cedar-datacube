@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>cedar.metadata.core module &mdash; cedar 0+untagged.51.g7cc5527 documentation</title>
+  <title>cedar.metadata.core module &mdash; cedar 0+untagged.51.gfa82398 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0+untagged.51.g7cc5527
+                0+untagged.51.gfa82398
               </div>
             
           
@@ -189,6 +189,17 @@
 </dd>
 </dl>
 <dl class="method">
+<dt id="cedar.metadata.core.TrackingMetadata.complete">
+<em class="property">property </em><code class="sig-name descname">complete</code><a class="headerlink" href="#cedar.metadata.core.TrackingMetadata.complete" title="Permalink to this definition">¶</a></dt>
+<dd><p>True if all orders have completed</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/functions.html#bool" title="(in Python v3.7)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
 <dt id="cedar.metadata.core.TrackingMetadata.from_file">
 <em class="property">classmethod </em><code class="sig-name descname">from_file</code><span class="sig-paren">(</span><em class="sig-param">filename</em>, <em class="sig-param">schema=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/metadata/core.html#TrackingMetadata.from_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.metadata.core.TrackingMetadata.from_file" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create from a tracking metadata file</p>
@@ -214,6 +225,28 @@
 <dt id="cedar.metadata.core.TrackingMetadata.program">
 <em class="property">property </em><code class="sig-name descname">program</code><a class="headerlink" href="#cedar.metadata.core.TrackingMetadata.program" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
+
+<dl class="method">
+<dt id="cedar.metadata.core.TrackingMetadata.progress">
+<em class="property">property </em><code class="sig-name descname">progress</code><a class="headerlink" href="#cedar.metadata.core.TrackingMetadata.progress" title="Permalink to this definition">¶</a></dt>
+<dd><p>Percent of EE tasks completed in this order</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/functions.html#float" title="(in Python v3.7)">float</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="cedar.metadata.core.TrackingMetadata.states">
+<em class="property">property </em><code class="sig-name descname">states</code><a class="headerlink" href="#cedar.metadata.core.TrackingMetadata.states" title="Permalink to this definition">¶</a></dt>
+<dd><p>Summary of EE task status for this order</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="method">
 <dt id="cedar.metadata.core.TrackingMetadata.submission">
