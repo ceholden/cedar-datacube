@@ -65,7 +65,7 @@ def print(ctx, tracking_name, order_id, all_orders):
 
 
 @group_status.command('update', short_help='Update tracking info')
-@click.argument('tracking_name', nargs=-1, required=False, type=str)
+@click.argument('tracking_name', required=False, type=str)
 @click.option('--all', 'all_', is_flag=True, help='Update all tracked orders')
 @click.option('--dest', type=click.Path(file_okay=False, resolve_path=True),
               help='Save a local copy of tracking information to this folder')
@@ -86,6 +86,8 @@ def update(ctx, tracking_name, all_, dest):
 
     if all_:
         tracking_name = tracker.list()
+    else:
+        tracking_name = [tracking_name]
 
     dest = Path(dest) if dest else None
 
