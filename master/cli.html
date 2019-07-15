@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Command Line Interface Programs &mdash; cedar 0+untagged.51.g73d7c1c documentation</title>
+  <title>Command Line Interface Programs &mdash; cedar 0+untagged.51.g7cc5527 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0+untagged.51.g73d7c1c
+                0+untagged.51.g7cc5527
               </div>
             
           
@@ -432,19 +432,20 @@ Options:
 <p>Read “pre-ARD” order tracking metadata and update with GEE task status</p>
 <div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Usage: cedar download [OPTIONS] TRACKING_NAME
 
-  Download pre-ARD described by tracking information
+  Download pre-ARD for a tracked order
+
+  Downloads data into a directory named after the order name. Pass
+  ``--dest`` to change the root location of this directory.
 
   TODO
   ----
-  * Progressbar is not very accurate
-  * We don&#39;t check status
-  * Limit to some tasks (?)
   * Silence / don&#39;t use progressbar if we&#39;re quiet
-  * Only download some tasks
 
 Options:
-  --dest DIRECTORY  Specify destination directory. Otherwise downloads to a
-                    directory based on the tracking name
+  --update          Update the tracking info before downloading
+  --clean           Run `cedar clean` for order if successful
+  --dest DIRECTORY  Specify destination root directory. If not specified,
+                    downloads order into current directory
   --overwrite       Overwrite existing files
   -h, --help        Show this message and exit.
 </pre></div>

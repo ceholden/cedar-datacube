@@ -340,11 +340,11 @@
 <p id="n271" class="pln"><a href="#n271">271</a></p>
 <p id="n272" class="stm mis"><a href="#n272">272</a></p>
 <p id="n273" class="stm mis"><a href="#n273">273</a></p>
-<p id="n274" class="pln"><a href="#n274">274</a></p>
+<p id="n274" class="stm mis"><a href="#n274">274</a></p>
 <p id="n275" class="stm mis"><a href="#n275">275</a></p>
 <p id="n276" class="stm mis"><a href="#n276">276</a></p>
 <p id="n277" class="stm mis"><a href="#n277">277</a></p>
-<p id="n278" class="stm mis"><a href="#n278">278</a></p>
+<p id="n278" class="pln"><a href="#n278">278</a></p>
 <p id="n279" class="stm mis"><a href="#n279">279</a></p>
 <p id="n280" class="stm mis"><a href="#n280">280</a></p>
 <p id="n281" class="pln"><a href="#n281">281</a></p>
@@ -805,15 +805,15 @@
 <p id="t269" class="pln"><span class="str">        """</span><span class="strut">&nbsp;</span></p>
 <p id="t270" class="stm mis">        <span class="nam">iter_clean</span> <span class="op">=</span> <span class="nam">clean_tracked</span><span class="op">(</span><span class="nam">tracking_info</span><span class="op">,</span> <span class="nam">self</span><span class="op">.</span><span class="nam">store</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t271" class="pln"><span class="strut">&nbsp;</span></p>
-<p id="t272" class="stm mis">        <span class="key">if</span> <span class="nam">tracking_name</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t273" class="stm mis">            <span class="nam">self</span><span class="op">.</span><span class="nam">store</span><span class="op">.</span><span class="nam">remove</span><span class="op">(</span><span class="nam">tracking_name</span><span class="op">,</span> <span class="nam">self</span><span class="op">.</span><span class="nam">tracking_prefix</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
-<p id="t274" class="pln"><span class="strut">&nbsp;</span></p>
-<p id="t275" class="stm mis">        <span class="nam">cleaned</span> <span class="op">=</span> <span class="nam">defaultdict</span><span class="op">(</span><span class="nam">list</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
-<p id="t276" class="stm mis">        <span class="key">for</span> <span class="nam">task_id</span><span class="op">,</span> <span class="nam">n_images</span><span class="op">,</span> <span class="nam">names</span> <span class="key">in</span> <span class="nam">iter_clean</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t277" class="stm mis">            <span class="key">for</span> <span class="nam">name</span> <span class="key">in</span> <span class="nam">names</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t278" class="stm mis">                <span class="key">if</span> <span class="nam">callback</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t279" class="stm mis">                    <span class="nam">callback</span><span class="op">(</span><span class="nam">item</span><span class="op">=</span><span class="nam">task_id</span><span class="op">,</span> <span class="nam">n_steps</span><span class="op">=</span><span class="num">1</span> <span class="op">/</span> <span class="nam">n_images</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
-<p id="t280" class="stm mis">                <span class="nam">cleaned</span><span class="op">[</span><span class="nam">task_id</span><span class="op">]</span><span class="op">.</span><span class="nam">append</span><span class="op">(</span><span class="nam">name</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t272" class="stm mis">        <span class="nam">cleaned</span> <span class="op">=</span> <span class="nam">defaultdict</span><span class="op">(</span><span class="nam">list</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t273" class="stm mis">        <span class="key">for</span> <span class="nam">task_id</span><span class="op">,</span> <span class="nam">n_images</span><span class="op">,</span> <span class="nam">names</span> <span class="key">in</span> <span class="nam">iter_clean</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
+<p id="t274" class="stm mis">            <span class="key">for</span> <span class="nam">name</span> <span class="key">in</span> <span class="nam">names</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
+<p id="t275" class="stm mis">                <span class="key">if</span> <span class="nam">callback</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
+<p id="t276" class="stm mis">                    <span class="nam">callback</span><span class="op">(</span><span class="nam">item</span><span class="op">=</span><span class="nam">task_id</span><span class="op">,</span> <span class="nam">n_steps</span><span class="op">=</span><span class="num">1</span> <span class="op">/</span> <span class="nam">n_images</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t277" class="stm mis">                <span class="nam">cleaned</span><span class="op">[</span><span class="nam">task_id</span><span class="op">]</span><span class="op">.</span><span class="nam">append</span><span class="op">(</span><span class="nam">name</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t278" class="pln"><span class="strut">&nbsp;</span></p>
+<p id="t279" class="stm mis">        <span class="key">if</span> <span class="nam">tracking_name</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
+<p id="t280" class="stm mis">            <span class="nam">self</span><span class="op">.</span><span class="nam">store</span><span class="op">.</span><span class="nam">remove</span><span class="op">(</span><span class="nam">tracking_name</span><span class="op">,</span> <span class="nam">self</span><span class="op">.</span><span class="nam">tracking_prefix</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t281" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t282" class="stm mis">        <span class="key">return</span> <span class="nam">cleaned</span><span class="strut">&nbsp;</span></p>
 <p id="t283" class="pln"><span class="strut">&nbsp;</span></p>
@@ -1008,7 +1008,7 @@
     <div class="content">
         <p>
             <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.io">coverage.py v4.5.3</a>,
-            created at 2019-07-15 15:36
+            created at 2019-07-15 16:35
         </p>
     </div>
 </div>

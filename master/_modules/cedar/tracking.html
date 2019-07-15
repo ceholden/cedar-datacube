@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>cedar.tracking &mdash; cedar 0+untagged.51.g73d7c1c documentation</title>
+  <title>cedar.tracking &mdash; cedar 0+untagged.51.g7cc5527 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0+untagged.51.g73d7c1c
+                0+untagged.51.g7cc5527
               </div>
             
           
@@ -440,15 +440,15 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">iter_clean</span> <span class="o">=</span> <span class="n">clean_tracked</span><span class="p">(</span><span class="n">tracking_info</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">store</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">tracking_name</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">store</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">tracking_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">tracking_prefix</span><span class="p">)</span>
-
         <span class="n">cleaned</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">task_id</span><span class="p">,</span> <span class="n">n_images</span><span class="p">,</span> <span class="n">names</span> <span class="ow">in</span> <span class="n">iter_clean</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">names</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">callback</span><span class="p">:</span>
                     <span class="n">callback</span><span class="p">(</span><span class="n">item</span><span class="o">=</span><span class="n">task_id</span><span class="p">,</span> <span class="n">n_steps</span><span class="o">=</span><span class="mi">1</span> <span class="o">/</span> <span class="n">n_images</span><span class="p">)</span>
                 <span class="n">cleaned</span><span class="p">[</span><span class="n">task_id</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">tracking_name</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">store</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">tracking_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">tracking_prefix</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">cleaned</span></div></div>
 
