@@ -753,6 +753,7 @@ def list_dirs(service, parent_id=None, name=None):
     return list_objects(service, parent_id=parent_id, name=name, q=q)
 
 
+@retry.Retry()
 def delete(service, name, parent_id=None,
            appProperties=defaults.GDRIVE_USE_APPPROPERTIES):
     """ Delete a file/folder on Google Drive
