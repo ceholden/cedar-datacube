@@ -635,7 +635,7 @@
 <p id="t99" class="stm mis">        <span class="nam">logger</span><span class="op">.</span><span class="nam">debug</span><span class="op">(</span><span class="str">f'Creating {len(periods)} ARD slice(s) for date range'</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t100" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t101" class="pln">        <span class="com"># Create tracking name</span><span class="strut">&nbsp;</span></p>
-<p id="t102" class="stm mis">        <span class="nam">s_tile_indices</span> <span class="op">=</span> <span class="op">[</span><span class="str">f'h{h:03d}v{v:03d}'</span> <span class="key">for</span> <span class="nam">h</span><span class="op">,</span> <span class="nam">v</span> <span class="key">in</span> <span class="nam">tile_indices</span><span class="op">]</span><span class="strut">&nbsp;</span></p>
+<p id="t102" class="stm mis">        <span class="nam">s_tile_indices</span> <span class="op">=</span> <span class="op">[</span><span class="str">f'h{h:03d}v{v:03d}'</span> <span class="key">for</span> <span class="nam">v</span><span class="op">,</span> <span class="nam">h</span> <span class="key">in</span> <span class="nam">tile_indices</span><span class="op">]</span><span class="strut">&nbsp;</span></p>
 <p id="t103" class="stm mis">        <span class="nam">namespace</span> <span class="op">=</span> <span class="op">{</span><span class="strut">&nbsp;</span></p>
 <p id="t104" class="pln">            <span class="str">'collections'</span><span class="op">:</span> <span class="nam">collections</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
 <p id="t105" class="pln">            <span class="str">'tiles'</span><span class="op">:</span> <span class="nam">tiles</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
@@ -1008,7 +1008,7 @@
     <div class="content">
         <p>
             <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.io">coverage.py v4.5.3</a>,
-            created at 2019-07-16 18:33
+            created at 2019-07-16 19:54
         </p>
     </div>
 </div>
