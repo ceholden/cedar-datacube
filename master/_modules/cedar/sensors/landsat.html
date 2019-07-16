@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>cedar.sensors.landsat &mdash; cedar 0+untagged.51.g8f57df0 documentation</title>
+  <title>cedar.sensors.landsat &mdash; cedar 0+untagged.51.gbb56d28 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0+untagged.51.g8f57df0
+                0+untagged.51.gbb56d28
               </div>
             
           
@@ -185,22 +185,25 @@
 <span class="n">BANDS_COMMON</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;nir&#39;</span><span class="p">,</span>
                 <span class="s1">&#39;swir1&#39;</span><span class="p">,</span> <span class="s1">&#39;swir2&#39;</span><span class="p">,</span> <span class="s1">&#39;thermal&#39;</span><span class="p">,</span> <span class="s1">&#39;pixel_qa&#39;</span><span class="p">]</span>
 
-<span class="n">BANDS_LT5</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;B1&#39;</span><span class="p">,</span> <span class="s1">&#39;B2&#39;</span><span class="p">,</span> <span class="s1">&#39;B3&#39;</span><span class="p">,</span> <span class="s1">&#39;B4&#39;</span><span class="p">,</span> <span class="s1">&#39;B5&#39;</span><span class="p">,</span> <span class="s1">&#39;B7&#39;</span><span class="p">,</span>  <span class="s1">&#39;B6&#39;</span><span class="p">,</span> <span class="s1">&#39;pixel_qa&#39;</span><span class="p">]</span>
+<span class="n">BANDS_LT4</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;B1&#39;</span><span class="p">,</span> <span class="s1">&#39;B2&#39;</span><span class="p">,</span> <span class="s1">&#39;B3&#39;</span><span class="p">,</span> <span class="s1">&#39;B4&#39;</span><span class="p">,</span> <span class="s1">&#39;B5&#39;</span><span class="p">,</span> <span class="s1">&#39;B7&#39;</span><span class="p">,</span>  <span class="s1">&#39;B6&#39;</span><span class="p">,</span> <span class="s1">&#39;pixel_qa&#39;</span><span class="p">]</span>
+<span class="n">BANDS_LT5</span> <span class="o">=</span> <span class="n">BANDS_LT4</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 <span class="n">BANDS_LE7</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;B1&#39;</span><span class="p">,</span> <span class="s1">&#39;B2&#39;</span><span class="p">,</span> <span class="s1">&#39;B3&#39;</span><span class="p">,</span> <span class="s1">&#39;B4&#39;</span><span class="p">,</span> <span class="s1">&#39;B5&#39;</span><span class="p">,</span> <span class="s1">&#39;B7&#39;</span><span class="p">,</span>  <span class="s1">&#39;B6&#39;</span><span class="p">,</span> <span class="s1">&#39;pixel_qa&#39;</span><span class="p">]</span>
 <span class="n">BANDS_LC8</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;B2&#39;</span><span class="p">,</span> <span class="s1">&#39;B3&#39;</span><span class="p">,</span> <span class="s1">&#39;B4&#39;</span><span class="p">,</span> <span class="s1">&#39;B5&#39;</span><span class="p">,</span> <span class="s1">&#39;B6&#39;</span><span class="p">,</span> <span class="s1">&#39;B7&#39;</span><span class="p">,</span> <span class="s1">&#39;B10&#39;</span><span class="p">,</span> <span class="s1">&#39;pixel_qa&#39;</span><span class="p">]</span>
 
 <span class="n">BANDS</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s1">&#39;COMMON&#39;</span><span class="p">:</span> <span class="n">BANDS_COMMON</span><span class="p">,</span>
-    <span class="s1">&#39;LANDSAT/LC08/C01/T1_SR&#39;</span><span class="p">:</span> <span class="n">BANDS_LC8</span><span class="p">,</span>
+    <span class="s1">&#39;LANDSAT/LT04/C01/T1_SR&#39;</span><span class="p">:</span> <span class="n">BANDS_LT4</span><span class="p">,</span>
     <span class="s1">&#39;LANDSAT/LT05/C01/T1_SR&#39;</span><span class="p">:</span> <span class="n">BANDS_LT5</span><span class="p">,</span>
-    <span class="s1">&#39;LANDSAT/LE07/C01/T1_SR&#39;</span><span class="p">:</span> <span class="n">BANDS_LE7</span>
+    <span class="s1">&#39;LANDSAT/LE07/C01/T1_SR&#39;</span><span class="p">:</span> <span class="n">BANDS_LE7</span><span class="p">,</span>
+    <span class="s1">&#39;LANDSAT/LC08/C01/T1_SR&#39;</span><span class="p">:</span> <span class="n">BANDS_LC8</span><span class="p">,</span>
 <span class="p">}</span>
 
 <span class="c1">#: dict[str, Number]: NoDataValues for Landsat collections</span>
 <span class="n">NODATA</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;LANDSAT/LC08/C01/T1_SR&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">9999</span><span class="p">,</span>
+    <span class="s1">&#39;LANDSAT/LT04/C01/T1_SR&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">9999</span><span class="p">,</span>
     <span class="s1">&#39;LANDSAT/LT05/C01/T1_SR&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">9999</span><span class="p">,</span>
-    <span class="s1">&#39;LANDSAT/LE07/C01/T1_SR&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">9999</span>
+    <span class="s1">&#39;LANDSAT/LE07/C01/T1_SR&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">9999</span><span class="p">,</span>
+    <span class="s1">&#39;LANDSAT/LC08/C01/T1_SR&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">9999</span><span class="p">,</span>
 <span class="p">}</span>
 
 
@@ -225,13 +228,15 @@
     <span class="s1">&#39;system:time_start&#39;</span><span class="p">,</span>
     <span class="s1">&#39;system:version&#39;</span>
 <span class="p">]</span>
-<span class="n">_T1_SR_METADATA_LC08</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;IMAGE_QUALITY_OLI&#39;</span><span class="p">]</span>
-<span class="n">_T1_SR_METADATA_LE07</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;IMAGE_QUALITY&#39;</span><span class="p">]</span>
+<span class="n">_T1_SR_METADATA_LT04</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;IMAGE_QUALITY&#39;</span><span class="p">]</span>
 <span class="n">_T1_SR_METADATA_LT05</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;IMAGE_QUALITY&#39;</span><span class="p">]</span>
+<span class="n">_T1_SR_METADATA_LE07</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;IMAGE_QUALITY&#39;</span><span class="p">]</span>
+<span class="n">_T1_SR_METADATA_LC08</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;IMAGE_QUALITY_OLI&#39;</span><span class="p">]</span>
 <span class="n">METADATA</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;LANDSAT/LC08/C01/T1_SR&#39;</span><span class="p">:</span> <span class="n">_T1_SR_METADATA</span> <span class="o">+</span> <span class="n">_T1_SR_METADATA_LC08</span><span class="p">,</span>
+    <span class="s1">&#39;LANDSAT/LT04/C01/T1_SR&#39;</span><span class="p">:</span> <span class="n">_T1_SR_METADATA</span> <span class="o">+</span> <span class="n">_T1_SR_METADATA_LT04</span><span class="p">,</span>
     <span class="s1">&#39;LANDSAT/LT05/C01/T1_SR&#39;</span><span class="p">:</span> <span class="n">_T1_SR_METADATA</span> <span class="o">+</span> <span class="n">_T1_SR_METADATA_LT05</span><span class="p">,</span>
-    <span class="s1">&#39;LANDSAT/LE07/C01/T1_SR&#39;</span><span class="p">:</span> <span class="n">_T1_SR_METADATA</span> <span class="o">+</span> <span class="n">_T1_SR_METADATA_LE07</span>
+    <span class="s1">&#39;LANDSAT/LE07/C01/T1_SR&#39;</span><span class="p">:</span> <span class="n">_T1_SR_METADATA</span> <span class="o">+</span> <span class="n">_T1_SR_METADATA_LE07</span><span class="p">,</span>
+    <span class="s1">&#39;LANDSAT/LC08/C01/T1_SR&#39;</span><span class="p">:</span> <span class="n">_T1_SR_METADATA</span> <span class="o">+</span> <span class="n">_T1_SR_METADATA_LC08</span><span class="p">,</span>
 <span class="p">}</span>
 
 

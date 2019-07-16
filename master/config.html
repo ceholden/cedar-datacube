@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Configuration &mdash; cedar 0+untagged.51.g8f57df0 documentation</title>
+  <title>Configuration &mdash; cedar 0+untagged.51.gbb56d28 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0+untagged.51.g8f57df0
+                0+untagged.51.gbb56d28
               </div>
             
           
@@ -105,6 +105,7 @@
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#generation">Generation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="submissions.html">“Pre-ARD” Order Submission</a></li>
@@ -366,6 +367,29 @@ the <code class="docutils literal notranslate"><span class="pre">cedar</span> <s
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cedar config template
 </pre></div>
 </div>
+</div>
+<div class="section" id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
+<p>You need to provide the location of the file to the <code class="docutils literal notranslate"><span class="pre">cedar</span></code> command to have
+the program use this file. You can specify it in one of two ways: either as an
+input to the main program using the <code class="docutils literal notranslate"><span class="pre">-C</span></code> flag or using the environment
+variable <code class="docutils literal notranslate"><span class="pre">CEDAR_CONFIG_FILE</span></code>.</p>
+<p>For example, if we wanted to use the <code class="docutils literal notranslate"><span class="pre">status</span> <span class="pre">list</span></code> subcommand to print our
+tracked orders, you could either do</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cedar -C my_config_file.yml status list
+</pre></div>
+</div>
+<p>or</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># On Unix systems...</span>
+<span class="nb">export</span> <span class="nv">CEDAR_CONFIG_FILE</span><span class="o">=</span>my_config_file.yml
+cedar status list
+</pre></div>
+</div>
+<p>When defining the configuration file, it is a good idea to use the absolute
+path to the file. This way you can change directories and keep using the
+<code class="docutils literal notranslate"><span class="pre">cedar</span></code> command. It is also likely easier to specify the configuration file
+once using an environment variable than it is to continually point to it
+using the <code class="docutils literal notranslate"><span class="pre">cedar</span> <span class="pre">-C</span> <span class="pre">&lt;config_file&gt;</span></code> method.</p>
 </div>
 </div>
 
