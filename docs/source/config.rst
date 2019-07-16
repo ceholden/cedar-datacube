@@ -134,6 +134,38 @@ the ``cedar config template`` program to do this:
     cedar config template
 
 
+Usage
+=====
+
+You need to provide the location of the file to the ``cedar`` command to have
+the program use this file. You can specify it in one of two ways: either as an
+input to the main program using the ``-C`` flag or using the environment
+variable ``CEDAR_CONFIG_FILE``.
+
+For example, if we wanted to use the ``status list`` subcommand to print our
+tracked orders, you could either do
+
+
+.. code-block:: bash
+
+   cedar -C my_config_file.yml status list
+
+
+or
+
+.. code-block:: bash
+
+   # On Unix systems...
+   export CEDAR_CONFIG_FILE=my_config_file.yml
+   cedar status list
+
+
+When defining the configuration file, it is a good idea to use the absolute
+path to the file. This way you can change directories and keep using the
+``cedar`` command. It is also likely easier to specify the configuration file
+once using an environment variable than it is to continually point to it
+using the ``cedar -C <config_file>`` method.
+
 
 .. _Exporting Images: https://developers.google.com/earth-engine/exporting#exporting-images
 .. _changelog_export: https://developers.google.com/earth-engine/changelog#2016-10-27
