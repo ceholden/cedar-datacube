@@ -14,22 +14,25 @@ logger = logging.getLogger(__name__)
 BANDS_COMMON = ['blue', 'green', 'red', 'nir',
                 'swir1', 'swir2', 'thermal', 'pixel_qa']
 
-BANDS_LT5 = ['B1', 'B2', 'B3', 'B4', 'B5', 'B7',  'B6', 'pixel_qa']
+BANDS_LT4 = ['B1', 'B2', 'B3', 'B4', 'B5', 'B7',  'B6', 'pixel_qa']
+BANDS_LT5 = BANDS_LT4.copy()
 BANDS_LE7 = ['B1', 'B2', 'B3', 'B4', 'B5', 'B7',  'B6', 'pixel_qa']
 BANDS_LC8 = ['B2', 'B3', 'B4', 'B5', 'B6', 'B7', 'B10', 'pixel_qa']
 
 BANDS = {
     'COMMON': BANDS_COMMON,
-    'LANDSAT/LC08/C01/T1_SR': BANDS_LC8,
+    'LANDSAT/LT04/C01/T1_SR': BANDS_LT4,
     'LANDSAT/LT05/C01/T1_SR': BANDS_LT5,
-    'LANDSAT/LE07/C01/T1_SR': BANDS_LE7
+    'LANDSAT/LE07/C01/T1_SR': BANDS_LE7,
+    'LANDSAT/LC08/C01/T1_SR': BANDS_LC8,
 }
 
 #: dict[str, Number]: NoDataValues for Landsat collections
 NODATA = {
-    'LANDSAT/LC08/C01/T1_SR': -9999,
+    'LANDSAT/LT04/C01/T1_SR': -9999,
     'LANDSAT/LT05/C01/T1_SR': -9999,
-    'LANDSAT/LE07/C01/T1_SR': -9999
+    'LANDSAT/LE07/C01/T1_SR': -9999,
+    'LANDSAT/LC08/C01/T1_SR': -9999,
 }
 
 
@@ -54,13 +57,15 @@ _T1_SR_METADATA = [
     'system:time_start',
     'system:version'
 ]
-_T1_SR_METADATA_LC08 = ['IMAGE_QUALITY_OLI']
-_T1_SR_METADATA_LE07 = ['IMAGE_QUALITY']
+_T1_SR_METADATA_LT04 = ['IMAGE_QUALITY']
 _T1_SR_METADATA_LT05 = ['IMAGE_QUALITY']
+_T1_SR_METADATA_LE07 = ['IMAGE_QUALITY']
+_T1_SR_METADATA_LC08 = ['IMAGE_QUALITY_OLI']
 METADATA = {
-    'LANDSAT/LC08/C01/T1_SR': _T1_SR_METADATA + _T1_SR_METADATA_LC08,
+    'LANDSAT/LT04/C01/T1_SR': _T1_SR_METADATA + _T1_SR_METADATA_LT04,
     'LANDSAT/LT05/C01/T1_SR': _T1_SR_METADATA + _T1_SR_METADATA_LT05,
-    'LANDSAT/LE07/C01/T1_SR': _T1_SR_METADATA + _T1_SR_METADATA_LE07
+    'LANDSAT/LE07/C01/T1_SR': _T1_SR_METADATA + _T1_SR_METADATA_LE07,
+    'LANDSAT/LC08/C01/T1_SR': _T1_SR_METADATA + _T1_SR_METADATA_LC08,
 }
 
 
