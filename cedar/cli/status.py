@@ -106,7 +106,7 @@ def completed(ctx, tracking_name, update_):
 def update(ctx, tracking_name, all_, dest):
     """ Update job submission tracking info
     """
-    if all_ and not tracking_name:
+    if all_ and tracking_name:
         raise click.BadParameter('Cannot specify tracking names AND `--all`',
                                  param_hint='--all')
 
