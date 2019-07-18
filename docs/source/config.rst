@@ -95,7 +95,7 @@ your order in the tracking metadata filename.
 
 Credentials information for Google Drive. It may be more convenient in many
 cases, such as using cedar on your own computer, to use
-the ``cedar auth gdrive`` (see :ref:`usage<cli_auth_gdrive>`) command to
+the ``cedar auth gdrive`` (see :ref:`usage <cli_auth_gdrive>`) command to
 login and store your credentials (in ``~/.config/cedar/credentials.json``).
 
 +-----------------------+-----------------------------------------------+
