@@ -164,7 +164,7 @@ def repr_tracking_submission(info, header='Submission Info:'):
     tile_indices = [f'({i[0]}, {i[1]})' for i in info['tile_indices']]
 
     # Format subsection first so it can be added as a string
-    period_info_str = ['* Period: '] + _indent([
+    period_info_str = ['* Period:'] + _indent([
         f'* Start: {info["period_start"]}',
         f'* End:   {info["period_end"]}',
         f'* Freq:  {info["period_freq"]}'
@@ -196,7 +196,7 @@ def repr_tracking_orders(info, show_states=True, show_runtimes=True,
     if show_states:
         states = summarize_states(info)
         lines_ = [f'- {state}: {n}' for state, n in states.items()]
-        lines.append('* States: ')
+        lines.append('* States:')
         lines.extend(_indent(lines_, n=1))
 
     if show_runtimes:
