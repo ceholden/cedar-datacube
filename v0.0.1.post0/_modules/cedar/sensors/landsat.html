@@ -1,0 +1,414 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>cedar.sensors.landsat &mdash; cedar 0.0.1.post0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/theme_overrides.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> cedar
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1.post0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../faq.html">Frequently Asked Questions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../credentials.html">Credentials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../config.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../submissions.html">Pre-ARD Order Submission</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tracking.html">Pre-ARD Order Tracking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../download.html">Download</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../convert.html">Pre-ARD to ARD Conversion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cleaning.html">Cleaning pre-ARD from Storage</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Help and Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli.html">Command Line Interface Programs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../storage.html">Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dev.html">Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">cedar</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>cedar.sensors.landsat</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for cedar.sensors.landsat</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot; Functions for dealing with Landsat data on GEE</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">datetime</span> <span class="k">as</span> <span class="nn">dt</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="kn">import</span> <span class="nn">ee</span>
+
+<span class="kn">from</span> <span class="nn">..exceptions</span> <span class="k">import</span> <span class="n">EmptyCollectionError</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">common</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="c1"># Renaming stuff</span>
+<span class="n">BANDS_COMMON</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;blue&#39;</span><span class="p">,</span> <span class="s1">&#39;green&#39;</span><span class="p">,</span> <span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="s1">&#39;nir&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;swir1&#39;</span><span class="p">,</span> <span class="s1">&#39;swir2&#39;</span><span class="p">,</span> <span class="s1">&#39;thermal&#39;</span><span class="p">,</span> <span class="s1">&#39;pixel_qa&#39;</span><span class="p">]</span>
+
+<span class="n">BANDS_LT4</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;B1&#39;</span><span class="p">,</span> <span class="s1">&#39;B2&#39;</span><span class="p">,</span> <span class="s1">&#39;B3&#39;</span><span class="p">,</span> <span class="s1">&#39;B4&#39;</span><span class="p">,</span> <span class="s1">&#39;B5&#39;</span><span class="p">,</span> <span class="s1">&#39;B7&#39;</span><span class="p">,</span>  <span class="s1">&#39;B6&#39;</span><span class="p">,</span> <span class="s1">&#39;pixel_qa&#39;</span><span class="p">]</span>
+<span class="n">BANDS_LT5</span> <span class="o">=</span> <span class="n">BANDS_LT4</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">BANDS_LE7</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;B1&#39;</span><span class="p">,</span> <span class="s1">&#39;B2&#39;</span><span class="p">,</span> <span class="s1">&#39;B3&#39;</span><span class="p">,</span> <span class="s1">&#39;B4&#39;</span><span class="p">,</span> <span class="s1">&#39;B5&#39;</span><span class="p">,</span> <span class="s1">&#39;B7&#39;</span><span class="p">,</span>  <span class="s1">&#39;B6&#39;</span><span class="p">,</span> <span class="s1">&#39;pixel_qa&#39;</span><span class="p">]</span>
+<span class="n">BANDS_LC8</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;B2&#39;</span><span class="p">,</span> <span class="s1">&#39;B3&#39;</span><span class="p">,</span> <span class="s1">&#39;B4&#39;</span><span class="p">,</span> <span class="s1">&#39;B5&#39;</span><span class="p">,</span> <span class="s1">&#39;B6&#39;</span><span class="p">,</span> <span class="s1">&#39;B7&#39;</span><span class="p">,</span> <span class="s1">&#39;B10&#39;</span><span class="p">,</span> <span class="s1">&#39;pixel_qa&#39;</span><span class="p">]</span>
+
+<span class="n">BANDS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;COMMON&#39;</span><span class="p">:</span> <span class="n">BANDS_COMMON</span><span class="p">,</span>
+    <span class="s1">&#39;LANDSAT/LT04/C01/T1_SR&#39;</span><span class="p">:</span> <span class="n">BANDS_LT4</span><span class="p">,</span>
+    <span class="s1">&#39;LANDSAT/LT05/C01/T1_SR&#39;</span><span class="p">:</span> <span class="n">BANDS_LT5</span><span class="p">,</span>
+    <span class="s1">&#39;LANDSAT/LE07/C01/T1_SR&#39;</span><span class="p">:</span> <span class="n">BANDS_LE7</span><span class="p">,</span>
+    <span class="s1">&#39;LANDSAT/LC08/C01/T1_SR&#39;</span><span class="p">:</span> <span class="n">BANDS_LC8</span><span class="p">,</span>
+<span class="p">}</span>
+
+<span class="c1">#: dict[str, Number]: NoDataValues for Landsat collections</span>
+<span class="n">NODATA</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;LANDSAT/LT04/C01/T1_SR&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">9999</span><span class="p">,</span>
+    <span class="s1">&#39;LANDSAT/LT05/C01/T1_SR&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">9999</span><span class="p">,</span>
+    <span class="s1">&#39;LANDSAT/LE07/C01/T1_SR&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">9999</span><span class="p">,</span>
+    <span class="s1">&#39;LANDSAT/LC08/C01/T1_SR&#39;</span><span class="p">:</span> <span class="o">-</span><span class="mi">9999</span><span class="p">,</span>
+<span class="p">}</span>
+
+
+<span class="n">_T1_SR_METADATA</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;CLOUD_COVER&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;CLOUD_COVER_LAND&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;EARTH_SUN_DISTANCE&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;ESPA_VERSION&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;GEOMETRIC_RMSE_MODEL&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;GEOMETRIC_RMSE_MODEL_X&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;GEOMETRIC_RMSE_MODEL_Y&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;LANDSAT_ID&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;LEVEL1_PRODUCTION_DATE&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;SATELLITE&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;SENSING_TIME&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;SOLAR_AZIMUTH_ANGLE&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;SOLAR_ZENITH_ANGLE&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;SR_APP_VERSION&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;WRS_PATH&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;WRS_ROW&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;system:id&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;system:time_start&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;system:version&#39;</span>
+<span class="p">]</span>
+<span class="n">_T1_SR_METADATA_LT04</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;IMAGE_QUALITY&#39;</span><span class="p">]</span>
+<span class="n">_T1_SR_METADATA_LT05</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;IMAGE_QUALITY&#39;</span><span class="p">]</span>
+<span class="n">_T1_SR_METADATA_LE07</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;IMAGE_QUALITY&#39;</span><span class="p">]</span>
+<span class="n">_T1_SR_METADATA_LC08</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;IMAGE_QUALITY_OLI&#39;</span><span class="p">]</span>
+<span class="n">METADATA</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;LANDSAT/LT04/C01/T1_SR&#39;</span><span class="p">:</span> <span class="n">_T1_SR_METADATA</span> <span class="o">+</span> <span class="n">_T1_SR_METADATA_LT04</span><span class="p">,</span>
+    <span class="s1">&#39;LANDSAT/LT05/C01/T1_SR&#39;</span><span class="p">:</span> <span class="n">_T1_SR_METADATA</span> <span class="o">+</span> <span class="n">_T1_SR_METADATA_LT05</span><span class="p">,</span>
+    <span class="s1">&#39;LANDSAT/LE07/C01/T1_SR&#39;</span><span class="p">:</span> <span class="n">_T1_SR_METADATA</span> <span class="o">+</span> <span class="n">_T1_SR_METADATA_LE07</span><span class="p">,</span>
+    <span class="s1">&#39;LANDSAT/LC08/C01/T1_SR&#39;</span><span class="p">:</span> <span class="n">_T1_SR_METADATA</span> <span class="o">+</span> <span class="n">_T1_SR_METADATA_LC08</span><span class="p">,</span>
+<span class="p">}</span>
+
+
+<div class="viewcode-block" id="create_ard"><a class="viewcode-back" href="../../../cedar/cedar.sensors.landsat.html#cedar.sensors.landsat.create_ard">[docs]</a><span class="k">def</span> <span class="nf">create_ard</span><span class="p">(</span><span class="n">collection</span><span class="p">,</span> <span class="n">tile</span><span class="p">,</span> <span class="n">date_start</span><span class="p">,</span> <span class="n">date_end</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+               <span class="n">validate</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Create an ARD :py:class:`ee.Image`</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    collection : str</span>
+<span class="sd">        GEE image collection name</span>
+<span class="sd">    tile : stems.gis.grids.Tile</span>
+<span class="sd">        STEMS TileGrid tile</span>
+<span class="sd">    date_start : dt.datetime</span>
+<span class="sd">        Starting period</span>
+<span class="sd">    date_end : dt.datetime</span>
+<span class="sd">        Ending period</span>
+<span class="sd">    filters : Sequence[ee.Filter], optional</span>
+<span class="sd">        Additional filters to apply over image collection</span>
+<span class="sd">    validate : bool, optional</span>
+<span class="sd">        Perform validity checks at cost of submission speed (runs ``.getInfo``</span>
+<span class="sd">        on metadata, requiring us to wait on client-server communication)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ee.Image</span>
+<span class="sd">        &quot;ARD&quot; image from collection with all observations within period</span>
+<span class="sd">    Sequence[dict]</span>
+<span class="sd">        Metadata, one dict per image</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># TODO: convert system:time_start to datetime/strftime</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">date_start</span><span class="p">,</span> <span class="n">dt</span><span class="o">.</span><span class="n">datetime</span><span class="p">)</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">date_end</span><span class="p">,</span> <span class="n">dt</span><span class="o">.</span><span class="n">datetime</span><span class="p">)</span>
+
+    <span class="c1"># Get collection</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">collection</span><span class="p">,</span> <span class="n">ee</span><span class="o">.</span><span class="n">ImageCollection</span><span class="p">):</span>
+        <span class="n">imgcol</span> <span class="o">=</span> <span class="n">collection</span>
+        <span class="n">collection</span> <span class="o">=</span> <span class="n">imgcol</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;system:id&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">getInfo</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">imgcol</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">ImageCollection</span><span class="p">(</span><span class="n">collection</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">collection</span> <span class="ow">in</span> <span class="n">BANDS</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Image collection &quot;</span><span class="si">{collection}</span><span class="s1">&quot; is unsupported&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Find images in tile</span>
+    <span class="n">imgcol</span> <span class="o">=</span> <span class="n">common</span><span class="o">.</span><span class="n">filter_collection_tile</span><span class="p">(</span><span class="n">imgcol</span><span class="p">,</span> <span class="n">tile</span><span class="p">)</span>
+
+    <span class="c1"># For each unique date of imagery in this image collection covering the tile</span>
+    <span class="n">imgcol</span> <span class="o">=</span> <span class="n">common</span><span class="o">.</span><span class="n">filter_collection_time</span><span class="p">(</span><span class="n">imgcol</span><span class="p">,</span> <span class="n">date_start</span><span class="p">,</span> <span class="n">date_end</span><span class="p">)</span>
+
+    <span class="c1"># Apply additional filters</span>
+    <span class="k">if</span> <span class="n">filters</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Applying {len(filters)} filters over collection&#39;</span><span class="p">)</span>
+        <span class="n">imgcol</span> <span class="o">=</span> <span class="n">imgcol</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">filters</span><span class="p">)</span>
+
+    <span class="c1"># Select and rename bands</span>
+    <span class="n">imgcol</span> <span class="o">=</span> <span class="n">imgcol</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">BANDS</span><span class="p">[</span><span class="n">collection</span><span class="p">],</span> <span class="n">BANDS</span><span class="p">[</span><span class="s1">&#39;COMMON&#39;</span><span class="p">])</span>
+
+    <span class="c1"># Find number of unique observations (or, uniquely dated)</span>
+    <span class="n">imgcol_udates</span> <span class="o">=</span> <span class="n">common</span><span class="o">.</span><span class="n">get_collection_uniq_dates</span><span class="p">(</span><span class="n">imgcol</span><span class="p">)</span>
+    <span class="n">n_images</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">imgcol_udates</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">n_images</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">EmptyCollectionError</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Found 0 images for &quot;</span><span class="si">{collection}</span><span class="s1">&quot; between &#39;</span>
+                                   <span class="n">f</span><span class="s1">&#39;</span><span class="si">{date_start}</span><span class="s1">-</span><span class="si">{date_end}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Loop over unique dates, making mosaics to eliminate north/south if needed</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Creating ARD for </span><span class="si">{n_images}</span><span class="s1"> images&#39;</span><span class="p">)</span>
+    <span class="n">prepped</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">udate</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">imgcol_udates</span><span class="p">):</span>
+        <span class="c1"># Prepare and get metadata for unique date</span>
+        <span class="n">img</span><span class="p">,</span> <span class="n">meta</span> <span class="o">=</span> <span class="n">_prep_collection_image</span><span class="p">(</span><span class="n">imgcol</span><span class="p">,</span> <span class="n">collection</span><span class="p">,</span> <span class="n">udate</span><span class="p">,</span>
+                                           <span class="n">validate</span><span class="o">=</span><span class="n">validate</span><span class="p">)</span>
+        <span class="c1"># Add image and metadata</span>
+        <span class="n">prepped</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">img</span><span class="p">,</span> <span class="n">meta</span><span class="p">))</span>
+
+    <span class="c1"># Unpack</span>
+    <span class="n">images</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">prepped</span><span class="p">))</span>
+
+    <span class="c1"># Re-create as collection and turn to bands (n_image x bands_per_image)</span>
+    <span class="n">tile_col</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">ImageCollection</span><span class="o">.</span><span class="n">fromImages</span><span class="p">(</span><span class="n">images</span><span class="p">)</span>
+    <span class="n">tile_bands</span> <span class="o">=</span> <span class="n">tile_col</span><span class="o">.</span><span class="n">toBands</span><span class="p">()</span><span class="o">.</span><span class="n">toInt16</span><span class="p">()</span>
+
+    <span class="c1"># Remove mask</span>
+    <span class="n">nodata</span> <span class="o">=</span> <span class="n">NODATA</span><span class="p">[</span><span class="n">collection</span><span class="p">]</span>
+    <span class="n">tile_bands_unmasked</span> <span class="o">=</span> <span class="n">tile_bands</span><span class="o">.</span><span class="n">unmask</span><span class="p">(</span><span class="n">nodata</span><span class="p">)</span>
+
+    <span class="c1"># Get all image metadata at once (saves time back and forth)</span>
+    <span class="n">images_metadata</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">ee</span><span class="o">.</span><span class="n">List</span><span class="p">(</span><span class="n">_</span><span class="p">)</span><span class="o">.</span><span class="n">getInfo</span><span class="p">())</span>
+
+
+    <span class="c1"># Create overall metadata</span>
+    <span class="n">band_names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">imgcol</span><span class="o">.</span><span class="n">first</span><span class="p">()</span><span class="o">.</span><span class="n">bandNames</span><span class="p">()</span><span class="o">.</span><span class="n">getInfo</span><span class="p">())</span>
+    <span class="n">metadata</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;bands&#39;</span><span class="p">:</span> <span class="n">band_names</span><span class="p">,</span>
+        <span class="s1">&#39;nodata&#39;</span><span class="p">:</span> <span class="n">nodata</span><span class="p">,</span>
+        <span class="s1">&#39;images&#39;</span><span class="p">:</span> <span class="n">images_metadata</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">tile_bands_unmasked</span><span class="p">,</span> <span class="n">metadata</span></div>
+
+
+<span class="k">def</span> <span class="nf">_imgcol_metadata</span><span class="p">(</span><span class="n">imgcol</span><span class="p">,</span> <span class="n">keys</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Return metadata for Landsat image collection</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">inner</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">previous</span><span class="p">):</span>
+        <span class="n">meta</span> <span class="o">=</span> <span class="n">common</span><span class="o">.</span><span class="n">object_metadata</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">keys</span><span class="p">)</span>
+        <span class="n">previous_</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">List</span><span class="p">(</span><span class="n">previous</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ee</span><span class="o">.</span><span class="n">List</span><span class="p">(</span><span class="n">previous_</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">meta</span><span class="p">))</span>
+
+    <span class="n">meta</span> <span class="o">=</span> <span class="n">imgcol</span><span class="o">.</span><span class="n">iterate</span><span class="p">(</span><span class="n">inner</span><span class="p">,</span> <span class="n">ee</span><span class="o">.</span><span class="n">List</span><span class="p">([]))</span>
+    <span class="k">return</span> <span class="n">meta</span>
+
+
+<span class="k">def</span> <span class="nf">_prep_collection_image</span><span class="p">(</span><span class="n">imgcol</span><span class="p">,</span> <span class="n">collection</span><span class="p">,</span> <span class="n">date</span><span class="p">,</span> <span class="n">validate</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Prepare an image for and ``date`` from an ImageCollection</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Filter for this date (day &lt;-&gt; day+1)</span>
+    <span class="n">date_end</span> <span class="o">=</span> <span class="p">(</span><span class="n">date</span> <span class="o">+</span> <span class="n">dt</span><span class="o">.</span><span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">imgcol_</span> <span class="o">=</span> <span class="n">common</span><span class="o">.</span><span class="n">filter_collection_time</span><span class="p">(</span><span class="n">imgcol</span><span class="p">,</span> <span class="n">date</span><span class="p">,</span> <span class="n">date_end</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">validate</span><span class="p">:</span>
+        <span class="c1"># Check to make sure just 1 unique date</span>
+        <span class="n">_</span> <span class="o">=</span> <span class="n">common</span><span class="o">.</span><span class="n">get_collection_uniq_dates</span><span class="p">(</span><span class="n">imgcol_</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">_</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span>
+
+    <span class="c1"># Prepare all images in this collection (i.e., 1 or 2, depending on overlap)</span>
+    <span class="n">img</span> <span class="o">=</span> <span class="n">imgcol_</span><span class="o">.</span><span class="n">mosaic</span><span class="p">()</span>
+
+    <span class="c1"># Get metadata from each image in new, potentially mosaiced ``img``</span>
+    <span class="n">keys</span> <span class="o">=</span> <span class="n">METADATA</span><span class="p">[</span><span class="n">collection</span><span class="p">]</span>
+    <span class="n">meta</span> <span class="o">=</span> <span class="n">_imgcol_metadata</span><span class="p">(</span><span class="n">imgcol_</span><span class="p">,</span> <span class="n">keys</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">img</span><span class="p">,</span> <span class="n">meta</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Chris Holden
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,7 @@
+cedar.metadata.core module
+==========================
+
+.. automodule:: cedar.metadata.core
+   :members:
+   :undoc-members:
+   :show-inheritance:
