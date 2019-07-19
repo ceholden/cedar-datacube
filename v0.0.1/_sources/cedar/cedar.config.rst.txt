@@ -1,0 +1,18 @@
+cedar.config package
+====================
+
+Submodules
+----------
+
+.. toctree::
+
+   cedar.config.build
+   cedar.config.core
+
+Module contents
+---------------
+
+.. automodule:: cedar.config
+   :members:
+   :undoc-members:
+   :show-inheritance:

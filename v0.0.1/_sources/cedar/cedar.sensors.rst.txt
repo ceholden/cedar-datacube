@@ -1,0 +1,18 @@
+cedar.sensors package
+=====================
+
+Submodules
+----------
+
+.. toctree::
+
+   cedar.sensors.common
+   cedar.sensors.landsat
+
+Module contents
+---------------
+
+.. automodule:: cedar.sensors
+   :members:
+   :undoc-members:
+   :show-inheritance:

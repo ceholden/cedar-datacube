@@ -1,0 +1,460 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>cedar.tracking module &mdash; cedar 0.0.1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> cedar
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequently Asked Questions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../credentials.html">Credentials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../submissions.html">Pre-ARD Order Submission</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tracking.html">Pre-ARD Order Tracking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../download.html">Download</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../convert.html">Pre-ARD to ARD Conversion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cleaning.html">Cleaning pre-ARD from Storage</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Help and Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line Interface Programs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../storage.html">Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dev.html">Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">cedar</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>cedar.tracking module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/ceholden/cedar-datacube/blob/master/docs/source/cedar/cedar.tracking.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-cedar.tracking">
+<span id="cedar-tracking-module"></span><h1>cedar.tracking module<a class="headerlink" href="#module-cedar.tracking" title="Permalink to this headline">¶</a></h1>
+<p>Tracker to submit and download GEE pre-ARD tasks</p>
+<dl class="class">
+<dt id="cedar.tracking.Tracker">
+<em class="property">class </em><code class="sig-prename descclassname">cedar.tracking.</code><code class="sig-name descname">Tracker</code><span class="sig-paren">(</span><em class="sig-param">tile_grid</em>, <em class="sig-param">store</em>, <em class="sig-param">name_template='{collection}_h{tile.horizontal:03d}v{tile.vertical:03d}_{date_start}_{date_end}'</em>, <em class="sig-param">prefix_template='CEDAR_PREARD'</em>, <em class="sig-param">tracking_template='TRACKING_PERIOD{date_start}-{date_end}_TASK{today}'</em>, <em class="sig-param">tracking_prefix='CEDAR_TRACKING'</em>, <em class="sig-param">filters=None</em>, <em class="sig-param">export_image_kwds=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/tracking.html#Tracker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.tracking.Tracker" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.7/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>CEDAR “pre-ARD” order tracker</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tile_grid</strong> (<em>stems.gis.grids.TileGrid</em>) – Tile Grid to use for ARD</p></li>
+<li><p><strong>store</strong> (<em>cedar.stores.Store</em>) – A Store that can be used to store images &amp; metadata</p></li>
+<li><p><strong>..</strong> – </p></li>
+<li><p><strong>filters</strong> (<em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a><em> or </em><em>ee.Filter</em><em>]</em>) – Earth Engine filters to apply, either as ee.Filter objects or
+dictionaries that describe the filter</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="method">
+<dt id="cedar.tracking.Tracker.clean">
+<code class="sig-name descname">clean</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">tracking_info</em>, <em class="sig-param">tracking_name=None</em>, <em class="sig-param">callback=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/tracking.html#Tracker.clean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.tracking.Tracker.clean" title="Permalink to this definition">¶</a></dt>
+<dd><p>Clean “pre-ARD” imagery, metadata, and tracking metadata off GCS</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tracking_info</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – JSON tracking info data as a dict</p></li>
+<li><p><strong>tracking_name</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Name of tracking info file (will be deleted if provided)</p></li>
+<li><p><strong>callback</strong> (<em>callable</em>) – Callback function to execute after each file is deleted.
+Should take arguments “item” and “n_steps”. Use this for
+progress bars or other download status reporting</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Mapping of GEE Task ID to filename(s) cleaned</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a>[<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a>, <a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#list" title="(in Python v3.7)">list</a>[<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a>]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="cedar.tracking.Tracker.download">
+<code class="sig-name descname">download</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">tracking_info</em>, <em class="sig-param">dest</em>, <em class="sig-param">overwrite=True</em>, <em class="sig-param">callback=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/tracking.html#Tracker.download"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.tracking.Tracker.download" title="Permalink to this definition">¶</a></dt>
+<dd><p>Download “pre-ARD” and metadata to a directory</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tracking_info</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – JSON tracking info data as a dict</p></li>
+<li><p><strong>dest</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3.7/library/pathlib.html#pathlib.Path" title="(in Python v3.7)"><em>pathlib.Path</em></a>) – Destination download directory</p></li>
+<li><p><strong>overwrite</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em>, </em><em>optional</em>) – Overwrite existing downloaded data</p></li>
+<li><p><strong>callback</strong> (<em>callable</em>) – Callback function to execute after each file is downloaded.
+Should take arguments “item” and “n_steps”. Use this for
+progress bars or other download status reporting</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Key value pairs mapping GEE task IDs to the filenames of
+downloaded data. Wrap it in a <code class="docutils literal notranslate"><span class="pre">dict</span></code> to make it not lazy</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#tuple" title="(in Python v3.7)">tuple</a>[<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a>, <a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#list" title="(in Python v3.7)">list</a>[<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a>]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="cedar.tracking.Tracker.filters">
+<em class="property">property </em><code class="sig-name descname">filters</code><a class="headerlink" href="#cedar.tracking.Tracker.filters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Earth Engine filters to apply</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#list" title="(in Python v3.7)">list</a>[ee.Filter]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="cedar.tracking.Tracker.list">
+<code class="sig-name descname">list</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">pattern=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/tracking.html#Tracker.list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.tracking.Tracker.list" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a list of all tracking metadata</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>pattern</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Search pattern for tracking info. Specify to subset to specific
+tracking info (e.g., from some date). If <code class="docutils literal notranslate"><span class="pre">None</span></code> provided,
+looks for tracking information matching
+<code class="xref py py-attr docutils literal notranslate"><span class="pre">tracking_template</span></code></p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Name of stored tracking information</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#list" title="(in Python v3.7)">list</a>[<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="cedar.tracking.Tracker.read">
+<code class="sig-name descname">read</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/tracking.html#Tracker.read"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.tracking.Tracker.read" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns stored tracking information as dict</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Name of tracking metadata (e.g., taken from running
+<code class="xref py py-func docutils literal notranslate"><span class="pre">list_tracking()</span></code>)</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>JSON tracking info data as a dict</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="cedar.tracking.Tracker.submit">
+<code class="sig-name descname">submit</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">collections</em>, <em class="sig-param">tile_indices</em>, <em class="sig-param">period_start</em>, <em class="sig-param">period_end</em>, <em class="sig-param">period_freq=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/tracking.html#Tracker.submit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.tracking.Tracker.submit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Submit and track GEE pre-ARD tasks</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>collections</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em> or </em><em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>]</em>) – GEE image collection name(s)</p></li>
+<li><p><strong>tile_indices</strong> (<em>Sequence</em><em>[</em><em>(</em><a class="reference external" href="https://docs.python.org/3.7/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3.7/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a><em>)</em><em>]</em>) – Tuple(s) of rows/columns in TileGrid to process</p></li>
+<li><p><strong>period_start</strong> (<em>dt.datetime</em>) – Starting period date</p></li>
+<li><p><strong>period_end</strong> (<em>dt.datetime</em>) – Ending period date</p></li>
+<li><p><strong>period_freq</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – If provided, <code class="docutils literal notranslate"><span class="pre">period_start</span></code>, <code class="docutils literal notranslate"><span class="pre">period_end</span></code>, and <code class="docutils literal notranslate"><span class="pre">period_freq</span></code>
+are interpeted as the range for <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.date_range.html#pandas.date_range" title="(in pandas v0.25.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">pandas.date_range()</span></code></a> and
+one or more Tasks will be submitted</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><ul class="simple">
+<li><p><em>str</em> – Task tracking information name</p></li>
+<li><p><em>str</em> – Task tracking information identifier (an ID, path, etc)</p></li>
+</ul>
+</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="cedar.tracking.Tracker.update">
+<code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/tracking.html#Tracker.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.tracking.Tracker.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Refresh and reupload tracking information by checking with the GEE</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Name of tracking metadata (e.g., taken from running
+<code class="xref py py-func docutils literal notranslate"><span class="pre">list_tracking()</span></code>)</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>JSON tracking info data as a dict</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="cedar.tracking.clean_tracked">
+<code class="sig-prename descclassname">cedar.tracking.</code><code class="sig-name descname">clean_tracked</code><span class="sig-paren">(</span><em class="sig-param">tracking_info</em>, <em class="sig-param">store</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/tracking.html#clean_tracked"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.tracking.clean_tracked" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete stored “pre-ARD” and metadata described by tracking info</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tracking_info</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – Tracking information</p></li>
+<li><p><strong>store</strong> (<a class="reference internal" href="../storage.html#cedar.stores.gcs.GCSStore" title="cedar.stores.gcs.GCSStore"><em>cedar.stores.gcs.GCSStore</em></a><em> or </em><a class="reference internal" href="../storage.html#cedar.stores.gdrive.GDriveStore" title="cedar.stores.gdrive.GDriveStore"><em>cedar.stores.gdrive.GDriveStore</em></a>) – cedar store class</p></li>
+</ul>
+</dd>
+<dt class="field-even">Yields</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>id</strong> (<em>str</em>) – Order GEE Task ID</p></li>
+<li><p><strong>names</strong> (<em>generator</em>) – Generator that deletes files and returns their names</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="cedar.tracking.download_tracked">
+<code class="sig-prename descclassname">cedar.tracking.</code><code class="sig-name descname">download_tracked</code><span class="sig-paren">(</span><em class="sig-param">tracking_info</em>, <em class="sig-param">store</em>, <em class="sig-param">dest</em>, <em class="sig-param">overwrite=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/tracking.html#download_tracked"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.tracking.download_tracked" title="Permalink to this definition">¶</a></dt>
+<dd><p>Download stored “pre-ARD” and metadata described by tracking info</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tracking_info</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – Tracking information</p></li>
+<li><p><strong>store</strong> (<em>cedar.stores.Store</em>) – cedar store class</p></li>
+<li><p><strong>dest</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3.7/library/pathlib.html#pathlib.Path" title="(in Python v3.7)"><em>pathlib.Path</em></a>) – Destination download directory</p></li>
+<li><p><strong>overwrite</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em>, </em><em>optional</em>) – Overwrite previously downoaded data, or not</p></li>
+</ul>
+</dd>
+<dt class="field-even">Yields</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>id</strong> (<em>str</em>) – Task ID</p></li>
+<li><p><strong>n_images</strong> (<em>int</em>) – Number of images to download if known, otherwise <code class="docutils literal notranslate"><span class="pre">None</span></code></p></li>
+<li><p><strong>metadata</strong> (<em>generator</em>) – Generator that downloads metadata and yields filenames</p></li>
+<li><p><strong>images</strong> (<em>generator</em>) – Generator that downloads imagery and yields filenames</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="cedar.tracking.get_ee_tasks">
+<code class="sig-prename descclassname">cedar.tracking.</code><code class="sig-name descname">get_ee_tasks</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/tracking.html#get_ee_tasks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.tracking.get_ee_tasks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return GEE tasks (task ID: task)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>GEE tasks</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a>[<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a>, ee.batch.task.Task]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="cedar.tracking.get_submission_info">
+<code class="sig-prename descclassname">cedar.tracking.</code><code class="sig-name descname">get_submission_info</code><span class="sig-paren">(</span><em class="sig-param">tile_grid</em>, <em class="sig-param">collections</em>, <em class="sig-param">tile_indices</em>, <em class="sig-param">period_start</em>, <em class="sig-param">period_end</em>, <em class="sig-param">period_freq</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/tracking.html#get_submission_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.tracking.get_submission_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return information about tracked order submissions</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="cedar.tracking.update_tracking_info">
+<code class="sig-prename descclassname">cedar.tracking.</code><code class="sig-name descname">update_tracking_info</code><span class="sig-paren">(</span><em class="sig-param">tracking_info</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/tracking.html#update_tracking_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.tracking.update_tracking_info" title="Permalink to this definition">¶</a></dt>
+<dd><p>Try to update tracking information with current task status from GEE</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>tracking_info</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – Tracking information stored from a past submission</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Input tracking info updated with GEE task status</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Chris Holden
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
