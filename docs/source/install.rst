@@ -4,8 +4,11 @@
 Installation
 ============
 
-Required Dependencies
----------------------
+Dependencies
+============
+
+Required
+--------
 
 The core dependencies are:
 
@@ -20,8 +23,8 @@ The core dependencies are:
 - rasterio (>=1.0.14)
 - pyyaml
 
-Optional Dependencies
----------------------
+Optional
+--------
 
 Google Earth Engine (GEE)
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -68,13 +71,41 @@ Documentation is built using Sphinx and requires:
 .. _instructions:
 
 Instructions
-------------
+============
 
 cedar is a pure Python package, but it sits on top of a pile of dependencies
 that may be difficult to install. The easiest way to install all of these
 dependencies is using the conda_ tool.
 
-With conda_ installed and ready to use, you can install all the required
+
+Conda Package
+-------------
+
+cedar has been packaged as a Conda package and uploaded to the ``ceholden``
+Anaconda channel. Installing cedar this way is one of the easiest ways
+because it will take care of installing the dependencies and the Python
+code for a release of cedar. Note that this conda package also depends
+on other packages available in the ``conda-forge`` channel, so make sure
+to include both channels when installing cedar.
+
+An example of how you might want to install cedar using ``conda`` is,
+
+.. code-block:: bash
+
+   $ conda create -n cedar_env -c conda-forge -c ceholden cedar-datacube
+   $ conda activate cedar_env
+
+
+From Source
+-----------
+
+Dependencies
+~~~~~~~~~~~~
+
+To install cedar from the source code, you will first need to make sure
+you have installed all the required dependencies.
+
+With conda_ installed and ready to use, you can install the required
 dependencies for this library using one of the "environment" files located in
 the ``ci/`` directory (we use these for our continuous integration tests):
 
@@ -91,20 +122,12 @@ With the conda environment created, you can activate it as follows:
 
 You should now be ready to install cedar.
 
-
-Stable Release
-~~~~~~~~~~~~~~
-
-There are no stable releases of cedar yet on PyPI.
-
-
-From Sources
-~~~~~~~~~~~~
+Install cedar
+~~~~~~~~~~~~~
 
 The sources for cedar can be downloaded from the `Github repo`_. You can
 either download the source from Github and install it using ``pip``, or use
 ``pip`` to install the source from Github directly.
-
 
 You can either clone the public repository:
 
