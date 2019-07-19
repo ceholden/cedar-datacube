@@ -5,9 +5,8 @@ channels:
 dependencies:
   - python>=3.6
   - pip
-  # temp fix for gdal
-  - cfitsio=3.430
   # core
+  - stems
   - affine
   - dask
   - distributed
@@ -46,7 +45,5 @@ dependencies:
   - numpydoc
   - ipython
   - pip:
-    # STEMS - private repo url for now...
-    - git+ssh://git@github.com/ceholden/stems.git
     # docs
     - coverage-badge
