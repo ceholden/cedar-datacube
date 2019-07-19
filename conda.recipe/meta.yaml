@@ -1,4 +1,4 @@
-{% set version = "0.0.1" %}
+{% set version = "0.0.1.post0" %}
 
 package:
   name: cedar-datacube
@@ -56,3 +56,13 @@ about:
   home: https://github.com/ceholden/cedar-datacube
   license: BSD-3-Clause
   license_file: LICENSE
+  licence_family: BSD
+  summary: 'Create Earth engine Data cubes of Analytical Readiness'
+  description: |
+    cedar is a library and application to help download and preprocess
+    satellite data to be “analysis ready data” (ARD) “data cube” as quickly as
+    possible. cedar has been designed primarily to preprocess Landsat data, and
+    can help acquire data from the Google Earth Engine (GEE). It is based on
+    tools within the Python ecosystem for geospatial data processing
+    (rasterio), saving and working with N-dimensional data (netCDF4 and
+    xarray), and parallelization (dask and distributed).
