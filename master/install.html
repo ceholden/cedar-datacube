@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Installation &mdash; cedar 0+untagged.51.g62dff70 documentation</title>
+  <title>Installation &mdash; cedar 0+untagged.51.g1989d13 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0+untagged.51.g62dff70
+                0+untagged.51.g1989d13
               </div>
             
           
@@ -88,17 +88,24 @@
               <p class="caption"><span class="caption-text">Getting Started</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#required-dependencies">Required Dependencies</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#optional-dependencies">Optional Dependencies</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#google-earth-engine-gee">Google Earth Engine (GEE)</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#command-line-interface">Command Line Interface</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#tests">Tests</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#documentation">Documentation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#dependencies">Dependencies</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#required">Required</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#optional">Optional</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#google-earth-engine-gee">Google Earth Engine (GEE)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#command-line-interface">Command Line Interface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#tests">Tests</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#documentation">Documentation</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#instructions">Instructions</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#stable-release">Stable Release</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#from-sources">From Sources</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#conda-package">Conda Package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#from-source">From Source</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id2">Dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#install-cedar">Install cedar</a></li>
+</ul>
+</li>
 </ul>
 </li>
 </ul>
@@ -191,8 +198,10 @@
             
   <div class="section" id="installation">
 <span id="install"></span><h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="required-dependencies">
-<h2>Required Dependencies<a class="headerlink" href="#required-dependencies" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="dependencies">
+<h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="required">
+<h3>Required<a class="headerlink" href="#required" title="Permalink to this headline">¶</a></h3>
 <p>The core dependencies are:</p>
 <ul class="simple">
 <li><p>Python 3.6 or later</p></li>
@@ -207,10 +216,10 @@
 <li><p>pyyaml</p></li>
 </ul>
 </div>
-<div class="section" id="optional-dependencies">
-<h2>Optional Dependencies<a class="headerlink" href="#optional-dependencies" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="optional">
+<h3>Optional<a class="headerlink" href="#optional" title="Permalink to this headline">¶</a></h3>
 <div class="section" id="google-earth-engine-gee">
-<h3>Google Earth Engine (GEE)<a class="headerlink" href="#google-earth-engine-gee" title="Permalink to this headline">¶</a></h3>
+<h4>Google Earth Engine (GEE)<a class="headerlink" href="#google-earth-engine-gee" title="Permalink to this headline">¶</a></h4>
 <p>To enable any of the capabilities of cedar that relate to the Google Earth
 Engine, including downloading ARD from the GEE, you will need the following:</p>
 <ul class="simple">
@@ -222,7 +231,7 @@ Engine, including downloading ARD from the GEE, you will need the following:</p>
 </ul>
 </div>
 <div class="section" id="command-line-interface">
-<h3>Command Line Interface<a class="headerlink" href="#command-line-interface" title="Permalink to this headline">¶</a></h3>
+<h4>Command Line Interface<a class="headerlink" href="#command-line-interface" title="Permalink to this headline">¶</a></h4>
 <p>For the command line interface, the following are also required:</p>
 <ul class="simple">
 <li><p>click</p></li>
@@ -231,7 +240,7 @@ Engine, including downloading ARD from the GEE, you will need the following:</p>
 </ul>
 </div>
 <div class="section" id="tests">
-<h3>Tests<a class="headerlink" href="#tests" title="Permalink to this headline">¶</a></h3>
+<h4>Tests<a class="headerlink" href="#tests" title="Permalink to this headline">¶</a></h4>
 <p>We use pytest to run the tests in this package, and require:</p>
 <ul class="simple">
 <li><p>pytest</p></li>
@@ -241,7 +250,7 @@ Engine, including downloading ARD from the GEE, you will need the following:</p>
 </ul>
 </div>
 <div class="section" id="documentation">
-<h3>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h3>
+<h4>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h4>
 <p>Documentation is built using Sphinx and requires:</p>
 <ul class="simple">
 <li><p>sphinx</p></li>
@@ -251,12 +260,33 @@ Engine, including downloading ARD from the GEE, you will need the following:</p>
 </ul>
 </div>
 </div>
+</div>
 <div class="section" id="instructions">
 <span id="id1"></span><h2>Instructions<a class="headerlink" href="#instructions" title="Permalink to this headline">¶</a></h2>
 <p>cedar is a pure Python package, but it sits on top of a pile of dependencies
 that may be difficult to install. The easiest way to install all of these
 dependencies is using the <a class="reference external" href="http://conda.io">conda</a> tool.</p>
-<p>With <a class="reference external" href="http://conda.io">conda</a> installed and ready to use, you can install all the required
+<div class="section" id="conda-package">
+<h3>Conda Package<a class="headerlink" href="#conda-package" title="Permalink to this headline">¶</a></h3>
+<p>cedar has been packaged as a Conda package and uploaded to the <code class="docutils literal notranslate"><span class="pre">ceholden</span></code>
+Anaconda channel. Installing cedar this way is one of the easiest ways
+because it will take care of installing the dependencies and the Python
+code for a release of cedar. Note that this conda package also depends
+on other packages available in the <code class="docutils literal notranslate"><span class="pre">conda-forge</span></code> channel, so make sure
+to include both channels when installing cedar.</p>
+<p>An example of how you might want to install cedar using <code class="docutils literal notranslate"><span class="pre">conda</span></code> is,</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ conda create -n cedar_env -c conda-forge -c ceholden cedar-datacube
+$ conda activate cedar_env
+</pre></div>
+</div>
+</div>
+<div class="section" id="from-source">
+<h3>From Source<a class="headerlink" href="#from-source" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id2">
+<h4>Dependencies<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h4>
+<p>To install cedar from the source code, you will first need to make sure
+you have installed all the required dependencies.</p>
+<p>With <a class="reference external" href="http://conda.io">conda</a> installed and ready to use, you can install the required
 dependencies for this library using one of the “environment” files located in
 the <code class="docutils literal notranslate"><span class="pre">ci/</span></code> directory (we use these for our continuous integration tests):</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> conda env create -n cedar -f ci/requirements-py37.yml
@@ -267,12 +297,9 @@ the <code class="docutils literal notranslate"><span class="pre">ci/</span></cod
 </pre></div>
 </div>
 <p>You should now be ready to install cedar.</p>
-<div class="section" id="stable-release">
-<h3>Stable Release<a class="headerlink" href="#stable-release" title="Permalink to this headline">¶</a></h3>
-<p>There are no stable releases of cedar yet on PyPI.</p>
 </div>
-<div class="section" id="from-sources">
-<h3>From Sources<a class="headerlink" href="#from-sources" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="install-cedar">
+<h4>Install cedar<a class="headerlink" href="#install-cedar" title="Permalink to this headline">¶</a></h4>
 <p>The sources for cedar can be downloaded from the <a class="reference external" href="https://github.com/ceholden/cedar-datacube">Github repo</a>. You can
 either download the source from Github and install it using <code class="docutils literal notranslate"><span class="pre">pip</span></code>, or use
 <code class="docutils literal notranslate"><span class="pre">pip</span></code> to install the source from Github directly.</p>
@@ -299,6 +326,7 @@ package.</p>
 <p>Alternatively, you can use <code class="docutils literal notranslate"><span class="pre">pip</span></code> to install it in one step,</p>
 <div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> pip install git+ssh://git@github.com/ceholden/cedar-datacube.git
 </pre></div>
+</div>
 </div>
 </div>
 </div>
