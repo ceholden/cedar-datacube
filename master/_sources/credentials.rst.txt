@@ -31,11 +31,14 @@ Access to the Google Drive requires two steps --- developer credentials to allow
 the CEDAR application to use the Google Drive API, and user credentials to
 give permission for CEDAR to write to your Google Drive.
 
-Developer Access
-----------------
+
+.. _gee_creds_gdrive_dev:
+
+Developer Credentials
+---------------------
 
 In order for this application to use the Google Drive API, you need to setup
-developer credentials so Google which will allow you to use the Google Drive
+Google Cloud Platform credentials to allow you to use the Google Drive
 API. You can read more about Google's authentication using `OAuth 2.0`_.
 
 1. Follow the guide to `Enable the Google Drive API`_.
@@ -47,7 +50,9 @@ API. You can read more about Google's authentication using `OAuth 2.0`_.
 4. You can either move this ``client_secret.json`` file to your working
    directory or point to it explicitly inside this application. You will need
    to know its location when to authenticate.
-5. DO NOT SHARE THIS FILE --- it ties API calls back to your Google account.
+5. The credentials in this file are used to link API calls back to your Google
+   account. Therefore, it is recommended that you do not share it publicly
+   to avoid unwanted use of your API quotas.
 
 This step authorizes your Google account to make API calls using this
 application, but we still need to give the application authorization to

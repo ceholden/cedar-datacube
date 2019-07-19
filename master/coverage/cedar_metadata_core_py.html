@@ -535,7 +535,7 @@
 <p id="t164" class="stm mis">    <span class="nam">tile_indices</span> <span class="op">=</span> <span class="op">[</span><span class="str">f'({i[0]}, {i[1]})'</span> <span class="key">for</span> <span class="nam">i</span> <span class="key">in</span> <span class="nam">info</span><span class="op">[</span><span class="str">'tile_indices'</span><span class="op">]</span><span class="op">]</span><span class="strut">&nbsp;</span></p>
 <p id="t165" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t166" class="pln">    <span class="com"># Format subsection first so it can be added as a string</span><span class="strut">&nbsp;</span></p>
-<p id="t167" class="stm mis">    <span class="nam">period_info_str</span> <span class="op">=</span> <span class="op">[</span><span class="str">'* Period: '</span><span class="op">]</span> <span class="op">+</span> <span class="nam">_indent</span><span class="op">(</span><span class="op">[</span><span class="strut">&nbsp;</span></p>
+<p id="t167" class="stm mis">    <span class="nam">period_info_str</span> <span class="op">=</span> <span class="op">[</span><span class="str">'* Period:'</span><span class="op">]</span> <span class="op">+</span> <span class="nam">_indent</span><span class="op">(</span><span class="op">[</span><span class="strut">&nbsp;</span></p>
 <p id="t168" class="pln">        <span class="str">f'* Start: {info["period_start"]}'</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
 <p id="t169" class="pln">        <span class="str">f'* End:   {info["period_end"]}'</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
 <p id="t170" class="pln">        <span class="str">f'* Freq:  {info["period_freq"]}'</span><span class="strut">&nbsp;</span></p>
@@ -567,7 +567,7 @@
 <p id="t196" class="stm mis">    <span class="key">if</span> <span class="nam">show_states</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
 <p id="t197" class="stm mis">        <span class="nam">states</span> <span class="op">=</span> <span class="nam">summarize_states</span><span class="op">(</span><span class="nam">info</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t198" class="stm mis">        <span class="nam">lines_</span> <span class="op">=</span> <span class="op">[</span><span class="str">f'- {state}: {n}'</span> <span class="key">for</span> <span class="nam">state</span><span class="op">,</span> <span class="nam">n</span> <span class="key">in</span> <span class="nam">states</span><span class="op">.</span><span class="nam">items</span><span class="op">(</span><span class="op">)</span><span class="op">]</span><span class="strut">&nbsp;</span></p>
-<p id="t199" class="stm mis">        <span class="nam">lines</span><span class="op">.</span><span class="nam">append</span><span class="op">(</span><span class="str">'* States: '</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t199" class="stm mis">        <span class="nam">lines</span><span class="op">.</span><span class="nam">append</span><span class="op">(</span><span class="str">'* States:'</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t200" class="stm mis">        <span class="nam">lines</span><span class="op">.</span><span class="nam">extend</span><span class="op">(</span><span class="nam">_indent</span><span class="op">(</span><span class="nam">lines_</span><span class="op">,</span> <span class="nam">n</span><span class="op">=</span><span class="num">1</span><span class="op">)</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t201" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t202" class="stm mis">    <span class="key">if</span> <span class="nam">show_runtimes</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
@@ -678,7 +678,7 @@
     <div class="content">
         <p>
             <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.io">coverage.py v4.5.3</a>,
-            created at 2019-07-17 18:53
+            created at 2019-07-19 16:42
         </p>
     </div>
 </div>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Frequently Asked Questions &mdash; cedar 0+untagged.51.gd3f7594 documentation</title>
+  <title>Frequently Asked Questions &mdash; cedar 0+untagged.51.g62dff70 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0+untagged.51.gd3f7594
+                0+untagged.51.g62dff70
               </div>
             
           
@@ -91,6 +91,7 @@
 <li class="toctree-l1"><a class="reference internal" href="history.html">Change Log</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Frequently Asked Questions</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#what-is-pre-ard">What is “pre-ARD”</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#how-can-i-revoke-oauth2-permissions-i-give-to-this-application">How can I revoke OAuth2 permissions I give to this application?</a></li>
 </ul>
 </li>
 </ul>
@@ -99,11 +100,11 @@
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="credentials.html">Credentials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="config.html">Configuration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="submissions.html">“Pre-ARD” Order Submission</a></li>
+<li class="toctree-l1"><a class="reference internal" href="submissions.html">Pre-ARD Order Submission</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tracking.html">Pre-ARD Order Tracking</a></li>
 <li class="toctree-l1"><a class="reference internal" href="download.html">Download</a></li>
 <li class="toctree-l1"><a class="reference internal" href="convert.html">Pre-ARD to ARD Conversion</a></li>
-<li class="toctree-l1"><a class="reference internal" href="cleaning.html">Cleaning “pre-ARD” from Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cleaning.html">Cleaning pre-ARD from Storage</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Help and Reference</span></p>
 <ul>
@@ -184,6 +185,14 @@
 <p>Data that is fully preprocesed but needs to be
 <a class="reference internal" href="cli.html#cli-cedar-convert"><span class="std std-ref">converted</span></a> into a new format to meet the
 definition of ARD.</p>
+</div>
+<div class="section" id="how-can-i-revoke-oauth2-permissions-i-give-to-this-application">
+<h2>How can I revoke OAuth2 permissions I give to this application?<a class="headerlink" href="#how-can-i-revoke-oauth2-permissions-i-give-to-this-application" title="Permalink to this headline">¶</a></h2>
+<p>This answer only applies to people who use the Google Drive for storage.</p>
+<p>Visit <a class="reference external" href="https://accounts.google.com/b/0/IssuedAuthSubTokens">Google Account Authorized Access</a>, login to the account you used to
+generate the permissions, find and click the application name, and click
+the “Revoke” button. The application name will depend on how you set up the
+Google Drive credentials (see Google Drive <a class="reference internal" href="credentials.html#gee-creds-gdrive-dev"><span class="std std-ref">Developer Credentials</span></a>).</p>
 </div>
 </div>
 

@@ -6,6 +6,7 @@ Submodules
 
 .. toctree::
 
+   cedar.tests.conftest
    cedar.tests.test_cedar
    cedar.tests.test_tracking
 

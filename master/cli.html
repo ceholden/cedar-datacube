@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Command Line Interface Programs &mdash; cedar 0+untagged.51.gd3f7594 documentation</title>
+  <title>Command Line Interface Programs &mdash; cedar 0+untagged.51.g62dff70 documentation</title>
   
 
   
@@ -37,7 +37,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Storage" href="storage.html" />
-    <link rel="prev" title="Cleaning “pre-ARD” from Storage" href="cleaning.html" /> 
+    <link rel="prev" title="Cleaning pre-ARD from Storage" href="cleaning.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0+untagged.51.gd3f7594
+                0+untagged.51.g62dff70
               </div>
             
           
@@ -96,11 +96,11 @@
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="credentials.html">Credentials</a></li>
 <li class="toctree-l1"><a class="reference internal" href="config.html">Configuration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="submissions.html">“Pre-ARD” Order Submission</a></li>
+<li class="toctree-l1"><a class="reference internal" href="submissions.html">Pre-ARD Order Submission</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tracking.html">Pre-ARD Order Tracking</a></li>
 <li class="toctree-l1"><a class="reference internal" href="download.html">Download</a></li>
 <li class="toctree-l1"><a class="reference internal" href="convert.html">Pre-ARD to ARD Conversion</a></li>
-<li class="toctree-l1"><a class="reference internal" href="cleaning.html">Cleaning “pre-ARD” from Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cleaning.html">Cleaning pre-ARD from Storage</a></li>
 </ul>
 <p class="caption"><span class="caption-text">Help and Reference</span></p>
 <ul class="current">
@@ -126,6 +126,7 @@
 <li class="toctree-l3"><a class="reference internal" href="#cedar-status-list"><code class="docutils literal notranslate"><span class="pre">cedar</span> <span class="pre">status</span> <span class="pre">list</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#cedar-status-print"><code class="docutils literal notranslate"><span class="pre">cedar</span> <span class="pre">status</span> <span class="pre">print</span></code></a></li>
 <li class="toctree-l3"><a class="reference internal" href="#cedar-status-update"><code class="docutils literal notranslate"><span class="pre">cedar</span> <span class="pre">status</span> <span class="pre">update</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cedar-status-completed"><code class="docutils literal notranslate"><span class="pre">cedar</span> <span class="pre">status</span> <span class="pre">completed</span></code></a></li>
 </ul>
 </li>
 <li class="toctree-l2"><a class="reference internal" href="#cedar-download"><code class="docutils literal notranslate"><span class="pre">cedar</span> <span class="pre">download</span></code></a></li>
@@ -427,6 +428,21 @@ Options:
 </pre></div>
 </div>
 </div>
+<div class="section" id="cedar-status-completed">
+<span id="id1"></span><h3><code class="docutils literal notranslate"><span class="pre">cedar</span> <span class="pre">status</span> <span class="pre">completed</span></code><a class="headerlink" href="#cedar-status-completed" title="Permalink to this headline">¶</a></h3>
+<p>Check if a submitted order has completed. The exit code of this program will
+be 0 if completed and 1 otherwise, making it potentially useful as part of
+a larger pipeline.</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Usage: cedar status completed [OPTIONS] TRACKING_NAME
+
+  Print percent of order completed &amp; exit 1 if not complete
+
+Options:
+  --update    Update the tracking info before continuing
+  -h, --help  Show this message and exit.
+</pre></div>
+</div>
+</div>
 </div>
 <div class="section" id="cedar-download">
 <span id="cli-cedar-download"></span><h2><code class="docutils literal notranslate"><span class="pre">cedar</span> <span class="pre">download</span></code><a class="headerlink" href="#cedar-download" title="Permalink to this headline">¶</a></h2>
@@ -444,7 +460,8 @@ Options:
 
 Options:
   --update          Update the tracking info before continuing
-  --clean           Run `cedar clean` for order if successful
+  --clean           Run `cedar clean` for order if completed and successfully
+                    downloaded
   --dest DIRECTORY  Specify destination root directory. If not specified,
                     downloads order into current directory
   --overwrite       Overwrite existing files
@@ -498,7 +515,7 @@ Options:
         <a href="storage.html" class="btn btn-neutral float-right" title="Storage" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="cleaning.html" class="btn btn-neutral float-left" title="Cleaning “pre-ARD” from Storage" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="cleaning.html" class="btn btn-neutral float-left" title="Cleaning pre-ARD from Storage" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   

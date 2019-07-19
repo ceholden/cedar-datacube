@@ -147,6 +147,18 @@ Read "pre-ARD" order tracking metadata and update with GEE task status
 .. program-output:: cedar status update --help
 
 
+.. _cli_cedar_status_update:
+
+``cedar status completed``
+--------------------------
+
+Check if a submitted order has completed. The exit code of this program will
+be 0 if completed and 1 otherwise, making it potentially useful as part of
+a larger pipeline.
+
+.. program-output:: cedar status completed --help
+
+
 .. _cli_cedar_download:
 
 ``cedar download``
