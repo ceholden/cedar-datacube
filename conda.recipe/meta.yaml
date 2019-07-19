@@ -1,0 +1,58 @@
+{% set version = "v0.0.1" %}
+
+package:
+  name: cedar-datacube
+  version: {{ version }}
+
+source:
+  git_rev: {{ version }}
+  git_url: https://github.com/ceholden/cedar-datacube.git
+
+build:
+  number: 0
+  skip: true  # [py<36]
+  noarch: python
+  script: python -m pip install --no-deps --ignore-installed .
+
+requirements:
+  host:
+    - pip
+    - python
+  run:
+    - python
+    - stems
+    - dask
+    - distributed
+    - numpy
+    - pandas
+    - xarray
+    - cytoolz
+    - toolz
+    - pyyaml
+    - jsonschema
+    - pyyaml
+    - earthengine-api
+    - google-api-core
+    - google-api-python-client
+    - google-auth-httplib2
+    - google-auth-oauthlib
+    - google-cloud-storage
+    - click
+    - click-plugins
+    - cligj
+
+test:
+  imports:
+    - cedar
+    - cedar.config
+    - cedar.metadata
+    - cedar.ordering
+    - cedar.stores.gdrive
+    - cedar.stores.gcs
+  command:
+    - cedar --help
+
+about:
+  home: https://github.com/ceholden/cedar-datacube
+  license: BSD-3-Clause
+  license_file: LICENSE
