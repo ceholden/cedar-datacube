@@ -107,19 +107,21 @@ login and store your credentials (in ``~/.config/cedar/credentials.json``).
 +-----------------------+-----------------------------------------------+
 
 
+.. _guide_config_ard:
+
 ``ard``
 -------
 
 Settings for how "pre-ARD" GeoTIFF imagery and JSON metadata are converted into
 "ARD" NetCDF files.
 
-+-------------+------------------------------------------------------------------------------------------------------------------+
-| Key         | Description                                                                                                      |
-+=============+==================================================================================================================+
-| destination | Directory name pattern for converted ARD. Available keys are "collection", "date_start", "date_end", and "tile". |
-+-------------+------------------------------------------------------------------------------------------------------------------+
-| encoding    | NetCDF4 image encoding options. See http://xarray.pydata.org/en/stable/io.html#writing-encoded-data              |
-+-------------+------------------------------------------------------------------------------------------------------------------+
++-------------+-------------------------------------------------------------------------------------------------------------------+
+| Key         | Description                                                                                                       |
++=============+===================================================================================================================+
+| destination | Directory name template for converted ARD. Available keys are "collection", "date_start", "date_end", and "tile". |
++-------------+-------------------------------------------------------------------------------------------------------------------+
+| encoding    | NetCDF4 image encoding options. See http://xarray.pydata.org/en/stable/io.html#writing-encoded-data               |
++-------------+-------------------------------------------------------------------------------------------------------------------+
 
 
 Generation

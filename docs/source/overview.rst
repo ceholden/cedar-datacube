@@ -29,17 +29,17 @@ In this package, "Analysis Ready Data" (ARD) means:
 
 
 The CEDAR tool has a number of functions to accomplish the first 3 steps on
-the GEE for a given sensor image collection. Currently, only
-Landsat Collection 1 Surface Reflectance data are supported. These functions
-generate "pre-ARD" images (``ee.Image``) and "image metadata", which
-is required because images exported from the Earth Engine after preprocessing
-lose their basic metadata information (sensor, acquisition times, etc). The
-CEDAR application also generates "tracking metadata" about the orders it
-creates. The "tracking metadata" allows us to download the "pre-ARD" and
-"image metadata" at a later point for further processing into ARD.
+the GEE for a given sensor image collection. These functions generate "pre-ARD"
+images (``ee.Image``) and "image metadata", which is required because images
+exported from the Earth Engine after preprocessing lose their basic metadata
+information (sensor, acquisition times, etc). The CEDAR application also
+generates "tracking metadata" about the orders it creates. The
+"tracking metadata" allows us to download the "pre-ARD" and "image metadata"
+at a later point for further processing into ARD.
 
 There are 6 main steps to creating this Analysis Ready Data using CEDAR and the
 Google Earth Engine (GEE).
+
 
 .. image:: figures/cedar_flowchart.png
    :alt: Flowchart describing the process of creating Analysis Ready Data using
@@ -52,6 +52,21 @@ Google Earth Engine (GEE).
 4. Order :ref:`tracking <tracking>` and :ref:`download <download>`
 5. :ref:`Conversion <convert>` of "pre-ARD" and "image metadata" into ARD
 6. :ref:`Deleting <cleaning>` of tracked "pre-ARD" data from storage
+
+
+Supported Image Collections
+---------------------------
+
+Currently, only Landsat Collection 1 Surface Reflectance data are supported.
+
++---------+------------------------+
+| Sensor  | Image Collection       |
++=========+========================+
+| Landsat | LANDSAT/LT04/C01/T1_SR |
+|         | LANDSAT/LT05/C01/T1_SR |
+|         | LANDSAT/LE07/C01/T1_SR |
+|         | LANDSAT/LC08/C01/T1_SR |
++---------+------------------------+
 
 
 Limitations
