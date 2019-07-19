@@ -5,8 +5,8 @@ package:
   version: {{ version }}
 
 source:
-  git_rev: v{{ version }}
-  git_url: https://github.com/ceholden/cedar-datacube.git
+  url: https://files.pythonhosted.org/packages/24/14/7dc25dea5a4410a66075155ab949e063d8ae31e2c5be103279507f8a2a76/cedar-datacube-{{ version }}.tar.gz
+  sha256: a3925be0a01fe906d354d9e1a32a18f5075c3be3acb8059a2f46b90dc6728a96
 
 build:
   number: 0
