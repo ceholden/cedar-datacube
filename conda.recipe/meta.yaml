@@ -20,7 +20,7 @@ requirements:
     - python
   run:
     - python
-    - stems =0.0.2
+    - stems =0.0.2.post0
     - dask
     - distributed
     - numpy

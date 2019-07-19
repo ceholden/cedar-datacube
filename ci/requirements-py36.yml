@@ -1,12 +1,13 @@
 name: cedar
 channels:
   - conda-forge
+  - ceholden
   - defaults
 dependencies:
   - python>=3.6
   - pip
   # core
-  - stems
+  - stems =0.0.2.post0
   - affine
   - dask
   - distributed
