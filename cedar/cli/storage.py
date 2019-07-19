@@ -12,7 +12,8 @@ from . import options
 @options.arg_tracking_name
 @options.opt_update_order
 @click.option('--clean', 'clean_', is_flag=True,
-              help='Run `cedar clean` for order if successful')
+              help=('Run `cedar clean` for order if completed and '
+                    'successfully downloaded'))
 @click.option('--dest', 'dest_dir',
               type=click.Path(file_okay=False, resolve_path=True),
               help='Specify destination root directory. If not specified, '
@@ -30,6 +31,8 @@ def download(ctx, tracking_name, update_, clean_, dest_dir, overwrite):
     ----
     * Silence / don't use progressbar if we're quiet
     """
+    from cedar.metadata.core import TrackingMetadata
+
     config = options.fetch_config(ctx)
     tracker = config.get_tracker()
 
@@ -51,6 +54,7 @@ def download(ctx, tracking_name, update_, clean_, dest_dir, overwrite):
         tracking_info = tracker.update(tracking_name)
     else:
         tracking_info = tracker.read(tracking_name)
+    tracking_info = TrackingMetadata(tracked_info)
 
     n_tasks = len(tracking_info['orders'])
     click.echo(f'Downloading data for {n_tasks} tasks')
@@ -62,7 +66,13 @@ def download(ctx, tracking_name, update_, clean_, dest_dir, overwrite):
                                    overwrite=overwrite, callback=cb_bar)
 
     if clean_:
-        clean_info = _do_clean(tracker, tracking_name, tracking_info, False)
+        if tracking_info.complete:
+            clean_info = _do_clean(tracker, tracking_name, tracking_info, False)
+        else:
+            click.echo('Not cleaning data because the order is still in '
+                       'progress or the tracking metadata has not been '
+                       f'updated. Run ``cedar status update {tracking_name}`` '
+                       'if you believe the order has completed')
 
     click.echo('Complete!')
 
