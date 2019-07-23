@@ -5,8 +5,8 @@ package:
   version: {{ version }}
 
 source:
-  url: https://files.pythonhosted.org/packages/24/14/7dc25dea5a4410a66075155ab949e063d8ae31e2c5be103279507f8a2a76/cedar-datacube-{{ version }}.tar.gz
-  sha256: a3925be0a01fe906d354d9e1a32a18f5075c3be3acb8059a2f46b90dc6728a96
+  url: https://files.pythonhosted.org/packages/96/0f/9abd870cc810555a30d9c414d555c9eeaf58f36fe440ec335b1b5e8a3921/cedar-datacube-{{ version }}.tar.gz
+  sha256: ed88b3e688a28736d300852e506680f565c8a602b15594d7f9a7dff67ee60069
 
 build:
   number: 0
