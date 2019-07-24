@@ -9,3 +9,20 @@ For information on the style of this change log, see
 `keepachangelog.com <http://keepachangelog.com/>`__.
 
 
+
+v0.0.1.post1
+============
+
+* Fix packaging issue (missing package data)
+
+
+v0.0.1.post0
+============
+
+* Fix packaging issue
+
+
+v0.0.1
+======
+
+* First public release
