@@ -374,7 +374,7 @@ def update_tracking_info(tracking_info):
     tracking_info = tracking_info.copy()
     tracked_orders = tracking_info['orders']
 
-    ee_tasks = get_ee_tasks()
+    ee_tasks = utils.get_ee_tasks()
 
     updated = []
     for info in tracked_orders:
@@ -389,17 +389,6 @@ def update_tracking_info(tracking_info):
 
     tracking_info['orders'] = updated
     return tracking_info
-
-
-def get_ee_tasks():
-    """ Return GEE tasks (task ID: task)
-
-    Returns
-    -------
-    dict[str, ee.batch.task.Task]
-        GEE tasks
-    """
-    return {task.id: task for task in ee.batch.Task.list()}
 
 
 def get_submission_info(tile_grid, collections, tile_indices,

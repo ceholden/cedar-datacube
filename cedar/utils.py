@@ -108,3 +108,15 @@ def load_ee(initialize=True):
                 return ee_api
         else:
             return ee_api
+
+
+def get_ee_tasks():
+    """ Return GEE tasks (task ID: task)
+
+    Returns
+    -------
+    dict[str, ee.batch.task.Task]
+        GEE tasks
+    """
+    import ee
+    return {task.id: task for task in ee.batch.Task.list()}
