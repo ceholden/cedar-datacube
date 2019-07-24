@@ -12,6 +12,7 @@ from stems.gis.grids import Tile
 from . import __version__
 from . import defaults
 from .exceptions import EmptyCollectionError, EmptyOrderError
+from .metadata import TrackingMetadata
 from .sensors import CREATE_ARD_COLLECTION
 
 logger = logging.getLogger(__name__)
@@ -143,7 +144,8 @@ class Order(object):
             submitted.append((task, task_metadata, task_metadata_id))
 
         # Create submission metadata
-        self.tracking_metadata = {
+        # TODO: Use cedar.metadata.TrackingMetadata
+        data = {
             'program': get_program_metadata(),
             'submission': submission_info or {},
             'tracking': get_tracking_metadata(self.tracking_name,
@@ -155,13 +157,15 @@ class Order(object):
             'orders': [sub[1]['task'] for sub in submitted],
             'metadata': [sub[2] for sub in submitted]
         }
+        self.tracking_metadata = TrackingMetadata(data)
 
         # Start tasks and save tracking metadata
         for task, _, _ in submitted:
             task.start()
 
-        self.tracking_id = store.store_metadata(
-            self.tracking_metadata, self.tracking_name, self.tracking_prefix)
+        self.tracking_id = store.store_metadata(dict(self.tracking_metadata),
+                                                self.tracking_name,
+                                                self.tracking_prefix)
         return self.tracking_id
 
 

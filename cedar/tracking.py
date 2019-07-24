@@ -14,6 +14,7 @@ import pandas as pd
 from stems.gis.grids import TileGrid, Tile
 
 from . import defaults, ordering, utils
+from .metadata import TrackingMetadata
 
 logger = logging.getLogger(__name__)
 
@@ -173,7 +174,8 @@ class Tracker(object):
         dict
             JSON tracking info data as a dict
         """
-        return self.store.read_metadata(name, path=self.tracking_prefix)
+        data = self.store.read_metadata(name, path=self.tracking_prefix)
+        return TrackingMetadata(data)
 
     def update(self, name):
         """ Refresh and reupload tracking information by checking with the GEE
