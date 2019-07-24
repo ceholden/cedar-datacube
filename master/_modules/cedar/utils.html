@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>cedar.utils &mdash; cedar 0.0.1.post0+1.ga750e3e documentation</title>
+  <title>cedar.utils &mdash; cedar 0.0.1.post1+2.ga5e8cdb documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.0.1.post0+1.ga750e3e
+                0.0.1.post1+2.ga5e8cdb
               </div>
             
           
@@ -279,6 +279,18 @@
                 <span class="k">return</span> <span class="n">ee_api</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">ee_api</span></div>
+
+
+<div class="viewcode-block" id="get_ee_tasks"><a class="viewcode-back" href="../../cedar/cedar.utils.html#cedar.utils.get_ee_tasks">[docs]</a><span class="k">def</span> <span class="nf">get_ee_tasks</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; Return GEE tasks (task ID: task)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict[str, ee.batch.task.Task]</span>
+<span class="sd">        GEE tasks</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">ee</span>
+    <span class="k">return</span> <span class="p">{</span><span class="n">task</span><span class="o">.</span><span class="n">id</span><span class="p">:</span> <span class="n">task</span> <span class="k">for</span> <span class="n">task</span> <span class="ow">in</span> <span class="n">ee</span><span class="o">.</span><span class="n">batch</span><span class="o">.</span><span class="n">Task</span><span class="o">.</span><span class="n">list</span><span class="p">()}</span></div>
 </pre></div>
 
            </div>
