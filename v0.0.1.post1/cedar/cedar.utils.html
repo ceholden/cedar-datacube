@@ -1,0 +1,300 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>cedar.utils module &mdash; cedar 0.0.1.post1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> cedar
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1.post1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html#v0-0-1-post1">v0.0.1.post1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html#v0-0-1-post0">v0.0.1.post0</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html#v0-0-1">v0.0.1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequently Asked Questions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../credentials.html">Credentials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../submissions.html">Pre-ARD Order Submission</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tracking.html">Pre-ARD Order Tracking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../download.html">Download</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../convert.html">Pre-ARD to ARD Conversion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cleaning.html">Cleaning pre-ARD from Storage</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Help and Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line Interface Programs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../storage.html">Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dev.html">Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">cedar</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>cedar.utils module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/ceholden/cedar-datacube/blob/master/docs/source/cedar/cedar.utils.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-cedar.utils">
+<span id="cedar-utils-module"></span><h1>cedar.utils module<a class="headerlink" href="#module-cedar.utils" title="Permalink to this headline">¶</a></h1>
+<p>Common utility functions</p>
+<dl class="function">
+<dt id="cedar.utils.affine_to_str">
+<code class="sig-prename descclassname">cedar.utils.</code><code class="sig-name descname">affine_to_str</code><span class="sig-paren">(</span><em class="sig-param">transform</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/utils.html#affine_to_str"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.utils.affine_to_str" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a string representatin of an affine.Affine transform</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="cedar.utils.get_ee_tasks">
+<code class="sig-prename descclassname">cedar.utils.</code><code class="sig-name descname">get_ee_tasks</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/utils.html#get_ee_tasks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.utils.get_ee_tasks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return GEE tasks (task ID: task)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>GEE tasks</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a>[<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a>, ee.batch.task.Task]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="cedar.utils.get_file">
+<code class="sig-prename descclassname">cedar.utils.</code><code class="sig-name descname">get_file</code><span class="sig-paren">(</span><em class="sig-param">*filenames</em>, <em class="sig-param">exists=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/utils.html#get_file"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.utils.get_file" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return first good filename</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filenames</strong> (<em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em> or </em><em>Path</em><em>]</em>) – Filenames to check</p></li>
+<li><p><strong>exists</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em>, </em><em>optional</em>) – Require that the filename correspond to an existing
+file on disk</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>A Path of the first good filename, or None if they’re all bad</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Path or <a class="reference external" href="https://docs.python.org/3.7/library/constants.html#None" title="(in Python v3.7)">None</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="cedar.utils.load_ee">
+<code class="sig-prename descclassname">cedar.utils.</code><code class="sig-name descname">load_ee</code><span class="sig-paren">(</span><em class="sig-param">initialize=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/utils.html#load_ee"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.utils.load_ee" title="Permalink to this definition">¶</a></dt>
+<dd><p>Import and initialize the EE API, handling errors</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>initialize</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em>, </em><em>optional</em>) – Try to initialize the EE API, or not</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Earth Engine API module <code class="docutils literal notranslate"><span class="pre">ee</span></code></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/functions.html#object" title="(in Python v3.7)">object</a></p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3.7/library/exceptions.html#ImportError" title="(in Python v3.7)"><strong>ImportError</strong></a> – Raised if the Earth Engine cannot be imported</p></li>
+<li><p><strong>ee.ee_exceptions.EEException</strong> – Raised if the Earth Engine cannot be initialized, typically because
+you haven’t authenticated yet.</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3.7/library/exceptions.html#Exception" title="(in Python v3.7)"><strong>Exception</strong></a> – Passes other exceptions caused by <code class="xref py py-func docutils literal notranslate"><span class="pre">ee.Initialize()</span></code></p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="cedar.utils.set_file_urw">
+<code class="sig-prename descclassname">cedar.utils.</code><code class="sig-name descname">set_file_urw</code><span class="sig-paren">(</span><em class="sig-param">filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/utils.html#set_file_urw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.utils.set_file_urw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets a file to user read/write only</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filename</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – File to modify</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Chris Holden
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

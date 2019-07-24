@@ -1,0 +1,19 @@
+cedar.tests package
+===================
+
+Submodules
+----------
+
+.. toctree::
+
+   cedar.tests.conftest
+   cedar.tests.test_cedar
+   cedar.tests.test_tracking
+
+Module contents
+---------------
+
+.. automodule:: cedar.tests
+   :members:
+   :undoc-members:
+   :show-inheritance:

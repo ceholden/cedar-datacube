@@ -1,0 +1,7 @@
+cedar.cli.status module
+=======================
+
+.. automodule:: cedar.cli.status
+   :members:
+   :undoc-members:
+   :show-inheritance:

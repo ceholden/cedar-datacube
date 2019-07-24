@@ -1,0 +1,7 @@
+cedar.cli.submit module
+=======================
+
+.. automodule:: cedar.cli.submit
+   :members:
+   :undoc-members:
+   :show-inheritance:

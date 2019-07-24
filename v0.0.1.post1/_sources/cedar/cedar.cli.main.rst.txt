@@ -1,0 +1,7 @@
+cedar.cli.main module
+=====================
+
+.. automodule:: cedar.cli.main
+   :members:
+   :undoc-members:
+   :show-inheritance:

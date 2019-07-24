@@ -1,0 +1,7 @@
+cedar.stores.gdrive module
+==========================
+
+.. automodule:: cedar.stores.gdrive
+   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -1,0 +1,7 @@
+cedar.cli.gee module
+====================
+
+.. automodule:: cedar.cli.gee
+   :members:
+   :undoc-members:
+   :show-inheritance:

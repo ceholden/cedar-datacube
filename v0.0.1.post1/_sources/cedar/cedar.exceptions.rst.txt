@@ -1,0 +1,7 @@
+cedar.exceptions module
+=======================
+
+.. automodule:: cedar.exceptions
+   :members:
+   :undoc-members:
+   :show-inheritance:

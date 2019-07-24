@@ -1,0 +1,366 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Pre-ARD to ARD Conversion &mdash; cedar 0.0.1.post1 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/theme_overrides.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Cleaning pre-ARD from Storage" href="cleaning.html" />
+    <link rel="prev" title="Download" href="download.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> cedar
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.1.post1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html#v0-0-1-post1">v0.0.1.post1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html#v0-0-1-post0">v0.0.1.post0</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html#v0-0-1">v0.0.1</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="credentials.html">Credentials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="submissions.html">Pre-ARD Order Submission</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tracking.html">Pre-ARD Order Tracking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="download.html">Download</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Pre-ARD to ARD Conversion</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#basic-usage">Basic Usage</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#advanced-usage">Advanced Usage</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#tips">Tips</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="cleaning.html">Cleaning pre-ARD from Storage</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Help and Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">Command Line Interface Programs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="storage.html">Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dev.html">Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">cedar</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Pre-ARD to ARD Conversion</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/ceholden/cedar-datacube/blob/master/docs/source/convert.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="pre-ard-to-ard-conversion">
+<span id="convert"></span><h1>Pre-ARD to ARD Conversion<a class="headerlink" href="#pre-ard-to-ard-conversion" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>The pre-ARD we generate and download is close, but not quite ready for use
+in applications like time series analysis. Some complications include</p>
+<ul class="simple">
+<li><p>The pre-ARD images have no metadata, including no acquisition timestamps or
+band names</p></li>
+<li><p>The pre-ARD images may be split up into many pieces to stay below 4GB in file
+size. These pieces will need to be put back together to create the ARD</p></li>
+<li><p>The format options used by the Earth Engine create a GeoTIFF that is
+compressed and interleaved by pixel, which is not very efficient for reading
+as images or time series.</p></li>
+</ul>
+<p>In the conversion step of the CEDAR workflow, the pre-ARD images are
+concatenated into one piece (if needed), transformed along its band dimension
+to unmux the band and time dimensions, assigned metadata that had been stored
+in the image metadata file, and exported into a NetCDF file suitable for
+further processing.</p>
+<div class="section" id="basic-usage">
+<h3>Basic Usage<a class="headerlink" href="#basic-usage" title="Permalink to this headline">¶</a></h3>
+<p>Before we consider converting our pre-ARD data, it is worth taking a look back
+at your CEDAR configuration file. Specifically, this step of the workflow
+uses information stored in the <code class="docutils literal notranslate"><span class="pre">ard</span></code> section of the file
+(see <a class="reference internal" href="config.html#guide-config-ard"><span class="std std-ref">this section of the User Guide</span></a>).</p>
+<p>This section contains information about where the ARD should be stored
+(<code class="docutils literal notranslate"><span class="pre">destination</span></code>) and how the NetCDF4 file should be encoded. Specifying the
+destination directory as a template string in the configuration file is useful
+to deterministically organize converted ARD by the image collection, tile,
+time periods, or other attribute information. The destination directory can be
+overriden through the <code class="docutils literal notranslate"><span class="pre">cedar</span> <span class="pre">convert</span></code> command, however.</p>
+<p>We can either run <code class="docutils literal notranslate"><span class="pre">cedar</span> <span class="pre">convert</span></code> by pointing to a specific image metadata
+JSON file, or by pointing to a directory containing such files. This second
+usage is included so you can point to the download directory (named after the
+tracking name) and convert all images within it.</p>
+<p>For the example of an order containing the following files:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ ls -l TRACKING_2019-07-18T16:45:25.528253_h063v052/
+LANDSAT_LC08_C01_T1_SR_h062v053_2012-01-01_2017-01-01.json
+LANDSAT_LC08_C01_T1_SR_h062v053_2012-01-01_2017-01-01-0000000000-0000001024.tif
+LANDSAT_LC08_C01_T1_SR_h062v053_2012-01-01_2017-01-01-0000001024-0000002048.tif
+LANDSAT_LC08_C01_T1_SR_h062v053_2012-01-01_2017-01-01-0000001024-0000003072.tif
+LANDSAT_LC08_C01_T1_SR_h062v053_2012-01-01_2017-01-01-0000001024-0000003072.tif
+LANDSAT_LC08_C01_T1_SR_h062v053_2012-01-01_2017-01-01-0000002048-0000000000.tif
+LANDSAT_LC08_C01_T1_SR_h062v053_2012-01-01_2017-01-01-0000002048-0000003072.tif
+...
+LANDSAT_LC08_C01_T1_SR_h062v053_2017-01-01_2022-01-01.json
+LANDSAT_LC08_C01_T1_SR_h062v053_2017-01-01_2022-01-01-0000000000-0000001024.tif
+...
+LANDSAT_LE07_C01_T1_SR_h062v053_1997-01-01_2002-01-01.json
+...
+</pre></div>
+</div>
+<p>The usage,</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ cedar convert TRACKING_2019-07-18T16:45:25.528253_h063v052/
+</pre></div>
+</div>
+<p>Would convert 10 pairs of pre-ARD metadata and image (pieces) into 10 NetCDF4
+files.</p>
+<p>By comparison, the usage,</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ cedar convert TRACKING_2019-07-18T16:45:25.528253_h063v052/LANDSAT_LC08_C01_T1_SR_h062v053_2012-01-01_2017-01-01.json
+</pre></div>
+</div>
+<p>Would convert a single pre-ARD image and metadata pair to a single NetCDF4
+file.</p>
+</div>
+<div class="section" id="advanced-usage">
+<h3>Advanced Usage<a class="headerlink" href="#advanced-usage" title="Permalink to this headline">¶</a></h3>
+<p>The <code class="docutils literal notranslate"><span class="pre">cedar</span> <span class="pre">convert</span></code> program has the ability to run in parallel by taking
+advantage of the <a class="reference external" href="https://docs.dask.org">Dask</a> and (optionally) <a class="reference external" href="https://distributed.dask.org">Distributed</a> libraries and their
+integrations with the <a class="reference external" href="http://xarray.pydata.org">XArray</a> library. This parallel processing option is
+designed to be almost invisible to the user, who only has to specify the type
+of Dask scheduler and the number of workers they want to use as a command line
+option.</p>
+<p>For example, to choose the multiprocessing scheduler with 2 processes,
+you can run <code class="docutils literal notranslate"><span class="pre">cedar</span> <span class="pre">convert</span></code> as:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ cedar convert <span class="se">\</span>
+    --executor processes <span class="m">2</span> <span class="se">\</span>
+    TRACKING_2019-07-18T16:45:25.528253_h063v052
+</pre></div>
+</div>
+<p>The distributed scheduler is often more desireable because of the debugging
+information it can provide through its Bokeh status page. To use the
+Distributed scheduler locally,</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ cedar convert <span class="se">\</span>
+    --executor distributed <span class="m">2</span> <span class="se">\</span>
+    TRACKING_2019-07-18T16:45:25.528253_h063v052
+</pre></div>
+</div>
+<p>This usage will start a <code class="docutils literal notranslate"><span class="pre">distributed.LocalCluster</span></code> with 2 workers, as
+described in the documentation for using <a class="reference external" href="https://docs.dask.org/en/latest/setup/single-distributed.html">Distributed on a single machine</a>.</p>
+<p>You may also wish to connect to an existing Dask Distributed cluster, which you
+can do by specifying the scheduler IP address and port instead of the number of
+workers:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ cedar convert <span class="se">\</span>
+    --executor distributed HOSTNAME:PORT <span class="se">\</span>
+    TRACKING_2019-07-18T16:45:25.528253_h063v052
+</pre></div>
+</div>
+<p>For more information about the choice Dask schedulers, please visit their
+<a class="reference external" href="https://docs.dask.org/en/stable/scheduler-overview.html">Scheduler Overview</a> documentation.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The computation involved in converting pre-ARD to ARD is primarily either
+decompressing the pre-ARD or compressing and writing the ARD to the
+NetCDF. Because of the way we are writing the NetCDF files, we are not
+able to do concurrent writes without passing a file lock. As such, the
+conversion process does not currently benefit from parallel processing
+as much as it could if we could do parallel writes like other formats
+support (e.g., <span class="xref std std-ref">Zarr</span>).
+You are strongly encouraged to analyze the performance benefits of
+parallel processing before running the program in parallel over your all of
+your data.</p>
+</div>
+</div>
+</div>
+<div class="section" id="tips">
+<h2>Tips<a class="headerlink" href="#tips" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>When specifying the ARD destination directory (either in the configuration
+file or by overriding using <code class="docutils literal notranslate"><span class="pre">cedar</span> <span class="pre">convert</span> <span class="pre">--dest</span> <span class="pre">DEST</span></code>), you may wish
+to use an environment variable for the root destination directory. This
+variable will be expanded before determining the destination path. Using
+environment variables is common for batch processing because it allows
+you to manipulate variables or other data without modifying the config file.</p></li>
+</ul>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="cleaning.html" class="btn btn-neutral float-right" title="Cleaning pre-ARD from Storage" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="download.html" class="btn btn-neutral float-left" title="Download" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Chris Holden
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
