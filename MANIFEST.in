@@ -8,4 +8,6 @@ include versioneer.py stems/_version.py
 recursive-exclude * __pycache__
 recursive-exclude * *.py[co]
 
+recursive-include cedar *.json *.yml *.tmpl
+
 recursive-include docs *.rst Makefile make.bat *.jpg *.png *.gif
