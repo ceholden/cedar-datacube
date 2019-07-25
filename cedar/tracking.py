@@ -194,7 +194,7 @@ class Tracker(object):
         """
         tracking_info = self.read(name)
         tracking_info_updated = update_tracking_info(tracking_info)
-        name_ = self.store.store_metadata(tracking_info, name)
+        name_ = self.store.store_metadata(dict(tracking_info_updated), name)
         return tracking_info_updated
 
     def download(self, tracking_info, dest, overwrite=True, callback=None):
@@ -366,20 +366,20 @@ def update_tracking_info(tracking_info):
 
     Parameters
     ----------
-    tracking_info : dict
+    tracking_info : dict or TrackingMetadata
         Tracking information stored from a past submission
 
     Returns
     -------
-    dict
+    TrackingMetadata
         Input tracking info updated with GEE task status
     """
-    tracked_orders = tracking_info['orders']
+    tracking_info = dict(tracking_info)
 
     ee_tasks = utils.get_ee_tasks()
 
     updated = []
-    for info in tracked_orders:
+    for info in tracking_info['orders']:
         id_ = info['status']['id']
         task = ee_tasks.get(id_, None)
         if task:
@@ -390,7 +390,8 @@ def update_tracking_info(tracking_info):
         updated.append(info)
 
     tracking_info['orders'] = updated
-    return tracking_info
+
+    return TrackingMetadata(tracking_info)
 
 
 def get_submission_info(tile_grid, collections, tile_indices,
