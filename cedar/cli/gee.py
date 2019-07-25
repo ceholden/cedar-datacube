@@ -21,8 +21,7 @@ def group_gee(ctx):
 def tasks(ctx, list_tasks):
     """ Get info about Google Earth Engine tasks
     """
-    from cedar.utils import load_ee
-    from cedar.tracking import get_ee_tasks
+    from cedar.utils import get_ee_tasks, load_ee
 
     ee = load_ee(True)
     tasks = get_ee_tasks()
