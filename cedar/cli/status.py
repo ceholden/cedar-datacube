@@ -53,10 +53,16 @@ def cancel(ctx, tracking_name):
     config = options.fetch_config(ctx)
     tracker = config.get_tracker()
 
+    # Read tracking info
     info = tracker.read(tracking_name)
+
+    # Cancel tasks
     for task in info.tasks:
         task.cancel()
         click.echo(f'Cancelled task ID "{task.id}"')
+
+    # Delete tracking
+    tracker.clean(info, tracking_name=tracking_name)
 
     if logger.level <= logging.WARNING:
         click.echo('Complete')
