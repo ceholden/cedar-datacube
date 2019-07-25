@@ -57,6 +57,6 @@ def build_tile_grid(grid_name=None, grid_filename=None, **kwds):
 def build_tracker(tile_grid, store, **kwds):
     """ Build the ``gee`` section and return a Tracker
     """
-    from ..tracking import Tracker
+    from ..tracker import Tracker
     tracker = Tracker(tile_grid, store, **kwds)
     return tracker

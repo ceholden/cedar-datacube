@@ -12,7 +12,12 @@ from stems.gis.grids import Tile
 from . import __version__
 from . import defaults
 from .exceptions import EmptyCollectionError, EmptyOrderError
-from .metadata import TrackingMetadata
+from .metadata import (TrackingMetadata,
+                       get_order_metadata,
+                       get_program_metadata,
+                       get_task_metadata,
+                       get_tracking_metadata)
+
 from .sensors import CREATE_ARD_COLLECTION
 
 logger = logging.getLogger(__name__)
@@ -183,6 +188,7 @@ def submit_preard_task(image, image_metadata, name, prefix, tile, store,
     if start:
         task.start()
 
+    # TODO: create model for PreARDMetadata and use it
     # Finish creating metadata for task
     metadata = {
         'program': get_program_metadata(),
@@ -219,109 +225,3 @@ def tile_export_image_kwds(tile):
         'dimensions': f'{tile.width}x{tile.height}',
     }
     return kwds
-
-
-def get_program_metadata():
-    """ Return metadata about this program (name & version)
-
-    Returns
-    -------
-    dict
-        Program "name" and "version"
-    """
-    return {
-        "name": __package__,
-        "version": __version__,
-        "ee": ee.__version__
-    }
-
-
-def get_tracking_metadata(tracking_name, tracking_prefix,
-                          name_template, prefix_template,
-                          collections, tiles):
-    """ Get general tracking information about an order
-    """
-    meta = {
-        "submitted": dt.datetime.now().isoformat(),
-        "name": tracking_name,
-        "prefix": tracking_prefix,
-        "collections": list(collections),
-        "tiles": [tile.to_dict() for tile in tiles],
-        "name_template": name_template,
-        "prefix_template": prefix_template
-    }
-    return meta
-
-
-def get_order_metadata(collection, date_start, date_end, filters):
-    """ Get metadata about a pre-ARD order against a collection
-    """
-    return {
-        'collection': collection,
-        'date_start': date_start.isoformat(),
-        'date_end': date_end.isoformat(),
-        'filters': [_serialize_filter(filter) for filter in filters],
-        'submitted': dt.datetime.now().isoformat()
-    }
-
-
-def get_task_metadata(task):
-    """ Get metadata about an EE task's status
-
-    Parameters
-    ----------
-    task : ee.batch.task.Task
-        Earth Engine task
-
-    Returns
-    -------
-    dict
-        Task metadata
-    """
-    info = {}
-
-    # When active, task config information has:
-    # GDrive keys:
-    #    description, dimensions, crs, fileFormat, driveFolder, crs_transform,
-    #    driveFileNamePrefix, json
-    # GCS keys:
-    #    description, dimensions, crs, fileFormat, crs_transform, outputBucket,
-    #    outputPrefix, json
-    bucket = task.config.get('outputBucket', '')
-    if bucket:  # GCS
-        info['name'] = task.config['description']
-        info['prefix'] = task.config['outputPrefix'].rstrip(name)
-    elif 'driveFolder' in task.config:  # GDrive
-        info['name'] = task.config['driveFileNamePrefix']
-        info['prefix'] = task.config['driveFolder']
-
-    # When submitted/complete, we can get status info
-    status = task.status()
-    info['status'] = {
-        "id": status['id'],
-        "state": status["state"],
-        # Attributes available post-run
-        'creation_timestamp_ms': status.get('creation_timestamp_ms', ''),
-        'update_timestamp_ms': status.get('update_timestamp_ms', ''),
-        'start_timestamp_ms': status.get('start_timestamp_ms', ''),
-        'output_url': status.get('output_url', [])
-    }
-    return info
-
-
-def _serialize_filter(ee_filter):
-    return ee.serializer.encode(ee_filter)
-
-
-def _parse_date_freq(start, end, freq=None):
-    import pandas as pd  # hiding because it can be expensive to import
-    start_ = pd.to_datetime(start).to_pydatetime()
-    end_ = pd.to_datetime(end).to_pydatetime()
-    if freq is None:
-        return list(zip([start], [end]))
-    else:
-        # Add offset to make inclusive of end date
-        from pandas.tseries.frequencies import to_offset
-        offset = to_offset(freq)
-        times = pd.date_range(start, end + offset, freq=freq).to_pydatetime()
-        return list(zip(times[:-1], times[1:]))

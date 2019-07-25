@@ -78,7 +78,7 @@ def cancel(ctx, tracking_name):
 def print(ctx, tracking_name, order_id, all_orders):
     """ Print job submission tracking info
     """
-    from cedar.metadata.core import repr_tracking
+    from cedar.metadata import repr_tracking
 
     logger = ctx.obj['logger']
     config = options.fetch_config(ctx)

@@ -14,7 +14,7 @@ import pandas as pd
 from stems.gis.grids import TileGrid, Tile
 
 from . import defaults, ordering, utils
-from .metadata import TrackingMetadata
+from .metadata import TrackingMetadata, get_submission_info
 
 logger = logging.getLogger(__name__)
 
@@ -57,7 +57,8 @@ class Tracker(object):
         """ list[ee.Filter]: Earth Engine filters to apply
         """
         # Convert from dict as needed
-        return _create_filters(self._filters)
+        from .utils import create_filters
+        return create_filters(self._filters)
 
     def submit(self, collections, tile_indices,
                period_start, period_end, period_freq=None):
@@ -193,9 +194,9 @@ class Tracker(object):
             JSON tracking info data as a dict
         """
         tracking_info = self.read(name)
-        tracking_info_updated = update_tracking_info(tracking_info)
-        name_ = self.store.store_metadata(dict(tracking_info_updated), name)
-        return tracking_info_updated
+        updated = tracking_info.update()
+        name_ = self.store.store_metadata(dict(updated), name)
+        return updated
 
     def download(self, tracking_info, dest, overwrite=True, callback=None):
         """ Download "pre-ARD" and metadata to a directory
@@ -361,54 +362,6 @@ def clean_tracked(tracking_info, store):
         yield (id_, len(names), (store.remove(name) for name in names))
 
 
-def update_tracking_info(tracking_info):
-    """ Try to update tracking information with current task status from GEE
-
-    Parameters
-    ----------
-    tracking_info : dict or TrackingMetadata
-        Tracking information stored from a past submission
-
-    Returns
-    -------
-    TrackingMetadata
-        Input tracking info updated with GEE task status
-    """
-    tracking_info = dict(tracking_info)
-
-    ee_tasks = utils.get_ee_tasks()
-
-    updated = []
-    for info in tracking_info['orders']:
-        id_ = info['status']['id']
-        task = ee_tasks.get(id_, None)
-        if task:
-            info_ = ordering.get_task_metadata(task)
-            info.update(info_)
-        else:
-            logger.debug('Could not update information for task id="{id_}"')
-        updated.append(info)
-
-    tracking_info['orders'] = updated
-
-    return TrackingMetadata(tracking_info)
-
-
-def get_submission_info(tile_grid, collections, tile_indices,
-                        period_start, period_end, period_freq):
-    """ Return information about tracked order submissions
-    """
-    return {
-        'submitted': dt.datetime.today().isoformat(),
-        'collections': collections,
-        'tile_grid': tile_grid.to_dict(),
-        'tile_indices': list(tile_indices),
-        'period_start': period_start.isoformat(),
-        'period_end': period_end.isoformat(),
-        'period_freq': period_freq
-    }
-
-
 def _parse_date_freq(start, end, freq=None):
     import pandas as pd  # hiding because it can be expensive to import
     start_ = pd.to_datetime(start).to_pydatetime()
@@ -421,36 +374,3 @@ def _parse_date_freq(start, end, freq=None):
         offset = to_offset(freq)
         times = pd.date_range(start, end + offset, freq=freq).to_pydatetime()
         return list(zip(times[:-1], times[1:]))
-
-
-def _strftime(d, strf):
-    if isinstance(d, str):
-        d = pd.to_datetime(d).to_pydatetime()
-    assert isinstance(d, dt.datetime)
-    return d.strftime(strf)
-
-
-def _strftime_image(d):
-    return _strftime(d, defaults.EXPORT_IMAGE_STRFTIME)
-
-
-def _strftime_track(d):
-    return _strftime(d, defaults.EXPORT_TRACK_STRFTIME)
-
-
-# TODO: probably move and better organize this alongside how to serialize it
-def _create_filters(cfg_filters):
-    """ Get any EarthEngine filters described by this configuration file
-    """
-    filters = []
-    for filter_ in cfg_filters:
-        if isinstance(filter_, ee.Filter):
-            filters.append(fitler_)
-        else:
-            filters.append(_dict_to_filter(**filter_))
-    return filters
-
-
-def _dict_to_filter(function, **kwds):
-    static_meth = getattr(ee.Filter, function)
-    return static_meth(**kwds)

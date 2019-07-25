@@ -118,5 +118,33 @@ def get_ee_tasks():
     dict[str, ee.batch.task.Task]
         GEE tasks
     """
-    import ee
+    ee = load_ee(False)
     return {task.id: task for task in ee.batch.Task.list()}
+
+
+# =============================================================================
+# Earth Engine filters
+def serialize_filter(ee_filter):
+    """ Serialize an Earth Engine filter
+    """
+    ee = load_ee(False)
+    return ee.serializer.encode(ee_filter)
+
+
+def create_filters(cfg_filters):
+    """ Get any EarthEngine filters described by this configuration file
+    """
+    ee = load_ee(False)
+    filters = []
+    for filter_ in cfg_filters:
+        if isinstance(filter_, ee.Filter):
+            filters.append(fitler_)
+        else:
+            filters.append(dict_to_filter(**filter_))
+    return filters
+
+
+def dict_to_filter(function, **kwds):
+    ee = load_ee(False)
+    static_meth = getattr(ee.Filter, function)
+    return static_meth(**kwds)
