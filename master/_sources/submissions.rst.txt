@@ -112,5 +112,30 @@ The final statement that this program prints out is the name of the tracking
 metadata file created for this order. This tracking metadata file will be used
 as the identifier for this order going forward.
 
-Next, we will use this tracking name to check the status of the order we just
-submitted.
+Cancel an Order
+===============
+
+Sometimes it's useful to cancel the Earth Engine tasks and delete any data
+produced from the order (metadata or images). To do this, you just need the
+name of the order (the tracking metadata name).
+
+For example, if we wanted to cancel the order we created in the example above,
+
+.. code-blocks:: bash
+
+   $ cedar status cancel TRACKING_2019-07-18T16:45:25.528253_h063v052
+   Cancelled task ID "DX2MEYOGKJHOTEPASGZQCFNO"
+   Cancelled task ID "U6LY6RQSXY24WVN4TBLDPALI"
+   ...
+   Cancelled task ID "362JNMDKKICZIQ4ZBYB6CQ4H"
+   Complete
+
+This command also deletes the tracking file associated with the order, removing
+the order from the list of orders CEDAR will track (see next section of the
+guide).
+
+
+.. note::
+
+  Next, we will use this tracking name to check the status of the order we just
+  submitted.
