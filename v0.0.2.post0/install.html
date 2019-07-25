@@ -1,0 +1,384 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Installation &mdash; cedar 0.0.2.post0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/theme_overrides.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Change Log" href="history.html" />
+    <link rel="prev" title="cedar - Create Earth engine Data cubes of Analytical Readiness" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> cedar
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.2.post0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#dependencies">Dependencies</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#required">Required</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#optional">Optional</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#google-earth-engine-gee">Google Earth Engine (GEE)</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#command-line-interface">Command Line Interface</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#tests">Tests</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#documentation">Documentation</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#instructions">Instructions</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#conda-package">Conda Package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#from-source">From Source</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#id2">Dependencies</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#install-cedar">Install cedar</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="credentials.html">Credentials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="submissions.html">Pre-ARD Order Submission</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tracking.html">Pre-ARD Order Tracking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="download.html">Download</a></li>
+<li class="toctree-l1"><a class="reference internal" href="convert.html">Pre-ARD to ARD Conversion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cleaning.html">Cleaning pre-ARD from Storage</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Help and Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">Command Line Interface Programs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="storage.html">Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dev.html">Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">cedar</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Installation</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/ceholden/cedar-datacube/blob/master/docs/source/install.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="installation">
+<span id="install"></span><h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="dependencies">
+<h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="required">
+<h3>Required<a class="headerlink" href="#required" title="Permalink to this headline">¶</a></h3>
+<p>The core dependencies are:</p>
+<ul class="simple">
+<li><p>Python 3.6 or later</p></li>
+<li><p><a class="reference external" href="http://dask.pydata.org">dask</a></p></li>
+<li><p><a class="reference external" href="http://distributed.dask.org">distributed</a></p></li>
+<li><p>numpy</p></li>
+<li><p>pandas</p></li>
+<li><p>xarray</p></li>
+<li><p>toolz</p></li>
+<li><p>affine</p></li>
+<li><p>rasterio (&gt;=1.0.14)</p></li>
+<li><p>pyyaml</p></li>
+</ul>
+</div>
+<div class="section" id="optional">
+<h3>Optional<a class="headerlink" href="#optional" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="google-earth-engine-gee">
+<h4>Google Earth Engine (GEE)<a class="headerlink" href="#google-earth-engine-gee" title="Permalink to this headline">¶</a></h4>
+<p>To enable any of the capabilities of cedar that relate to the Google Earth
+Engine, including downloading ARD from the GEE, you will need the following:</p>
+<ul class="simple">
+<li><p>appmode</p></li>
+<li><p>google-api-python-client</p></li>
+<li><p>earthengine-api</p></li>
+<li><p>google-auth-httplib2</p></li>
+<li><p>google-auth-oauthlib</p></li>
+</ul>
+</div>
+<div class="section" id="command-line-interface">
+<h4>Command Line Interface<a class="headerlink" href="#command-line-interface" title="Permalink to this headline">¶</a></h4>
+<p>For the command line interface, the following are also required:</p>
+<ul class="simple">
+<li><p>click</p></li>
+<li><p>click-plugins</p></li>
+<li><p>cligj (&gt;=0.5)</p></li>
+</ul>
+</div>
+<div class="section" id="tests">
+<h4>Tests<a class="headerlink" href="#tests" title="Permalink to this headline">¶</a></h4>
+<p>We use pytest to run the tests in this package, and require:</p>
+<ul class="simple">
+<li><p>pytest</p></li>
+<li><p>pytest-cov</p></li>
+<li><p>pytest-lazy-fixture</p></li>
+<li><p>coverage</p></li>
+</ul>
+</div>
+<div class="section" id="documentation">
+<h4>Documentation<a class="headerlink" href="#documentation" title="Permalink to this headline">¶</a></h4>
+<p>Documentation is built using Sphinx and requires:</p>
+<ul class="simple">
+<li><p>sphinx</p></li>
+<li><p>sphinx_rtd_theme</p></li>
+<li><p>sphinxcontrib-bibtex</p></li>
+<li><p>numpydoc</p></li>
+</ul>
+</div>
+</div>
+</div>
+<div class="section" id="instructions">
+<span id="id1"></span><h2>Instructions<a class="headerlink" href="#instructions" title="Permalink to this headline">¶</a></h2>
+<p>cedar is a pure Python package, but it sits on top of a pile of dependencies
+that may be difficult to install. The easiest way to install all of these
+dependencies is using the <a class="reference external" href="http://conda.io">conda</a> tool.</p>
+<div class="section" id="conda-package">
+<h3>Conda Package<a class="headerlink" href="#conda-package" title="Permalink to this headline">¶</a></h3>
+<p>cedar has been packaged as a Conda package and uploaded to the <code class="docutils literal notranslate"><span class="pre">ceholden</span></code>
+Anaconda channel. Installing cedar this way is one of the easiest ways
+because it will take care of installing the dependencies and the Python
+code for a release of cedar. Note that this conda package also depends
+on other packages available in the <code class="docutils literal notranslate"><span class="pre">conda-forge</span></code> channel, so make sure
+to include both channels when installing cedar.</p>
+<p>An example of how you might want to install cedar using <code class="docutils literal notranslate"><span class="pre">conda</span></code> is,</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ conda create -n cedar_env -c conda-forge -c ceholden cedar-datacube
+$ conda activate cedar_env
+</pre></div>
+</div>
+</div>
+<div class="section" id="from-source">
+<h3>From Source<a class="headerlink" href="#from-source" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="id2">
+<h4>Dependencies<a class="headerlink" href="#id2" title="Permalink to this headline">¶</a></h4>
+<p>To install cedar from the source code, you will first need to make sure
+you have installed all the required dependencies.</p>
+<p>With <a class="reference external" href="http://conda.io">conda</a> installed and ready to use, you can install the required
+dependencies for this library using one of the “environment” files located in
+the <code class="docutils literal notranslate"><span class="pre">ci/</span></code> directory (we use these for our continuous integration tests):</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> conda env create -n cedar -f ci/requirements-py37.yml
+</pre></div>
+</div>
+<p>With the conda environment created, you can activate it as follows:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> conda activate cedar
+</pre></div>
+</div>
+<p>You should now be ready to install cedar.</p>
+</div>
+<div class="section" id="install-cedar">
+<h4>Install cedar<a class="headerlink" href="#install-cedar" title="Permalink to this headline">¶</a></h4>
+<p>The sources for cedar can be downloaded from the <a class="reference external" href="https://github.com/ceholden/cedar-datacube">Github repo</a>. You can
+either download the source from Github and install it using <code class="docutils literal notranslate"><span class="pre">pip</span></code>, or use
+<code class="docutils literal notranslate"><span class="pre">pip</span></code> to install the source from Github directly.</p>
+<p>You can either clone the public repository:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> git clone git@github.com:ceholden/cedar-datacube
+</pre></div>
+</div>
+<p>Make sure you have installed the package dependencies before proceeding
+(see <a class="reference internal" href="#instructions">Instructions</a>). Once you have a copy of the source, you can install it
+with:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> <span class="nb">cd</span> cedar-datacube/
+<span class="gp">$</span> pip install -e .
+</pre></div>
+</div>
+<p>or</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> pip install -e cedar-datacube/
+</pre></div>
+</div>
+<p>The flag, <code class="docutils literal notranslate"><span class="pre">-e</span></code>, is recommended to tell <code class="docutils literal notranslate"><span class="pre">pip</span></code> to make the installation
+“editable”, meaning that changes you make to the files in the repository
+will be reflected when you import the Python package. Otherwise you would
+have to re-install the package with <code class="docutils literal notranslate"><span class="pre">pip</span></code> for changes to affect the installed
+package.</p>
+<p>Alternatively, you can use <code class="docutils literal notranslate"><span class="pre">pip</span></code> to install it in one step,</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$</span> pip install git+ssh://git@github.com/ceholden/cedar-datacube.git
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="history.html" class="btn btn-neutral float-right" title="Change Log" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral float-left" title="cedar - Create Earth engine Data cubes of Analytical Readiness" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Chris Holden
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

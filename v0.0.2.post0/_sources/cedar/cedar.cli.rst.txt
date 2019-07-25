@@ -1,0 +1,26 @@
+cedar.cli package
+=================
+
+Submodules
+----------
+
+.. toctree::
+
+   cedar.cli.auth
+   cedar.cli.config
+   cedar.cli.console
+   cedar.cli.convert
+   cedar.cli.gee
+   cedar.cli.main
+   cedar.cli.options
+   cedar.cli.status
+   cedar.cli.storage
+   cedar.cli.submit
+
+Module contents
+---------------
+
+.. automodule:: cedar.cli
+   :members:
+   :undoc-members:
+   :show-inheritance:

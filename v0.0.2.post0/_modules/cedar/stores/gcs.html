@@ -1,0 +1,744 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>cedar.stores.gcs &mdash; cedar 0.0.2.post0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/theme_overrides.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> cedar
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.2.post0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../faq.html">Frequently Asked Questions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../credentials.html">Credentials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../config.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../submissions.html">Pre-ARD Order Submission</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tracking.html">Pre-ARD Order Tracking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../download.html">Download</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../convert.html">Pre-ARD to ARD Conversion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cleaning.html">Cleaning pre-ARD from Storage</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Help and Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli.html">Command Line Interface Programs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../storage.html">Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dev.html">Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">cedar</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>cedar.stores.gcs</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for cedar.stores.gcs</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot; Helper utilities for using Google Cloud Storage</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">fnmatch</span>
+<span class="kn">import</span> <span class="nn">functools</span>
+<span class="kn">import</span> <span class="nn">io</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="k">import</span> <span class="n">Path</span>
+<span class="kn">import</span> <span class="nn">re</span>
+
+<span class="kn">from</span> <span class="nn">google.cloud</span> <span class="k">import</span> <span class="n">storage</span>
+<span class="kn">from</span> <span class="nn">google.oauth2</span> <span class="k">import</span> <span class="n">service_account</span>
+
+<span class="kn">import</span> <span class="nn">ee</span>
+
+<span class="kn">from</span> <span class="nn">stems.utils</span> <span class="k">import</span> <span class="n">renamed_upon_completion</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+<span class="n">_RE_FILE</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;.*(?&lt;!\/)$&#39;</span><span class="p">)</span>
+<span class="n">METADATA_ENCODING</span> <span class="o">=</span> <span class="s1">&#39;utf-8&#39;</span>
+
+<span class="n">SCOPES</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s1">&#39;https://www.googleapis.com/auth/devstorage.read_write&#39;</span>
+<span class="p">]</span>
+<span class="n">ENVVAR_CREDENTIALS</span> <span class="o">=</span> <span class="s1">&#39;GOOGLE_APPLICATION_CREDENTIALS&#39;</span>
+<span class="n">ENVVAR_PROJECT</span> <span class="o">=</span> <span class="s1">&#39;GOOGLE_CLOUD_PROJECT&#39;</span>
+
+
+<div class="viewcode-block" id="build_gcs_client"><a class="viewcode-back" href="../../../credentials.html#cedar.stores.gcs.build_gcs_client">[docs]</a><span class="k">def</span> <span class="nf">build_gcs_client</span><span class="p">(</span><span class="n">credentials</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">project</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Return a Google Cloud Store API service client</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    credentials : str, optional</span>
+<span class="sd">        File name of Google Cloud Store credentials (typically from a service</span>
+<span class="sd">        account)</span>
+<span class="sd">    project : str, optional</span>
+<span class="sd">        Google Cloud Platform project to use</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    google.cloud.storage.Client</span>
+<span class="sd">        Client for the Google Cloud Storage client library</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    You might consider setting the envirnment variable</span>
+<span class="sd">    ``GOOGLE_APPLICATION_CREDENTIALS`` with the path to your service account</span>
+<span class="sd">    credentials file [1]_.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [1] https://cloud.google.com/storage/docs/reference/libraries#setting_up_authentication</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">credentials</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">ENVVAR_CREDENTIALS</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+        <span class="n">credentials</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="n">ENVVAR_CREDENTIALS</span><span class="p">]</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Got GCS credentials from environment variable&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">project</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">ENVVAR_PROJECT</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+        <span class="n">project</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="n">ENVVAR_PROJECT</span><span class="p">]</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Got GCS project from environment variable&#39;</span><span class="p">)</span>
+
+    <span class="n">credentials</span> <span class="o">=</span> <span class="n">service_account</span><span class="o">.</span><span class="n">Credentials</span><span class="o">.</span><span class="n">from_service_account_file</span><span class="p">(</span>
+        <span class="n">credentials</span><span class="p">,</span>
+        <span class="n">scopes</span><span class="o">=</span><span class="n">SCOPES</span><span class="p">)</span>
+    <span class="n">client</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">Client</span><span class="p">(</span><span class="n">project</span><span class="o">=</span><span class="n">project</span><span class="p">,</span> <span class="n">credentials</span><span class="o">=</span><span class="n">credentials</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">client</span></div>
+
+
+<div class="viewcode-block" id="GCSStore"><a class="viewcode-back" href="../../../storage.html#cedar.stores.gcs.GCSStore">[docs]</a><span class="k">class</span> <span class="nc">GCSStore</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Store GEE &quot;pre-ARD&quot; images and metadata on Google Cloud Storage</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    client : google.cloud.storage.client.Client</span>
+<span class="sd">        GCS client</span>
+<span class="sd">    bucket : google.cloud.storage.bucket.Bucket</span>
+<span class="sd">        GCS bucket</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">client</span><span class="p">,</span> <span class="n">bucket</span><span class="p">):</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">storage</span><span class="o">.</span><span class="n">Client</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">storage</span><span class="o">.</span><span class="n">Bucket</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">client</span> <span class="o">=</span> <span class="n">client</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bucket</span> <span class="o">=</span> <span class="n">bucket</span>
+
+<div class="viewcode-block" id="GCSStore.from_credentials"><a class="viewcode-back" href="../../../storage.html#cedar.stores.gcs.GCSStore.from_credentials">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_credentials</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">bucket_name</span><span class="p">,</span> <span class="n">credentials</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">project</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Load Google Cloud Storage credentials and create store</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">client</span> <span class="o">=</span> <span class="n">build_gcs_client</span><span class="p">(</span><span class="n">credentials</span><span class="o">=</span><span class="n">credentials</span><span class="p">,</span> <span class="n">project</span><span class="o">=</span><span class="n">project</span><span class="p">)</span>
+        <span class="n">bucket</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="n">get_bucket</span><span class="p">(</span><span class="n">bucket_name</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">client</span><span class="p">,</span> <span class="n">bucket</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="GCSStore.list"><a class="viewcode-back" href="../../../storage.html#cedar.stores.gcs.GCSStore.list">[docs]</a>    <span class="k">def</span> <span class="nf">list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; List stored images or metadata</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        path : str, optional</span>
+<span class="sd">            Prefix path to search within</span>
+<span class="sd">        pattern : str, optional</span>
+<span class="sd">            Filename pattern</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        list[str]</span>
+<span class="sd">            Names of stored data</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">blobs</span> <span class="o">=</span> <span class="n">list_blobs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bucket</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="n">path</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="n">pattern</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">blob</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">blob</span> <span class="ow">in</span> <span class="n">blobs</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="GCSStore.store_metadata"><a class="viewcode-back" href="../../../storage.html#cedar.stores.gcs.GCSStore.store_metadata">[docs]</a>    <span class="k">def</span> <span class="nf">store_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Store JSON metadata</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        metadata : dict</span>
+<span class="sd">            Metadata, to be saved as JSON</span>
+<span class="sd">        name : str</span>
+<span class="sd">            Name of file/object to store</span>
+<span class="sd">        path : str, optional</span>
+<span class="sd">            Parent directory for file/object stored. Otherwise assumed to</span>
+<span class="sd">            be part of ``name``</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        str</span>
+<span class="sd">            Path to uploaded object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">name</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;.json&#39;</span><span class="p">):</span>
+            <span class="n">name</span> <span class="o">+=</span> <span class="s1">&#39;.json&#39;</span>
+        <span class="n">fullname</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">path_</span> <span class="o">=</span> <span class="n">_combine_name_path</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+
+        <span class="n">path_</span> <span class="o">=</span> <span class="n">mkdir_p</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bucket</span><span class="p">,</span> <span class="n">path_</span><span class="p">)</span>
+
+        <span class="n">blob</span> <span class="o">=</span> <span class="n">upload_json</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bucket</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span> <span class="n">fullname</span><span class="p">,</span>
+                           <span class="n">check</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">blob</span><span class="o">.</span><span class="n">name</span></div>
+
+<div class="viewcode-block" id="GCSStore.store_image"><a class="viewcode-back" href="../../../storage.html#cedar.stores.gcs.GCSStore.store_image">[docs]</a>    <span class="k">def</span> <span class="nf">store_image</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">export_image_kwds</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Create ee.batch.Task to create and store &quot;pre-ARD&quot;</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        image : ee.Image</span>
+<span class="sd">            Earth Engine image to compute &amp; store</span>
+<span class="sd">        name : str</span>
+<span class="sd">            Name of file/object to store</span>
+<span class="sd">        path : str, optional</span>
+<span class="sd">            Parent directory for file/object stored</span>
+<span class="sd">        export_image_kwds : dict, optional</span>
+<span class="sd">            Additional keyword arguments to pass onto</span>
+<span class="sd">            :py:meth:`ee.batch.Export.image.toCloudStorage` (hint: ``scale`` &amp; ``crs``)</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        ee.Task</span>
+<span class="sd">            Earth Engine Task</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Make parent directory</span>
+        <span class="n">fullname</span><span class="p">,</span> <span class="n">basename</span><span class="p">,</span> <span class="n">path_</span> <span class="o">=</span> <span class="n">_combine_name_path</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+        <span class="n">path_</span> <span class="o">=</span> <span class="n">mkdir_p</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bucket</span><span class="p">,</span> <span class="n">path_</span><span class="p">)</span>
+
+        <span class="c1"># Create compute/store export task</span>
+        <span class="c1"># Canonicalized:</span>
+        <span class="c1">#   bucket -&gt; outputBucket</span>
+        <span class="c1">#   fileNamePrefix, path -&gt; outputPrefix</span>
+        <span class="n">task</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">batch</span><span class="o">.</span><span class="n">Export</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">toCloudStorage</span><span class="p">(</span>
+            <span class="n">image</span><span class="p">,</span>
+            <span class="n">bucket</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">bucket</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">description</span><span class="o">=</span><span class="n">basename</span><span class="p">,</span>
+            <span class="n">fileNamePrefix</span><span class="o">=</span><span class="n">fullname</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">export_image_kwds</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">task</span></div>
+
+    <span class="k">def</span> <span class="nf">_retrieve_extension</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dest</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">ext</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">name</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="n">ext</span><span class="p">):</span>
+            <span class="n">name</span> <span class="o">+=</span> <span class="n">f</span><span class="s1">&#39;*</span><span class="si">{ext}</span><span class="s1">&#39;</span>
+
+        <span class="n">blobs</span> <span class="o">=</span> <span class="n">list_blobs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bucket</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="n">path</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Found {len(blobs)} blobs matching image name/prefix&#39;</span><span class="p">)</span>
+
+        <span class="n">dests</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">blob</span> <span class="ow">in</span> <span class="n">blobs</span><span class="p">:</span>
+            <span class="n">blob_name</span> <span class="o">=</span> <span class="n">blob</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">msg</span> <span class="o">=</span> <span class="n">f</span><span class="s1">&#39;</span><span class="si">{i}</span><span class="s1">/{len(blobs)} - &quot;</span><span class="si">{blob_name}</span><span class="s1">&quot;&#39;</span>
+
+            <span class="n">dest_</span> <span class="o">=</span> <span class="n">dest</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="n">blob_name</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">dest_</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span> <span class="ow">or</span> <span class="n">overwrite</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Downloading </span><span class="si">{msg}</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="n">dst_</span> <span class="o">=</span> <span class="n">download_blob</span><span class="p">(</span><span class="n">blob</span><span class="p">,</span> <span class="n">dest_</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Already downloaded </span><span class="si">{msg}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+            <span class="k">yield</span> <span class="n">dest_</span>
+
+<div class="viewcode-block" id="GCSStore.retrieve_image"><a class="viewcode-back" href="../../../storage.html#cedar.stores.gcs.GCSStore.retrieve_image">[docs]</a>    <span class="k">def</span> <span class="nf">retrieve_image</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dest</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Retrieve (pieces of) an image from the GCS</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        dest : str</span>
+<span class="sd">            Destination folder to save image(s)</span>
+<span class="sd">        name : str</span>
+<span class="sd">            Name of stored file/object</span>
+<span class="sd">        path : str, optional</span>
+<span class="sd">            Parent directory for file/object stored on GCS</span>
+
+<span class="sd">        Yields</span>
+<span class="sd">        ------</span>
+<span class="sd">        Sequence[str]</span>
+<span class="sd">            Filename(s) corresponding to retrieved data</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">_retrieve_extension</span><span class="p">(</span><span class="n">dest</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="s1">&#39;tif&#39;</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">,</span>
+                                   <span class="n">overwrite</span><span class="o">=</span><span class="n">overwrite</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="GCSStore.retrieve_metadata"><a class="viewcode-back" href="../../../storage.html#cedar.stores.gcs.GCSStore.retrieve_metadata">[docs]</a>    <span class="k">def</span> <span class="nf">retrieve_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dest</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">overwrite</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Retrieve image metadata from the GCS</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        dest : str</span>
+<span class="sd">            Destination folder to save metadata</span>
+<span class="sd">        name : str</span>
+<span class="sd">            Name of stored file/object</span>
+<span class="sd">        path : str, optional</span>
+<span class="sd">            Parent directory for file/object stored</span>
+
+<span class="sd">        Yields</span>
+<span class="sd">        ------</span>
+<span class="sd">        pathlib.Path</span>
+<span class="sd">            Filename corresponding to retrieved data</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">_retrieve_extension</span><span class="p">(</span><span class="n">dest</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="s1">&#39;json&#39;</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="n">path</span><span class="p">,</span>
+                                   <span class="n">overwrite</span><span class="o">=</span><span class="n">overwrite</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="GCSStore.read_metadata"><a class="viewcode-back" href="../../../storage.html#cedar.stores.gcs.GCSStore.read_metadata">[docs]</a>    <span class="k">def</span> <span class="nf">read_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Read and parse JSON metadata into a dict</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        name : str</span>
+<span class="sd">            Filename of metadata blob to read</span>
+<span class="sd">        path : str, optional</span>
+<span class="sd">            Parent directory for file/object stored</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dict</span>
+<span class="sd">            JSON metadata blob</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">fullname</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">_combine_name_path</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+        <span class="n">blob</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">bucket</span><span class="o">.</span><span class="n">get_blob</span><span class="p">(</span><span class="n">fullname</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">blob</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;No stored metadata named </span><span class="si">{fullname}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">read_json</span><span class="p">(</span><span class="n">blob</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="n">METADATA_ENCODING</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">data</span></div>
+
+<div class="viewcode-block" id="GCSStore.remove"><a class="viewcode-back" href="../../../storage.html#cedar.stores.gcs.GCSStore.remove">[docs]</a>    <span class="k">def</span> <span class="nf">remove</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">path</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Remove a file from GCS</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        name : str</span>
+<span class="sd">            Name of stored file/object</span>
+<span class="sd">        path : str, optional</span>
+<span class="sd">            Parent directory for file/object stored</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        str</span>
+<span class="sd">            Name of file removed</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">fullname</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">_combine_name_path</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">path</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">delete_blob</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">bucket</span><span class="p">,</span> <span class="n">fullname</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="upload_json"><a class="viewcode-back" href="../../../cedar/cedar.stores.gcs.html#cedar.stores.gcs.upload_json">[docs]</a><span class="k">def</span> <span class="nf">upload_json</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="n">METADATA_ENCODING</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Upload data as JSON to GCS</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    bucket : google.cloud.storage.bucket.Bucket</span>
+<span class="sd">        GCS bucket</span>
+<span class="sd">    data : str or dict</span>
+<span class="sd">        JSON, either already dumped to str or as a dict</span>
+<span class="sd">    path : str</span>
+<span class="sd">        Destination path on GCS for data</span>
+<span class="sd">    check : bool, optional</span>
+<span class="sd">        Check to see if the file already exists first. If so, will</span>
+<span class="sd">        overwrite (or &quot;update&quot; instead of &quot;create&quot;)</span>
+<span class="sd">    encoding : str, optional</span>
+<span class="sd">        Metadata encoding</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    google.cloud.storage.blob.Blob</span>
+<span class="sd">        JSON as GCS blob</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">blob</span> <span class="o">=</span> <span class="n">bucket</span><span class="o">.</span><span class="n">blob</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="c1"># Dump dict to JSON str and/or encode if needed</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">encoding</span><span class="p">)</span>
+    <span class="n">blob</span><span class="o">.</span><span class="n">upload_from_string</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">content_type</span><span class="o">=</span><span class="s1">&#39;application/json&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">blob</span></div>
+
+
+<div class="viewcode-block" id="read_json"><a class="viewcode-back" href="../../../cedar/cedar.stores.gcs.html#cedar.stores.gcs.read_json">[docs]</a><span class="k">def</span> <span class="nf">read_json</span><span class="p">(</span><span class="n">blob</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="n">METADATA_ENCODING</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Read a blob of JSON string data into a dict</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    blob : google.cloud.storage.blob.Blob</span>
+<span class="sd">        Blob to read, decode, and load</span>
+<span class="sd">    encoding : str, optional</span>
+<span class="sd">        Metadata encoding</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict</span>
+<span class="sd">        Blob read, decoded, and loaded as a dict</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">blob</span><span class="o">.</span><span class="n">download_as_string</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">encoding</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="mkdir_p"><a class="viewcode-back" href="../../../cedar/cedar.stores.gcs.html#cedar.stores.gcs.mkdir_p">[docs]</a><span class="k">def</span> <span class="nf">mkdir_p</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Create a &quot;directory&quot; on GCS</span>
+
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    bucket : str or google.cloud.storage.bucket.Bucket</span>
+<span class="sd">        Bucket or bucket name</span>
+<span class="sd">    path : str</span>
+<span class="sd">        Path to folder</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    google.cloud.storage.blob.Blob</span>
+<span class="sd">        GCS blob for directory created</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    Directories don&#39;t really exist on GCS but we can fake it [1]_.</span>
+
+<span class="sd">    References</span>
+<span class="sd">    ----------</span>
+<span class="sd">    .. [1] https://cloud.google.com/storage/docs/gsutil/addlhelp/HowSubdirectoriesWork</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">paths</span> <span class="o">=</span> <span class="n">path</span><span class="o">.</span><span class="n">rstrip</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+    <span class="n">blob_dir</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">paths</span><span class="p">)):</span>
+        <span class="n">path_</span> <span class="o">=</span> <span class="n">_format_dirpath</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">paths</span><span class="p">[:</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]))</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">exists</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">path_</span><span class="p">):</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Creating &quot;directory&quot; on GCS &quot;</span><span class="si">{path_}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
+            <span class="n">blob_dir</span> <span class="o">=</span> <span class="n">mkdir</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">path_</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Path </span><span class="si">{path_}</span><span class="s1"> already exists...&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">blob_dir</span></div>
+
+
+<div class="viewcode-block" id="mkdir"><a class="viewcode-back" href="../../../cedar/cedar.stores.gcs.html#cedar.stores.gcs.mkdir">[docs]</a><span class="k">def</span> <span class="nf">mkdir</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Make a directory, recursively</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    bucket : str or google.cloud.storage.bucket.Bucket</span>
+<span class="sd">        Bucket or bucket name</span>
+<span class="sd">    path : str</span>
+<span class="sd">        Path to folder</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    google.cloud.storage.blob.Blob</span>
+<span class="sd">        GCS blob for directory created</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">path_</span> <span class="o">=</span> <span class="n">_format_dirpath</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="n">blob</span> <span class="o">=</span> <span class="n">bucket</span><span class="o">.</span><span class="n">blob</span><span class="p">(</span><span class="n">path_</span><span class="p">)</span>
+    <span class="n">content_type</span> <span class="o">=</span> <span class="s1">&#39;application/x-www-form-urlencoded;charset=UTF-8&#39;</span>
+    <span class="n">blob</span><span class="o">.</span><span class="n">upload_from_string</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">content_type</span><span class="o">=</span><span class="n">content_type</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">path</span></div>
+
+
+<div class="viewcode-block" id="exists"><a class="viewcode-back" href="../../../cedar/cedar.stores.gcs.html#cedar.stores.gcs.exists">[docs]</a><span class="k">def</span> <span class="nf">exists</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Check if file/folder exists</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    bucket : str or google.cloud.storage.bucket.Bucket</span>
+<span class="sd">        Bucket or bucket name</span>
+<span class="sd">    path : str</span>
+<span class="sd">        Path to file/folder</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    bool</span>
+<span class="sd">        True or False if exists</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">blob</span> <span class="o">=</span> <span class="n">storage</span><span class="o">.</span><span class="n">Blob</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">bucket</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">blob</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="delete_blob"><a class="viewcode-back" href="../../../cedar/cedar.stores.gcs.html#cedar.stores.gcs.delete_blob">[docs]</a><span class="k">def</span> <span class="nf">delete_blob</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">path</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Delete a GCS blob</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    bucket : str or google.cloud.storage.bucket.Bucket</span>
+<span class="sd">        Bucket or bucket name</span>
+<span class="sd">    path : str</span>
+<span class="sd">        Path to file/folder</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    path</span>
+<span class="sd">        Name of deleted blob</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">blob</span> <span class="o">=</span> <span class="n">bucket</span><span class="o">.</span><span class="n">blob</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="n">blob</span><span class="o">.</span><span class="n">delete</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">blob</span><span class="o">.</span><span class="n">name</span></div>
+
+
+<div class="viewcode-block" id="list_dirs"><a class="viewcode-back" href="../../../cedar/cedar.stores.gcs.html#cedar.stores.gcs.list_dirs">[docs]</a><span class="k">def</span> <span class="nf">list_dirs</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Return &quot;directory&quot; blobs within a on GCS</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    bucket : str or google.cloud.storage.bucket.Bucket</span>
+<span class="sd">        Bucket or bucket name</span>
+<span class="sd">    prefix : str</span>
+<span class="sd">        List contents within this folder</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Sequence[str]</span>
+<span class="sd">        List of directories names inside at ``prefix``</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">prefix</span> <span class="o">=</span> <span class="n">_format_dirpath</span><span class="p">(</span><span class="n">prefix</span><span class="p">)</span> <span class="k">if</span> <span class="n">prefix</span> <span class="k">else</span> <span class="kc">None</span>
+    <span class="n">blobs</span> <span class="o">=</span> <span class="n">bucket</span><span class="o">.</span><span class="n">list_blobs</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="n">prefix</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+    <span class="n">prefixes</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">page</span> <span class="ow">in</span> <span class="n">blobs</span><span class="o">.</span><span class="n">pages</span><span class="p">:</span>
+        <span class="n">prefixes</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">page</span><span class="o">.</span><span class="n">prefixes</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">prefixes</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="list_blobs"><a class="viewcode-back" href="../../../cedar/cedar.stores.gcs.html#cedar.stores.gcs.list_blobs">[docs]</a><span class="k">def</span> <span class="nf">list_blobs</span><span class="p">(</span><span class="n">bucket</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Return file/non-directory blobs within a on GCS</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    bucket : str or google.cloud.storage.bucket.Bucket</span>
+<span class="sd">        Bucket or bucket name</span>
+<span class="sd">    prefix : str</span>
+<span class="sd">        List contents within this folder</span>
+<span class="sd">    pattern : str, optional</span>
+<span class="sd">        Filter search by glob pattern (i.e., ``*.json``)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    list[google.cloud.storage.blob.Blob]</span>
+<span class="sd">        List of blob files inside at ``prefix``</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">prefix</span><span class="p">:</span>
+        <span class="n">prefix</span> <span class="o">=</span> <span class="n">_format_dirpath</span><span class="p">(</span><span class="n">prefix</span><span class="p">)</span>
+
+    <span class="n">blobs</span> <span class="o">=</span> <span class="n">bucket</span><span class="o">.</span><span class="n">list_blobs</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="n">prefix</span><span class="p">)</span>
+    <span class="n">blobs</span> <span class="o">=</span> <span class="p">[</span><span class="n">blob</span> <span class="k">for</span> <span class="n">blob</span> <span class="ow">in</span> <span class="n">blobs</span> <span class="k">if</span> <span class="n">_RE_FILE</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">blob</span><span class="o">.</span><span class="n">name</span><span class="p">)]</span>
+
+    <span class="k">if</span> <span class="n">pattern</span><span class="p">:</span>
+        <span class="n">re_pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">fnmatch</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="n">pattern</span><span class="p">))</span>
+        <span class="n">blobs</span> <span class="o">=</span> <span class="p">[</span><span class="n">blob</span> <span class="k">for</span> <span class="n">blob</span> <span class="ow">in</span> <span class="n">blobs</span>
+                 <span class="k">if</span> <span class="n">re_pattern</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">_blob_basename</span><span class="p">(</span><span class="n">blob</span><span class="p">,</span> <span class="n">prefix</span><span class="p">))]</span>
+
+    <span class="k">return</span> <span class="n">blobs</span></div>
+
+
+<div class="viewcode-block" id="download_blob"><a class="viewcode-back" href="../../../cedar/cedar.stores.gcs.html#cedar.stores.gcs.download_blob">[docs]</a><span class="k">def</span> <span class="nf">download_blob</span><span class="p">(</span><span class="n">blob</span><span class="p">,</span> <span class="n">dest</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Download a blob to a destination directory</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    blob : google.cloud.storage.blob.Blob</span>
+<span class="sd">        GCS blob to download</span>
+<span class="sd">    dest : str</span>
+<span class="sd">        Local directory to download blob into</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    pathlib.Path</span>
+<span class="sd">        Filename written to</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dest</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">dest</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">dest</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+        <span class="n">dest</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="n">suffix</span> <span class="o">=</span> <span class="n">f</span><span class="s1">&#39;.tmp.{socket.gethostname()}.{os.getpid()}&#39;</span>
+    <span class="k">with</span> <span class="n">renamed_upon_completion</span><span class="p">(</span><span class="n">dest</span><span class="p">,</span> <span class="n">suffix</span><span class="o">=</span><span class="n">suffix</span><span class="p">)</span> <span class="k">as</span> <span class="n">tmp</span><span class="p">:</span>
+        <span class="n">blob</span><span class="o">.</span><span class="n">download_to_filename</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">dest</span></div>
+
+
+<span class="k">def</span> <span class="nf">_format_dirpath</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">path</span> <span class="k">if</span> <span class="n">path</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="n">path</span> <span class="o">+</span> <span class="s1">&#39;/&#39;</span>
+
+
+<span class="k">def</span> <span class="nf">_blob_basename</span><span class="p">(</span><span class="n">blob</span><span class="p">,</span> <span class="n">prefix</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">prefix</span> <span class="ow">and</span> <span class="n">blob</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">prefix</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">blob</span><span class="o">.</span><span class="n">name</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">prefix</span><span class="p">):]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">blob</span><span class="o">.</span><span class="n">name</span>
+
+
+<span class="k">def</span> <span class="nf">_combine_name_path</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="c1"># Entire filename</span>
+    <span class="k">if</span> <span class="n">prefix</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">parts</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)</span>
+        <span class="n">prefix_</span> <span class="o">=</span> <span class="s1">&#39;/&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">parts</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+        <span class="n">basename</span> <span class="o">=</span> <span class="n">parts</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">name</span><span class="p">,</span> <span class="n">basename</span><span class="p">,</span> <span class="n">_format_dirpath</span><span class="p">(</span><span class="n">prefix_</span><span class="p">)</span>
+    <span class="c1"># Filename + prefix</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">assert</span> <span class="s1">&#39;/&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">name</span>  <span class="c1"># should just be a file</span>
+        <span class="n">prefix_</span> <span class="o">=</span> <span class="n">_format_dirpath</span><span class="p">(</span><span class="n">prefix</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">prefix_</span> <span class="o">+</span> <span class="n">name</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">prefix_</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Chris Holden
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,18 @@
+cedar.stores package
+====================
+
+Submodules
+----------
+
+.. toctree::
+
+   cedar.stores.gcs
+   cedar.stores.gdrive
+
+Module contents
+---------------
+
+.. automodule:: cedar.stores
+   :members:
+   :undoc-members:
+   :show-inheritance:

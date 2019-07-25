@@ -1,0 +1,333 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>cedar.preard module &mdash; cedar 0.0.2.post0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> cedar
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.2.post0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequently Asked Questions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../credentials.html">Credentials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../submissions.html">Pre-ARD Order Submission</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tracking.html">Pre-ARD Order Tracking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../download.html">Download</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../convert.html">Pre-ARD to ARD Conversion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cleaning.html">Cleaning pre-ARD from Storage</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Help and Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line Interface Programs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../storage.html">Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dev.html">Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">cedar</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>cedar.preard module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/ceholden/cedar-datacube/blob/master/docs/source/cedar/cedar.preard.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-cedar.preard">
+<span id="cedar-preard-module"></span><h1>cedar.preard module<a class="headerlink" href="#module-cedar.preard" title="Permalink to this headline">¶</a></h1>
+<p>Convert “pre-ARD” to ARD</p>
+<dl class="function">
+<dt id="cedar.preard.ard_netcdf_encoding">
+<code class="sig-prename descclassname">cedar.preard.</code><code class="sig-name descname">ard_netcdf_encoding</code><span class="sig-paren">(</span><em class="sig-param">ard_ds</em>, <em class="sig-param">metadata</em>, <em class="sig-param">**encoding_kwds</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/preard.html#ard_netcdf_encoding"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.preard.ard_netcdf_encoding" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return encoding for ARD NetCDF4 files</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>ard_ds</strong> (<em>xr.Dataset</em>) – ARD as a XArray Dataset</p></li>
+<li><p><strong>metadata</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – Metadata about ARD</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>NetCDF encoding to use with <a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.Dataset.to_netcdf.html#xarray.Dataset.to_netcdf" title="(in xarray v0.12.3)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">xarray.Dataset.to_netcdf()</span></code></a></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="cedar.preard.find_preard">
+<code class="sig-prename descclassname">cedar.preard.</code><code class="sig-name descname">find_preard</code><span class="sig-paren">(</span><em class="sig-param">path</em>, <em class="sig-param">metadata_pattern='*.json'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/preard.html#find_preard"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.preard.find_preard" title="Permalink to this definition">¶</a></dt>
+<dd><p>Match pre-ARD metadata with imagery in some location</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em> or </em><em>Path</em>) – Path to a metadata file or directory of files (returning matches
+inside the directory)</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Pairs of metadata filename to image filename(s)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a>[<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a>, <a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#list" title="(in Python v3.7)">list</a>[<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a>]]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="cedar.preard.preard_to_ard">
+<code class="sig-prename descclassname">cedar.preard.</code><code class="sig-name descname">preard_to_ard</code><span class="sig-paren">(</span><em class="sig-param">xarr</em>, <em class="sig-param">time</em>, <em class="sig-param">bands</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/preard.html#preard_to_ard"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.preard.preard_to_ard" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a “pre-ARD” DataArray to an ARD xr.Dataset</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>xarr</strong> (<a class="reference external" href="http://xarray.pydata.org/en/stable/generated/xarray.DataArray.html#xarray.DataArray" title="(in xarray v0.12.3)"><em>xarray.DataArray</em></a>) – DataArray containing observations from all bands and time</p></li>
+<li><p><strong>time</strong> (<em>np.ndarray</em>) – Time information for each observation</p></li>
+<li><p><strong>bands</strong> (<em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>]</em>) – Band names</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Dataset containing all observations split into subdatasets
+according to band</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>xr.Dataset</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.7/library/exceptions.html#ValueError" title="(in Python v3.7)"><strong>ValueError</strong></a> – Raised if the number of bands and times specified do not match
+the number of “bands” in the input DataArray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="cedar.preard.process_preard">
+<code class="sig-prename descclassname">cedar.preard.</code><code class="sig-name descname">process_preard</code><span class="sig-paren">(</span><em class="sig-param">metadata</em>, <em class="sig-param">images</em>, <em class="sig-param">chunks=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/preard.html#process_preard"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.preard.process_preard" title="Permalink to this definition">¶</a></dt>
+<dd><p>Open and process pre-ARD data to ARD</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>metadata</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – Image metadata</p></li>
+<li><p><strong>images</strong> (<em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em> or </em><em>Path</em><em>]</em>) – Path(s) to pre-ARD imagery</p></li>
+<li><p><strong>chunks</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a><em>, </em><em>optional</em>) – Chunks to use when opening pre-ARD GeoTIFF files. If <code class="docutils literal notranslate"><span class="pre">None</span></code>,
+defaults to <code class="docutils literal notranslate"><span class="pre">{'x':</span> <span class="pre">256,</span> <span class="pre">'y':</span> <span class="pre">256,</span> <span class="pre">'band':</span> <span class="pre">-1}</span></code></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>pre-ARD processed to (in memory) ARD format that can be written to disk</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>xr.Dataset</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="cedar.preard.read_metadata">
+<code class="sig-prename descclassname">cedar.preard.</code><code class="sig-name descname">read_metadata</code><span class="sig-paren">(</span><em class="sig-param">filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/preard.html#read_metadata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.preard.read_metadata" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read pre-ARD image metadata from a file</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="cedar.preard.read_preard">
+<code class="sig-prename descclassname">cedar.preard.</code><code class="sig-name descname">read_preard</code><span class="sig-paren">(</span><em class="sig-param">filenames</em>, <em class="sig-param">chunks=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/preard.html#read_preard"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.preard.read_preard" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read pre-ARD file(s) into a single DataArray</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>filenames</strong> (<em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em> or </em><em>Path</em><em>]</em>) – Pre-ARD file name(s)</p></li>
+<li><p><strong>chunks</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a><em>, </em><em>optional</em>) – Chunks to use when opening pre-ARD GeoTIFF files. If <code class="docutils literal notranslate"><span class="pre">None</span></code>,
+defaults to <code class="docutils literal notranslate"><span class="pre">{'x':</span> <span class="pre">256,</span> <span class="pre">'y':</span> <span class="pre">256,</span> <span class="pre">'band':</span> <span class="pre">-1}</span></code></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Pre-ARD joined together as a single DataArray</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>xr.DataArray</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Chris Holden
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
