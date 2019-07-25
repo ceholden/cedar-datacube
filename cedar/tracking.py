@@ -374,7 +374,6 @@ def update_tracking_info(tracking_info):
     dict
         Input tracking info updated with GEE task status
     """
-    tracking_info = tracking_info.copy()
     tracked_orders = tracking_info['orders']
 
     ee_tasks = utils.get_ee_tasks()
