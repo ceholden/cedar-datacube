@@ -97,6 +97,16 @@ class TrackingMetadata(Mapping):
         """
         return list(self.states) == [_EE_COMPLETED]
 
+    @property
+    def tasks(self):
+        """ List[ee.batch.Task]: EarthEngine tasks associated with this order
+        """
+        from ..utils import get_ee_tasks, load_ee
+        ee_api = load_ee(False)  # should initialize elsewhere
+        tasks = get_ee_tasks()
+        order_tasks = [tasks[order['status']['id']] for order in self.orders]
+        return order_tasks
+
     # schema
     def validate(self):
         validation.validate_with_defaults(self._metadata, self.schema,
