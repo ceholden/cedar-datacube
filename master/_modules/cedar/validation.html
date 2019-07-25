@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>cedar.validation &mdash; cedar 0.0.1.post1+7.gae9907f documentation</title>
+  <title>cedar.validation &mdash; cedar 0.0.1.post1+8.g5e6dbb2 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.0.1.post1+7.gae9907f
+                0.0.1.post1+8.g5e6dbb2
               </div>
             
           
@@ -186,7 +186,12 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="n">resolver</span> <span class="o">=</span> <span class="kc">None</span>
 
-    <span class="n">validator</span> <span class="o">=</span> <span class="n">DefaultValidatingDraft7Validator</span><span class="p">(</span><span class="n">schema</span><span class="p">,</span> <span class="n">resolver</span><span class="o">=</span><span class="n">resolver</span><span class="p">)</span>
+    <span class="c1"># Allow tuple/list as &#39;array&#39; type</span>
+    <span class="c1"># See: https://github.com/Julian/jsonschema/issues/148</span>
+    <span class="n">types_</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;array&#39;</span><span class="p">:</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)}</span>
+
+    <span class="n">validator</span> <span class="o">=</span> <span class="n">DefaultValidatingDraft7Validator</span><span class="p">(</span><span class="n">schema</span><span class="p">,</span> <span class="n">resolver</span><span class="o">=</span><span class="n">resolver</span><span class="p">,</span>
+                                                 <span class="n">types</span><span class="o">=</span><span class="n">types_</span><span class="p">)</span>
     <span class="n">validator</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span></div>
 
 
