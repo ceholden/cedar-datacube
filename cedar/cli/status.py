@@ -103,6 +103,9 @@ def print(ctx, tracking_name, order_id, all_orders):
 def completed(ctx, tracking_name, update_):
     """ Print percent of order completed & exit 1 if not complete
     """
+    from cedar.utils import load_ee
+    ee = load_ee(True)
+
     logger = ctx.obj['logger']
     config = options.fetch_config(ctx)
     tracker = config.get_tracker()
