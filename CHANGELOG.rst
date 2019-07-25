@@ -10,6 +10,13 @@ For information on the style of this change log, see
 `keepachangelog.com <http://keepachangelog.com/>`__.
 
 
+v0.0.2
+======
+
+* Fix bug in jsonschema validation by allowing tuples & lists to count
+  as 'array'
+* Added ``cedar status cancel`` command to cancel orders
+* Refactor internals to use ``TrackingMetadata`` model
 
 v0.0.1.post1
 ============
