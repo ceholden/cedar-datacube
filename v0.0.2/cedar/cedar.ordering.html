@@ -1,0 +1,341 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>cedar.ordering module &mdash; cedar 0.0.2 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> cedar
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequently Asked Questions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../credentials.html">Credentials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../submissions.html">Pre-ARD Order Submission</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tracking.html">Pre-ARD Order Tracking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../download.html">Download</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../convert.html">Pre-ARD to ARD Conversion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cleaning.html">Cleaning pre-ARD from Storage</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Help and Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line Interface Programs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../storage.html">Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dev.html">Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">cedar</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>cedar.ordering module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/ceholden/cedar-datacube/blob/master/docs/source/cedar/cedar.ordering.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-cedar.ordering">
+<span id="cedar-ordering-module"></span><h1>cedar.ordering module<a class="headerlink" href="#module-cedar.ordering" title="Permalink to this headline">¶</a></h1>
+<p>Metadata</p>
+<dl class="class">
+<dt id="cedar.ordering.Order">
+<em class="property">class </em><code class="sig-prename descclassname">cedar.ordering.</code><code class="sig-name descname">Order</code><span class="sig-paren">(</span><em class="sig-param">tracking_name</em>, <em class="sig-param">tracking_prefix</em>, <em class="sig-param">name_template=None</em>, <em class="sig-param">prefix_template=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/ordering.html#Order"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.ordering.Order" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.7/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>CEDAR order data</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Order name</p>
+</dd>
+</dl>
+<dl class="method">
+<dt id="cedar.ordering.Order.add">
+<code class="sig-name descname">add</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">collection</em>, <em class="sig-param">tile</em>, <em class="sig-param">date_start</em>, <em class="sig-param">date_end</em>, <em class="sig-param">filters=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/ordering.html#Order.add"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.ordering.Order.add" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="cedar.ordering.Order.collections">
+<em class="property">property </em><code class="sig-name descname">collections</code><a class="headerlink" href="#cedar.ordering.Order.collections" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="cedar.ordering.Order.create_submission">
+<em class="property">classmethod </em><code class="sig-name descname">create_submission</code><span class="sig-paren">(</span><em class="sig-param">tracking_name</em>, <em class="sig-param">tracking_prefix</em>, <em class="sig-param">store</em>, <em class="sig-param">name_template=None</em>, <em class="sig-param">prefix_template=None</em>, <em class="sig-param">submission_info=None</em>, <em class="sig-param">export_image_kwds=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/ordering.html#Order.create_submission"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.ordering.Order.create_submission" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create and submit an order in a single context</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cedar.ordering.Order.submit">
+<code class="sig-name descname">submit</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">store</em>, <em class="sig-param">submission_info=None</em>, <em class="sig-param">export_image_kwds=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/ordering.html#Order.submit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.ordering.Order.submit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Submit “pre-ARD” for a collection and tile to be processed</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>store</strong> (<em>cedar.stores.GDriveStore</em><em> or </em><em>cedar.stores.GCSStore</em>) – Storage backend to use</p></li>
+<li><p><strong>submission_info</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a><em>, </em><em>optional</em>) – Information to include in tracking metadata about the submission</p></li>
+<li><p><strong>export_image_kwds</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a><em>, </em><em>optional</em>) – Additional keywords to pass onto <code class="docutils literal notranslate"><span class="pre">store.store_image</span></code></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>tracking_id</strong> – Tracking metadata object identitifer (an object ID for Google Drive
+or a remote path for GCS)</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="cedar.ordering.Order.tiles">
+<em class="property">property </em><code class="sig-name descname">tiles</code><a class="headerlink" href="#cedar.ordering.Order.tiles" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="cedar.ordering.get_order_metadata">
+<code class="sig-prename descclassname">cedar.ordering.</code><code class="sig-name descname">get_order_metadata</code><span class="sig-paren">(</span><em class="sig-param">collection</em>, <em class="sig-param">date_start</em>, <em class="sig-param">date_end</em>, <em class="sig-param">filters</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/ordering.html#get_order_metadata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.ordering.get_order_metadata" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get metadata about a pre-ARD order against a collection</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="cedar.ordering.get_program_metadata">
+<code class="sig-prename descclassname">cedar.ordering.</code><code class="sig-name descname">get_program_metadata</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/ordering.html#get_program_metadata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.ordering.get_program_metadata" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return metadata about this program (name &amp; version)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Program “name” and “version”</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="cedar.ordering.get_task_metadata">
+<code class="sig-prename descclassname">cedar.ordering.</code><code class="sig-name descname">get_task_metadata</code><span class="sig-paren">(</span><em class="sig-param">task</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/ordering.html#get_task_metadata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.ordering.get_task_metadata" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get metadata about an EE task’s status</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>task</strong> (<em>ee.batch.task.Task</em>) – Earth Engine task</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Task metadata</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="cedar.ordering.get_tracking_metadata">
+<code class="sig-prename descclassname">cedar.ordering.</code><code class="sig-name descname">get_tracking_metadata</code><span class="sig-paren">(</span><em class="sig-param">tracking_name</em>, <em class="sig-param">tracking_prefix</em>, <em class="sig-param">name_template</em>, <em class="sig-param">prefix_template</em>, <em class="sig-param">collections</em>, <em class="sig-param">tiles</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/ordering.html#get_tracking_metadata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.ordering.get_tracking_metadata" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get general tracking information about an order</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="cedar.ordering.submit_preard_task">
+<code class="sig-prename descclassname">cedar.ordering.</code><code class="sig-name descname">submit_preard_task</code><span class="sig-paren">(</span><em class="sig-param">image</em>, <em class="sig-param">image_metadata</em>, <em class="sig-param">name</em>, <em class="sig-param">prefix</em>, <em class="sig-param">tile</em>, <em class="sig-param">store</em>, <em class="sig-param">order_info=None</em>, <em class="sig-param">start=False</em>, <em class="sig-param">export_image_kwds=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/ordering.html#submit_preard_task"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.ordering.submit_preard_task" title="Permalink to this definition">¶</a></dt>
+<dd><p>Submit an EE pre-ARD processing task and store task info</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="cedar.ordering.tile_export_image_kwds">
+<code class="sig-prename descclassname">cedar.ordering.</code><code class="sig-name descname">tile_export_image_kwds</code><span class="sig-paren">(</span><em class="sig-param">tile</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/ordering.html#tile_export_image_kwds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.ordering.tile_export_image_kwds" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns keywords to tile exported <code class="docutils literal notranslate"><span class="pre">ee.Image</span></code> by reprojecting/clipping</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>tile</strong> (<em>stems.gis.grids.Tile</em>) – A tile</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Keywords “crs”, “crs_transform”, and “dimensions”</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a>[<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a>, <a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Chris Holden
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

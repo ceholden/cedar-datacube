@@ -1,0 +1,445 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Configuration &mdash; cedar 0.0.2 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/theme_overrides.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Pre-ARD Order Submission" href="submissions.html" />
+    <link rel="prev" title="Credentials" href="credentials.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> cedar
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="credentials.html">Credentials</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Configuration</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#sections">Sections</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#tile-grid"><code class="docutils literal notranslate"><span class="pre">tile_grid</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#tracker"><code class="docutils literal notranslate"><span class="pre">tracker</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gcs"><code class="docutils literal notranslate"><span class="pre">gcs</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#gdrive"><code class="docutils literal notranslate"><span class="pre">gdrive</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#ard"><code class="docutils literal notranslate"><span class="pre">ard</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#generation">Generation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="submissions.html">Pre-ARD Order Submission</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tracking.html">Pre-ARD Order Tracking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="download.html">Download</a></li>
+<li class="toctree-l1"><a class="reference internal" href="convert.html">Pre-ARD to ARD Conversion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cleaning.html">Cleaning pre-ARD from Storage</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Help and Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">Command Line Interface Programs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="storage.html">Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dev.html">Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">cedar</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Configuration</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/ceholden/cedar-datacube/blob/master/docs/source/config.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="configuration">
+<span id="config"></span><h1>Configuration<a class="headerlink" href="#configuration" title="Permalink to this headline">¶</a></h1>
+<p>While some of the command line interface programs may work without pointing to
+a configuration file, the majority of CEDAR is dependent on users providing
+configuration information from a file. The configuration file describes how
+“pre-ARD” should be processed (how it should be tiled, named, export options,
+etc), tracked (file names, etc), and processed into ARD (chunksizes,
+compression, etc).</p>
+<p>The use of configuration files for these details allows you to create separate
+configuration files depending on the type of ARD you want to create. For
+example, I might work on two projects that map Mexico, but these projects might
+use different projections depending on their goals. One project might use
+Alber’s Equal Area Conic since it also maps the rest of North America, while
+another might want data in 1 by 1 degree tiles for global mapping. In this
+example, each project should have its own configuration file with different
+parametrization of the tile grid and different export locations.</p>
+<div class="section" id="sections">
+<h2>Sections<a class="headerlink" href="#sections" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="tile-grid">
+<h3><code class="docutils literal notranslate"><span class="pre">tile_grid</span></code><a class="headerlink" href="#tile-grid" title="Permalink to this headline">¶</a></h3>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 12%" />
+<col style="width: 88%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Key</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>name</p></td>
+<td><p>Name of the grid</p></td>
+</tr>
+<tr class="row-odd"><td><p>crs</p></td>
+<td><p>CRS as Well Known Text</p></td>
+</tr>
+<tr class="row-even"><td><p>ul</p></td>
+<td><p>Upper left X/Y coordinates</p></td>
+</tr>
+<tr class="row-odd"><td><p>res</p></td>
+<td><p>Pixel X/Y resolution</p></td>
+</tr>
+<tr class="row-even"><td><p>size</p></td>
+<td><p>Number of pixels in X/Y dimensions for each tile</p></td>
+</tr>
+<tr class="row-odd"><td><p>limits</p></td>
+<td><p>Minimum and maximum rows (vertical) and column (horizontal)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="tracker">
+<h3><code class="docutils literal notranslate"><span class="pre">tracker</span></code><a class="headerlink" href="#tracker" title="Permalink to this headline">¶</a></h3>
+<p>Configure how “pre-ARD” is exported to Google Drive or Google Cloud Storage,
+including how images (GeoTIFFs and JSON metadata) and tracking information
+(JSON) are given filenames.</p>
+<p>Configuration items with the affix <code class="docutils literal notranslate"><span class="pre">_template</span></code> may be given as Python format string
+(see Python language <a class="reference external" href="https://docs.python.org/3/library/string.html#formatstrings">f-string docs</a>). Templates are provided keys (see table
+below for specifics) that allows you to embed useful information, like the
+tile, collection, and date range for your “pre-ARD” images or the timestamp of
+your order in the tracking metadata filename.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 12%" />
+<col style="width: 88%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Key</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>store</p></td>
+<td><p>Name of storage backend – should be “gcs” or “gdrive”</p></td>
+</tr>
+<tr class="row-odd"><td><p>name_template</p></td>
+<td><p>Template for “pre-ARD” image and metadata name. Available keys are “collection”, “tile”, “date_start”, “date_end”, and “now”.</p></td>
+</tr>
+<tr class="row-even"><td><p>prefix_template</p></td>
+<td><p>Template for “pre-ARD” image and metadata prefix. Available keys are “collection”, “tile”, “date_start”, “date_end”, and “now”.</p></td>
+</tr>
+<tr class="row-odd"><td><p>tracking_template</p></td>
+<td><p>Template for order tracking file name. Available keys are “collections”, “tiles”, “tile_indices”, “period_start”, “period_end”, “period_freq”, and “now”.</p></td>
+</tr>
+<tr class="row-even"><td><p>tracking_prefix</p></td>
+<td><p>Order tracking file prefix folder</p></td>
+</tr>
+<tr class="row-odd"><td><p>export_image_kwds</p></td>
+<td><p>Image export options for <code class="docutils literal notranslate"><span class="pre">toDrive</span></code> and <code class="docutils literal notranslate"><span class="pre">toCloudStorage</span></code>. See docs on <a class="reference external" href="https://developers.google.com/earth-engine/exporting#exporting-images">Exporting Images</a> and the <a class="reference external" href="_changelog_export">changelog</a> for info on keywords</p></td>
+</tr>
+<tr class="row-even"><td><p>filters</p></td>
+<td><p>ImageCollection EarthEngine filters to apply before ordering. See <a class="reference external" href="https://developers.google.com/earth-engine/ic_filtering">https://developers.google.com/earth-engine/ic_filtering</a></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="gcs">
+<h3><code class="docutils literal notranslate"><span class="pre">gcs</span></code><a class="headerlink" href="#gcs" title="Permalink to this headline">¶</a></h3>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 42%" />
+<col style="width: 58%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Key</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>bucket_name</p></td>
+<td><p>GCS bucket name</p></td>
+</tr>
+<tr class="row-odd"><td><p>credentials_file</p></td>
+<td><p>GCS service account file</p></td>
+</tr>
+<tr class="row-even"><td><p>project</p></td>
+<td><p>GCS project</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="gdrive">
+<h3><code class="docutils literal notranslate"><span class="pre">gdrive</span></code><a class="headerlink" href="#gdrive" title="Permalink to this headline">¶</a></h3>
+<p>Credentials information for Google Drive. It may be more convenient in many
+cases, such as using cedar on your own computer, to use
+the <code class="docutils literal notranslate"><span class="pre">cedar</span> <span class="pre">auth</span> <span class="pre">gdrive</span></code> (see <a class="reference internal" href="cli.html#cli-auth-gdrive"><span class="std std-ref">usage</span></a>) command to
+login and store your credentials (in <code class="docutils literal notranslate"><span class="pre">~/.config/cedar/credentials.json</span></code>).</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 67%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Key</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>client_secrets_file</p></td>
+<td><p>OAuth2 “client secrets” file for Google Drive</p></td>
+</tr>
+<tr class="row-odd"><td><p>credentials_file</p></td>
+<td><p>OAuth2 user credentials file for Google Drive</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="section" id="ard">
+<span id="guide-config-ard"></span><h3><code class="docutils literal notranslate"><span class="pre">ard</span></code><a class="headerlink" href="#ard" title="Permalink to this headline">¶</a></h3>
+<p>Settings for how “pre-ARD” GeoTIFF imagery and JSON metadata are converted into
+“ARD” NetCDF files.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Key</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>destination</p></td>
+<td><p>Directory name template for converted ARD. Available keys are “collection”, “date_start”, “date_end”, and “tile”.</p></td>
+</tr>
+<tr class="row-odd"><td><p>encoding</p></td>
+<td><p>NetCDF4 image encoding options. See <a class="reference external" href="http://xarray.pydata.org/en/stable/io.html#writing-encoded-data">http://xarray.pydata.org/en/stable/io.html#writing-encoded-data</a></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="generation">
+<h2>Generation<a class="headerlink" href="#generation" title="Permalink to this headline">¶</a></h2>
+<p>Instead of starting from scratch, you can also generate an example
+configuration file and modify it to suite your needs. You can use
+the <code class="docutils literal notranslate"><span class="pre">cedar</span> <span class="pre">config</span> <span class="pre">template</span></code> program to do this:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cedar config template
+</pre></div>
+</div>
+</div>
+<div class="section" id="usage">
+<h2>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h2>
+<p>You need to provide the location of the file to the <code class="docutils literal notranslate"><span class="pre">cedar</span></code> command to have
+the program use this file. You can specify it in one of two ways: either as an
+input to the main program using the <code class="docutils literal notranslate"><span class="pre">-C</span></code> flag or using the environment
+variable <code class="docutils literal notranslate"><span class="pre">CEDAR_CONFIG_FILE</span></code>.</p>
+<p>For example, if we wanted to use the <code class="docutils literal notranslate"><span class="pre">status</span> <span class="pre">list</span></code> subcommand to print our
+tracked orders, you could either do</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>cedar -C my_config_file.yml status list
+</pre></div>
+</div>
+<p>or</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># On Unix systems...</span>
+<span class="nb">export</span> <span class="nv">CEDAR_CONFIG_FILE</span><span class="o">=</span>my_config_file.yml
+cedar status list
+</pre></div>
+</div>
+<p>When defining the configuration file, it is a good idea to use the absolute
+path to the file. This way you can change directories and keep using the
+<code class="docutils literal notranslate"><span class="pre">cedar</span></code> command. It is also likely easier to specify the configuration file
+once using an environment variable than it is to continually point to it
+using the <code class="docutils literal notranslate"><span class="pre">cedar</span> <span class="pre">-C</span> <span class="pre">&lt;config_file&gt;</span></code> method.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="submissions.html" class="btn btn-neutral float-right" title="Pre-ARD Order Submission" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="credentials.html" class="btn btn-neutral float-left" title="Credentials" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Chris Holden
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

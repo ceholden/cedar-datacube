@@ -1,0 +1,7 @@
+cedar.sensors.landsat module
+============================
+
+.. automodule:: cedar.sensors.landsat
+   :members:
+   :undoc-members:
+   :show-inheritance:
