@@ -85,6 +85,7 @@ class Tracker(object):
         str
             Task tracking information identifier (an ID, path, etc)
         """
+        # TODO: add callback (e.g., for progressbar)
         # TODO: eventually allow start/end to be None (use limits of data)
         if isinstance(collections, str):
             collections = (collections, )

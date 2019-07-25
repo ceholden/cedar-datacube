@@ -13,6 +13,8 @@ from . import options
 @click.group('status', short_help='Check status of tasks and exports')
 @click.pass_context
 def group_status(ctx):
+    """ Programs for checking, printing, modifying, and cancelling orders
+    """
     pass
 
 
