@@ -49,13 +49,13 @@ def list(ctx):
 def print(ctx, tracking_name, order_id, all_orders):
     """ Print job submission tracking info
     """
-    from cedar.metadata.core import TrackingMetadata, repr_tracking
+    from cedar.metadata.core import repr_tracking
 
     logger = ctx.obj['logger']
     config = options.fetch_config(ctx)
     tracker = config.get_tracker()
 
-    info = TrackingMetadata(tracker.read(tracking_name))
+    info = tracker.read(tracking_name)
 
     if all_orders:
         show_orders = True
@@ -74,8 +74,6 @@ def print(ctx, tracking_name, order_id, all_orders):
 def completed(ctx, tracking_name, update_):
     """ Print percent of order completed & exit 1 if not complete
     """
-    from cedar.metadata.core import TrackingMetadata
-
     logger = ctx.obj['logger']
     config = options.fetch_config(ctx)
     tracker = config.get_tracker()
@@ -85,7 +83,6 @@ def completed(ctx, tracking_name, update_):
     else:
         info = tracker.read(tracking_name)
 
-    info = TrackingMetadata(info)
     percent = info.progress
 
     if logger.level <= logging.WARNING:
