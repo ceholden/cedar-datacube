@@ -1,4 +1,4 @@
-""" Tests for :py:mod:`cedar.metadata.core`
+""" Tests for :py:mod:`cedar.metadata.tracking`
 """
 from collections.abc import Mapping
 from datetime import datetime
@@ -8,7 +8,7 @@ import time
 
 import pytest
 
-from cedar.metadata import core
+from cedar.metadata import tracking
 
 DATA = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'data')
 
@@ -17,7 +17,7 @@ DATA = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'data')
 # TrackingMetadata
 def test_tracking_metadata_cls(example_tracking_data):
     # test creation
-    md = core.TrackingMetadata(example_tracking_data)
+    md = tracking.TrackingMetadata(example_tracking_data)
     assert isinstance(md, Mapping)
 
     sections = ('program', 'submission', 'tracking', 'orders', 'metadata', )
@@ -34,8 +34,8 @@ def test_tracking_metadata_cls(example_tracking_data):
 def test_tracking_metadata_from_file(example_tracking_data,
                                      example_tracking_filename):
     # Should be equivalent -- from file or data
-    md_file = core.TrackingMetadata.from_file(example_tracking_filename)
-    md_data = core.TrackingMetadata(example_tracking_data)
+    md_file = tracking.TrackingMetadata.from_file(example_tracking_filename)
+    md_data = tracking.TrackingMetadata(example_tracking_data)
     assert md_file == md_data
 
 
@@ -55,7 +55,7 @@ def test_tracking_metadata_from_file(example_tracking_data,
 ])
 def test__summarize_orders(n_per_state):
     order = simulate_orders(**n_per_state)
-    stats = core.summarize_states(order)
+    stats = tracking.summarize_states(order)
     for state, n in n_per_state.items():
         assert stats[state.upper()] == n
 
