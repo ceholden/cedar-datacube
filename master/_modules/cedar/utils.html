@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>cedar.utils &mdash; cedar 0.0.1.post1+10.g2366f7b documentation</title>
+  <title>cedar.utils &mdash; cedar 0.0.2.post0+1.gbffb538 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.0.1.post1+10.g2366f7b
+                0.0.2.post0+1.gbffb538
               </div>
             
           
@@ -289,8 +289,36 @@
 <span class="sd">    dict[str, ee.batch.task.Task]</span>
 <span class="sd">        GEE tasks</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="kn">import</span> <span class="nn">ee</span>
+    <span class="n">ee</span> <span class="o">=</span> <span class="n">load_ee</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
     <span class="k">return</span> <span class="p">{</span><span class="n">task</span><span class="o">.</span><span class="n">id</span><span class="p">:</span> <span class="n">task</span> <span class="k">for</span> <span class="n">task</span> <span class="ow">in</span> <span class="n">ee</span><span class="o">.</span><span class="n">batch</span><span class="o">.</span><span class="n">Task</span><span class="o">.</span><span class="n">list</span><span class="p">()}</span></div>
+
+
+<span class="c1"># =============================================================================</span>
+<span class="c1"># Earth Engine filters</span>
+<div class="viewcode-block" id="serialize_filter"><a class="viewcode-back" href="../../cedar/cedar.utils.html#cedar.utils.serialize_filter">[docs]</a><span class="k">def</span> <span class="nf">serialize_filter</span><span class="p">(</span><span class="n">ee_filter</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Serialize an Earth Engine filter</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ee</span> <span class="o">=</span> <span class="n">load_ee</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ee</span><span class="o">.</span><span class="n">serializer</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">ee_filter</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="create_filters"><a class="viewcode-back" href="../../cedar/cedar.utils.html#cedar.utils.create_filters">[docs]</a><span class="k">def</span> <span class="nf">create_filters</span><span class="p">(</span><span class="n">cfg_filters</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Get any EarthEngine filters described by this configuration file</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ee</span> <span class="o">=</span> <span class="n">load_ee</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">filters</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">filter_</span> <span class="ow">in</span> <span class="n">cfg_filters</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">filter_</span><span class="p">,</span> <span class="n">ee</span><span class="o">.</span><span class="n">Filter</span><span class="p">):</span>
+            <span class="n">filters</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fitler_</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">filters</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dict_to_filter</span><span class="p">(</span><span class="o">**</span><span class="n">filter_</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">filters</span></div>
+
+
+<div class="viewcode-block" id="dict_to_filter"><a class="viewcode-back" href="../../cedar/cedar.utils.html#cedar.utils.dict_to_filter">[docs]</a><span class="k">def</span> <span class="nf">dict_to_filter</span><span class="p">(</span><span class="n">function</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+    <span class="n">ee</span> <span class="o">=</span> <span class="n">load_ee</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">static_meth</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">ee</span><span class="o">.</span><span class="n">Filter</span><span class="p">,</span> <span class="n">function</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">static_meth</span><span class="p">(</span><span class="o">**</span><span class="n">kwds</span><span class="p">)</span></div>
 </pre></div>
 
            </div>

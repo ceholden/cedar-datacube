@@ -1,7 +1,0 @@
-cedar.tracking module
-=====================
-
-.. automodule:: cedar.tracking
-   :members:
-   :undoc-members:
-   :show-inheritance:

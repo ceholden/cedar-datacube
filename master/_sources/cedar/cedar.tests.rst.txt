@@ -8,7 +8,7 @@ Submodules
 
    cedar.tests.conftest
    cedar.tests.test_cedar
-   cedar.tests.test_tracking
+   cedar.tests.test_tracker
 
 Module contents
 ---------------

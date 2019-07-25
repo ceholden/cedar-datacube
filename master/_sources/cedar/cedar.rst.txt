@@ -22,7 +22,7 @@ Submodules
    cedar.exceptions
    cedar.ordering
    cedar.preard
-   cedar.tracking
+   cedar.tracker
    cedar.utils
    cedar.validation
 

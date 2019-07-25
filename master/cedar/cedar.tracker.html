@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>cedar.tracking module &mdash; cedar 0.0.1.post1+10.g2366f7b documentation</title>
+  <title>cedar.tracker module &mdash; cedar 0.0.2.post0+1.gbffb538 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.0.1.post1+10.g2366f7b
+                0.0.2.post0+1.gbffb538
               </div>
             
           
@@ -151,14 +151,14 @@
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
         
-      <li>cedar.tracking module</li>
+      <li>cedar.tracker module</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
             
-              <a href="https://github.com/ceholden/cedar-datacube/blob/master/docs/source/cedar/cedar.tracking.rst" class="fa fa-github"> Edit on GitHub</a>
+              <a href="https://github.com/ceholden/cedar-datacube/blob/master/docs/source/cedar/cedar.tracker.rst" class="fa fa-github"> Edit on GitHub</a>
             
           
         
@@ -172,12 +172,12 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
-  <div class="section" id="module-cedar.tracking">
-<span id="cedar-tracking-module"></span><h1>cedar.tracking module<a class="headerlink" href="#module-cedar.tracking" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-cedar.tracker">
+<span id="cedar-tracker-module"></span><h1>cedar.tracker module<a class="headerlink" href="#module-cedar.tracker" title="Permalink to this headline">¶</a></h1>
 <p>Tracker to submit and download GEE pre-ARD tasks</p>
 <dl class="class">
-<dt id="cedar.tracking.Tracker">
-<em class="property">class </em><code class="sig-prename descclassname">cedar.tracking.</code><code class="sig-name descname">Tracker</code><span class="sig-paren">(</span><em class="sig-param">tile_grid</em>, <em class="sig-param">store</em>, <em class="sig-param">name_template='{collection}_h{tile.horizontal:03d}v{tile.vertical:03d}_{date_start}_{date_end}'</em>, <em class="sig-param">prefix_template='CEDAR_PREARD'</em>, <em class="sig-param">tracking_template='TRACKING_PERIOD{date_start}-{date_end}_TASK{today}'</em>, <em class="sig-param">tracking_prefix='CEDAR_TRACKING'</em>, <em class="sig-param">filters=None</em>, <em class="sig-param">export_image_kwds=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/tracking.html#Tracker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.tracking.Tracker" title="Permalink to this definition">¶</a></dt>
+<dt id="cedar.tracker.Tracker">
+<em class="property">class </em><code class="sig-prename descclassname">cedar.tracker.</code><code class="sig-name descname">Tracker</code><span class="sig-paren">(</span><em class="sig-param">tile_grid</em>, <em class="sig-param">store</em>, <em class="sig-param">name_template='{collection}_h{tile.horizontal:03d}v{tile.vertical:03d}_{date_start}_{date_end}'</em>, <em class="sig-param">prefix_template='CEDAR_PREARD'</em>, <em class="sig-param">tracking_template='TRACKING_PERIOD{date_start}-{date_end}_TASK{today}'</em>, <em class="sig-param">tracking_prefix='CEDAR_TRACKING'</em>, <em class="sig-param">filters=None</em>, <em class="sig-param">export_image_kwds=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/tracker.html#Tracker"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.tracker.Tracker" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.7/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
 <p>CEDAR “pre-ARD” order tracker</p>
 <dl class="field-list simple">
@@ -192,8 +192,8 @@ dictionaries that describe the filter</p></li>
 </dd>
 </dl>
 <dl class="method">
-<dt id="cedar.tracking.Tracker.clean">
-<code class="sig-name descname">clean</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">tracking_info</em>, <em class="sig-param">tracking_name=None</em>, <em class="sig-param">callback=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/tracking.html#Tracker.clean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.tracking.Tracker.clean" title="Permalink to this definition">¶</a></dt>
+<dt id="cedar.tracker.Tracker.clean">
+<code class="sig-name descname">clean</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">tracking_info</em>, <em class="sig-param">tracking_name=None</em>, <em class="sig-param">callback=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/tracker.html#Tracker.clean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.tracker.Tracker.clean" title="Permalink to this definition">¶</a></dt>
 <dd><p>Clean “pre-ARD” imagery, metadata, and tracking metadata off GCS</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -215,8 +215,8 @@ progress bars or other download status reporting</p></li>
 </dd></dl>
 
 <dl class="method">
-<dt id="cedar.tracking.Tracker.download">
-<code class="sig-name descname">download</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">tracking_info</em>, <em class="sig-param">dest</em>, <em class="sig-param">overwrite=True</em>, <em class="sig-param">callback=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/tracking.html#Tracker.download"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.tracking.Tracker.download" title="Permalink to this definition">¶</a></dt>
+<dt id="cedar.tracker.Tracker.download">
+<code class="sig-name descname">download</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">tracking_info</em>, <em class="sig-param">dest</em>, <em class="sig-param">overwrite=True</em>, <em class="sig-param">callback=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/tracker.html#Tracker.download"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.tracker.Tracker.download" title="Permalink to this definition">¶</a></dt>
 <dd><p>Download “pre-ARD” and metadata to a directory</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -240,8 +240,8 @@ downloaded data. Wrap it in a <code class="docutils literal notranslate"><span c
 </dd></dl>
 
 <dl class="method">
-<dt id="cedar.tracking.Tracker.filters">
-<em class="property">property </em><code class="sig-name descname">filters</code><a class="headerlink" href="#cedar.tracking.Tracker.filters" title="Permalink to this definition">¶</a></dt>
+<dt id="cedar.tracker.Tracker.filters">
+<em class="property">property </em><code class="sig-name descname">filters</code><a class="headerlink" href="#cedar.tracker.Tracker.filters" title="Permalink to this definition">¶</a></dt>
 <dd><p>Earth Engine filters to apply</p>
 <dl class="field-list simple">
 <dt class="field-odd">Type</dt>
@@ -251,8 +251,8 @@ downloaded data. Wrap it in a <code class="docutils literal notranslate"><span c
 </dd></dl>
 
 <dl class="method">
-<dt id="cedar.tracking.Tracker.list">
-<code class="sig-name descname">list</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">pattern=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/tracking.html#Tracker.list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.tracking.Tracker.list" title="Permalink to this definition">¶</a></dt>
+<dt id="cedar.tracker.Tracker.list">
+<code class="sig-name descname">list</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">pattern=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/tracker.html#Tracker.list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.tracker.Tracker.list" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a list of all tracking metadata</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -271,8 +271,8 @@ looks for tracking information matching
 </dd></dl>
 
 <dl class="method">
-<dt id="cedar.tracking.Tracker.read">
-<code class="sig-name descname">read</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/tracking.html#Tracker.read"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.tracking.Tracker.read" title="Permalink to this definition">¶</a></dt>
+<dt id="cedar.tracker.Tracker.read">
+<code class="sig-name descname">read</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/tracker.html#Tracker.read"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.tracker.Tracker.read" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns stored tracking information as dict</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -289,8 +289,8 @@ looks for tracking information matching
 </dd></dl>
 
 <dl class="method">
-<dt id="cedar.tracking.Tracker.submit">
-<code class="sig-name descname">submit</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">collections</em>, <em class="sig-param">tile_indices</em>, <em class="sig-param">period_start</em>, <em class="sig-param">period_end</em>, <em class="sig-param">period_freq=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/tracking.html#Tracker.submit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.tracking.Tracker.submit" title="Permalink to this definition">¶</a></dt>
+<dt id="cedar.tracker.Tracker.submit">
+<code class="sig-name descname">submit</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">collections</em>, <em class="sig-param">tile_indices</em>, <em class="sig-param">period_start</em>, <em class="sig-param">period_end</em>, <em class="sig-param">period_freq=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/tracker.html#Tracker.submit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.tracker.Tracker.submit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Submit and track GEE pre-ARD tasks</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -315,8 +315,8 @@ one or more Tasks will be submitted</p></li>
 </dd></dl>
 
 <dl class="method">
-<dt id="cedar.tracking.Tracker.update">
-<code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/tracking.html#Tracker.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.tracking.Tracker.update" title="Permalink to this definition">¶</a></dt>
+<dt id="cedar.tracker.Tracker.update">
+<code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/tracker.html#Tracker.update"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.tracker.Tracker.update" title="Permalink to this definition">¶</a></dt>
 <dd><p>Refresh and reupload tracking information by checking with the GEE</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -335,8 +335,8 @@ one or more Tasks will be submitted</p></li>
 </dd></dl>
 
 <dl class="function">
-<dt id="cedar.tracking.clean_tracked">
-<code class="sig-prename descclassname">cedar.tracking.</code><code class="sig-name descname">clean_tracked</code><span class="sig-paren">(</span><em class="sig-param">tracking_info</em>, <em class="sig-param">store</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/tracking.html#clean_tracked"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.tracking.clean_tracked" title="Permalink to this definition">¶</a></dt>
+<dt id="cedar.tracker.clean_tracked">
+<code class="sig-prename descclassname">cedar.tracker.</code><code class="sig-name descname">clean_tracked</code><span class="sig-paren">(</span><em class="sig-param">tracking_info</em>, <em class="sig-param">store</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/tracker.html#clean_tracked"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.tracker.clean_tracked" title="Permalink to this definition">¶</a></dt>
 <dd><p>Delete stored “pre-ARD” and metadata described by tracking info</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -355,8 +355,8 @@ one or more Tasks will be submitted</p></li>
 </dd></dl>
 
 <dl class="function">
-<dt id="cedar.tracking.download_tracked">
-<code class="sig-prename descclassname">cedar.tracking.</code><code class="sig-name descname">download_tracked</code><span class="sig-paren">(</span><em class="sig-param">tracking_info</em>, <em class="sig-param">store</em>, <em class="sig-param">dest</em>, <em class="sig-param">overwrite=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/tracking.html#download_tracked"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.tracking.download_tracked" title="Permalink to this definition">¶</a></dt>
+<dt id="cedar.tracker.download_tracked">
+<code class="sig-prename descclassname">cedar.tracker.</code><code class="sig-name descname">download_tracked</code><span class="sig-paren">(</span><em class="sig-param">tracking_info</em>, <em class="sig-param">store</em>, <em class="sig-param">dest</em>, <em class="sig-param">overwrite=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/tracker.html#download_tracked"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.tracker.download_tracked" title="Permalink to this definition">¶</a></dt>
 <dd><p>Download stored “pre-ARD” and metadata described by tracking info</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -374,29 +374,6 @@ one or more Tasks will be submitted</p></li>
 <li><p><strong>metadata</strong> (<em>generator</em>) – Generator that downloads metadata and yields filenames</p></li>
 <li><p><strong>images</strong> (<em>generator</em>) – Generator that downloads imagery and yields filenames</p></li>
 </ul>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="cedar.tracking.get_submission_info">
-<code class="sig-prename descclassname">cedar.tracking.</code><code class="sig-name descname">get_submission_info</code><span class="sig-paren">(</span><em class="sig-param">tile_grid</em>, <em class="sig-param">collections</em>, <em class="sig-param">tile_indices</em>, <em class="sig-param">period_start</em>, <em class="sig-param">period_end</em>, <em class="sig-param">period_freq</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/tracking.html#get_submission_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.tracking.get_submission_info" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return information about tracked order submissions</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="cedar.tracking.update_tracking_info">
-<code class="sig-prename descclassname">cedar.tracking.</code><code class="sig-name descname">update_tracking_info</code><span class="sig-paren">(</span><em class="sig-param">tracking_info</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/tracking.html#update_tracking_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.tracking.update_tracking_info" title="Permalink to this definition">¶</a></dt>
-<dd><p>Try to update tracking information with current task status from GEE</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>tracking_info</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – Tracking information stored from a past submission</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>Input tracking info updated with GEE task status</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a></p>
 </dd>
 </dl>
 </dd></dl>

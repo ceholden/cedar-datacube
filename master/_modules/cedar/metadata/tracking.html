@@ -1,0 +1,543 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>cedar.metadata.tracking &mdash; cedar 0.0.2.post0+1.gbffb538 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/theme_overrides.css" type="text/css" />
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home"> cedar
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.2.post0+1.gbffb538
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../faq.html">Frequently Asked Questions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../credentials.html">Credentials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../config.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../submissions.html">Pre-ARD Order Submission</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../tracking.html">Pre-ARD Order Tracking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../download.html">Download</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../convert.html">Pre-ARD to ARD Conversion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../cleaning.html">Cleaning pre-ARD from Storage</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Help and Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../cli.html">Command Line Interface Programs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../storage.html">Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../dev.html">Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">cedar</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>cedar.metadata.tracking</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for cedar.metadata.tracking</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot; Classes and other core tools for tracking &amp; image metadata</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">defaultdict</span>
+<span class="kn">import</span> <span class="nn">datetime</span> <span class="k">as</span> <span class="nn">dt</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="k">import</span> <span class="n">Path</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">.core</span> <span class="k">import</span> <span class="n">get_task_metadata</span>
+<span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">validation</span>
+
+
+<span class="n">_HERE</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span>
+<span class="n">SCHEMA_TRACKING</span> <span class="o">=</span> <span class="n">_HERE</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s1">&#39;schema_tracking.json&#39;</span><span class="p">)</span>
+<span class="n">SCHEMA_IMAGE</span> <span class="o">=</span> <span class="n">_HERE</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s1">&#39;schema_image.json&#39;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="TrackingMetadata"><a class="viewcode-back" href="../../../cedar/cedar.metadata.tracking.html#cedar.metadata.tracking.TrackingMetadata">[docs]</a><span class="k">class</span> <span class="nc">TrackingMetadata</span><span class="p">(</span><span class="n">Mapping</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; CEDAR order tracking metadata</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    metadata : dict</span>
+<span class="sd">        Tracking metadata information as a dict</span>
+<span class="sd">    schema : dict, optional</span>
+<span class="sd">        Validate metadata against a specific schema</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_metadata</span> <span class="o">=</span> <span class="n">metadata</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">schema</span> <span class="o">=</span> <span class="n">schema</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_schema</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">validate</span><span class="p">()</span>
+
+<div class="viewcode-block" id="TrackingMetadata.from_file"><a class="viewcode-back" href="../../../cedar/cedar.metadata.tracking.html#cedar.metadata.tracking.TrackingMetadata.from_file">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_file</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Create from a tracking metadata file</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="k">as</span> <span class="n">src</span><span class="p">:</span>
+            <span class="n">metadata</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">src</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="n">schema</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TrackingMetadata.from_json"><a class="viewcode-back" href="../../../cedar/cedar.metadata.tracking.html#cedar.metadata.tracking.TrackingMetadata.from_json">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_json</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">json_str</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Load tracking metadata from a JSON string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">metadata</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">json_str</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="n">schema</span><span class="o">=</span><span class="n">schema</span><span class="p">)</span></div>
+
+    <span class="c1"># Mapping object requirements</span>
+    <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_metadata</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_metadata</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_metadata</span><span class="p">)</span>
+
+    <span class="c1"># Main sections -- make them available as attributes</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">program</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="p">[</span><span class="s1">&#39;program&#39;</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">submission</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="p">[</span><span class="s1">&#39;submission&#39;</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">tracking</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="p">[</span><span class="s1">&#39;tracking&#39;</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">orders</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="p">[</span><span class="s1">&#39;orders&#39;</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="p">[</span><span class="s1">&#39;metadata&#39;</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">states</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; dict: Summary of EE task status for this order</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">summarize_states</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">orders</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">progress</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; float: Percent of EE tasks completed in this order</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">states</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">states</span>
+        <span class="n">n</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">states</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+        <span class="n">n_completed</span> <span class="o">=</span> <span class="n">states</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">_EE_COMPLETED</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">n_completed</span> <span class="o">/</span> <span class="n">n</span> <span class="k">if</span> <span class="n">n_completed</span> <span class="k">else</span> <span class="mf">0.</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">complete</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; bool: True if all orders have completed</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="n">_EE_COMPLETED</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">tasks</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; List[ee.batch.Task]: EarthEngine tasks associated with this order</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="kn">from</span> <span class="nn">..utils</span> <span class="k">import</span> <span class="n">get_ee_tasks</span><span class="p">,</span> <span class="n">load_ee</span>
+        <span class="n">ee_api</span> <span class="o">=</span> <span class="n">load_ee</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>  <span class="c1"># should initialize elsewhere</span>
+        <span class="n">tasks</span> <span class="o">=</span> <span class="n">get_ee_tasks</span><span class="p">()</span>
+        <span class="n">order_tasks</span> <span class="o">=</span> <span class="p">[</span><span class="n">tasks</span><span class="p">[</span><span class="n">order</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">][</span><span class="s1">&#39;id&#39;</span><span class="p">]]</span> <span class="k">for</span> <span class="n">order</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">orders</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">order_tasks</span>
+
+<div class="viewcode-block" id="TrackingMetadata.update"><a class="viewcode-back" href="../../../cedar/cedar.metadata.tracking.html#cedar.metadata.tracking.TrackingMetadata.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Update the tracking metadata by checking EE task status</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        self</span>
+<span class="sd">            Returns a new instance of this TrackingMetadata with updated info</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">updated</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">task</span><span class="p">,</span> <span class="n">order</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tasks</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">orders</span><span class="p">):</span>
+            <span class="n">order_</span> <span class="o">=</span> <span class="n">order</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+            <span class="n">task_info</span> <span class="o">=</span> <span class="n">get_task_metadata</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>
+            <span class="n">order</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">task_info</span><span class="p">)</span>
+            <span class="n">updated</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">order</span><span class="p">)</span>
+
+        <span class="n">data</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">data</span><span class="p">[</span><span class="s1">&#39;orders&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">updated</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
+
+    <span class="c1"># schema</span>
+<div class="viewcode-block" id="TrackingMetadata.validate"><a class="viewcode-back" href="../../../cedar/cedar.metadata.tracking.html#cedar.metadata.tracking.TrackingMetadata.validate">[docs]</a>    <span class="k">def</span> <span class="nf">validate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">validation</span><span class="o">.</span><span class="n">validate_with_defaults</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_metadata</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">schema</span><span class="p">,</span>
+                                          <span class="n">resolve</span><span class="o">=</span><span class="n">SCHEMA_TRACKING</span><span class="o">.</span><span class="n">parent</span><span class="p">)</span></div>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">_load_schema</span><span class="p">(</span><span class="n">filename</span><span class="o">=</span><span class="n">SCHEMA_TRACKING</span><span class="p">):</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span> <span class="k">as</span> <span class="n">src</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">src</span><span class="p">)</span>
+
+    <span class="c1"># repr, printing, etc info</span>
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">repr_tracking</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_repr_html_</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># TODO</span>
+        <span class="k">return</span> <span class="s2">&quot;CEDAR Tracking Metadata&quot;</span></div>
+
+
+<span class="c1"># -----------------------------------------------------------------------------</span>
+<span class="c1"># String repr</span>
+<div class="viewcode-block" id="repr_tracking"><a class="viewcode-back" href="../../../cedar/cedar.metadata.tracking.html#cedar.metadata.tracking.repr_tracking">[docs]</a><span class="k">def</span> <span class="nf">repr_tracking</span><span class="p">(</span><span class="n">tracking_data</span><span class="p">,</span>
+                  <span class="n">show_program</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">show_submission</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">show_tracking</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                  <span class="n">show_states</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">show_runtimes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                  <span class="n">show_orders</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Return string formatted information about CEDAR tracking metadata</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">if</span> <span class="n">show_program</span><span class="p">:</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">repr_metadata_program</span><span class="p">(</span><span class="n">tracking_data</span><span class="p">[</span><span class="s1">&#39;program&#39;</span><span class="p">]))</span>
+    <span class="k">if</span> <span class="n">show_submission</span><span class="p">:</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">repr_tracking_submission</span><span class="p">(</span><span class="n">tracking_data</span><span class="p">[</span><span class="s1">&#39;submission&#39;</span><span class="p">]))</span>
+    <span class="k">if</span> <span class="n">show_tracking</span><span class="p">:</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">repr_tracking_tracking</span><span class="p">(</span><span class="n">tracking_data</span><span class="p">[</span><span class="s1">&#39;tracking&#39;</span><span class="p">]))</span>
+
+    <span class="c1"># Top level order information is always added</span>
+    <span class="n">lines</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">repr_tracking_orders</span><span class="p">(</span><span class="n">tracking_data</span><span class="p">[</span><span class="s1">&#39;orders&#39;</span><span class="p">],</span>
+                                      <span class="n">show_states</span><span class="o">=</span><span class="n">show_states</span><span class="p">,</span>
+                                      <span class="n">show_runtimes</span><span class="o">=</span><span class="n">show_runtimes</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">show_orders</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># Handle &#39;True&#39;, which is shortcut to showing all order details</span>
+        <span class="k">if</span> <span class="n">show_orders</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">show_orders</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">tracking_data</span><span class="p">[</span><span class="s1">&#39;orders&#39;</span><span class="p">]))</span>
+
+        <span class="c1"># Otherwise expect sequence of order indexes (1st, 2nd, etc)</span>
+        <span class="k">for</span> <span class="n">order_id</span> <span class="ow">in</span> <span class="n">show_orders</span><span class="p">:</span>
+            <span class="n">order_md</span> <span class="o">=</span> <span class="n">tracking_data</span><span class="p">[</span><span class="s1">&#39;orders&#39;</span><span class="p">][</span><span class="n">order_id</span><span class="p">]</span>
+            <span class="n">order_repr</span> <span class="o">=</span> <span class="n">repr_metadata_order</span><span class="p">(</span><span class="n">order_md</span><span class="p">,</span> <span class="n">f</span><span class="s1">&#39;Order #</span><span class="si">{order_id}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">order_repr</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="repr_metadata_program"><a class="viewcode-back" href="../../../cedar/cedar.metadata.tracking.html#cedar.metadata.tracking.repr_metadata_program">[docs]</a><span class="k">def</span> <span class="nf">repr_metadata_program</span><span class="p">(</span><span class="n">info</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="s1">&#39;Program Info:&#39;</span><span class="p">):</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="n">_indent</span><span class="p">([</span>
+        <span class="n">f</span><span class="s1">&#39;* </span><span class="si">{info[&quot;name&quot;]}</span><span class="s1">=</span><span class="si">{info[&quot;version&quot;]}</span><span class="s1">&#39;</span><span class="p">,</span>
+        <span class="n">f</span><span class="s1">&#39;* earthengine-api=</span><span class="si">{info[&quot;ee&quot;]}</span><span class="s1">&#39;</span>
+    <span class="p">],</span> <span class="n">n</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">header</span><span class="p">]</span> <span class="o">+</span> <span class="n">lines</span></div>
+
+
+<div class="viewcode-block" id="repr_tracking_submission"><a class="viewcode-back" href="../../../cedar/cedar.metadata.tracking.html#cedar.metadata.tracking.repr_tracking_submission">[docs]</a><span class="k">def</span> <span class="nf">repr_tracking_submission</span><span class="p">(</span><span class="n">info</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="s1">&#39;Submission Info:&#39;</span><span class="p">):</span>
+    <span class="n">tile_indices</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span><span class="s1">&#39;(</span><span class="si">{i[0]}</span><span class="s1">, </span><span class="si">{i[1]}</span><span class="s1">)&#39;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">info</span><span class="p">[</span><span class="s1">&#39;tile_indices&#39;</span><span class="p">]]</span>
+
+    <span class="c1"># Format subsection first so it can be added as a string</span>
+    <span class="n">period_info_str</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;* Period:&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">_indent</span><span class="p">([</span>
+        <span class="n">f</span><span class="s1">&#39;* Start: </span><span class="si">{info[&quot;period_start&quot;]}</span><span class="s1">&#39;</span><span class="p">,</span>
+        <span class="n">f</span><span class="s1">&#39;* End:   </span><span class="si">{info[&quot;period_end&quot;]}</span><span class="s1">&#39;</span><span class="p">,</span>
+        <span class="n">f</span><span class="s1">&#39;* Freq:  </span><span class="si">{info[&quot;period_freq&quot;]}</span><span class="s1">&#39;</span>
+    <span class="p">],</span> <span class="n">n</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+    <span class="n">lines</span> <span class="o">=</span> <span class="n">_indent</span><span class="p">([</span>
+        <span class="n">f</span><span class="s1">&#39;* Submitted on </span><span class="si">{info[&quot;submitted&quot;]}</span><span class="s1">&#39;</span><span class="p">,</span>
+        <span class="n">f</span><span class="s1">&#39;* Tile Grid: &quot;</span><span class="si">{info[&quot;tile_grid&quot;][&quot;name&quot;]}</span><span class="s1">&quot;&#39;</span><span class="p">,</span>
+        <span class="n">f</span><span class="s1">&#39;* Tile Indices : {&quot;, &quot;.join(tile_indices)}&#39;</span><span class="p">,</span>
+        <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">period_info_str</span><span class="p">)</span>
+    <span class="p">])</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">header</span><span class="p">]</span> <span class="o">+</span> <span class="n">lines</span></div>
+
+
+<div class="viewcode-block" id="repr_tracking_tracking"><a class="viewcode-back" href="../../../cedar/cedar.metadata.tracking.html#cedar.metadata.tracking.repr_tracking_tracking">[docs]</a><span class="k">def</span> <span class="nf">repr_tracking_tracking</span><span class="p">(</span><span class="n">info</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="s1">&#39;Tracking Info&#39;</span><span class="p">):</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="n">_indent</span><span class="p">([</span>
+        <span class="n">f</span><span class="s1">&#39;* Name: </span><span class="si">{info[&quot;name&quot;]}</span><span class="s1">&#39;</span><span class="p">,</span>
+        <span class="n">f</span><span class="s1">&#39;* Prefix: </span><span class="si">{info[&quot;prefix&quot;]}</span><span class="s1">&#39;</span><span class="p">,</span>
+        <span class="n">f</span><span class="s1">&#39;* Collections: {&quot;, &quot;.join(info[&quot;collections&quot;])}&#39;</span><span class="p">,</span>
+        <span class="n">f</span><span class="s1">&#39;* Image template: </span><span class="si">{info[&quot;name_template&quot;]}</span><span class="s1">&#39;</span><span class="p">,</span>
+        <span class="n">f</span><span class="s1">&#39;* Image prefix: </span><span class="si">{info[&quot;prefix_template&quot;]}</span><span class="s1">&#39;</span>
+    <span class="p">],</span> <span class="n">n</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">header</span><span class="p">]</span> <span class="o">+</span> <span class="n">lines</span></div>
+
+
+<div class="viewcode-block" id="repr_tracking_orders"><a class="viewcode-back" href="../../../cedar/cedar.metadata.tracking.html#cedar.metadata.tracking.repr_tracking_orders">[docs]</a><span class="k">def</span> <span class="nf">repr_tracking_orders</span><span class="p">(</span><span class="n">info</span><span class="p">,</span> <span class="n">show_states</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">show_runtimes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                         <span class="n">header</span><span class="o">=</span><span class="s1">&#39;Orders&#39;</span><span class="p">):</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span><span class="s1">&#39;* Count: {len(info)}&#39;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="n">show_states</span><span class="p">:</span>
+        <span class="n">states</span> <span class="o">=</span> <span class="n">summarize_states</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
+        <span class="n">lines_</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span><span class="s1">&#39;- </span><span class="si">{state}</span><span class="s1">: </span><span class="si">{n}</span><span class="s1">&#39;</span> <span class="k">for</span> <span class="n">state</span><span class="p">,</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">states</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;* States:&#39;</span><span class="p">)</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">_indent</span><span class="p">(</span><span class="n">lines_</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+
+    <span class="k">if</span> <span class="n">show_runtimes</span><span class="p">:</span>
+        <span class="n">runtimes</span> <span class="o">=</span> <span class="n">summarize_runtimes</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
+        <span class="n">mean</span> <span class="o">=</span> <span class="n">_format_runtime</span><span class="p">(</span><span class="n">runtimes</span><span class="p">[</span><span class="s1">&#39;mean&#39;</span><span class="p">])</span>
+        <span class="n">std</span> <span class="o">=</span> <span class="n">_format_runtime</span><span class="p">(</span><span class="n">runtimes</span><span class="p">[</span><span class="s1">&#39;std&#39;</span><span class="p">])</span>
+        <span class="n">line</span> <span class="o">=</span> <span class="n">f</span><span class="s1">&#39;* Runtime: </span><span class="si">{mean}</span><span class="s1"> +/- </span><span class="si">{std}</span><span class="s1"> minutes&#39;</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">[</span><span class="n">header</span><span class="p">]</span> <span class="o">+</span> <span class="n">_indent</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="repr_metadata_order"><a class="viewcode-back" href="../../../cedar/cedar.metadata.tracking.html#cedar.metadata.tracking.repr_metadata_order">[docs]</a><span class="k">def</span> <span class="nf">repr_metadata_order</span><span class="p">(</span><span class="n">info</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="s1">&#39;Order:&#39;</span><span class="p">):</span>
+    <span class="n">summary</span> <span class="o">=</span> <span class="n">_summarize_order</span><span class="p">(</span><span class="n">info</span><span class="p">)</span>
+    <span class="n">s_runtime</span> <span class="o">=</span> <span class="n">_format_runtime</span><span class="p">(</span><span class="n">summary</span><span class="p">[</span><span class="s1">&#39;runtime&#39;</span><span class="p">])</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="n">_indent</span><span class="p">([</span>
+        <span class="n">f</span><span class="s1">&#39;- Name: </span><span class="si">{summary[&quot;name&quot;]}</span><span class="s1">&#39;</span><span class="p">,</span>
+        <span class="n">f</span><span class="s1">&#39;- Prefix: </span><span class="si">{summary[&quot;prefix&quot;]}</span><span class="s1">&#39;</span><span class="p">,</span>
+        <span class="n">f</span><span class="s1">&#39;- ID: </span><span class="si">{summary[&quot;id&quot;]}</span><span class="s1">&#39;</span><span class="p">,</span>
+        <span class="n">f</span><span class="s1">&#39;- Task state: </span><span class="si">{summary[&quot;state&quot;]}</span><span class="s1">&#39;</span><span class="p">,</span>
+        <span class="n">f</span><span class="s1">&#39;- Runtime: </span><span class="si">{s_runtime}</span><span class="s1"> minutes&#39;</span><span class="p">,</span>
+        <span class="n">f</span><span class="s1">&#39;- Image pieces: </span><span class="si">{summary[&quot;n_images&quot;]}</span><span class="s1">&#39;</span><span class="p">,</span>
+        <span class="n">f</span><span class="s1">&#39;- Output URL: </span><span class="si">{summary[&quot;output_url&quot;]}</span><span class="s1">&#39;</span><span class="p">,</span>
+    <span class="p">],</span> <span class="n">n</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">[</span><span class="n">header</span><span class="p">]</span> <span class="o">+</span> <span class="n">lines</span></div>
+
+
+<span class="c1"># -----------------------------------------------------------------------------</span>
+<span class="c1"># Calculations</span>
+<div class="viewcode-block" id="calculate_order_runtime"><a class="viewcode-back" href="../../../cedar/cedar.metadata.tracking.html#cedar.metadata.tracking.calculate_order_runtime">[docs]</a><span class="k">def</span> <span class="nf">calculate_order_runtime</span><span class="p">(</span><span class="n">start_time</span><span class="p">,</span> <span class="n">update_time</span><span class="p">,</span> <span class="n">nan</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">start_time</span> <span class="ow">and</span> <span class="n">update_time</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">update_time</span> <span class="o">-</span> <span class="n">start_time</span>
+    <span class="k">elif</span> <span class="n">start_time</span><span class="p">:</span>
+        <span class="n">now</span> <span class="o">=</span> <span class="n">dt</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">timestamp</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">now</span> <span class="o">-</span> <span class="n">start_time</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">nan</span></div>
+
+
+<div class="viewcode-block" id="summarize_states"><a class="viewcode-back" href="../../../cedar/cedar.metadata.tracking.html#cedar.metadata.tracking.summarize_states">[docs]</a><span class="k">def</span> <span class="nf">summarize_states</span><span class="p">(</span><span class="n">orders</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Returns tallies of order task status</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">order_states</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">order</span> <span class="ow">in</span> <span class="n">orders</span><span class="p">:</span>
+        <span class="n">order_states</span><span class="p">[</span><span class="n">order</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">][</span><span class="s1">&#39;state&#39;</span><span class="p">]]</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">order_states</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="summarize_runtimes"><a class="viewcode-back" href="../../../cedar/cedar.metadata.tracking.html#cedar.metadata.tracking.summarize_runtimes">[docs]</a><span class="k">def</span> <span class="nf">summarize_runtimes</span><span class="p">(</span><span class="n">orders</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Summarize runtimes of order tasks</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">runtimes</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">order</span> <span class="ow">in</span> <span class="n">orders</span><span class="p">:</span>
+        <span class="n">runtime</span> <span class="o">=</span> <span class="n">calculate_order_runtime</span><span class="p">(</span>
+            <span class="n">order</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">][</span><span class="s1">&#39;start_timestamp_ms&#39;</span><span class="p">],</span>
+            <span class="n">order</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">][</span><span class="s1">&#39;update_timestamp_ms&#39;</span><span class="p">])</span>
+        <span class="n">runtimes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">runtime</span><span class="p">)</span>
+    <span class="n">runtimes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">runtimes</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="p">{</span>
+        <span class="s1">&#39;runtimes&#39;</span><span class="p">:</span> <span class="n">runtimes</span><span class="p">,</span>
+        <span class="s1">&#39;total&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">nansum</span><span class="p">(</span><span class="n">runtimes</span><span class="p">),</span>
+        <span class="s1">&#39;n&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">runtimes</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span>
+        <span class="s1">&#39;mean&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="n">runtimes</span><span class="p">)</span> <span class="k">if</span> <span class="n">runtimes</span><span class="o">.</span><span class="n">size</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span>
+        <span class="s1">&#39;std&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">nanstd</span><span class="p">(</span><span class="n">runtimes</span><span class="p">)</span> <span class="k">if</span> <span class="n">runtimes</span><span class="o">.</span><span class="n">size</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="p">}</span></div>
+
+
+<span class="k">def</span> <span class="nf">_summarize_order</span><span class="p">(</span><span class="n">order</span><span class="p">):</span>
+    <span class="n">summary</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">order</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;prefix&#39;</span><span class="p">,</span> <span class="p">)}</span>
+    <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">order</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">][</span><span class="s1">&#39;id&#39;</span><span class="p">]</span>
+    <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;state&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">order</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">][</span><span class="s1">&#39;state&#39;</span><span class="p">]</span>
+    <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;runtime&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">calculate_order_runtime</span><span class="p">(</span>
+        <span class="n">order</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">][</span><span class="s1">&#39;start_timestamp_ms&#39;</span><span class="p">],</span>
+        <span class="n">order</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">][</span><span class="s1">&#39;update_timestamp_ms&#39;</span><span class="p">])</span>
+    <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;n_images&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">order</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">][</span><span class="s1">&#39;output_url&#39;</span><span class="p">])</span>
+    <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;output_url&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">order</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">][</span><span class="s1">&#39;output_url&#39;</span><span class="p">]))</span>
+
+    <span class="k">return</span> <span class="n">summary</span>
+
+
+<span class="c1"># Helpers</span>
+<span class="k">def</span> <span class="nf">_indent</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">4</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">[</span><span class="s1">&#39; &#39;</span> <span class="o">*</span> <span class="n">n</span> <span class="o">*</span> <span class="n">length</span> <span class="o">+</span> <span class="n">line</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">]</span>
+
+
+<span class="k">def</span> <span class="nf">_format_runtime</span><span class="p">(</span><span class="n">time_ms</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">time_ms</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;</span><span class="si">{0:02.2f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">time_ms</span> <span class="o">/</span> <span class="mf">60.</span> <span class="o">/</span> <span class="mf">1000.</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;nan&#39;</span>
+
+
+<span class="n">_EE_UNSUBMITTED</span> <span class="o">=</span> <span class="s1">&#39;UNSUBMITTED&#39;</span>
+<span class="n">_EE_READY</span> <span class="o">=</span> <span class="s1">&#39;READY&#39;</span>
+<span class="n">_EE_RUNNING</span> <span class="o">=</span> <span class="s1">&#39;RUNNING&#39;</span>
+<span class="n">_EE_COMPLETED</span> <span class="o">=</span> <span class="s1">&#39;COMPLETED&#39;</span>
+<span class="n">_EE_FAILED</span> <span class="o">=</span> <span class="s1">&#39;FAILED&#39;</span>
+<span class="n">_EE_CANCEL_REQUESTED</span> <span class="o">=</span> <span class="s1">&#39;CANCEL_REQUESTED&#39;</span>
+<span class="n">_EE_CANCELLED</span> <span class="o">=</span> <span class="s1">&#39;CANCELLED&#39;</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Chris Holden
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
