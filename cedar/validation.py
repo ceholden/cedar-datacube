@@ -15,7 +15,12 @@ def validate_with_defaults(obj, schema, resolve=None):
     else:
         resolver = None
 
-    validator = DefaultValidatingDraft7Validator(schema, resolver=resolver)
+    # Allow tuple/list as 'array' type
+    # See: https://github.com/Julian/jsonschema/issues/148
+    types_ = {'array': (list, tuple)}
+
+    validator = DefaultValidatingDraft7Validator(schema, resolver=resolver,
+                                                 types=types_)
     validator.validate(obj)
 
 
