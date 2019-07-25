@@ -41,6 +41,27 @@ def list(ctx):
         click.echo('No tracked orders')
 
 
+@group_status.command('cancel',
+                      short_help='Cancel Earth Engine tasks for this order')
+@options.arg_tracking_name
+@click.pass_context
+def cancel(ctx, tracking_name):
+    from ..utils import get_ee_tasks, load_ee
+    ee_api = load_ee(True)
+
+    logger = ctx.obj['logger']
+    config = options.fetch_config(ctx)
+    tracker = config.get_tracker()
+
+    info = tracker.read(tracking_name)
+    for task in info.tasks:
+        task.cancel()
+        click.echo(f'Cancelled task ID "{task.id}"')
+
+    if logger.level <= logging.WARNING:
+        click.echo('Complete')
+
+
 @group_status.command('print', short_help='Print job tracking info')
 @options.arg_tracking_name
 @click.option('--order', 'order_id', type=int, multiple=True,
