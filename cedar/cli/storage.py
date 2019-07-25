@@ -31,7 +31,7 @@ def download(ctx, tracking_name, update_, clean_, dest_dir, overwrite):
     ----
     * Silence / don't use progressbar if we're quiet
     """
-    from cedar.metadata.core import TrackingMetadata
+    from cedar.utils import load_ee
 
     config = options.fetch_config(ctx)
     tracker = config.get_tracker()
@@ -49,12 +49,10 @@ def download(ctx, tracking_name, update_, clean_, dest_dir, overwrite):
 
     click.echo(f'Retrieving pre-ARD from tracking info: {tracking_name}')
     if update_:
-        from cedar.utils import load_ee
-        load_ee()
+        load_ee(True)  # authenticate against EE API
         tracking_info = tracker.update(tracking_name)
     else:
         tracking_info = tracker.read(tracking_name)
-    tracking_info = TrackingMetadata(tracked_info)
 
     n_tasks = len(tracking_info['orders'])
     click.echo(f'Downloading data for {n_tasks} tasks')
