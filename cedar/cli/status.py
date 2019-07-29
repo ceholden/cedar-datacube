@@ -29,16 +29,19 @@ def list(ctx):
     tracker = config.get_tracker()
 
     # Find tracker metadata
-    tracked_infos = tracker.list()
-
-    # Display
-    if tracked_infos:
-        if logger.level <= logging.WARNING:
-            click.echo('Tracked orders:')
-        for tracked_info in tracked_infos:
-            click.echo(tracked_info)
+    try:
+        tracked_infos = tracker.list()
+    except FileNotFoundError as e:
+        click.echo('No tracked orders (could not find tracking prefix)')
     else:
-        click.echo('No tracked orders')
+        # Display
+        if tracked_infos:
+            if logger.level <= logging.WARNING:
+                click.echo('Tracked orders:')
+            for tracked_info in tracked_infos:
+                click.echo(tracked_info)
+        else:
+            click.echo('No tracked orders')
 
 
 @group_status.command('cancel',

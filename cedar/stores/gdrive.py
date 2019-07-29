@@ -788,8 +788,8 @@ def _path_to_parent_id(service, path):
         parent_id = exists(service, path, directory=True,
                            appProperties=False)
         if not parent_id:
-            raise ValueError(f'Cannot find prefix path provided "{path}" '
-                             'on Google Drive')
+            raise FileNotFoundError(
+                f'Cannot find prefix path provided "{path}" on Google Drive')
         return parent_id
 
 
