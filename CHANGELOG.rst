@@ -10,6 +10,15 @@ For information on the style of this change log, see
 `keepachangelog.com <http://keepachangelog.com/>`__.
 
 
+v0.0.3 (UNRELEASED)
+===================
+
+* Fixed warning when calculating mean/std runtime of tasks that haven't been
+  updated (``RuntimeWarning: Mean of empty slice``...)
+* Provide better info in ``cedar status list`` when nothing is tracked because
+  the tracking folder doesn't exist
+
+
 v0.0.2
 ======
 
