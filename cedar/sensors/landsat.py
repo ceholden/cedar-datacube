@@ -117,7 +117,7 @@ def create_ard(collection, tile, date_start, date_end, filters=None,
     imgcol = common.filter_collection_time(imgcol, date_start, date_end)
 
     # Apply additional filters
-    if filters is not None:
+    if filters:
         logger.debug(f'Applying {len(filters)} filters over collection')
         imgcol = imgcol.filter(filters)
 

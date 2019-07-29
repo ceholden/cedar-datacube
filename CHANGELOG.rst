@@ -13,10 +13,12 @@ For information on the style of this change log, see
 v0.0.3 (UNRELEASED)
 ===================
 
-* Fixed warning when calculating mean/std runtime of tasks that haven't been
+* Fix warning when calculating mean/std runtime of tasks that haven't been
   updated (``RuntimeWarning: Mean of empty slice``...)
 * Provide better info in ``cedar status list`` when nothing is tracked because
   the tracking folder doesn't exist
+* Fix bug when ordering but not using filters that resulted in 0 images being
+  found
 
 
 v0.0.2
