@@ -285,14 +285,17 @@ def summarize_runtimes(orders):
             order['status']['start_timestamp_ms'],
             order['status']['update_timestamp_ms'])
         runtimes.append(runtime)
+
     runtimes = np.asarray(runtimes)
+    mask = np.isfinite(runtimes)
+    any_ = mask.any()
 
     return {
         'runtimes': runtimes,
-        'total': np.nansum(runtimes),
-        'n': np.isfinite(runtimes).sum(),
-        'mean': np.nanmean(runtimes) if runtimes.size else np.nan,
-        'std': np.nanstd(runtimes) if runtimes.size else np.nan
+        'total': np.sum(runtimes[mask]) if any_ else np.nan,
+        'n': runtimes.size,
+        'mean': np.mean(runtimes[mask]) if any_ else np.nan,
+        'std': np.std(runtimes[mask]) if any_ else np.nan
     }
 
 
