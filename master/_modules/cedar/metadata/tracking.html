@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>cedar.metadata.tracking &mdash; cedar 0.0.2.post0+1.gbffb538 documentation</title>
+  <title>cedar.metadata.tracking &mdash; cedar 0.0.2.post0+5.gc51a524 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.0.2.post0+1.gbffb538
+                0.0.2.post0+5.gc51a524
               </div>
             
           
@@ -456,14 +456,17 @@
             <span class="n">order</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">][</span><span class="s1">&#39;start_timestamp_ms&#39;</span><span class="p">],</span>
             <span class="n">order</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">][</span><span class="s1">&#39;update_timestamp_ms&#39;</span><span class="p">])</span>
         <span class="n">runtimes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">runtime</span><span class="p">)</span>
+
     <span class="n">runtimes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">runtimes</span><span class="p">)</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">runtimes</span><span class="p">)</span>
+    <span class="n">any_</span> <span class="o">=</span> <span class="n">mask</span><span class="o">.</span><span class="n">any</span><span class="p">()</span>
 
     <span class="k">return</span> <span class="p">{</span>
         <span class="s1">&#39;runtimes&#39;</span><span class="p">:</span> <span class="n">runtimes</span><span class="p">,</span>
-        <span class="s1">&#39;total&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">nansum</span><span class="p">(</span><span class="n">runtimes</span><span class="p">),</span>
-        <span class="s1">&#39;n&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">runtimes</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span>
-        <span class="s1">&#39;mean&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="n">runtimes</span><span class="p">)</span> <span class="k">if</span> <span class="n">runtimes</span><span class="o">.</span><span class="n">size</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span>
-        <span class="s1">&#39;std&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">nanstd</span><span class="p">(</span><span class="n">runtimes</span><span class="p">)</span> <span class="k">if</span> <span class="n">runtimes</span><span class="o">.</span><span class="n">size</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+        <span class="s1">&#39;total&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">runtimes</span><span class="p">[</span><span class="n">mask</span><span class="p">])</span> <span class="k">if</span> <span class="n">any_</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span>
+        <span class="s1">&#39;n&#39;</span><span class="p">:</span> <span class="n">runtimes</span><span class="o">.</span><span class="n">size</span><span class="p">,</span>
+        <span class="s1">&#39;mean&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">runtimes</span><span class="p">[</span><span class="n">mask</span><span class="p">])</span> <span class="k">if</span> <span class="n">any_</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span>
+        <span class="s1">&#39;std&#39;</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">runtimes</span><span class="p">[</span><span class="n">mask</span><span class="p">])</span> <span class="k">if</span> <span class="n">any_</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
     <span class="p">}</span></div>
 
 

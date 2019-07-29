@@ -1726,8 +1726,8 @@
 <p id="t788" class="stm mis">        <span class="nam">parent_id</span> <span class="op">=</span> <span class="nam">exists</span><span class="op">(</span><span class="nam">service</span><span class="op">,</span> <span class="nam">path</span><span class="op">,</span> <span class="nam">directory</span><span class="op">=</span><span class="key">True</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
 <p id="t789" class="pln">                           <span class="nam">appProperties</span><span class="op">=</span><span class="key">False</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t790" class="stm mis">        <span class="key">if</span> <span class="key">not</span> <span class="nam">parent_id</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t791" class="stm mis">            <span class="key">raise</span> <span class="nam">ValueError</span><span class="op">(</span><span class="str">f'Cannot find prefix path provided "{path}" '</span><span class="strut">&nbsp;</span></p>
-<p id="t792" class="pln">                             <span class="str">'on Google Drive'</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t791" class="stm mis">            <span class="key">raise</span> <span class="nam">FileNotFoundError</span><span class="op">(</span><span class="strut">&nbsp;</span></p>
+<p id="t792" class="pln">                <span class="str">f'Cannot find prefix path provided "{path}" on Google Drive'</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t793" class="stm mis">        <span class="key">return</span> <span class="nam">parent_id</span><span class="strut">&nbsp;</span></p>
 <p id="t794" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t795" class="pln"><span class="strut">&nbsp;</span></p>
@@ -1812,7 +1812,7 @@
     <div class="content">
         <p>
             <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.io">coverage.py v4.5.3</a>,
-            created at 2019-07-25 22:14
+            created at 2019-07-29 20:23
         </p>
     </div>
 </div>

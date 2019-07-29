@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>cedar.stores.gdrive &mdash; cedar 0.0.2.post0+1.gbffb538 documentation</title>
+  <title>cedar.stores.gdrive &mdash; cedar 0.0.2.post0+5.gc51a524 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.0.2.post0+1.gbffb538
+                0.0.2.post0+5.gc51a524
               </div>
             
           
@@ -959,8 +959,8 @@
         <span class="n">parent_id</span> <span class="o">=</span> <span class="n">exists</span><span class="p">(</span><span class="n">service</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">directory</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                            <span class="n">appProperties</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">parent_id</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Cannot find prefix path provided &quot;</span><span class="si">{path}</span><span class="s1">&quot; &#39;</span>
-                             <span class="s1">&#39;on Google Drive&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span>
+                <span class="n">f</span><span class="s1">&#39;Cannot find prefix path provided &quot;</span><span class="si">{path}</span><span class="s1">&quot; on Google Drive&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">parent_id</span>
 
 
