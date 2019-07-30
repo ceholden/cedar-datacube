@@ -1,0 +1,379 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Pre-ARD Order Tracking &mdash; cedar 0.0.3.post0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/theme_overrides.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Download" href="download.html" />
+    <link rel="prev" title="Pre-ARD Order Submission" href="submissions.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> cedar
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.3.post0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="credentials.html">Credentials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="submissions.html">Pre-ARD Order Submission</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Pre-ARD Order Tracking</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#list-orders">List Orders</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#print-order-details">Print Order Details</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#update-order-status">Update Order Status</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="download.html">Download</a></li>
+<li class="toctree-l1"><a class="reference internal" href="convert.html">Pre-ARD to ARD Conversion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cleaning.html">Cleaning pre-ARD from Storage</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Help and Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">Command Line Interface Programs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="storage.html">Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dev.html">Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">cedar</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Pre-ARD Order Tracking</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/ceholden/cedar-datacube/blob/master/docs/source/tracking.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="pre-ard-order-tracking">
+<span id="tracking"></span><h1>Pre-ARD Order Tracking<a class="headerlink" href="#pre-ard-order-tracking" title="Permalink to this headline">¶</a></h1>
+<p>Once you have submitted orders to create Pre-ARD, you can track what you have
+ordered and check the progress of each one.</p>
+<div class="section" id="list-orders">
+<h2>List Orders<a class="headerlink" href="#list-orders" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ cedar status list
+Tracked orders:
+TRACKING_2019-07-18T16:45:25.528253_h063v052
+</pre></div>
+</div>
+</div>
+<div class="section" id="print-order-details">
+<h2>Print Order Details<a class="headerlink" href="#print-order-details" title="Permalink to this headline">¶</a></h2>
+<p>You can use the <code class="docutils literal notranslate"><span class="pre">cedar</span> <span class="pre">status</span> <span class="pre">print</span></code> program to check the information about
+a “pre-ARD” order. Unless this tracking metadata has been updated, it will
+be as written during the submission process.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ cedar status print TRACKING_2019-07-18T16:45:25.528253_h063v052
+
+Program Info:
+    * <span class="nv">cedar</span><span class="o">=</span><span class="m">0</span>+untagged.260.g3693702.dirty
+    * earthengine-api<span class="o">=</span><span class="m">0</span>.1.180
+Submission Info:
+    * Submitted on <span class="m">2019</span>-07-18T16:45:25.528265
+    * Tile Grid: <span class="s2">&quot;GLANCE - NA - V01&quot;</span>
+    * Tile Indices : <span class="o">(</span><span class="m">52</span>, <span class="m">63</span><span class="o">)</span>
+    * Period:
+        * Start: <span class="m">1997</span>-01-01T00:00:00
+        * End:   <span class="m">2020</span>-01-01T00:00:00
+        * Freq:  5YS
+Tracking Info
+    * Name: TRACKING_2019-07-18T16:45:25.528253_h063v052
+    * Prefix: GLANCE_TRACK
+    * Collections: LANDSAT/LC08/C01/T1_SR, LANDSAT/LE07/C01/T1_SR, LANDSAT/LT05/C01/T1_SR
+    * Image template: <span class="o">{</span>collection<span class="o">}</span>_h<span class="o">{</span>tile.horizontal:03d<span class="o">}</span>v<span class="o">{</span>tile.vertical:03d<span class="o">}</span>_<span class="o">{</span>date_start<span class="o">}</span>_<span class="o">{</span>date_end<span class="o">}</span>
+    * Image prefix: GLANCE_PREARD
+Orders
+    * Count: <span class="m">10</span>
+    * States:
+        - UNSUBMITTED: <span class="m">10</span>
+    * Runtime: nan +/- nan minutes
+</pre></div>
+</div>
+<p>Because we have just submitted the order, the tracking information stored does
+not even know if the Google Earth Engine jobs have started. Because of this,
+the runtime is not defined and it’s unclear if the order has finished.</p>
+</div>
+<div class="section" id="update-order-status">
+<h2>Update Order Status<a class="headerlink" href="#update-order-status" title="Permalink to this headline">¶</a></h2>
+<p>After an order has been submitted, you can use the <code class="docutils literal notranslate"><span class="pre">cedar</span> <span class="pre">status</span> <span class="pre">update</span></code> to
+update tracking metadata with the status of the Google Earth Engine “pre-ARD”
+tasks. Specifically, the information about each task within the <code class="docutils literal notranslate"><span class="pre">orders</span></code>
+section will have new information about the task state (<code class="docutils literal notranslate"><span class="pre">id</span></code>),
+timestamps (<code class="docutils literal notranslate"><span class="pre">creation_timestamp_ms</span></code>, <code class="docutils literal notranslate"><span class="pre">update_timestamp_ms</span></code>, and
+<code class="docutils literal notranslate"><span class="pre">start_timestamp_ms</span></code>), and the output locations of the “pre-ARD” images
+(<code class="docutils literal notranslate"><span class="pre">output_url</span></code>).</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ cedar status update TRACKING_2019-07-18T16:45:25.528253_h063v052
+
+Updating <span class="s2">&quot;TRACKING_2019-07-18T16:45:25.528253_h063v052&quot;</span>
+Complete
+</pre></div>
+</div>
+<p>Once we’ve updated the order tracking information by checking in on the
+Earth Engine tasks we’ll have more useful info when we print it again.
+In the following example, I waited until all of the Earth Engine tasks
+had completed before updating and printing the tracking status again:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ cedar status print TRACKING_2019-07-18T16:45:25.528253_h063v052
+Program Info:
+    + <span class="nv">cedar</span><span class="o">=</span><span class="m">0</span>+untagged.260.g3693702.dirty
+    + earthengine-api<span class="o">=</span><span class="m">0</span>.1.180
+Submission Info:
+    + Submitted on <span class="m">2019</span>-07-18T16:45:25.528265
+    + Tile Grid: <span class="s2">&quot;GLANCE - NA - V01&quot;</span>
+    + Tile Indices : <span class="o">(</span><span class="m">52</span>, <span class="m">63</span><span class="o">)</span>
+    + Period:
+        + Start: <span class="m">1997</span>-01-01T00:00:00
+        + End:   <span class="m">2020</span>-01-01T00:00:00
+        + Freq:  5YS
+Tracking Info
+    + Name: TRACKING_2019-07-18T16:45:25.528253_h063v052
+    + Prefix: GLANCE_TRACK
+    + Collections: LANDSAT/LC08/C01/T1_SR, LANDSAT/LE07/C01/T1_SR, LANDSAT/LT05/C01/T1_SR
+    + Image template: <span class="o">{</span>collection<span class="o">}</span>_h<span class="o">{</span>tile.horizontal:03d<span class="o">}</span>v<span class="o">{</span>tile.vertical:03d<span class="o">}</span>_<span class="o">{</span>date_start<span class="o">}</span>_<span class="o">{</span>date_end<span class="o">}</span>
+    + Image prefix: GLANCE_PREARD
+Orders
+    + Count: <span class="m">10</span>
+    + States:
+        <span class="m">1</span>. COMPLETED: <span class="m">10</span>
+    + Runtime: <span class="m">12</span>.81 +/- <span class="m">3</span>.92 minutes
+</pre></div>
+</div>
+<p>All 10 of the pre-ARD generating Earth Engine tasks have completed, and the mean
+runtime was about 13 minutes per task. The “wall clock” time, or the time from
+submission until everything is completed, will be longer, however, because our
+order contained 10 images and the Earth Engine only allows a few tasks to
+execute concurrently.</p>
+<p>We can also use this tool to print more detailed information about specific
+images in our order:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ cedar status print --order <span class="m">3</span> --order <span class="m">4</span> TRACKING_2019-07-18T16:45:25.528253_h063v052
+Program Info:
+    * <span class="nv">cedar</span><span class="o">=</span><span class="m">0</span>+untagged.260.g3693702.dirty
+    * earthengine-api<span class="o">=</span><span class="m">0</span>.1.180
+Submission Info:
+    * Submitted on <span class="m">2019</span>-07-18T16:45:25.528265
+    * Tile Grid: <span class="s2">&quot;GLANCE - NA - V01&quot;</span>
+    * Tile Indices : <span class="o">(</span><span class="m">52</span>, <span class="m">63</span><span class="o">)</span>
+    * Period:
+        * Start: <span class="m">1997</span>-01-01T00:00:00
+        * End:   <span class="m">2020</span>-01-01T00:00:00
+        * Freq:  5YS
+Tracking Info
+    * Name: TRACKING_2019-07-18T16:45:25.528253_h063v052
+    * Prefix: GLANCE_TRACK
+    * Collections: LANDSAT/LC08/C01/T1_SR, LANDSAT/LE07/C01/T1_SR, LANDSAT/LT05/C01/T1_SR
+    * Image template: <span class="o">{</span>collection<span class="o">}</span>_h<span class="o">{</span>tile.horizontal:03d<span class="o">}</span>v<span class="o">{</span>tile.vertical:03d<span class="o">}</span>_<span class="o">{</span>date_start<span class="o">}</span>_<span class="o">{</span>date_end<span class="o">}</span>
+    * Image prefix: GLANCE_PREARD
+Orders
+    * Count: <span class="m">10</span>
+    * States:
+        - COMPLETED: <span class="m">10</span>
+    * Runtime: <span class="m">12</span>.81 +/- <span class="m">3</span>.92 minutes
+Order <span class="c1">#3</span>
+    - Name: LANDSAT_LE07_C01_T1_SR_h063v052_2002-01-01_2007-01-01
+    - Prefix: GLANCE_PREARD
+    - ID: KFH37WGBINNTGHUDJSLEJB6T
+    - Task state: COMPLETED
+    - Runtime: <span class="m">9</span>.63 minutes
+    - Image pieces: <span class="m">25</span>
+    - Output URL: <span class="o">[</span><span class="s1">&#39;https://drive.google.com/#folders/1d9qSQ4J42mxBgCu2J3uVX7ATPSroSirX&#39;</span><span class="o">]</span>
+Order <span class="c1">#4</span>
+    - Name: LANDSAT_LE07_C01_T1_SR_h063v052_2007-01-01_2012-01-01
+    - Prefix: GLANCE_PREARD
+    - ID: 7WD23YHAM4TMQRG2O2SEQTON
+    - Task state: COMPLETED
+    - Runtime: <span class="m">13</span>.78 minutes
+    - Image pieces: <span class="m">25</span>
+    - Output URL: <span class="o">[</span><span class="s1">&#39;https://drive.google.com/#folders/1d9qSQ4J42mxBgCu2J3uVX7ATPSroSirX&#39;</span><span class="o">]</span>
+</pre></div>
+</div>
+<p>Printing the information for the 3rd and 4th images in our order shows the
+Earth Engine task ID, how many files the GeoTIFF was exported to to be under
+4GB, the runtime, the output URL (Google Drive, in this case), and directory
+and filename information.</p>
+<p>Now that the images have been processed and exported to our storage service we
+can use <code class="docutils literal notranslate"><span class="pre">cedar</span></code> again to download the data.</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="download.html" class="btn btn-neutral float-right" title="Download" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="submissions.html" class="btn btn-neutral float-left" title="Pre-ARD Order Submission" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Chris Holden
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

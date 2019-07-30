@@ -1,0 +1,7 @@
+cedar.metadata.tracking module
+==============================
+
+.. automodule:: cedar.metadata.tracking
+   :members:
+   :undoc-members:
+   :show-inheritance:

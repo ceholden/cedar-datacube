@@ -1,0 +1,606 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>cedar.stores.gcs module &mdash; cedar 0.0.3.post0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../_static/jquery.js"></script>
+        <script type="text/javascript" src="../_static/underscore.js"></script>
+        <script type="text/javascript" src="../_static/doctools.js"></script>
+        <script type="text/javascript" src="../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/theme_overrides.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> cedar
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.3.post0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../faq.html">Frequently Asked Questions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../credentials.html">Credentials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../config.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../submissions.html">Pre-ARD Order Submission</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../tracking.html">Pre-ARD Order Tracking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../download.html">Download</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../convert.html">Pre-ARD to ARD Conversion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../cleaning.html">Cleaning pre-ARD from Storage</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Help and Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../cli.html">Command Line Interface Programs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../storage.html">Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../dev.html">Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">cedar</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+      <li>cedar.stores.gcs module</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/ceholden/cedar-datacube/blob/master/docs/source/cedar/cedar.stores.gcs.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-cedar.stores.gcs">
+<span id="cedar-stores-gcs-module"></span><h1>cedar.stores.gcs module<a class="headerlink" href="#module-cedar.stores.gcs" title="Permalink to this headline">¶</a></h1>
+<p>Helper utilities for using Google Cloud Storage</p>
+<dl class="class">
+<dt id="cedar.stores.gcs.GCSStore">
+<em class="property">class </em><code class="sig-prename descclassname">cedar.stores.gcs.</code><code class="sig-name descname">GCSStore</code><span class="sig-paren">(</span><em class="sig-param">client</em>, <em class="sig-param">bucket</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/stores/gcs.html#GCSStore"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.stores.gcs.GCSStore" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference external" href="https://docs.python.org/3.7/library/functions.html#object" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></a></p>
+<p>Store GEE “pre-ARD” images and metadata on Google Cloud Storage</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>client</strong> (<em>google.cloud.storage.client.Client</em>) – GCS client</p></li>
+<li><p><strong>bucket</strong> (<em>google.cloud.storage.bucket.Bucket</em>) – GCS bucket</p></li>
+</ul>
+</dd>
+</dl>
+<dl class="method">
+<dt id="cedar.stores.gcs.GCSStore.from_credentials">
+<em class="property">classmethod </em><code class="sig-name descname">from_credentials</code><span class="sig-paren">(</span><em class="sig-param">bucket_name</em>, <em class="sig-param">credentials=None</em>, <em class="sig-param">project=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/stores/gcs.html#GCSStore.from_credentials"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.stores.gcs.GCSStore.from_credentials" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load Google Cloud Storage credentials and create store</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cedar.stores.gcs.GCSStore.list">
+<code class="sig-name descname">list</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">path=None</em>, <em class="sig-param">pattern=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/stores/gcs.html#GCSStore.list"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.stores.gcs.GCSStore.list" title="Permalink to this definition">¶</a></dt>
+<dd><p>List stored images or metadata</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Prefix path to search within</p></li>
+<li><p><strong>pattern</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Filename pattern</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Names of stored data</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#list" title="(in Python v3.7)">list</a>[<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="cedar.stores.gcs.GCSStore.read_metadata">
+<code class="sig-name descname">read_metadata</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">name</em>, <em class="sig-param">path=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/stores/gcs.html#GCSStore.read_metadata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.stores.gcs.GCSStore.read_metadata" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read and parse JSON metadata into a dict</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Filename of metadata blob to read</p></li>
+<li><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Parent directory for file/object stored</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>JSON metadata blob</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="cedar.stores.gcs.GCSStore.remove">
+<code class="sig-name descname">remove</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">name</em>, <em class="sig-param">path=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/stores/gcs.html#GCSStore.remove"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.stores.gcs.GCSStore.remove" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remove a file from GCS</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Name of stored file/object</p></li>
+<li><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Parent directory for file/object stored</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Name of file removed</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="cedar.stores.gcs.GCSStore.retrieve_image">
+<code class="sig-name descname">retrieve_image</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">dest</em>, <em class="sig-param">name</em>, <em class="sig-param">path=None</em>, <em class="sig-param">overwrite=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/stores/gcs.html#GCSStore.retrieve_image"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.stores.gcs.GCSStore.retrieve_image" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve (pieces of) an image from the GCS</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dest</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Destination folder to save image(s)</p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Name of stored file/object</p></li>
+<li><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Parent directory for file/object stored on GCS</p></li>
+</ul>
+</dd>
+<dt class="field-even">Yields</dt>
+<dd class="field-even"><p><em>Sequence[str]</em> – Filename(s) corresponding to retrieved data</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="cedar.stores.gcs.GCSStore.retrieve_metadata">
+<code class="sig-name descname">retrieve_metadata</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">dest</em>, <em class="sig-param">name</em>, <em class="sig-param">path=None</em>, <em class="sig-param">overwrite=True</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/stores/gcs.html#GCSStore.retrieve_metadata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.stores.gcs.GCSStore.retrieve_metadata" title="Permalink to this definition">¶</a></dt>
+<dd><p>Retrieve image metadata from the GCS</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dest</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Destination folder to save metadata</p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Name of stored file/object</p></li>
+<li><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Parent directory for file/object stored</p></li>
+</ul>
+</dd>
+<dt class="field-even">Yields</dt>
+<dd class="field-even"><p><em>pathlib.Path</em> – Filename corresponding to retrieved data</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="cedar.stores.gcs.GCSStore.store_image">
+<code class="sig-name descname">store_image</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">image</em>, <em class="sig-param">name</em>, <em class="sig-param">path=None</em>, <em class="sig-param">**export_image_kwds</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/stores/gcs.html#GCSStore.store_image"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.stores.gcs.GCSStore.store_image" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create ee.batch.Task to create and store “pre-ARD”</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>image</strong> (<em>ee.Image</em>) – Earth Engine image to compute &amp; store</p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Name of file/object to store</p></li>
+<li><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Parent directory for file/object stored</p></li>
+<li><p><strong>export_image_kwds</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a><em>, </em><em>optional</em>) – Additional keyword arguments to pass onto
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">ee.batch.Export.image.toCloudStorage()</span></code> (hint: <code class="docutils literal notranslate"><span class="pre">scale</span></code> &amp; <code class="docutils literal notranslate"><span class="pre">crs</span></code>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Earth Engine Task</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ee.Task</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="cedar.stores.gcs.GCSStore.store_metadata">
+<code class="sig-name descname">store_metadata</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">metadata</em>, <em class="sig-param">name</em>, <em class="sig-param">path=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/stores/gcs.html#GCSStore.store_metadata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.stores.gcs.GCSStore.store_metadata" title="Permalink to this definition">¶</a></dt>
+<dd><p>Store JSON metadata</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>metadata</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – Metadata, to be saved as JSON</p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Name of file/object to store</p></li>
+<li><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Parent directory for file/object stored. Otherwise assumed to
+be part of <code class="docutils literal notranslate"><span class="pre">name</span></code></p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Path to uploaded object</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="cedar.stores.gcs.build_gcs_client">
+<code class="sig-prename descclassname">cedar.stores.gcs.</code><code class="sig-name descname">build_gcs_client</code><span class="sig-paren">(</span><em class="sig-param">credentials=None</em>, <em class="sig-param">project=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/stores/gcs.html#build_gcs_client"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.stores.gcs.build_gcs_client" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a Google Cloud Store API service client</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>credentials</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – File name of Google Cloud Store credentials (typically from a service
+account)</p></li>
+<li><p><strong>project</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Google Cloud Platform project to use</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Client for the Google Cloud Storage client library</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>google.cloud.storage.Client</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>You might consider setting the envirnment variable
+<code class="docutils literal notranslate"><span class="pre">GOOGLE_APPLICATION_CREDENTIALS</span></code> with the path to your service account
+credentials file <a class="reference internal" href="../credentials.html#r27411fe16876-1" id="id1">[1]</a>.</p>
+<p class="rubric">References</p>
+<dl class="citation">
+<dt class="label" id="r27411fe16876-1"><span class="brackets"><a class="fn-backref" href="#id1">1</a></span></dt>
+<dd><p><a class="reference external" href="https://cloud.google.com/storage/docs/reference/libraries#setting_up_authentication">https://cloud.google.com/storage/docs/reference/libraries#setting_up_authentication</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="cedar.stores.gcs.delete_blob">
+<code class="sig-prename descclassname">cedar.stores.gcs.</code><code class="sig-name descname">delete_blob</code><span class="sig-paren">(</span><em class="sig-param">bucket</em>, <em class="sig-param">path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/stores/gcs.html#delete_blob"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.stores.gcs.delete_blob" title="Permalink to this definition">¶</a></dt>
+<dd><p>Delete a GCS blob</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bucket</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em> or </em><em>google.cloud.storage.bucket.Bucket</em>) – Bucket or bucket name</p></li>
+<li><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Path to file/folder</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Name of deleted blob</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>path</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="cedar.stores.gcs.download_blob">
+<code class="sig-prename descclassname">cedar.stores.gcs.</code><code class="sig-name descname">download_blob</code><span class="sig-paren">(</span><em class="sig-param">blob</em>, <em class="sig-param">dest</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/stores/gcs.html#download_blob"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.stores.gcs.download_blob" title="Permalink to this definition">¶</a></dt>
+<dd><p>Download a blob to a destination directory</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>blob</strong> (<em>google.cloud.storage.blob.Blob</em>) – GCS blob to download</p></li>
+<li><p><strong>dest</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Local directory to download blob into</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Filename written to</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/pathlib.html#pathlib.Path" title="(in Python v3.7)">pathlib.Path</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="cedar.stores.gcs.exists">
+<code class="sig-prename descclassname">cedar.stores.gcs.</code><code class="sig-name descname">exists</code><span class="sig-paren">(</span><em class="sig-param">bucket</em>, <em class="sig-param">path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/stores/gcs.html#exists"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.stores.gcs.exists" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if file/folder exists</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bucket</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em> or </em><em>google.cloud.storage.bucket.Bucket</em>) – Bucket or bucket name</p></li>
+<li><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Path to file/folder</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>True or False if exists</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/functions.html#bool" title="(in Python v3.7)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="cedar.stores.gcs.list_blobs">
+<code class="sig-prename descclassname">cedar.stores.gcs.</code><code class="sig-name descname">list_blobs</code><span class="sig-paren">(</span><em class="sig-param">bucket</em>, <em class="sig-param">prefix=None</em>, <em class="sig-param">pattern=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/stores/gcs.html#list_blobs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.stores.gcs.list_blobs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return file/non-directory blobs within a on GCS</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bucket</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em> or </em><em>google.cloud.storage.bucket.Bucket</em>) – Bucket or bucket name</p></li>
+<li><p><strong>prefix</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – List contents within this folder</p></li>
+<li><p><strong>pattern</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Filter search by glob pattern (i.e., <code class="docutils literal notranslate"><span class="pre">*.json</span></code>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of blob files inside at <code class="docutils literal notranslate"><span class="pre">prefix</span></code></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#list" title="(in Python v3.7)">list</a>[google.cloud.storage.blob.Blob]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="cedar.stores.gcs.list_dirs">
+<code class="sig-prename descclassname">cedar.stores.gcs.</code><code class="sig-name descname">list_dirs</code><span class="sig-paren">(</span><em class="sig-param">bucket</em>, <em class="sig-param">prefix=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/stores/gcs.html#list_dirs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.stores.gcs.list_dirs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return “directory” blobs within a on GCS</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bucket</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em> or </em><em>google.cloud.storage.bucket.Bucket</em>) – Bucket or bucket name</p></li>
+<li><p><strong>prefix</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – List contents within this folder</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>List of directories names inside at <code class="docutils literal notranslate"><span class="pre">prefix</span></code></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>Sequence[<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)">str</a>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="cedar.stores.gcs.mkdir">
+<code class="sig-prename descclassname">cedar.stores.gcs.</code><code class="sig-name descname">mkdir</code><span class="sig-paren">(</span><em class="sig-param">bucket</em>, <em class="sig-param">path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/stores/gcs.html#mkdir"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.stores.gcs.mkdir" title="Permalink to this definition">¶</a></dt>
+<dd><p>Make a directory, recursively</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bucket</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em> or </em><em>google.cloud.storage.bucket.Bucket</em>) – Bucket or bucket name</p></li>
+<li><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Path to folder</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>GCS blob for directory created</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>google.cloud.storage.blob.Blob</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="cedar.stores.gcs.mkdir_p">
+<code class="sig-prename descclassname">cedar.stores.gcs.</code><code class="sig-name descname">mkdir_p</code><span class="sig-paren">(</span><em class="sig-param">bucket</em>, <em class="sig-param">path</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/stores/gcs.html#mkdir_p"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.stores.gcs.mkdir_p" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a “directory” on GCS</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bucket</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em> or </em><em>google.cloud.storage.bucket.Bucket</em>) – Bucket or bucket name</p></li>
+<li><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Path to folder</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>GCS blob for directory created</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>google.cloud.storage.blob.Blob</p>
+</dd>
+</dl>
+<p class="rubric">Notes</p>
+<p>Directories don’t really exist on GCS but we can fake it <a class="reference internal" href="#rd30ffdba07bc-1" id="id2">[1]</a>.</p>
+<p class="rubric">References</p>
+<dl class="citation">
+<dt class="label" id="rd30ffdba07bc-1"><span class="brackets"><a class="fn-backref" href="#id2">1</a></span></dt>
+<dd><p><a class="reference external" href="https://cloud.google.com/storage/docs/gsutil/addlhelp/HowSubdirectoriesWork">https://cloud.google.com/storage/docs/gsutil/addlhelp/HowSubdirectoriesWork</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="cedar.stores.gcs.read_json">
+<code class="sig-prename descclassname">cedar.stores.gcs.</code><code class="sig-name descname">read_json</code><span class="sig-paren">(</span><em class="sig-param">blob</em>, <em class="sig-param">encoding='utf-8'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/stores/gcs.html#read_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.stores.gcs.read_json" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read a blob of JSON string data into a dict</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>blob</strong> (<em>google.cloud.storage.blob.Blob</em>) – Blob to read, decode, and load</p></li>
+<li><p><strong>encoding</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Metadata encoding</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Blob read, decoded, and loaded as a dict</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)">dict</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="cedar.stores.gcs.upload_json">
+<code class="sig-prename descclassname">cedar.stores.gcs.</code><code class="sig-name descname">upload_json</code><span class="sig-paren">(</span><em class="sig-param">bucket</em>, <em class="sig-param">data</em>, <em class="sig-param">path</em>, <em class="sig-param">check=False</em>, <em class="sig-param">encoding='utf-8'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/stores/gcs.html#upload_json"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.stores.gcs.upload_json" title="Permalink to this definition">¶</a></dt>
+<dd><p>Upload data as JSON to GCS</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>bucket</strong> (<em>google.cloud.storage.bucket.Bucket</em>) – GCS bucket</p></li>
+<li><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a>) – JSON, either already dumped to str or as a dict</p></li>
+<li><p><strong>path</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Destination path on GCS for data</p></li>
+<li><p><strong>check</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em>, </em><em>optional</em>) – Check to see if the file already exists first. If so, will
+overwrite (or “update” instead of “create”)</p></li>
+<li><p><strong>encoding</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Metadata encoding</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>JSON as GCS blob</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>google.cloud.storage.blob.Blob</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Chris Holden
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

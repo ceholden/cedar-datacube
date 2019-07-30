@@ -1,0 +1,7 @@
+cedar.cli.console module
+========================
+
+.. automodule:: cedar.cli.console
+   :members:
+   :undoc-members:
+   :show-inheritance:

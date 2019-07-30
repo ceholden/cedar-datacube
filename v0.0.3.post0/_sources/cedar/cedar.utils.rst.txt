@@ -1,0 +1,7 @@
+cedar.utils module
+==================
+
+.. automodule:: cedar.utils
+   :members:
+   :undoc-members:
+   :show-inheritance:

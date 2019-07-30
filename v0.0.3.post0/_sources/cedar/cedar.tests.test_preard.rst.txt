@@ -1,0 +1,7 @@
+cedar.tests.test\_preard module
+===============================
+
+.. automodule:: cedar.tests.test_preard
+   :members:
+   :undoc-members:
+   :show-inheritance:

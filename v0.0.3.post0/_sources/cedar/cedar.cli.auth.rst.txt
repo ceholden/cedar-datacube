@@ -1,0 +1,7 @@
+cedar.cli.auth module
+=====================
+
+.. automodule:: cedar.cli.auth
+   :members:
+   :undoc-members:
+   :show-inheritance:

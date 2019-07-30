@@ -1,0 +1,7 @@
+cedar.tests.conftest module
+===========================
+
+.. automodule:: cedar.tests.conftest
+   :members:
+   :undoc-members:
+   :show-inheritance:

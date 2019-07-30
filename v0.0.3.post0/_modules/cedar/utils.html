@@ -1,0 +1,388 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>cedar.utils &mdash; cedar 0.0.3.post0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> cedar
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.3.post0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html">Frequently Asked Questions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../credentials.html">Credentials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../config.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../submissions.html">Pre-ARD Order Submission</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tracking.html">Pre-ARD Order Tracking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../download.html">Download</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../convert.html">Pre-ARD to ARD Conversion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cleaning.html">Cleaning pre-ARD from Storage</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Help and Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface Programs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../storage.html">Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev.html">Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">cedar</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>cedar.utils</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for cedar.utils</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot; Common utility functions</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="k">import</span> <span class="n">Path</span>
+<span class="kn">import</span> <span class="nn">stat</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="get_file"><a class="viewcode-back" href="../../cedar/cedar.utils.html#cedar.utils.get_file">[docs]</a><span class="k">def</span> <span class="nf">get_file</span><span class="p">(</span><span class="o">*</span><span class="n">filenames</span><span class="p">,</span> <span class="n">exists</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Return first good filename</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    filenames : Sequence[str or Path]</span>
+<span class="sd">        Filenames to check</span>
+<span class="sd">    exists : bool, optional</span>
+<span class="sd">        Require that the filename correspond to an existing</span>
+<span class="sd">        file on disk</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    Path or None</span>
+<span class="sd">        A Path of the first good filename, or None if they&#39;re all bad</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">filenames</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">filename</span><span class="p">:</span>  <span class="c1"># not null</span>
+            <span class="n">filename</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">exists</span><span class="p">:</span>  <span class="c1"># if we need to check...</span>
+                <span class="k">if</span> <span class="n">filename</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Found filename &quot;</span><span class="si">{filename}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="n">Path</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Found filename &quot;</span><span class="si">{filename}</span><span class="s1">&quot; in CWD&#39;</span><span class="p">)</span>
+                    <span class="k">return</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;File not found at &quot;</span><span class="si">{filename}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>  <span class="c1"># otherwise just return first non-null</span>
+                <span class="k">return</span> <span class="n">Path</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="set_file_urw"><a class="viewcode-back" href="../../cedar/cedar.utils.html#cedar.utils.set_file_urw">[docs]</a><span class="k">def</span> <span class="nf">set_file_urw</span><span class="p">(</span><span class="n">filename</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Sets a file to user read/write only</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    filename : str</span>
+<span class="sd">        File to modify</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">chmod</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">filename</span><span class="p">),</span> <span class="n">stat</span><span class="o">.</span><span class="n">S_IREAD</span> <span class="o">|</span> <span class="n">stat</span><span class="o">.</span><span class="n">S_IWRITE</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="affine_to_str"><a class="viewcode-back" href="../../cedar/cedar.utils.html#cedar.utils.affine_to_str">[docs]</a><span class="k">def</span> <span class="nf">affine_to_str</span><span class="p">(</span><span class="n">transform</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Return a string representatin of an affine.Affine transform</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">transform</span><span class="p">[:</span><span class="mi">6</span><span class="p">]))</span></div>
+
+
+<div class="viewcode-block" id="load_ee"><a class="viewcode-back" href="../../cedar/cedar.utils.html#cedar.utils.load_ee">[docs]</a><span class="k">def</span> <span class="nf">load_ee</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Import and initialize the EE API, handling errors</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    initialize : bool, optional</span>
+<span class="sd">        Try to initialize the EE API, or not</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    object</span>
+<span class="sd">        Earth Engine API module ``ee``</span>
+
+<span class="sd">    Raises</span>
+<span class="sd">    ------</span>
+<span class="sd">    ImportError</span>
+<span class="sd">        Raised if the Earth Engine cannot be imported</span>
+<span class="sd">    ee.ee_exceptions.EEException</span>
+<span class="sd">        Raised if the Earth Engine cannot be initialized, typically because</span>
+<span class="sd">        you haven&#39;t authenticated yet.</span>
+<span class="sd">    Exception</span>
+<span class="sd">        Passes other exceptions caused by :py:func:`ee.Initialize`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">import</span> <span class="nn">ee</span> <span class="k">as</span> <span class="nn">ee_api</span>
+    <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">ie</span><span class="p">:</span>
+        <span class="n">docs</span> <span class="o">=</span> <span class="s1">&#39;https://developers.google.com/earth-engine/python_install&#39;</span>
+        <span class="n">pip_info</span> <span class="o">=</span> <span class="s1">&#39;`pip` (&quot;pip install earthengine-api&quot;)&#39;</span>
+        <span class="n">conda_info</span> <span class="o">=</span> <span class="s1">&#39;`conda` (&quot;conda install -c conda-forge earthengine-api&quot;)&#39;</span>
+        <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+            <span class="n">f</span><span class="s1">&#39;Cannot import the Earth Engine API. Please install the package, &#39;</span>
+            <span class="n">f</span><span class="s1">&#39;which is available through </span><span class="si">{pip_info}</span><span class="s1"> or </span><span class="si">{conda_info}</span><span class="s1">. Visit &#39;</span>
+            <span class="n">f</span><span class="s1">&#39;&quot;</span><span class="si">{docs}</span><span class="s1">&quot; for more information.&#39;</span>
+        <span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">initialize</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">ee_api</span><span class="o">.</span><span class="n">Initialize</span><span class="p">()</span>
+            <span class="k">except</span> <span class="n">ee_api</span><span class="o">.</span><span class="n">ee_exception</span><span class="o">.</span><span class="n">EEException</span> <span class="k">as</span> <span class="n">eee</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">eee</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">exception</span><span class="p">(</span>
+                    <span class="s1">&#39;Could not initialize EarthEngine API. Depending on the &#39;</span>
+                    <span class="s1">&#39;error, this might be caused by network access issues.&#39;</span>
+                <span class="p">)</span>
+                <span class="k">raise</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">ee_api</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">ee_api</span></div>
+
+
+<div class="viewcode-block" id="get_ee_tasks"><a class="viewcode-back" href="../../cedar/cedar.utils.html#cedar.utils.get_ee_tasks">[docs]</a><span class="k">def</span> <span class="nf">get_ee_tasks</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot; Return GEE tasks (task ID: task)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict[str, ee.batch.task.Task]</span>
+<span class="sd">        GEE tasks</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ee</span> <span class="o">=</span> <span class="n">load_ee</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{</span><span class="n">task</span><span class="o">.</span><span class="n">id</span><span class="p">:</span> <span class="n">task</span> <span class="k">for</span> <span class="n">task</span> <span class="ow">in</span> <span class="n">ee</span><span class="o">.</span><span class="n">batch</span><span class="o">.</span><span class="n">Task</span><span class="o">.</span><span class="n">list</span><span class="p">()}</span></div>
+
+
+<span class="c1"># =============================================================================</span>
+<span class="c1"># Earth Engine filters</span>
+<div class="viewcode-block" id="serialize_filter"><a class="viewcode-back" href="../../cedar/cedar.utils.html#cedar.utils.serialize_filter">[docs]</a><span class="k">def</span> <span class="nf">serialize_filter</span><span class="p">(</span><span class="n">ee_filter</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Serialize an Earth Engine filter</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ee</span> <span class="o">=</span> <span class="n">load_ee</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ee</span><span class="o">.</span><span class="n">serializer</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">ee_filter</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="create_filters"><a class="viewcode-back" href="../../cedar/cedar.utils.html#cedar.utils.create_filters">[docs]</a><span class="k">def</span> <span class="nf">create_filters</span><span class="p">(</span><span class="n">filters</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Convert a list of filters/filter descriptions to List[ee.Filter]</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    filters : List[dict]</span>
+<span class="sd">        Earth Engine filters serialized to dict</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    List[ee.Filter]</span>
+<span class="sd">        Filters as ee.Filter</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ee</span> <span class="o">=</span> <span class="n">load_ee</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">filters</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">filter_</span> <span class="ow">in</span> <span class="n">filters</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">filter_</span><span class="p">,</span> <span class="n">ee</span><span class="o">.</span><span class="n">Filter</span><span class="p">):</span>
+            <span class="n">filters</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">filter_</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">filters</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dict_to_filter</span><span class="p">(</span><span class="o">**</span><span class="n">filter_</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">filters</span></div>
+
+
+<div class="viewcode-block" id="dict_to_filter"><a class="viewcode-back" href="../../cedar/cedar.utils.html#cedar.utils.dict_to_filter">[docs]</a><span class="k">def</span> <span class="nf">dict_to_filter</span><span class="p">(</span><span class="n">function</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Convert serialized form of filter to a ee.Filter</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    function : str</span>
+<span class="sd">        Name of filter. Should be a (static) method of ``ee.Filter``</span>
+<span class="sd">    kwds</span>
+<span class="sd">        Keyword arguments to pass to for the filter construction. These</span>
+<span class="sd">        will depend on the filter in question</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    ee.Filter</span>
+<span class="sd">        Earth Engine filter</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">ee</span> <span class="o">=</span> <span class="n">load_ee</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">static_meth</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">ee</span><span class="o">.</span><span class="n">Filter</span><span class="p">,</span> <span class="n">function</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">static_meth</span><span class="p">(</span><span class="o">**</span><span class="n">kwds</span><span class="p">)</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Chris Holden
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

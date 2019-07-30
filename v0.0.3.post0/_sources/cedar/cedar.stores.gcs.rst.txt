@@ -1,0 +1,7 @@
+cedar.stores.gcs module
+=======================
+
+.. automodule:: cedar.stores.gcs
+   :members:
+   :undoc-members:
+   :show-inheritance:
