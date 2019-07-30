@@ -13,8 +13,22 @@ from . import options
 logger = logging.getLogger(__name__)
 
 
+def _check_imgcol(ctx, image_collection):
+    from cedar.sensors import CREATE_ARD_COLLECTION
+    for collection in image_collection:
+        if collection not in CREATE_ARD_COLLECTION:
+            _, imgcol_param = options.fetch_param(ctx, 'image_collection')
+            img_cols = ", ".join([f'"{k}"' for k in CREATE_ARD_COLLECTION])
+            raise click.BadParameter(
+                f'Unknown image collection "{collection}". '
+                f'Must be one of {img_cols}',
+                ctx=ctx, param=imgcol_param)
+    return image_collection
+
+
 @click.command('submit', short_help='Submit "pre-ARD" data processing tasks')
-@click.argument('image_collection', nargs=-1, type=str, required=True)
+@click.argument('image_collection', nargs=-1, type=str, required=True,
+                callback=_check_imgcol)
 @click.option('--index', '-i', nargs=2, type=(int, int), multiple=True,
   help='TileGrid (row, col) index(es) to submit')
 @click.option('--row', '-r', type=int, multiple=True,
@@ -94,22 +108,9 @@ def submit(ctx, image_collection, index, row, col,
         click.echo('Wrote job tracking to store object named '
                    f'"{tracking_info_name}" ({tracking_info_id})')
     except EmptyOrderError as ece:
-        click.echo(ece)
+        click.echo(repr(ece))
         click.echo('Did not find data to order. Check your search parameters')
         raise click.Abort()
     except Exception as e:
-        click.echo(e)
-        click.echo('Unknown error occurred. See exception printed above')
-        raise click.Abort()
-
-
-# def _check_imgcol(ctx, image_collection):
-#     from cedar.sensors import CREATE_ARD_COLLECTION
-#     for collection in image_collection:
-#         if collection not in CREATE_ARD_COLLECTION:
-#             _, imgcol_param = options.fetch_param(ctx, 'image_collection')
-#             img_cols = ", ".join([f'"{k}"' for k in CREATE_ARD_COLLECTION])
-#             raise click.BadParameter(
-#                 f'Unknown image collection "{collection}". '
-#                 f'Must be one of {img_cols}',
-#                 ctx=ctx, param=imgcol_param)
+        click.echo('Unknown error occurred. See exception printed below')
+        raise e
