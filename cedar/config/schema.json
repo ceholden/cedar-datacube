@@ -25,6 +25,24 @@
           ]
         }
       }
+    },
+    "filter": {
+      "type": "object",
+      "items": {
+        "type": "object",
+        "properties": {
+          "function": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "value": {
+            "type": "number"
+          }
+        },
+        "required": ["function"]
+      }
     }
   },
 
@@ -113,21 +131,14 @@
           "$ref": "#/definitions/tracker/export_image_kwds"
         },
         "filters": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "function": {
-                "type": "string"
-              },
-              "name": {
-                "type": "string"
-              },
-              "value": {
-                "type": "number"
+          "type": "object",
+          "patternProperties": {
+            ".*": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/filter"
               }
-            },
-            "required": ["function"]
+            }
           }
         }
       },

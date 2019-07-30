@@ -49,9 +49,18 @@ tracker:
   # ImageCollection EarthEngine filters to apply before ordering
   # See https://developers.google.com/earth-engine/ic_filtering
   filters:
-    - function: 'lte'
-      name: 'CLOUD_COVER_LAND'
-      value: 80.
+    LANDSAT/LC08/C01/T1_SR:
+      - function: 'lte'
+        name: 'CLOUD_COVER_LAND'
+        value: 80.
+    LANDSAT/LE07/C01/T1_SR:
+      - function: 'lte'
+        name: 'CLOUD_COVER_LAND'
+        value: 80.
+    LANDSAT/LT05/C01/T1_SR:
+      - function: 'lte'
+        name: 'CLOUD_COVER_LAND'
+        value: 80.
 
 
 ########################
