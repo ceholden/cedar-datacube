@@ -75,6 +75,19 @@ your order in the tracking metadata filename.
 | filters             | ImageCollection EarthEngine filters to apply before ordering. See https://developers.google.com/earth-engine/ic_filtering                                    |
 +---------------------+--------------------------------------------------------------------------------------------------------------------------------------------------------------+
 
+.. note::
+   Make sure that the values you provide for ``name_template`` and
+   ``tracking_template`` will generate unique names when you order
+   data. There is a check to make sure that names of "pre-ARD" images
+   generated within an order are unique, but otherwise your data
+   will overwrite itself. For example, a name template like
+   ``CEDAR_h{tile.horizontal}v{tile.vertical}_{date_start}_{date_end}``
+   will produce duplicate files if you order data from multiple
+   collections. Providing information about the collection (e.g.,
+   ``CEDAR_{collection}_h{tile.horizontal}v{tile.vertical}_{date_start}_{date_end}``
+   ) will prevent this name template from resulting in duplicates.
+
+
 
 ``gcs``
 -------

@@ -140,6 +140,10 @@ class Order(object):
                 'No items in order to submit (see ``Order.add``)'
             )
 
+        # Check to make sure names are unique
+        self._validate_names()
+
+        # Submit items to order
         submitted = []
         for item in self._items:
             # Create metadata about order and submit
@@ -183,6 +187,17 @@ class Order(object):
                                                 self.tracking_name,
                                                 self.tracking_prefix)
         return self.tracking_id
+
+    def _validate_names(self):
+        """ Raise ValueError if there is a name collision
+        """
+        names = [item['name'] for item in self._items]
+        if len(set(names)) != len(names):
+            raise ValueError(
+                'Pre-ARD items in this order do not have unique names and '
+                'overwrite each other. Please make sure '
+                '``self.name_template`` has enough information (collection, '
+                'date_start, date_end, tile, etc) to generate unique names.')
 
 
 def submit_preard_task(image, image_metadata, name, prefix, tile, store,
