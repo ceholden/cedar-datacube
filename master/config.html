@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Configuration &mdash; cedar 0.0.2.post0+7.g56d3e1f documentation</title>
+  <title>Configuration &mdash; cedar 0.0.3+1.gc7948e0 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.0.2.post0+7.g56d3e1f
+                0.0.3+1.gc7948e0
               </div>
             
           
@@ -282,6 +282,19 @@ your order in the tracking metadata filename.</p>
 </tr>
 </tbody>
 </table>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Make sure that the values you provide for <code class="docutils literal notranslate"><span class="pre">name_template</span></code> and
+<code class="docutils literal notranslate"><span class="pre">tracking_template</span></code> will generate unique names when you order
+data. There is a check to make sure that names of “pre-ARD” images
+generated within an order are unique, but otherwise your data
+will overwrite itself. For example, a name template like
+<code class="docutils literal notranslate"><span class="pre">CEDAR_h{tile.horizontal}v{tile.vertical}_{date_start}_{date_end}</span></code>
+will produce duplicate files if you order data from multiple
+collections. Providing information about the collection (e.g.,
+<code class="docutils literal notranslate"><span class="pre">CEDAR_{collection}_h{tile.horizontal}v{tile.vertical}_{date_start}_{date_end}</span></code>
+) will prevent this name template from resulting in duplicates.</p>
+</div>
 </div>
 <div class="section" id="gcs">
 <h3><code class="docutils literal notranslate"><span class="pre">gcs</span></code><a class="headerlink" href="#gcs" title="Permalink to this headline">¶</a></h3>

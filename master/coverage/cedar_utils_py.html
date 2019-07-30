@@ -203,20 +203,45 @@
 <p id="n134" class="stm run hide_run"><a href="#n134">134</a></p>
 <p id="n135" class="pln"><a href="#n135">135</a></p>
 <p id="n136" class="pln"><a href="#n136">136</a></p>
-<p id="n137" class="stm mis"><a href="#n137">137</a></p>
-<p id="n138" class="stm mis"><a href="#n138">138</a></p>
-<p id="n139" class="stm mis"><a href="#n139">139</a></p>
-<p id="n140" class="stm mis"><a href="#n140">140</a></p>
-<p id="n141" class="stm mis"><a href="#n141">141</a></p>
+<p id="n137" class="pln"><a href="#n137">137</a></p>
+<p id="n138" class="pln"><a href="#n138">138</a></p>
+<p id="n139" class="pln"><a href="#n139">139</a></p>
+<p id="n140" class="pln"><a href="#n140">140</a></p>
+<p id="n141" class="pln"><a href="#n141">141</a></p>
 <p id="n142" class="pln"><a href="#n142">142</a></p>
-<p id="n143" class="stm mis"><a href="#n143">143</a></p>
-<p id="n144" class="stm mis"><a href="#n144">144</a></p>
+<p id="n143" class="pln"><a href="#n143">143</a></p>
+<p id="n144" class="pln"><a href="#n144">144</a></p>
 <p id="n145" class="pln"><a href="#n145">145</a></p>
 <p id="n146" class="pln"><a href="#n146">146</a></p>
-<p id="n147" class="stm run hide_run"><a href="#n147">147</a></p>
+<p id="n147" class="stm mis"><a href="#n147">147</a></p>
 <p id="n148" class="stm mis"><a href="#n148">148</a></p>
 <p id="n149" class="stm mis"><a href="#n149">149</a></p>
 <p id="n150" class="stm mis"><a href="#n150">150</a></p>
+<p id="n151" class="stm mis"><a href="#n151">151</a></p>
+<p id="n152" class="pln"><a href="#n152">152</a></p>
+<p id="n153" class="stm mis"><a href="#n153">153</a></p>
+<p id="n154" class="stm mis"><a href="#n154">154</a></p>
+<p id="n155" class="pln"><a href="#n155">155</a></p>
+<p id="n156" class="pln"><a href="#n156">156</a></p>
+<p id="n157" class="stm run hide_run"><a href="#n157">157</a></p>
+<p id="n158" class="pln"><a href="#n158">158</a></p>
+<p id="n159" class="pln"><a href="#n159">159</a></p>
+<p id="n160" class="pln"><a href="#n160">160</a></p>
+<p id="n161" class="pln"><a href="#n161">161</a></p>
+<p id="n162" class="pln"><a href="#n162">162</a></p>
+<p id="n163" class="pln"><a href="#n163">163</a></p>
+<p id="n164" class="pln"><a href="#n164">164</a></p>
+<p id="n165" class="pln"><a href="#n165">165</a></p>
+<p id="n166" class="pln"><a href="#n166">166</a></p>
+<p id="n167" class="pln"><a href="#n167">167</a></p>
+<p id="n168" class="pln"><a href="#n168">168</a></p>
+<p id="n169" class="pln"><a href="#n169">169</a></p>
+<p id="n170" class="pln"><a href="#n170">170</a></p>
+<p id="n171" class="pln"><a href="#n171">171</a></p>
+<p id="n172" class="pln"><a href="#n172">172</a></p>
+<p id="n173" class="stm mis"><a href="#n173">173</a></p>
+<p id="n174" class="stm mis"><a href="#n174">174</a></p>
+<p id="n175" class="stm mis"><a href="#n175">175</a></p>
 
             </td>
             <td class="text">
@@ -353,23 +378,48 @@
 <p id="t131" class="stm mis">    <span class="key">return</span> <span class="nam">ee</span><span class="op">.</span><span class="nam">serializer</span><span class="op">.</span><span class="nam">encode</span><span class="op">(</span><span class="nam">ee_filter</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t132" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t133" class="pln"><span class="strut">&nbsp;</span></p>
-<p id="t134" class="stm run hide_run"><span class="key">def</span> <span class="nam">create_filters</span><span class="op">(</span><span class="nam">cfg_filters</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t135" class="pln">    <span class="str">""" Get any EarthEngine filters described by this configuration file</span><span class="strut">&nbsp;</span></p>
-<p id="t136" class="pln"><span class="str">    """</span><span class="strut">&nbsp;</span></p>
-<p id="t137" class="stm mis">    <span class="nam">ee</span> <span class="op">=</span> <span class="nam">load_ee</span><span class="op">(</span><span class="key">False</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
-<p id="t138" class="stm mis">    <span class="nam">filters</span> <span class="op">=</span> <span class="op">[</span><span class="op">]</span><span class="strut">&nbsp;</span></p>
-<p id="t139" class="stm mis">    <span class="key">for</span> <span class="nam">filter_</span> <span class="key">in</span> <span class="nam">cfg_filters</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t140" class="stm mis">        <span class="key">if</span> <span class="nam">isinstance</span><span class="op">(</span><span class="nam">filter_</span><span class="op">,</span> <span class="nam">ee</span><span class="op">.</span><span class="nam">Filter</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t141" class="stm mis">            <span class="nam">filters</span><span class="op">.</span><span class="nam">append</span><span class="op">(</span><span class="nam">fitler_</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
-<p id="t142" class="pln">        <span class="key">else</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t143" class="stm mis">            <span class="nam">filters</span><span class="op">.</span><span class="nam">append</span><span class="op">(</span><span class="nam">dict_to_filter</span><span class="op">(</span><span class="op">**</span><span class="nam">filter_</span><span class="op">)</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
-<p id="t144" class="stm mis">    <span class="key">return</span> <span class="nam">filters</span><span class="strut">&nbsp;</span></p>
-<p id="t145" class="pln"><span class="strut">&nbsp;</span></p>
-<p id="t146" class="pln"><span class="strut">&nbsp;</span></p>
-<p id="t147" class="stm run hide_run"><span class="key">def</span> <span class="nam">dict_to_filter</span><span class="op">(</span><span class="nam">function</span><span class="op">,</span> <span class="op">**</span><span class="nam">kwds</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t148" class="stm mis">    <span class="nam">ee</span> <span class="op">=</span> <span class="nam">load_ee</span><span class="op">(</span><span class="key">False</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
-<p id="t149" class="stm mis">    <span class="nam">static_meth</span> <span class="op">=</span> <span class="nam">getattr</span><span class="op">(</span><span class="nam">ee</span><span class="op">.</span><span class="nam">Filter</span><span class="op">,</span> <span class="nam">function</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
-<p id="t150" class="stm mis">    <span class="key">return</span> <span class="nam">static_meth</span><span class="op">(</span><span class="op">**</span><span class="nam">kwds</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t134" class="stm run hide_run"><span class="key">def</span> <span class="nam">create_filters</span><span class="op">(</span><span class="nam">filters</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
+<p id="t135" class="pln">    <span class="str">""" Convert a list of filters/filter descriptions to List[ee.Filter]</span><span class="strut">&nbsp;</span></p>
+<p id="t136" class="pln"><span class="strut">&nbsp;</span></p>
+<p id="t137" class="pln"><span class="str">    Parameters</span><span class="strut">&nbsp;</span></p>
+<p id="t138" class="pln"><span class="str">    ----------</span><span class="strut">&nbsp;</span></p>
+<p id="t139" class="pln"><span class="str">    filters : List[dict]</span><span class="strut">&nbsp;</span></p>
+<p id="t140" class="pln"><span class="str">        Earth Engine filters serialized to dict</span><span class="strut">&nbsp;</span></p>
+<p id="t141" class="pln"><span class="strut">&nbsp;</span></p>
+<p id="t142" class="pln"><span class="str">    Returns</span><span class="strut">&nbsp;</span></p>
+<p id="t143" class="pln"><span class="str">    -------</span><span class="strut">&nbsp;</span></p>
+<p id="t144" class="pln"><span class="str">    List[ee.Filter]</span><span class="strut">&nbsp;</span></p>
+<p id="t145" class="pln"><span class="str">        Filters as ee.Filter</span><span class="strut">&nbsp;</span></p>
+<p id="t146" class="pln"><span class="str">    """</span><span class="strut">&nbsp;</span></p>
+<p id="t147" class="stm mis">    <span class="nam">ee</span> <span class="op">=</span> <span class="nam">load_ee</span><span class="op">(</span><span class="key">False</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t148" class="stm mis">    <span class="nam">filters</span> <span class="op">=</span> <span class="op">[</span><span class="op">]</span><span class="strut">&nbsp;</span></p>
+<p id="t149" class="stm mis">    <span class="key">for</span> <span class="nam">filter_</span> <span class="key">in</span> <span class="nam">filters</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
+<p id="t150" class="stm mis">        <span class="key">if</span> <span class="nam">isinstance</span><span class="op">(</span><span class="nam">filter_</span><span class="op">,</span> <span class="nam">ee</span><span class="op">.</span><span class="nam">Filter</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
+<p id="t151" class="stm mis">            <span class="nam">filters</span><span class="op">.</span><span class="nam">append</span><span class="op">(</span><span class="nam">filter_</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t152" class="pln">        <span class="key">else</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
+<p id="t153" class="stm mis">            <span class="nam">filters</span><span class="op">.</span><span class="nam">append</span><span class="op">(</span><span class="nam">dict_to_filter</span><span class="op">(</span><span class="op">**</span><span class="nam">filter_</span><span class="op">)</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t154" class="stm mis">    <span class="key">return</span> <span class="nam">filters</span><span class="strut">&nbsp;</span></p>
+<p id="t155" class="pln"><span class="strut">&nbsp;</span></p>
+<p id="t156" class="pln"><span class="strut">&nbsp;</span></p>
+<p id="t157" class="stm run hide_run"><span class="key">def</span> <span class="nam">dict_to_filter</span><span class="op">(</span><span class="nam">function</span><span class="op">,</span> <span class="op">**</span><span class="nam">kwds</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
+<p id="t158" class="pln">    <span class="str">""" Convert serialized form of filter to a ee.Filter</span><span class="strut">&nbsp;</span></p>
+<p id="t159" class="pln"><span class="strut">&nbsp;</span></p>
+<p id="t160" class="pln"><span class="str">    Parameters</span><span class="strut">&nbsp;</span></p>
+<p id="t161" class="pln"><span class="str">    ----------</span><span class="strut">&nbsp;</span></p>
+<p id="t162" class="pln"><span class="str">    function : str</span><span class="strut">&nbsp;</span></p>
+<p id="t163" class="pln"><span class="str">        Name of filter. Should be a (static) method of ``ee.Filter``</span><span class="strut">&nbsp;</span></p>
+<p id="t164" class="pln"><span class="str">    kwds</span><span class="strut">&nbsp;</span></p>
+<p id="t165" class="pln"><span class="str">        Keyword arguments to pass to for the filter construction. These</span><span class="strut">&nbsp;</span></p>
+<p id="t166" class="pln"><span class="str">        will depend on the filter in question</span><span class="strut">&nbsp;</span></p>
+<p id="t167" class="pln"><span class="strut">&nbsp;</span></p>
+<p id="t168" class="pln"><span class="str">    Returns</span><span class="strut">&nbsp;</span></p>
+<p id="t169" class="pln"><span class="str">    -------</span><span class="strut">&nbsp;</span></p>
+<p id="t170" class="pln"><span class="str">    ee.Filter</span><span class="strut">&nbsp;</span></p>
+<p id="t171" class="pln"><span class="str">        Earth Engine filter</span><span class="strut">&nbsp;</span></p>
+<p id="t172" class="pln"><span class="str">    """</span><span class="strut">&nbsp;</span></p>
+<p id="t173" class="stm mis">    <span class="nam">ee</span> <span class="op">=</span> <span class="nam">load_ee</span><span class="op">(</span><span class="key">False</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t174" class="stm mis">    <span class="nam">static_meth</span> <span class="op">=</span> <span class="nam">getattr</span><span class="op">(</span><span class="nam">ee</span><span class="op">.</span><span class="nam">Filter</span><span class="op">,</span> <span class="nam">function</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t175" class="stm mis">    <span class="key">return</span> <span class="nam">static_meth</span><span class="op">(</span><span class="op">**</span><span class="nam">kwds</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 
             </td>
         </tr>
@@ -380,7 +430,7 @@
     <div class="content">
         <p>
             <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.io">coverage.py v4.5.4</a>,
-            created at 2019-07-30 15:01
+            created at 2019-07-30 19:27
         </p>
     </div>
 </div>

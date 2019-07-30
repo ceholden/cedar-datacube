@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>cedar.tracker module &mdash; cedar 0.0.2.post0+7.g56d3e1f documentation</title>
+  <title>cedar.tracker module &mdash; cedar 0.0.3+1.gc7948e0 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.0.2.post0+7.g56d3e1f
+                0.0.3+1.gc7948e0
               </div>
             
           
@@ -185,9 +185,13 @@
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>tile_grid</strong> (<em>stems.gis.grids.TileGrid</em>) – Tile Grid to use for ARD</p></li>
 <li><p><strong>store</strong> (<em>cedar.stores.Store</em>) – A Store that can be used to store images &amp; metadata</p></li>
-<li><p><strong>..</strong> – </p></li>
-<li><p><strong>filters</strong> (<em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a><em> or </em><em>ee.Filter</em><em>]</em>) – Earth Engine filters to apply, either as ee.Filter objects or
-dictionaries that describe the filter</p></li>
+<li><p><strong>name_template</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Template for “pre-ARD” image and metadata name</p></li>
+<li><p><strong>prefix_template</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Template for “pre-ARD” image and metadata prefix</p></li>
+<li><p><strong>tracking_template</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Template for order tracking file name</p></li>
+<li><p><strong>tracking_prefix</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – Order tracking file prefix folder</p></li>
+<li><p><strong>filters</strong> (<em>Dict</em><em>[</em><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>Sequence</em><em>[</em><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a><em> or </em><em>ee.Filter</em><em>]</em><em>]</em>) – Earth Engine filters to apply, organized by image collection name.
+Values should either be <code class="docutils literal notranslate"><span class="pre">ee.Filter</span></code> objects or dictionaries
+that describe the filter (see <a class="reference internal" href="cedar.utils.html#cedar.utils.serialize_filter" title="cedar.utils.serialize_filter"><code class="xref py py-func docutils literal notranslate"><span class="pre">cedar.utils.serialize_filter()</span></code></a>)</p></li>
 </ul>
 </dd>
 </dl>

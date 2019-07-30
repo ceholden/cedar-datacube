@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>cedar.utils module &mdash; cedar 0.0.2.post0+7.g56d3e1f documentation</title>
+  <title>cedar.utils module &mdash; cedar 0.0.3+1.gc7948e0 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.0.2.post0+7.g56d3e1f
+                0.0.3+1.gc7948e0
               </div>
             
           
@@ -183,14 +183,41 @@
 
 <dl class="function">
 <dt id="cedar.utils.create_filters">
-<code class="sig-prename descclassname">cedar.utils.</code><code class="sig-name descname">create_filters</code><span class="sig-paren">(</span><em class="sig-param">cfg_filters</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/utils.html#create_filters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.utils.create_filters" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get any EarthEngine filters described by this configuration file</p>
+<code class="sig-prename descclassname">cedar.utils.</code><code class="sig-name descname">create_filters</code><span class="sig-paren">(</span><em class="sig-param">filters</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/utils.html#create_filters"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.utils.create_filters" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a list of filters/filter descriptions to List[ee.Filter]</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>filters</strong> (<em>List</em><em>[</em><a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a><em>]</em>) – Earth Engine filters serialized to dict</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Filters as ee.Filter</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>List[ee.Filter]</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="cedar.utils.dict_to_filter">
 <code class="sig-prename descclassname">cedar.utils.</code><code class="sig-name descname">dict_to_filter</code><span class="sig-paren">(</span><em class="sig-param">function</em>, <em class="sig-param">**kwds</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/utils.html#dict_to_filter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.utils.dict_to_filter" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Convert serialized form of filter to a ee.Filter</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>function</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Name of filter. Should be a (static) method of <code class="docutils literal notranslate"><span class="pre">ee.Filter</span></code></p></li>
+<li><p><strong>kwds</strong> – Keyword arguments to pass to for the filter construction. These
+will depend on the filter in question</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Earth Engine filter</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>ee.Filter</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="function">
 <dt id="cedar.utils.get_ee_tasks">

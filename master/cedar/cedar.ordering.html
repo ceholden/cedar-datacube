@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>cedar.ordering module &mdash; cedar 0.0.2.post0+7.g56d3e1f documentation</title>
+  <title>cedar.ordering module &mdash; cedar 0.0.3+1.gc7948e0 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.0.2.post0+7.g56d3e1f
+                0.0.3+1.gc7948e0
               </div>
             
           
@@ -182,13 +182,19 @@
 <p>CEDAR order data</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Order name</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>tracking_name</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Name of the order, which is also used as the name for tracking metadata</p></li>
+<li><p><strong>tracking_prefix</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – Directory or prefix location in storage for tracking data</p></li>
+<li><p><strong>name_template</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – String format template for pre-ARD image and metadata names</p></li>
+<li><p><strong>prefix_template</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – String format template for directory or prefix of pre-ARD</p></li>
+</ul>
 </dd>
 </dl>
 <dl class="method">
 <dt id="cedar.ordering.Order.add">
 <code class="sig-name descname">add</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">collection</em>, <em class="sig-param">tile</em>, <em class="sig-param">date_start</em>, <em class="sig-param">date_end</em>, <em class="sig-param">filters=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/ordering.html#Order.add"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.ordering.Order.add" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Add a “pre-ARD” image to the order</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="cedar.ordering.Order.collections">

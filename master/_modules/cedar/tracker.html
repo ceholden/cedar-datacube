@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>cedar.tracker &mdash; cedar 0.0.2.post0+7.g56d3e1f documentation</title>
+  <title>cedar.tracker &mdash; cedar 0.0.3+1.gc7948e0 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.0.2.post0+7.g56d3e1f
+                0.0.3+1.gc7948e0
               </div>
             
           
@@ -185,6 +185,7 @@
 <span class="kn">from</span> <span class="nn">stems.gis.grids</span> <span class="k">import</span> <span class="n">TileGrid</span><span class="p">,</span> <span class="n">Tile</span>
 
 <span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">defaults</span><span class="p">,</span> <span class="n">ordering</span><span class="p">,</span> <span class="n">utils</span>
+<span class="kn">from</span> <span class="nn">.exceptions</span> <span class="k">import</span> <span class="n">EmptyCollectionError</span>
 <span class="kn">from</span> <span class="nn">.metadata</span> <span class="k">import</span> <span class="n">TrackingMetadata</span><span class="p">,</span> <span class="n">get_submission_info</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
@@ -201,10 +202,18 @@
 <span class="sd">        Tile Grid to use for ARD</span>
 <span class="sd">    store : cedar.stores.Store</span>
 <span class="sd">        A Store that can be used to store images &amp; metadata</span>
-<span class="sd">    ...</span>
-<span class="sd">    filters : Sequence[dict or ee.Filter]</span>
-<span class="sd">        Earth Engine filters to apply, either as ee.Filter objects or</span>
-<span class="sd">        dictionaries that describe the filter</span>
+<span class="sd">    name_template : str, optional</span>
+<span class="sd">        Template for &quot;pre-ARD&quot; image and metadata name</span>
+<span class="sd">    prefix_template : str, optional</span>
+<span class="sd">        Template for &quot;pre-ARD&quot; image and metadata prefix</span>
+<span class="sd">    tracking_template : str, optional</span>
+<span class="sd">        Template for order tracking file name</span>
+<span class="sd">    tracking_prefix : str, optional</span>
+<span class="sd">        Order tracking file prefix folder</span>
+<span class="sd">    filters : Dict[str, Sequence[dict or ee.Filter]]</span>
+<span class="sd">        Earth Engine filters to apply, organized by image collection name.</span>
+<span class="sd">        Values should either be ``ee.Filter`` objects or dictionaries</span>
+<span class="sd">        that describe the filter (see :py:func:`cedar.utils.serialize_filter`)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tile_grid</span><span class="p">,</span> <span class="n">store</span><span class="p">,</span>
                  <span class="n">name_template</span><span class="o">=</span><span class="n">defaults</span><span class="o">.</span><span class="n">PREARD_NAME</span><span class="p">,</span>
@@ -220,7 +229,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">prefix_template</span> <span class="o">=</span> <span class="n">prefix_template</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tracking_template</span> <span class="o">=</span> <span class="n">tracking_template</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tracking_prefix</span> <span class="o">=</span> <span class="n">tracking_prefix</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_filters</span> <span class="o">=</span> <span class="n">filters</span> <span class="ow">or</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_filters</span> <span class="o">=</span> <span class="n">filters</span> <span class="ow">or</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">export_image_kwds</span> <span class="o">=</span> <span class="n">export_image_kwds</span> <span class="ow">or</span> <span class="p">{}</span>
 
     <span class="nd">@property</span>
@@ -229,7 +238,10 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="c1"># Convert from dict as needed</span>
         <span class="kn">from</span> <span class="nn">.utils</span> <span class="k">import</span> <span class="n">create_filters</span>
-        <span class="k">return</span> <span class="n">create_filters</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_filters</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="n">image_collection</span><span class="p">:</span> <span class="n">create_filters</span><span class="p">(</span><span class="n">filters</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">image_collection</span><span class="p">,</span> <span class="n">filters</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_filters</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+        <span class="p">}</span>
 
 <div class="viewcode-block" id="Tracker.submit"><a class="viewcode-back" href="../../cedar/cedar.tracker.html#cedar.tracker.Tracker.submit">[docs]</a>    <span class="k">def</span> <span class="nf">submit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collections</span><span class="p">,</span> <span class="n">tile_indices</span><span class="p">,</span>
                <span class="n">period_start</span><span class="p">,</span> <span class="n">period_end</span><span class="p">,</span> <span class="n">period_freq</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -301,14 +313,20 @@
                 <span class="n">prefix_template</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">prefix_template</span><span class="p">,</span>
                 <span class="n">submission_info</span><span class="o">=</span><span class="n">submission_info</span><span class="p">,</span>
                 <span class="n">export_image_kwds</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">export_image_kwds</span><span class="p">)</span> <span class="k">as</span> <span class="n">order</span><span class="p">:</span>
+
             <span class="c1"># Loop over product of collections, tiles, and dates</span>
             <span class="k">for</span> <span class="n">collection</span><span class="p">,</span> <span class="n">tile</span><span class="p">,</span> <span class="p">(</span><span class="n">date_start</span><span class="p">,</span> <span class="n">date_end</span><span class="p">)</span> <span class="ow">in</span> <span class="n">iter_submit</span><span class="p">:</span>
                 <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
                     <span class="n">f</span><span class="s1">&#39;Ordering &quot;</span><span class="si">{collection}</span><span class="s1">&quot; - &#39;</span>
                     <span class="n">f</span><span class="s1">&#39;&quot;h</span><span class="si">{tile.horizontal:03d}</span><span class="s1">v</span><span class="si">{tile.vertical:03d}</span><span class="s1"> - &#39;</span>
                     <span class="n">f</span><span class="s1">&#39;{date_start.isoformat()} to {date_end.isoformat()}&#39;</span><span class="p">)</span>
-                <span class="n">order</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">collection</span><span class="p">,</span> <span class="n">tile</span><span class="p">,</span> <span class="n">date_start</span><span class="p">,</span> <span class="n">date_end</span><span class="p">,</span>
-                          <span class="n">filters</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">filters</span><span class="p">)</span>
+
+                <span class="n">collection_filters</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">filters</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">collection</span><span class="p">,</span> <span class="p">[])</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">order</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">collection</span><span class="p">,</span> <span class="n">tile</span><span class="p">,</span> <span class="n">date_start</span><span class="p">,</span> <span class="n">date_end</span><span class="p">,</span>
+                              <span class="n">filters</span><span class="o">=</span><span class="n">collection_filters</span><span class="p">)</span>
+                <span class="k">except</span> <span class="n">EmptyCollectionError</span> <span class="k">as</span> <span class="n">ece</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">ece</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="n">order</span><span class="o">.</span><span class="n">tracking_name</span><span class="p">,</span> <span class="n">order</span><span class="o">.</span><span class="n">tracking_id</span></div>
 
