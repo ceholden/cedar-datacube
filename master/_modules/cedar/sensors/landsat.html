@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>cedar.sensors.landsat &mdash; cedar 0.0.2.post0+5.gc51a524 documentation</title>
+  <title>cedar.sensors.landsat &mdash; cedar 0.0.2.post0+6.g06edd8f documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.0.2.post0+5.gc51a524
+                0.0.2.post0+6.g06edd8f
               </div>
             
           
@@ -288,7 +288,7 @@
     <span class="n">imgcol</span> <span class="o">=</span> <span class="n">common</span><span class="o">.</span><span class="n">filter_collection_time</span><span class="p">(</span><span class="n">imgcol</span><span class="p">,</span> <span class="n">date_start</span><span class="p">,</span> <span class="n">date_end</span><span class="p">)</span>
 
     <span class="c1"># Apply additional filters</span>
-    <span class="k">if</span> <span class="n">filters</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">filters</span><span class="p">:</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Applying {len(filters)} filters over collection&#39;</span><span class="p">)</span>
         <span class="n">imgcol</span> <span class="o">=</span> <span class="n">imgcol</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">filters</span><span class="p">)</span>
 
