@@ -131,20 +131,45 @@ def serialize_filter(ee_filter):
     return ee.serializer.encode(ee_filter)
 
 
-def create_filters(cfg_filters):
-    """ Get any EarthEngine filters described by this configuration file
+def create_filters(filters):
+    """ Convert a list of filters/filter descriptions to List[ee.Filter]
+
+    Parameters
+    ----------
+    filters : List[dict]
+        Earth Engine filters serialized to dict
+
+    Returns
+    -------
+    List[ee.Filter]
+        Filters as ee.Filter
     """
     ee = load_ee(False)
     filters = []
-    for filter_ in cfg_filters:
+    for filter_ in filters:
         if isinstance(filter_, ee.Filter):
-            filters.append(fitler_)
+            filters.append(filter_)
         else:
             filters.append(dict_to_filter(**filter_))
     return filters
 
 
 def dict_to_filter(function, **kwds):
+    """ Convert serialized form of filter to a ee.Filter
+
+    Parameters
+    ----------
+    function : str
+        Name of filter. Should be a (static) method of ``ee.Filter``
+    kwds
+        Keyword arguments to pass to for the filter construction. These
+        will depend on the filter in question
+
+    Returns
+    -------
+    ee.Filter
+        Earth Engine filter
+    """
     ee = load_ee(False)
     static_meth = getattr(ee.Filter, function)
     return static_meth(**kwds)

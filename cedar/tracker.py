@@ -31,9 +31,10 @@ class Tracker(object):
     store : cedar.stores.Store
         A Store that can be used to store images & metadata
     ...
-    filters : Sequence[dict or ee.Filter]
-        Earth Engine filters to apply, either as ee.Filter objects or
-        dictionaries that describe the filter
+    filters : Dict[str, Sequence[dict or ee.Filter]]
+        Earth Engine filters to apply, organized by image collection name.
+        Values should either be ``ee.Filter`` objects or dictionaries
+        that describe the filter (see :py:func:`cedar.utils.serialize_filter`)
     """
     def __init__(self, tile_grid, store,
                  name_template=defaults.PREARD_NAME,
@@ -49,7 +50,7 @@ class Tracker(object):
         self.prefix_template = prefix_template
         self.tracking_template = tracking_template
         self.tracking_prefix = tracking_prefix
-        self._filters = filters or []
+        self._filters = filters or defaultdict(list)
         self.export_image_kwds = export_image_kwds or {}
 
     @property
@@ -58,7 +59,10 @@ class Tracker(object):
         """
         # Convert from dict as needed
         from .utils import create_filters
-        return create_filters(self._filters)
+        return {
+            image_collection: create_filters(filters)
+            for image_collection, filters in self._filters.items()
+        }
 
     def submit(self, collections, tile_indices,
                period_start, period_end, period_freq=None):
@@ -136,8 +140,9 @@ class Tracker(object):
                     f'Ordering "{collection}" - '
                     f'"h{tile.horizontal:03d}v{tile.vertical:03d} - '
                     f'{date_start.isoformat()} to {date_end.isoformat()}')
+                collection_filters = self.filters.get(collection, [])
                 order.add(collection, tile, date_start, date_end,
-                          filters=self.filters)
+                          filters=collection_filters)
 
         return order.tracking_name, order.tracking_id
 
