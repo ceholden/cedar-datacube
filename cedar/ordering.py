@@ -28,8 +28,14 @@ class Order(object):
 
     Parameters
     ----------
-    name : str
-        Order name
+    tracking_name : str
+        Name of the order, which is also used as the name for tracking metadata
+    tracking_prefix : str
+        Directory or prefix location in storage for tracking data
+    name_template : str
+        String format template for pre-ARD image and metadata names
+    prefix_template : str
+        String format template for directory or prefix of pre-ARD
     """
     def __init__(self, tracking_name, tracking_prefix,
                  name_template=None, prefix_template=None):

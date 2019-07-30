@@ -31,7 +31,14 @@ class Tracker(object):
         Tile Grid to use for ARD
     store : cedar.stores.Store
         A Store that can be used to store images & metadata
-    ...
+    name_template : str, optional
+        Template for "pre-ARD" image and metadata name
+    prefix_template : str, optional
+        Template for "pre-ARD" image and metadata prefix
+    tracking_template : str, optional
+        Template for order tracking file name
+    tracking_prefix : str, optional
+        Order tracking file prefix folder
     filters : Dict[str, Sequence[dict or ee.Filter]]
         Earth Engine filters to apply, organized by image collection name.
         Values should either be ``ee.Filter`` objects or dictionaries
