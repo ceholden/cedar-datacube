@@ -82,6 +82,7 @@ EXTRAS_REQUIRE['all'] = sorted(set(sum(EXTRAS_REQUIRE.values(), [])))
 setup(
     name=DISTNAME,
     version=VERSION,
+    cmdclass=CMDCLASS,
     license=LICENSE,
     description=DESCRIPTION,
     long_description='\n'.join([LONG_DESCRIPTION, CHANGELOG]),
