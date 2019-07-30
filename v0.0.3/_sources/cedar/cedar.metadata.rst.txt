@@ -1,0 +1,18 @@
+cedar.metadata package
+======================
+
+Submodules
+----------
+
+.. toctree::
+
+   cedar.metadata.core
+   cedar.metadata.tracking
+
+Module contents
+---------------
+
+.. automodule:: cedar.metadata
+   :members:
+   :undoc-members:
+   :show-inheritance:

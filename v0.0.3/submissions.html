@@ -1,0 +1,352 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Pre-ARD Order Submission &mdash; cedar 0.0.3 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script type="text/javascript" src="_static/jquery.js"></script>
+        <script type="text/javascript" src="_static/underscore.js"></script>
+        <script type="text/javascript" src="_static/doctools.js"></script>
+        <script type="text/javascript" src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/theme_overrides.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Pre-ARD Order Tracking" href="tracking.html" />
+    <link rel="prev" title="Configuration" href="config.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> cedar
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.3
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="faq.html">Frequently Asked Questions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="credentials.html">Credentials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="config.html">Configuration</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Pre-ARD Order Submission</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#ordering">Ordering</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#cancel-an-order">Cancel an Order</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tracking.html">Pre-ARD Order Tracking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="download.html">Download</a></li>
+<li class="toctree-l1"><a class="reference internal" href="convert.html">Pre-ARD to ARD Conversion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="cleaning.html">Cleaning pre-ARD from Storage</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Help and Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="cli.html">Command Line Interface Programs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="storage.html">Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dev.html">Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">cedar</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Pre-ARD Order Submission</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            
+              <a href="https://github.com/ceholden/cedar-datacube/blob/master/docs/source/submissions.rst" class="fa fa-github"> Edit on GitHub</a>
+            
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="pre-ard-order-submission">
+<span id="submissions"></span><h1>Pre-ARD Order Submission<a class="headerlink" href="#pre-ard-order-submission" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<p>During the order submission phase, CEDAR takes information from your
+configuration file about the tiling grid system you want to use and how you
+want to store your data in order to create tiled data.</p>
+<p>The remaining information needed is input by the user and answers the
+questions,</p>
+<ul class="simple">
+<li><p>What?</p>
+<ul>
+<li><p>Image collection(s)</p></li>
+</ul>
+</li>
+<li><p>Where?</p>
+<ul>
+<li><p>Index (row, column) of tile within the tiling grid system</p></li>
+</ul>
+</li>
+<li><p>When?</p>
+<ul>
+<li><p>Range of time period</p></li>
+<li><p>Optionally, we can split up the time period into small groups (e.g.,
+every 5 years)</p></li>
+</ul>
+</li>
+</ul>
+<p>Using this information, CEDAR uses image collection specific functions that
+create “pre-ARD”, or data that is fully preprocesed but needs to be converted
+into a new format to meet the definition of ARD. This pre-ARD data consists of
+two sets of information:</p>
+<ol class="arabic">
+<li><p>Pre-ARD images</p>
+<ul class="simple">
+<li><p>GeoTIFF images created by exporting a pre-ARD <code class="docutils literal notranslate"><span class="pre">ee.Image</span></code> to a storage
+location.</p></li>
+<li><p>Usually consists of multiple pieces to keep each GeoTIFF below 4GB</p></li>
+<li><p>Contains data from all bands for all acquisitions. For example, if we order
+8 bands of data for 5 acquisitions, this pre-ARD image will have 40 bands</p></li>
+</ul>
+</li>
+<li><p>“Pre-ARD” metadata</p>
+<ul>
+<li><p>Information about the order, storage, and tile</p></li>
+<li><p>Image information, including</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>Band names</p></li>
+<li><p>Timestamps of acquisitions</p></li>
+<li><p>No Data Value</p></li>
+<li><p>ARD image metadata for each date of acquisition</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ul>
+</li>
+</ol>
+<img alt="Flowchart describing the process of creating Analysis Ready Data using CEDAR" src="_images/cedar_flowchart.png" />
+</div>
+<div class="section" id="ordering">
+<h2>Ordering<a class="headerlink" href="#ordering" title="Permalink to this headline">¶</a></h2>
+<p>With this information, we can use the <code class="docutils literal notranslate"><span class="pre">cedar</span> <span class="pre">submit</span></code>
+(<a class="reference internal" href="cli.html#cli-cedar-submit"><span class="std std-ref">reference</span></a>) command line program to submit tasks to
+the Earth Engine, save metadata about the resulting images, and track the
+progress.</p>
+<p>In this example, we create an order that will produce pre-ARD images for a
+single tile for all Landsat sensors between 1997 and 2020.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ cedar -C my_config.yml submit <span class="se">\</span>
+    --index <span class="m">52</span> <span class="m">63</span> <span class="se">\</span>
+    --period_start <span class="m">1997</span>-01-01 <span class="se">\</span>
+    --period_end <span class="m">2020</span>-01-01 <span class="se">\</span>
+    --period_freq 5YS <span class="se">\</span>
+    LANDSAT/LT05/C01/T1_SR <span class="se">\</span>
+    LANDSAT/LE07/C01/T1_SR <span class="se">\</span>
+    LANDSAT/LC08/C01/T1_SR
+
+Submitting preARD tasks <span class="k">for</span>:
+    Tiles: h0063v0052
+    Collections: LANDSAT/LC08/C01/T1_SR, LANDSAT/LE07/C01/T1_SR, LANDSAT/LT05/C01/T1_SR
+    Time period: <span class="m">1997</span>-01-01T00:00:00 - <span class="m">2020</span>-01-01T00:00:00
+    At frequency: 5YS
+Wrote job tracking to store object named <span class="s2">&quot;TRACKING_2019-07-18T16:45:25.528253_h063v052&quot;</span> <span class="o">(</span>18CQSOtrZgUf64RV1Mufj_V5OfW5RMt0R<span class="o">)</span>
+</pre></div>
+</div>
+<p>We specified the tile index (row/column) in one argument, but we could also
+have specified the index of the tile using the <code class="docutils literal notranslate"><span class="pre">--row</span></code> and <code class="docutils literal notranslate"><span class="pre">--col</span></code> options.</p>
+<p>The order we submitted spanned about 20 years, including time periods
+without the Landsat 5 or Landsat 8 satellites. In these situations, the program
+handles errors related to not having data to order and gracefully keeps going,
+ordering data as it can.</p>
+<p>During the ordering process, the program creates and starts Earth Engine tasks
+that create each image while also saving the metadata for these images to the
+storage service of your choice (Google Drive or Google Cloud Storage).</p>
+<p>For the image collections (Landsat 5, 7, 8), range of time (1997-2020), and
+period frequency (<code class="docutils literal notranslate"><span class="pre">&quot;5YS&quot;</span></code>, or every 5 “year starts”), our submission
+created 10 Earth Engine tasks that will generate 10 pre-ARD GeoTIFF files
+(these images are generally above 4GB so Earth Engine exports them in pieces).
+The submission process also saved 10 JSON image metadata files that describe
+the pre-ARD images.</p>
+<p>The final statement that this program prints out is the name of the tracking
+metadata file created for this order. This tracking metadata file will be used
+as the identifier for this order going forward.</p>
+</div>
+<div class="section" id="cancel-an-order">
+<h2>Cancel an Order<a class="headerlink" href="#cancel-an-order" title="Permalink to this headline">¶</a></h2>
+<p>Sometimes it’s useful to cancel the Earth Engine tasks and delete any data
+produced from the order (metadata or images). To do this, you just need the
+name of the order (the tracking metadata name).</p>
+<p>For example, if we wanted to cancel the order we created in the example above,</p>
+<p>This command also deletes the tracking file associated with the order, removing
+the order from the list of orders CEDAR will track (see next section of the
+guide).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Next, we will use this tracking name to check the status of the order we just
+submitted.</p>
+</div>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="tracking.html" class="btn btn-neutral float-right" title="Pre-ARD Order Tracking" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="config.html" class="btn btn-neutral float-left" title="Configuration" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Chris Holden
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

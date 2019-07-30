@@ -1,0 +1,374 @@
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>Coverage report</title>
+    <link rel="stylesheet" href="style.css" type="text/css">
+    
+    <script type="text/javascript" src="jquery.min.js"></script>
+    <script type="text/javascript" src="jquery.ba-throttle-debounce.min.js"></script>
+    <script type="text/javascript" src="jquery.tablesorter.min.js"></script>
+    <script type="text/javascript" src="jquery.hotkeys.js"></script>
+    <script type="text/javascript" src="coverage_html.js"></script>
+    <script type="text/javascript">
+        jQuery(document).ready(coverage.index_ready);
+    </script>
+</head>
+<body class="indexfile">
+
+<div id="header">
+    <div class="content">
+        <h1>Coverage report:
+            <span class="pc_cov">24%</span>
+        </h1>
+
+        <img id="keyboard_icon" src="keybd_closed.png" alt="Show keyboard shortcuts" />
+
+        <form id="filter_container">
+            <input id="filter" type="text" value="" placeholder="filter..." />
+        </form>
+    </div>
+</div>
+
+<div class="help_panel">
+    <img id="panel_icon" src="keybd_open.png" alt="Hide keyboard shortcuts" />
+    <p class="legend">Hot-keys on this page</p>
+    <div>
+    <p class="keyhelp">
+        <span class="key">n</span>
+        <span class="key">s</span>
+        <span class="key">m</span>
+        <span class="key">x</span>
+        
+        <span class="key">c</span> &nbsp; change column sorting
+    </p>
+    </div>
+</div>
+
+<div id="index">
+    <table class="index">
+        <thead>
+            
+            <tr class="tablehead" title="Click to sort">
+                <th class="name left headerSortDown shortkey_n">Module</th>
+                <th class="shortkey_s">statements</th>
+                <th class="shortkey_m">missing</th>
+                <th class="shortkey_x">excluded</th>
+                
+                <th class="right shortkey_c">coverage</th>
+            </tr>
+        </thead>
+        
+        <tfoot>
+            <tr class="total">
+                <td class="name left">Total</td>
+                <td>1744</td>
+                <td>1333</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="411 1744">24%</td>
+            </tr>
+        </tfoot>
+        <tbody>
+            
+            <tr class="file">
+                <td class="name left"><a href="cedar___init___py.html">cedar/__init__.py</a></td>
+                <td>9</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="9 9">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="cedar_cli___init___py.html">cedar/cli/__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="cedar_cli_auth_py.html">cedar/cli/auth.py</a></td>
+                <td>94</td>
+                <td>94</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 94">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="cedar_cli_config_py.html">cedar/cli/config.py</a></td>
+                <td>48</td>
+                <td>48</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 48">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="cedar_cli_console_py.html">cedar/cli/console.py</a></td>
+                <td>14</td>
+                <td>14</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 14">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="cedar_cli_convert_py.html">cedar/cli/convert.py</a></td>
+                <td>52</td>
+                <td>52</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 52">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="cedar_cli_gee_py.html">cedar/cli/gee.py</a></td>
+                <td>23</td>
+                <td>23</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 23">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="cedar_cli_main_py.html">cedar/cli/main.py</a></td>
+                <td>25</td>
+                <td>25</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 25">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="cedar_cli_options_py.html">cedar/cli/options.py</a></td>
+                <td>36</td>
+                <td>36</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 36">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="cedar_cli_status_py.html">cedar/cli/status.py</a></td>
+                <td>100</td>
+                <td>100</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 100">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="cedar_cli_storage_py.html">cedar/cli/storage.py</a></td>
+                <td>57</td>
+                <td>57</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 57">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="cedar_cli_submit_py.html">cedar/cli/submit.py</a></td>
+                <td>60</td>
+                <td>60</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 60">0%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="cedar_config___init___py.html">cedar/config/__init__.py</a></td>
+                <td>1</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="1 1">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="cedar_config_build_py.html">cedar/config/build.py</a></td>
+                <td>21</td>
+                <td>13</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="8 21">38%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="cedar_config_core_py.html">cedar/config/core.py</a></td>
+                <td>71</td>
+                <td>41</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="30 71">42%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="cedar_defaults_py.html">cedar/defaults.py</a></td>
+                <td>14</td>
+                <td>1</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="13 14">93%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="cedar_exceptions_py.html">cedar/exceptions.py</a></td>
+                <td>4</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="4 4">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="cedar_metadata___init___py.html">cedar/metadata/__init__.py</a></td>
+                <td>2</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="2 2">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="cedar_metadata_core_py.html">cedar/metadata/core.py</a></td>
+                <td>25</td>
+                <td>16</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="9 25">36%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="cedar_metadata_tracking_py.html">cedar/metadata/tracking.py</a></td>
+                <td>164</td>
+                <td>90</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="74 164">45%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="cedar_ordering_py.html">cedar/ordering.py</a></td>
+                <td>79</td>
+                <td>51</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="28 79">35%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="cedar_preard_py.html">cedar/preard.py</a></td>
+                <td>89</td>
+                <td>68</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="21 89">24%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="cedar_sensors___init___py.html">cedar/sensors/__init__.py</a></td>
+                <td>3</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="3 3">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="cedar_sensors_common_py.html">cedar/sensors/common.py</a></td>
+                <td>35</td>
+                <td>25</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="10 35">29%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="cedar_sensors_landsat_py.html">cedar/sensors/landsat.py</a></td>
+                <td>69</td>
+                <td>47</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="22 69">32%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="cedar_stores___init___py.html">cedar/stores/__init__.py</a></td>
+                <td>0</td>
+                <td>0</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="0 0">100%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="cedar_stores_gcs_py.html">cedar/stores/gcs.py</a></td>
+                <td>156</td>
+                <td>113</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="43 156">28%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="cedar_stores_gdrive_py.html">cedar/stores/gdrive.py</a></td>
+                <td>287</td>
+                <td>216</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="71 287">25%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="cedar_tracker_py.html">cedar/tracker.py</a></td>
+                <td>126</td>
+                <td>99</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="27 126">21%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="cedar_utils_py.html">cedar/utils.py</a></td>
+                <td>59</td>
+                <td>42</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="17 59">29%</td>
+            </tr>
+            
+            <tr class="file">
+                <td class="name left"><a href="cedar_validation_py.html">cedar/validation.py</a></td>
+                <td>21</td>
+                <td>2</td>
+                <td>0</td>
+                
+                <td class="right" data-ratio="19 21">90%</td>
+            </tr>
+            
+        </tbody>
+    </table>
+
+    <p id="no_rows">
+        No items found using the specified filter.
+    </p>
+</div>
+
+<div id="footer">
+    <div class="content">
+        <p>
+            <a class="nav" href="https://coverage.readthedocs.io">coverage.py v4.5.4</a>,
+            created at 2019-07-30 18:40
+        </p>
+    </div>
+</div>
+
+</body>
+</html>

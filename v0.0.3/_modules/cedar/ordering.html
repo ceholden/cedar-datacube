@@ -1,0 +1,466 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>cedar.ordering &mdash; cedar 0.0.3 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script type="text/javascript" src="../../_static/jquery.js"></script>
+        <script type="text/javascript" src="../../_static/underscore.js"></script>
+        <script type="text/javascript" src="../../_static/doctools.js"></script>
+        <script type="text/javascript" src="../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/theme_overrides.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> cedar
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.0.3
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../history.html">Change Log</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../faq.html">Frequently Asked Questions</a></li>
+</ul>
+<p class="caption"><span class="caption-text">User Guide</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../credentials.html">Credentials</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../config.html">Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../submissions.html">Pre-ARD Order Submission</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../tracking.html">Pre-ARD Order Tracking</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../download.html">Download</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../convert.html">Pre-ARD to ARD Conversion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../cleaning.html">Cleaning pre-ARD from Storage</a></li>
+</ul>
+<p class="caption"><span class="caption-text">Help and Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../cli.html">Command Line Interface Programs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../storage.html">Storage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../dev.html">Developer Notes</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../api.html">API Reference</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">cedar</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>cedar.ordering</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for cedar.ordering</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot; Metadata</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">contextlib</span>
+<span class="kn">import</span> <span class="nn">datetime</span> <span class="k">as</span> <span class="nn">dt</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="k">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Set</span>
+
+<span class="kn">import</span> <span class="nn">ee</span>
+<span class="kn">from</span> <span class="nn">stems.gis.grids</span> <span class="k">import</span> <span class="n">Tile</span>
+
+<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">__version__</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">defaults</span>
+<span class="kn">from</span> <span class="nn">.exceptions</span> <span class="k">import</span> <span class="n">EmptyCollectionError</span><span class="p">,</span> <span class="n">EmptyOrderError</span>
+<span class="kn">from</span> <span class="nn">.metadata</span> <span class="k">import</span> <span class="p">(</span><span class="n">TrackingMetadata</span><span class="p">,</span>
+                       <span class="n">get_order_metadata</span><span class="p">,</span>
+                       <span class="n">get_program_metadata</span><span class="p">,</span>
+                       <span class="n">get_task_metadata</span><span class="p">,</span>
+                       <span class="n">get_tracking_metadata</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">.sensors</span> <span class="k">import</span> <span class="n">CREATE_ARD_COLLECTION</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="Order"><a class="viewcode-back" href="../../cedar/cedar.ordering.html#cedar.ordering.Order">[docs]</a><span class="k">class</span> <span class="nc">Order</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;  CEDAR order data</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    tracking_name : str</span>
+<span class="sd">        Name of the order, which is also used as the name for tracking metadata</span>
+<span class="sd">    tracking_prefix : str</span>
+<span class="sd">        Directory or prefix location in storage for tracking data</span>
+<span class="sd">    name_template : str</span>
+<span class="sd">        String format template for pre-ARD image and metadata names</span>
+<span class="sd">    prefix_template : str</span>
+<span class="sd">        String format template for directory or prefix of pre-ARD</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tracking_name</span><span class="p">,</span> <span class="n">tracking_prefix</span><span class="p">,</span>
+                 <span class="n">name_template</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">prefix_template</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tracking_name</span> <span class="o">=</span> <span class="n">tracking_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tracking_prefix</span> <span class="o">=</span> <span class="n">tracking_prefix</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name_template</span> <span class="o">=</span> <span class="n">name_template</span> <span class="ow">or</span> <span class="n">defaults</span><span class="o">.</span><span class="n">PREARD_NAME</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">prefix_template</span> <span class="o">=</span> <span class="n">prefix_template</span> <span class="ow">or</span> <span class="n">defaults</span><span class="o">.</span><span class="n">PREARD_PREFIX</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_items</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Order.create_submission"><a class="viewcode-back" href="../../cedar/cedar.ordering.html#cedar.ordering.Order.create_submission">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="nd">@contextlib</span><span class="o">.</span><span class="n">contextmanager</span>
+    <span class="k">def</span> <span class="nf">create_submission</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">tracking_name</span><span class="p">,</span> <span class="n">tracking_prefix</span><span class="p">,</span> <span class="n">store</span><span class="p">,</span>
+                          <span class="n">name_template</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">prefix_template</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                          <span class="n">submission_info</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">export_image_kwds</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Create and submit an order in a single context</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">instance</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="n">tracking_name</span><span class="p">,</span> <span class="n">tracking_prefix</span><span class="p">,</span>
+                       <span class="n">name_template</span><span class="o">=</span><span class="n">name_template</span><span class="p">,</span>
+                       <span class="n">prefix_template</span><span class="o">=</span><span class="n">prefix_template</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="n">instance</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">e</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="n">instance</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span><span class="n">store</span><span class="p">,</span>
+                            <span class="n">submission_info</span><span class="o">=</span><span class="n">submission_info</span><span class="p">,</span>
+                            <span class="n">export_image_kwds</span><span class="o">=</span><span class="n">export_image_kwds</span><span class="p">)</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">collections</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Set</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="nb">set</span><span class="p">([</span><span class="n">item</span><span class="p">[</span><span class="s1">&#39;collection&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="p">])</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">tiles</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Set</span><span class="p">[</span><span class="n">Tile</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="nb">set</span><span class="p">([</span><span class="n">item</span><span class="p">[</span><span class="s1">&#39;tile&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="p">])</span>
+
+<div class="viewcode-block" id="Order.add"><a class="viewcode-back" href="../../cedar/cedar.ordering.html#cedar.ordering.Order.add">[docs]</a>    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collection</span><span class="p">,</span> <span class="n">tile</span><span class="p">,</span> <span class="n">date_start</span><span class="p">,</span> <span class="n">date_end</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Add a &quot;pre-ARD&quot; image to the order</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># Determine which function should be used for ARD generation</span>
+            <span class="n">func_create_ard</span> <span class="o">=</span> <span class="n">CREATE_ARD_COLLECTION</span><span class="p">[</span><span class="n">collection</span><span class="p">]</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Using function </span><span class="si">{func_create_ard}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">ke</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="s1">&#39;Unknown or unsupported image collection &#39;</span>
+                           <span class="n">f</span><span class="s1">&#39;&quot;</span><span class="si">{collection}</span><span class="s1">&quot;.&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Create image &amp; metadata</span>
+        <span class="c1"># Image is still &quot;unbounded&quot;, but will be given crs, transform,</span>
+        <span class="c1"># and size on export</span>
+        <span class="c1"># ``image_metadata`` should have &quot;bands&quot;, &quot;nodata&quot;, &quot;images&quot;</span>
+        <span class="n">image</span><span class="p">,</span> <span class="n">image_metadata</span> <span class="o">=</span> <span class="n">func_create_ard</span><span class="p">(</span>
+            <span class="n">collection</span><span class="p">,</span> <span class="n">tile</span><span class="p">,</span> <span class="n">date_start</span><span class="p">,</span> <span class="n">date_end</span><span class="p">,</span> <span class="n">filters</span><span class="o">=</span><span class="n">filters</span><span class="p">)</span>
+
+        <span class="c1"># Create name/prefix from templates</span>
+        <span class="n">namespace</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;collection&#39;</span><span class="p">:</span> <span class="n">collection</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="s1">&#39;_&#39;</span><span class="p">),</span>
+            <span class="s1">&#39;tile&#39;</span><span class="p">:</span> <span class="n">tile</span><span class="p">,</span>
+            <span class="s1">&#39;date_start&#39;</span><span class="p">:</span> <span class="n">date_start</span><span class="o">.</span><span class="n">date</span><span class="p">()</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(),</span>
+            <span class="s1">&#39;date_end&#39;</span><span class="p">:</span> <span class="n">date_end</span><span class="o">.</span><span class="n">date</span><span class="p">()</span><span class="o">.</span><span class="n">isoformat</span><span class="p">(),</span>
+            <span class="s1">&#39;now&#39;</span><span class="p">:</span> <span class="n">dt</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span><span class="o">.</span><span class="n">isoformat</span><span class="p">()</span>
+        <span class="p">}</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">name_template</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">namespace</span><span class="p">)</span>
+        <span class="n">prefix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">prefix_template</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="o">**</span><span class="n">namespace</span><span class="p">)</span>
+
+        <span class="c1"># Add in tile and order metadata</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
+            <span class="s1">&#39;collection&#39;</span><span class="p">:</span> <span class="n">collection</span><span class="p">,</span>
+            <span class="s1">&#39;tile&#39;</span><span class="p">:</span> <span class="n">tile</span><span class="p">,</span>
+            <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
+            <span class="s1">&#39;prefix&#39;</span><span class="p">:</span> <span class="n">prefix</span><span class="p">,</span>
+            <span class="s1">&#39;image&#39;</span><span class="p">:</span> <span class="n">image</span><span class="p">,</span>
+            <span class="s1">&#39;metadata&#39;</span><span class="p">:</span> <span class="n">image_metadata</span><span class="p">,</span>
+            <span class="s1">&#39;date_start&#39;</span><span class="p">:</span> <span class="n">date_start</span><span class="p">,</span>
+            <span class="s1">&#39;date_end&#39;</span><span class="p">:</span> <span class="n">date_end</span><span class="p">,</span>
+            <span class="s1">&#39;filters&#39;</span><span class="p">:</span> <span class="n">filters</span>
+        <span class="p">})</span></div>
+
+<div class="viewcode-block" id="Order.submit"><a class="viewcode-back" href="../../cedar/cedar.ordering.html#cedar.ordering.Order.submit">[docs]</a>    <span class="k">def</span> <span class="nf">submit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">store</span><span class="p">,</span> <span class="n">submission_info</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">export_image_kwds</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Submit &quot;pre-ARD&quot; for a collection and tile to be processed</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        store : cedar.stores.GDriveStore or cedar.stores.GCSStore</span>
+<span class="sd">            Storage backend to use</span>
+<span class="sd">        submission_info : dict, optional</span>
+<span class="sd">            Information to include in tracking metadata about the submission</span>
+<span class="sd">        export_image_kwds : dict, optional</span>
+<span class="sd">            Additional keywords to pass onto ``store.store_image``</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        tracking_id : str</span>
+<span class="sd">            Tracking metadata object identitifer (an object ID for Google Drive</span>
+<span class="sd">            or a remote path for GCS)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">EmptyOrderError</span><span class="p">(</span>
+                <span class="s1">&#39;No items in order to submit (see ``Order.add``)&#39;</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Check to make sure names are unique</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_validate_names</span><span class="p">()</span>
+
+        <span class="c1"># Submit items to order</span>
+        <span class="n">submitted</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="p">:</span>
+            <span class="c1"># Create metadata about order and submit</span>
+            <span class="n">order_metadata</span> <span class="o">=</span> <span class="n">get_order_metadata</span><span class="p">(</span>
+                <span class="n">item</span><span class="p">[</span><span class="s1">&#39;collection&#39;</span><span class="p">],</span>
+                <span class="n">item</span><span class="p">[</span><span class="s1">&#39;date_start&#39;</span><span class="p">],</span> <span class="n">item</span><span class="p">[</span><span class="s1">&#39;date_end&#39;</span><span class="p">],</span>
+                <span class="n">item</span><span class="p">[</span><span class="s1">&#39;filters&#39;</span><span class="p">]</span>
+            <span class="p">)</span>
+            <span class="n">task</span><span class="p">,</span> <span class="n">task_metadata</span><span class="p">,</span> <span class="n">task_metadata_id</span> <span class="o">=</span> <span class="n">submit_preard_task</span><span class="p">(</span>
+                <span class="n">item</span><span class="p">[</span><span class="s1">&#39;image&#39;</span><span class="p">],</span> <span class="n">item</span><span class="p">[</span><span class="s1">&#39;metadata&#39;</span><span class="p">],</span>
+                <span class="n">item</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">],</span> <span class="n">item</span><span class="p">[</span><span class="s1">&#39;prefix&#39;</span><span class="p">],</span>
+                <span class="n">item</span><span class="p">[</span><span class="s1">&#39;tile&#39;</span><span class="p">],</span>
+                <span class="n">store</span><span class="p">,</span>
+                <span class="n">order_info</span><span class="o">=</span><span class="n">order_metadata</span><span class="p">,</span>
+                <span class="n">start</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">export_image_kwds</span><span class="o">=</span><span class="n">export_image_kwds</span>
+            <span class="p">)</span>
+            <span class="n">submitted</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">task</span><span class="p">,</span> <span class="n">task_metadata</span><span class="p">,</span> <span class="n">task_metadata_id</span><span class="p">))</span>
+
+        <span class="c1"># Create submission metadata</span>
+        <span class="c1"># TODO: Use cedar.metadata.TrackingMetadata</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;program&#39;</span><span class="p">:</span> <span class="n">get_program_metadata</span><span class="p">(),</span>
+            <span class="s1">&#39;submission&#39;</span><span class="p">:</span> <span class="n">submission_info</span> <span class="ow">or</span> <span class="p">{},</span>
+            <span class="s1">&#39;tracking&#39;</span><span class="p">:</span> <span class="n">get_tracking_metadata</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tracking_name</span><span class="p">,</span>
+                                              <span class="bp">self</span><span class="o">.</span><span class="n">tracking_prefix</span><span class="p">,</span>
+                                              <span class="bp">self</span><span class="o">.</span><span class="n">name_template</span><span class="p">,</span>
+                                              <span class="bp">self</span><span class="o">.</span><span class="n">prefix_template</span><span class="p">,</span>
+                                              <span class="bp">self</span><span class="o">.</span><span class="n">collections</span><span class="p">,</span>
+                                              <span class="bp">self</span><span class="o">.</span><span class="n">tiles</span><span class="p">),</span>
+            <span class="s1">&#39;orders&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">sub</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="s1">&#39;task&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">sub</span> <span class="ow">in</span> <span class="n">submitted</span><span class="p">],</span>
+            <span class="s1">&#39;metadata&#39;</span><span class="p">:</span> <span class="p">[</span><span class="n">sub</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">sub</span> <span class="ow">in</span> <span class="n">submitted</span><span class="p">]</span>
+        <span class="p">}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tracking_metadata</span> <span class="o">=</span> <span class="n">TrackingMetadata</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+
+        <span class="c1"># Start tasks and save tracking metadata</span>
+        <span class="k">for</span> <span class="n">task</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="n">submitted</span><span class="p">:</span>
+            <span class="n">task</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">tracking_id</span> <span class="o">=</span> <span class="n">store</span><span class="o">.</span><span class="n">store_metadata</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tracking_metadata</span><span class="p">),</span>
+                                                <span class="bp">self</span><span class="o">.</span><span class="n">tracking_name</span><span class="p">,</span>
+                                                <span class="bp">self</span><span class="o">.</span><span class="n">tracking_prefix</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">tracking_id</span></div>
+
+    <span class="k">def</span> <span class="nf">_validate_names</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Raise ValueError if there is a name collision</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">]</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_items</span><span class="p">]</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">names</span><span class="p">))</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">names</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;Pre-ARD items in this order do not have unique names and &#39;</span>
+                <span class="s1">&#39;overwrite each other. Please make sure &#39;</span>
+                <span class="s1">&#39;``self.name_template`` has enough information (collection, &#39;</span>
+                <span class="s1">&#39;date_start, date_end, tile, etc) to generate unique names.&#39;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="submit_preard_task"><a class="viewcode-back" href="../../cedar/cedar.ordering.html#cedar.ordering.submit_preard_task">[docs]</a><span class="k">def</span> <span class="nf">submit_preard_task</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">image_metadata</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="n">tile</span><span class="p">,</span> <span class="n">store</span><span class="p">,</span>
+                       <span class="n">order_info</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                       <span class="n">start</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">export_image_kwds</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Submit an EE pre-ARD processing task and store task info</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Prepare </span>
+    <span class="n">export_image_kwds</span> <span class="o">=</span> <span class="n">export_image_kwds</span> <span class="ow">or</span> <span class="p">{}</span>
+    <span class="n">export_image_kwds</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">tile_export_image_kwds</span><span class="p">(</span><span class="n">tile</span><span class="p">))</span>
+
+    <span class="c1"># Create EE task</span>
+    <span class="n">task</span> <span class="o">=</span> <span class="n">store</span><span class="o">.</span><span class="n">store_image</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span> <span class="o">**</span><span class="n">export_image_kwds</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">start</span><span class="p">:</span>
+        <span class="n">task</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+    <span class="c1"># TODO: create model for PreARDMetadata and use it</span>
+    <span class="c1"># Finish creating metadata for task</span>
+    <span class="n">metadata</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;program&#39;</span><span class="p">:</span> <span class="n">get_program_metadata</span><span class="p">(),</span>
+        <span class="s1">&#39;order&#39;</span><span class="p">:</span> <span class="n">order_info</span> <span class="ow">or</span> <span class="p">{},</span>
+        <span class="s1">&#39;tile&#39;</span><span class="p">:</span> <span class="n">tile</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(),</span>
+        <span class="s1">&#39;store&#39;</span><span class="p">:</span> <span class="p">{</span>
+            <span class="s1">&#39;service&#39;</span><span class="p">:</span> <span class="n">store</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
+            <span class="s1">&#39;export_image_kwds&#39;</span><span class="p">:</span> <span class="n">export_image_kwds</span>
+        <span class="p">},</span>
+        <span class="s1">&#39;task&#39;</span><span class="p">:</span> <span class="n">get_task_metadata</span><span class="p">(</span><span class="n">task</span><span class="p">),</span>
+        <span class="s1">&#39;image&#39;</span><span class="p">:</span> <span class="n">image_metadata</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="n">metadata_id</span> <span class="o">=</span> <span class="n">store</span><span class="o">.</span><span class="n">store_metadata</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">prefix</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">task</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span> <span class="n">metadata_id</span></div>
+
+
+<div class="viewcode-block" id="tile_export_image_kwds"><a class="viewcode-back" href="../../cedar/cedar.ordering.html#cedar.ordering.tile_export_image_kwds">[docs]</a><span class="k">def</span> <span class="nf">tile_export_image_kwds</span><span class="p">(</span><span class="n">tile</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; Returns keywords to tile exported ``ee.Image`` by reprojecting/clipping</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    tile : stems.gis.grids.Tile</span>
+<span class="sd">        A tile</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dict[str, str]</span>
+<span class="sd">        Keywords &quot;crs&quot;, &quot;crs_transform&quot;, and &quot;dimensions&quot;</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">kwds</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;crs&#39;</span><span class="p">:</span> <span class="n">tile</span><span class="o">.</span><span class="n">crs</span><span class="o">.</span><span class="n">wkt</span><span class="p">,</span>
+        <span class="s1">&#39;crs_transform&#39;</span><span class="p">:</span> <span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">tile</span><span class="o">.</span><span class="n">transform</span><span class="p">[:</span><span class="mi">6</span><span class="p">]),</span>
+        <span class="s1">&#39;dimensions&#39;</span><span class="p">:</span> <span class="n">f</span><span class="s1">&#39;</span><span class="si">{tile.width}</span><span class="s1">x</span><span class="si">{tile.height}</span><span class="s1">&#39;</span><span class="p">,</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">kwds</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2019, Chris Holden
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

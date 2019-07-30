@@ -1,0 +1,7 @@
+cedar.defaults module
+=====================
+
+.. automodule:: cedar.defaults
+   :members:
+   :undoc-members:
+   :show-inheritance:
