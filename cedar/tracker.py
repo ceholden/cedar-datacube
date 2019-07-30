@@ -14,6 +14,7 @@ import pandas as pd
 from stems.gis.grids import TileGrid, Tile
 
 from . import defaults, ordering, utils
+from .exceptions import EmptyCollectionError
 from .metadata import TrackingMetadata, get_submission_info
 
 logger = logging.getLogger(__name__)
@@ -134,15 +135,20 @@ class Tracker(object):
                 prefix_template=self.prefix_template,
                 submission_info=submission_info,
                 export_image_kwds=self.export_image_kwds) as order:
+
             # Loop over product of collections, tiles, and dates
             for collection, tile, (date_start, date_end) in iter_submit:
                 logger.debug(
                     f'Ordering "{collection}" - '
                     f'"h{tile.horizontal:03d}v{tile.vertical:03d} - '
                     f'{date_start.isoformat()} to {date_end.isoformat()}')
+
                 collection_filters = self.filters.get(collection, [])
-                order.add(collection, tile, date_start, date_end,
-                          filters=collection_filters)
+                try:
+                    order.add(collection, tile, date_start, date_end,
+                              filters=collection_filters)
+                except EmptyCollectionError as ece:
+                    logger.debug(ece)
 
         return order.tracking_name, order.tracking_id
 

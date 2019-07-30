@@ -54,6 +54,8 @@ class Order(object):
                        prefix_template=prefix_template)
         try:
             yield instance
+        except Exception as e:
+            raise e
         finally:
             instance.submit(store,
                             submission_info=submission_info,
@@ -68,43 +70,46 @@ class Order(object):
         return set([item['tile'] for item in self._items])
 
     def add(self, collection, tile, date_start, date_end, filters=None):
-        # Create image & metadata
+        """ Add a "pre-ARD" image to the order
+        """
         try:
             # Determine which function should be used for ARD generation
             func_create_ard = CREATE_ARD_COLLECTION[collection]
             logger.debug(f'Using function {func_create_ard}')
+        except KeyError as ke:
+            raise KeyError('Unknown or unsupported image collection '
+                           f'"{collection}".')
 
-            # Image is still "unbounded", but will be given crs, transform,
-            # and size on export
-            # ``image_metadata`` should have "bands", "nodata", "images"
-            image, image_metadata = func_create_ard(
-                collection, tile, date_start, date_end, filters=filters)
+        # Create image & metadata
+        # Image is still "unbounded", but will be given crs, transform,
+        # and size on export
+        # ``image_metadata`` should have "bands", "nodata", "images"
+        image, image_metadata = func_create_ard(
+            collection, tile, date_start, date_end, filters=filters)
 
-            # Create name/prefix from templates
-            namespace = {
-                'collection': collection.replace('/', '_'),
-                'tile': tile,
-                'date_start': date_start.date().isoformat(),
-                'date_end': date_end.date().isoformat(),
-                'now': dt.datetime.now().isoformat()
-            }
-            name = self.name_template.format(**namespace)
-            prefix = self.prefix_template.format(**namespace)
-        except EmptyCollectionError as e:
-            logger.debug(e)
-        else:
-            # Add in tile and order metadata
-            self._items.append({
-                'collection': collection,
-                'tile': tile,
-                'name': name,
-                'prefix': prefix,
-                'image': image,
-                'metadata': image_metadata,
-                'date_start': date_start,
-                'date_end': date_end,
-                'filters': filters
-            })
+        # Create name/prefix from templates
+        namespace = {
+            'collection': collection.replace('/', '_'),
+            'tile': tile,
+            'date_start': date_start.date().isoformat(),
+            'date_end': date_end.date().isoformat(),
+            'now': dt.datetime.now().isoformat()
+        }
+        name = self.name_template.format(**namespace)
+        prefix = self.prefix_template.format(**namespace)
+
+        # Add in tile and order metadata
+        self._items.append({
+            'collection': collection,
+            'tile': tile,
+            'name': name,
+            'prefix': prefix,
+            'image': image,
+            'metadata': image_metadata,
+            'date_start': date_start,
+            'date_end': date_end,
+            'filters': filters
+        })
 
     def submit(self, store, submission_info=None, export_image_kwds=None):
         """ Submit "pre-ARD" for a collection and tile to be processed
