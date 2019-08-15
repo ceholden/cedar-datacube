@@ -161,35 +161,49 @@
             "pattern": "^(.*)$"
           },
           "status": {
-            "type": "object",
-            "required": [
-              "id",
-              "state",
-              "creation_timestamp_ms",
-              "update_timestamp_ms",
-              "start_timestamp_ms",
-              "output_url"
-            ],
-            "properties": {
-              "id": {
-                "type": "string",
-                "pattern": "^(.*)$"
+            "oneOf": [
+              {
+                "type": "object",
+                "required": [
+                  "id",
+                  "state",
+                  "creation_timestamp_ms",
+                  "update_timestamp_ms",
+                  "start_timestamp_ms",
+                  "output_url"
+                ],
+                "properties": {
+                  "id": {
+                    "type": "string",
+                    "pattern": "^(.*)$"
+                  },
+                  "state": {
+                    "type": "string",
+                    "pattern": "^(.*)$"
+                  },
+                  "creation_timestamp_ms": { "$ref": "schema_definitions.json#/timestamp" },
+                  "update_timestamp_ms": { "$ref": "schema_definitions.json#/timestamp" },
+                  "start_timestamp_ms": { "$ref": "schema_definitions.json#/timestamp" },
+                  "output_url": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "pattern": "^(.*)$"
+                    }
+                  }
+                }
               },
-              "state": {
-                "type": "string",
-                "pattern": "^(.*)$"
-              },
-              "creation_timestamp_ms": { "$ref": "schema_definitions.json#/timestamp" },
-              "update_timestamp_ms": { "$ref": "schema_definitions.json#/timestamp" },
-              "start_timestamp_ms": { "$ref": "schema_definitions.json#/timestamp" },
-              "output_url": {
-                "type": "array",
-                "items": {
-                  "type": "string",
-                  "pattern": "^(.*)$"
+              {
+                "type": "object",
+                "required": ["state"],
+                "properties": {
+                  "state": {
+                    "type": "string",
+                    "const": "EMPTY"
+                  }
                 }
               }
-            }
+            ]
           }
         }
       }
