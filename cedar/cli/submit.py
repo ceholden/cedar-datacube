@@ -13,7 +13,7 @@ from . import options
 logger = logging.getLogger(__name__)
 
 
-def _check_imgcol(ctx, image_collection):
+def _check_imgcol(ctx, param, image_collection):
     from cedar.sensors import CREATE_ARD_COLLECTION
     for collection in image_collection:
         if collection not in CREATE_ARD_COLLECTION:
