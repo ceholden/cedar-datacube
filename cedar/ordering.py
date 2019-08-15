@@ -36,13 +36,24 @@ class Order(object):
         String format template for pre-ARD image and metadata names
     prefix_template : str
         String format template for directory or prefix of pre-ARD
+    save_empty_metadata : bool, optional
+        If True, Pre-ARD image requests that have 0 results (e.g., because of
+        spotty historical record) will store metadata, but will not start
+        the task. If False, will not store this metadata
+    error_if_empty : bool, optional
+        If True, ``Order.add`` and other methods will raise an
+        EmptyCollectionError if the image collection result has no images. The
+        default behavior is to log, but skip, these empty results
     """
     def __init__(self, tracking_name, tracking_prefix,
-                 name_template=None, prefix_template=None):
+                 name_template=None, prefix_template=None,
+                 save_empty_metadata=True, error_if_empty=False):
         self.tracking_name = tracking_name
         self.tracking_prefix = tracking_prefix
         self.name_template = name_template or defaults.PREARD_NAME
         self.prefix_template = prefix_template or defaults.PREARD_PREFIX
+        self.save_empty_metadata = save_empty_metadata
+        self.error_if_empty = error_if_empty
         self._items = []
 
     def __len__(self):
@@ -52,12 +63,15 @@ class Order(object):
     @contextlib.contextmanager
     def create_submission(cls, tracking_name, tracking_prefix, store,
                           name_template=None, prefix_template=None,
+                          save_empty_metadata=True, error_if_empty=False,
                           submission_info=None, export_image_kwds=None):
         """ Create and submit an order in a single context
         """
         instance = cls(tracking_name, tracking_prefix,
                        name_template=name_template,
-                       prefix_template=prefix_template)
+                       prefix_template=prefix_template,
+                       save_empty_metadata=save_empty_metadata,
+                       error_if_empty=error_if_empty)
         try:
             yield instance
         except Exception as e:
@@ -105,13 +119,19 @@ class Order(object):
         prefix = self.prefix_template.format(**namespace)
 
         # Add in tile and order metadata
+        if not image_metadata['images'] and self.error_if_empty:
+            raise EmptyCollectionError(
+                f'Found 0 images for "{collection}" between '
+                f'{date_start}-{date_end}'
+            )
+
         self._items.append({
             'collection': collection,
             'tile': tile,
             'name': name,
             'prefix': prefix,
             'image': image,
-            'metadata': image_metadata,
+            'image_metadata': image_metadata,
             'date_start': date_start,
             'date_end': date_end,
             'filters': filters
@@ -144,24 +164,28 @@ class Order(object):
         self._validate_names()
 
         # Submit items to order
-        submitted = []
+        to_submit = []
         for item in self._items:
+            # Don't save empty results if not okay with
+            empty = not item['image_metadata']['images']
+            if empty and not self.save_empty_metadata:
+                continue
+
             # Create metadata about order and submit
             order_metadata = get_order_metadata(
                 item['collection'],
                 item['date_start'], item['date_end'],
                 item['filters']
             )
-            task, task_metadata, task_metadata_id = submit_preard_task(
-                item['image'], item['metadata'],
+            task, item_metadata, item_metadata_id = create_preard_task(
+                item['image'], item['image_metadata'],
                 item['name'], item['prefix'],
                 item['tile'],
                 store,
                 order_info=order_metadata,
-                start=False,
                 export_image_kwds=export_image_kwds
             )
-            submitted.append((task, task_metadata, task_metadata_id))
+            to_submit.append((task, item_metadata, item_metadata_id))
 
         # Create submission metadata
         # TODO: Use cedar.metadata.TrackingMetadata
@@ -174,14 +198,18 @@ class Order(object):
                                               self.prefix_template,
                                               self.collections,
                                               self.tiles),
-            'orders': [sub[1]['task'] for sub in submitted],
-            'metadata': [sub[2] for sub in submitted]
+            'orders': [sub[1]['task'] for sub in to_submit],
+            'metadata': [sub[2] for sub in to_submit]
         }
         self.tracking_metadata = TrackingMetadata(data)
 
         # Start tasks and save tracking metadata
-        for task, _, _ in submitted:
-            task.start()
+        for task, task_metadata, task_metadata_id in to_submit:
+            # Don't try to start tasks that will error (because 0 images)
+            if task_metadata['image']['images']:
+                task.start()
+            else:
+                logger.debug('Not starting task because it exports 0 images')
 
         self.tracking_id = store.store_metadata(dict(self.tracking_metadata),
                                                 self.tracking_name,
@@ -200,21 +228,26 @@ class Order(object):
                 'date_start, date_end, tile, etc) to generate unique names.')
 
 
-def submit_preard_task(image, image_metadata, name, prefix, tile, store,
-                       order_info=None,
-                       start=False, export_image_kwds=None):
+def create_preard_task(image, image_metadata, name, prefix, tile, store,
+                       order_info=None, export_image_kwds=None):
     """ Submit an EE pre-ARD processing task and store task info
     """
+    # TODO: create model for PreARDMetadata and use it
     # Prepare 
     export_image_kwds = export_image_kwds or {}
     export_image_kwds.update(tile_export_image_kwds(tile))
 
-    # Create EE task
-    task = store.store_image(image, name, prefix, **export_image_kwds)
-    if start:
-        task.start()
+    empty = len(image_metadata['images']) == 0
+    # Don't actually create / submit task if order is empty
+    if empty:
+        task = None
+        task_metadata = {'name': name, 'prefix': prefix,
+                         'status': {'state': 'EMPTY'}}
+    else:
+        # Create EE task
+        task = store.store_image(image, name, prefix, **export_image_kwds)
+        task_metadata = get_task_metadata(task)
 
-    # TODO: create model for PreARDMetadata and use it
     # Finish creating metadata for task
     metadata = {
         'program': get_program_metadata(),
@@ -224,7 +257,7 @@ def submit_preard_task(image, image_metadata, name, prefix, tile, store,
             'service': store.__class__.__name__,
             'export_image_kwds': export_image_kwds
         },
-        'task': get_task_metadata(task),
+        'task': task_metadata,
         'image': image_metadata,
     }
     metadata_id = store.store_metadata(metadata, name, prefix)
