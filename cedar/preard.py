@@ -90,6 +90,9 @@ def find_preard(path, metadata_pattern='*.json'):
     path : str or Path
         Path to a metadata file or directory of files (returning matches
         inside the directory)
+    metadata_pattern : str, optional
+        If ``path`` is a directory, this value is used as a glob inside
+        ``path`` to locate metadata files
 
     Returns
     -------
@@ -109,6 +112,7 @@ def find_preard(path, metadata_pattern='*.json'):
             preard[meta] = images
         else:
             logger.debug(f'Could not find images for metadata file {meta}')
+            preard[meta] = []
 
     return preard
 
