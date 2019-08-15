@@ -122,7 +122,9 @@ def create_ard(collection, tile, date_start, date_end, filters=None,
         imgcol = imgcol.filter(filters)
 
     # Select and rename bands
-    imgcol = imgcol.select(BANDS[collection], BANDS['COMMON'])
+    # TODO: specify what bands get ordered
+    band_names = BANDS['COMMON']
+    imgcol = imgcol.select(BANDS[collection], band_names)
 
     # Find number of unique observations (or, uniquely dated)
     imgcol_udates = common.get_collection_uniq_dates(imgcol)
@@ -157,7 +159,6 @@ def create_ard(collection, tile, date_start, date_end, filters=None,
 
 
     # Create overall metadata
-    band_names = list(imgcol.first().bandNames().getInfo())
     metadata = {
         'bands': band_names,
         'nodata': nodata,
