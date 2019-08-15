@@ -2,6 +2,7 @@
 """
 import datetime as dt
 import logging
+import warnings
 
 import ee
 
@@ -130,8 +131,8 @@ def create_ard(collection, tile, date_start, date_end, filters=None,
     imgcol_udates = common.get_collection_uniq_dates(imgcol)
     n_images = len(imgcol_udates)
     if n_images == 0:
-        raise EmptyCollectionError(f'Found 0 images for "{collection}" between '
-                                   f'{date_start}-{date_end}')
+        warnings.warn(f'Found 0 images for "{collection}" between '
+                      f'{date_start}-{date_end}')
 
     # Loop over unique dates, making mosaics to eliminate north/south if needed
     logger.debug(f'Creating ARD for {n_images} images')
@@ -144,7 +145,10 @@ def create_ard(collection, tile, date_start, date_end, filters=None,
         prepped.append((img, meta))
 
     # Unpack
-    images, _ = list(zip(*prepped))
+    if prepped:
+        images, image_metadata = list(zip(*prepped))
+    else:
+        images, image_metadata = [], []
 
     # Re-create as collection and turn to bands (n_image x bands_per_image)
     tile_col = ee.ImageCollection.fromImages(images)
@@ -155,14 +159,13 @@ def create_ard(collection, tile, date_start, date_end, filters=None,
     tile_bands_unmasked = tile_bands.unmask(nodata)
 
     # Get all image metadata at once (saves time back and forth)
-    images_metadata = list(ee.List(_).getInfo())
-
+    images_metadata_ = list(ee.List(image_metadata).getInfo())
 
     # Create overall metadata
     metadata = {
         'bands': band_names,
         'nodata': nodata,
-        'images': images_metadata
+        'images': images_metadata_
     }
 
     return tile_bands_unmasked, metadata
