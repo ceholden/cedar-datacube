@@ -3,6 +3,7 @@
 from collections import Mapping, defaultdict
 import datetime as dt
 import json
+import logging
 from pathlib import Path
 
 import numpy as np
@@ -10,6 +11,7 @@ import numpy as np
 from .core import get_task_metadata
 from .. import validation
 
+logger = logging.getLogger(__name__)
 
 _HERE = Path(__file__).resolve().parent
 SCHEMA_TRACKING = _HERE.joinpath('schema_tracking.json')
