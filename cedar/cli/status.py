@@ -61,8 +61,12 @@ def cancel(ctx, tracking_name):
 
     # Cancel tasks
     for task in info.tasks:
-        task.cancel()
-        click.echo(f'Cancelled task ID "{task.id}"')
+        if task is not None:
+            task.cancel()
+            click.echo(f'Cancelled task ID "{task.id}"')
+        else:
+            click.echo('Skipping task that may be unsubmitted '
+                       'or already expired')
 
     # Delete tracking
     tracker.clean(info, tracking_name=tracking_name)

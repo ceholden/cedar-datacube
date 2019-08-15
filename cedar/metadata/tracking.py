@@ -105,11 +105,20 @@ class TrackingMetadata(Mapping):
         from ..utils import get_ee_tasks, load_ee
         ee_api = load_ee(False)  # should initialize elsewhere
         tasks = get_ee_tasks()
-        order_tasks = [tasks[order['status']['id']] for order in self.orders]
+        order_tasks = [
+            tasks.get(order['status'].get('id', 'UNKNOWN'), None)
+            for order in self.orders
+        ]
         return order_tasks
 
-    def update(self):
-        """ Update the tracking metadata by checking EE task status
+    def update(self, skip_if_missing=True):
+        """ Update the tracking metadata order info against EE task status
+
+        Parameters
+        ----------
+        skip_if_missing : bool, optional
+            If True, logs and skips updating order information when the order
+            task cannot be retrieved.
 
         Returns
         -------
@@ -118,10 +127,19 @@ class TrackingMetadata(Mapping):
         """
         updated = []
         for task, order in zip(self.tasks, self.orders):
-            order_ = order.copy()
-            task_info = get_task_metadata(task)
-            order.update(task_info)
-            updated.append(order)
+            id_ = order['status'].get('id', 'UNKNOWN')
+            if task is None:
+                msg = f'Order task id="{id_}" does not exist or has expired'
+                if skip_if_missing:
+                    logger.debug(msg)
+                    updated.append(order)
+                else:
+                    raise ValueError(msg)
+            else:
+                order_ = order.copy()
+                task_info = get_task_metadata(task)
+                order_.update(task_info)
+                updated.append(order_)
 
         data = dict(self)
         data['orders'] = updated
@@ -272,7 +290,7 @@ def summarize_states(orders):
     """
     order_states = defaultdict(lambda: 0)
     for order in orders:
-        order_states[order['status']['state']] += 1
+        order_states[order['status'].get('state', 'EMPTY')] += 1
     return dict(order_states)
 
 
@@ -281,9 +299,9 @@ def summarize_runtimes(orders):
     """
     runtimes = []
     for order in orders:
-        runtime = calculate_order_runtime(
-            order['status']['start_timestamp_ms'],
-            order['status']['update_timestamp_ms'])
+        start_ = order['status'].get('start_timestamp_ms', None)
+        update = order['status'].get('update_timestamp_ms', None)
+        runtime = calculate_order_runtime(start_, update)  # nan if Nones
         runtimes.append(runtime)
 
     runtimes = np.asarray(runtimes)
@@ -300,15 +318,19 @@ def summarize_runtimes(orders):
 
 
 def _summarize_order(order):
-    summary = {k: order[k] for k in ('name', 'prefix', )}
-    summary['id'] = order['status']['id']
-    summary['state'] = order['status']['state']
-    summary['runtime'] = calculate_order_runtime(
-        order['status']['start_timestamp_ms'],
-        order['status']['update_timestamp_ms'])
-    summary['n_images'] = len(order['status']['output_url'])
-    summary['output_url'] = list(set(order['status']['output_url']))
-
+    status = order['status']
+    start_ = status.get('start_timestamp_ms', None)
+    update = status.get('update_timestamp_ms', None)
+    output_url = status.get('output_url', [])
+    summary = {
+        'name': order['name'],
+        'prefix': order['prefix'],
+        'id': status.get('id', 'UNKNOWN'),
+        'state': status.get('state', 'EMPTY'),
+        'runtime': calculate_order_runtime(start_, update, np.nan),
+        'n_images': len(output_url),
+        'output_url': list(set(output_url))
+    }
     return summary
 
 

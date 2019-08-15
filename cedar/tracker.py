@@ -338,9 +338,9 @@ def download_tracked(tracking_info, store, dest, overwrite=False):
     orders = tracking_info['orders']
     for order in orders:
         # Get info about order
-        id_ = order['status']['id']
+        id_ = order['status'].get('id', None)
         name, prefix = order['name'], order['prefix']
-        n_images = len(order.get('output_url', [])) or None
+        n_images = len(order['status'].get('output_url', [])) or None
 
         # Retrieve image and metadata
         dst_meta = store.retrieve_metadata(dest, name, prefix,
@@ -370,7 +370,7 @@ def clean_tracked(tracking_info, store):
     """
     orders = tracking_info['orders']
     for order in orders:
-        id_ = order['status']['id']
+        id_ = order['status'].get('id', None)
         name, prefix = order['name'], order['prefix']
         logger.debug(f'Deleting image and metadata for id={id_}, '
                      f'name="{name}", prefix="{prefix}"')
