@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>cedar.sensors.landsat &mdash; cedar 0.0.3.post0+1.g996aebe documentation</title>
+  <title>cedar.sensors.landsat &mdash; cedar 0.0.3.post0+3.g38114e3 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.0.3.post0+1.g996aebe
+                0.0.3.post0+3.g38114e3
               </div>
             
           
@@ -293,7 +293,9 @@
         <span class="n">imgcol</span> <span class="o">=</span> <span class="n">imgcol</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">filters</span><span class="p">)</span>
 
     <span class="c1"># Select and rename bands</span>
-    <span class="n">imgcol</span> <span class="o">=</span> <span class="n">imgcol</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">BANDS</span><span class="p">[</span><span class="n">collection</span><span class="p">],</span> <span class="n">BANDS</span><span class="p">[</span><span class="s1">&#39;COMMON&#39;</span><span class="p">])</span>
+    <span class="c1"># TODO: specify what bands get ordered</span>
+    <span class="n">band_names</span> <span class="o">=</span> <span class="n">BANDS</span><span class="p">[</span><span class="s1">&#39;COMMON&#39;</span><span class="p">]</span>
+    <span class="n">imgcol</span> <span class="o">=</span> <span class="n">imgcol</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="n">BANDS</span><span class="p">[</span><span class="n">collection</span><span class="p">],</span> <span class="n">band_names</span><span class="p">)</span>
 
     <span class="c1"># Find number of unique observations (or, uniquely dated)</span>
     <span class="n">imgcol_udates</span> <span class="o">=</span> <span class="n">common</span><span class="o">.</span><span class="n">get_collection_uniq_dates</span><span class="p">(</span><span class="n">imgcol</span><span class="p">)</span>
@@ -328,7 +330,6 @@
 
 
     <span class="c1"># Create overall metadata</span>
-    <span class="n">band_names</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">imgcol</span><span class="o">.</span><span class="n">first</span><span class="p">()</span><span class="o">.</span><span class="n">bandNames</span><span class="p">()</span><span class="o">.</span><span class="n">getInfo</span><span class="p">())</span>
     <span class="n">metadata</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s1">&#39;bands&#39;</span><span class="p">:</span> <span class="n">band_names</span><span class="p">,</span>
         <span class="s1">&#39;nodata&#39;</span><span class="p">:</span> <span class="n">nodata</span><span class="p">,</span>
