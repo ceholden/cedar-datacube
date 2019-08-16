@@ -1,5 +1,6 @@
 """ CLI for converting "pre-ARD" to ARD data cubes
 """
+import json
 import logging
 import os.path
 from pathlib import Path
@@ -18,8 +19,10 @@ from . import options
               help='Override config file destination directory')
 @cli_options.opt_executor
 @options.opt_overwrite
+@click.option('--skip-metadata', is_flag=True,
+              help='Skip copying the metadata')
 @click.pass_context
-def convert(ctx, preard, dest, overwrite, executor):
+def convert(ctx, preard, dest, overwrite, executor, skip_metadata):
     """ Convert "pre-ARD" GeoTIFF(s) to ARD data cubes in NetCDF4 format
     """
     from dask.diagnostics import ProgressBar
@@ -58,25 +61,18 @@ def convert(ctx, preard, dest, overwrite, executor):
         dest_dir = create_dest_dir(dest_dir_tmpl, metadata)
         dest_dir.mkdir(parents=True, exist_ok=True)
 
-        # Write metadata
+        # Create metadata/image names
         dest_metadata = dest_dir.joinpath(meta.name)
-        with dest_metadata.open('w') as f:
-            json.dump(metadata, f, indent=2, sortkeys=False)
-            click.echo(f'Copied metadata to destination "{dest_metadata}"')
+        dest_ard = dest_dir.joinpath(meta.stem + '.nc')
 
         # Check if empty and bail
         if metadata['task']['status'].get('state', 'EMPTY') == 'EMPTY':
             click.echo('Not attempting to convert empty pre-ARD order '
                        f'{meta.stem}')
-            continue
+        elif dest_ard.exists() and not overwrite:
+            click.echo(f'Already processed "{meta.stem}" to "{dest_ard}"')
         else:
-            # If there's a chance we have imagery, try to convert
-            dest_ard = dest_dir.joinpath(meta.stem + '.nc')
-
-            if dest_ard.exists() and not overwrite:
-                click.echo(f'Already processed "{meta.stem}" to "{dest_ard}"')
-                continue
-
+            # Try to convert
             click.echo(f'Processing pre-ARD "{meta.stem}" to destination '
                        f'"{dest_ard}"')
 
@@ -87,11 +83,20 @@ def convert(ctx, preard, dest, overwrite, executor):
             encoding = ard_netcdf_encoding(ard_ds, metadata, **encoding_cfg)
 
             with renamed_upon_completion(dest_) as tmp:
-                ard_ds_ = ard_ds.to_netcdf(tmp, encoding=encoding, compute=False)
-
+                ard_ds_ = ard_ds.to_netcdf(tmp, encoding=encoding,
+                                           compute=False)
                 # Write with progressbar
                 with ProgressBar():
                     out = ard_ds_.compute()
+
+        if not skip_metadata:
+            if dest_metadata.exists() and not overwrite:
+                click.echo(f'Already copied "{meta.stem}" to "{dest_metadata}"')
+            else:
+                # Always write metadata
+                with dest_metadata.open('w') as f:
+                    json.dump(metadata, f, indent=2, sort_keys=False)
+                click.echo(f'Copied metadata to destination "{dest_metadata}"')
 
     click.echo('Complete')
 
