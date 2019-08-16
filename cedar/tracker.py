@@ -73,7 +73,8 @@ class Tracker(object):
         }
 
     def submit(self, collections, tile_indices,
-               period_start, period_end, period_freq=None):
+               period_start, period_end, period_freq=None,
+               save_empty_metadata=True, error_if_empty=False):
         """ Submit and track GEE pre-ARD tasks
 
         Parameters
@@ -90,6 +91,14 @@ class Tracker(object):
             If provided, ``period_start``, ``period_end``, and ``period_freq``
             are interpeted as the range for :py:func:`pandas.date_range` and
             one or more Tasks will be submitted
+        save_empty_metadata : bool, optional
+            If True, Pre-ARD image requests that have 0 results (e.g., because
+            of spotty historical record) will store metadata, but will not start
+            the task. If False, will not store this metadata
+        error_if_empty : bool, optional
+            If True, raise an EmptyCollectionError if the image collection
+            result has no images. The default behavior is to log and skip
+            empty search results
 
         Returns
         -------
@@ -151,11 +160,9 @@ class Tracker(object):
                     f'{date_start.isoformat()} to {date_end.isoformat()}')
 
                 collection_filters = self.filters.get(collection, [])
-                try:
-                    order.add(collection, tile, date_start, date_end,
-                              filters=collection_filters)
-                except EmptyCollectionError as ece:
-                    logger.debug(ece)
+                order.add(collection, tile, date_start, date_end,
+                          error_if_empty=error_if_empty,
+                          filters=collection_filters)
 
         return order.tracking_name, order.tracking_id
 

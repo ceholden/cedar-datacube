@@ -36,24 +36,13 @@ class Order(object):
         String format template for pre-ARD image and metadata names
     prefix_template : str
         String format template for directory or prefix of pre-ARD
-    save_empty_metadata : bool, optional
-        If True, Pre-ARD image requests that have 0 results (e.g., because of
-        spotty historical record) will store metadata, but will not start
-        the task. If False, will not store this metadata
-    error_if_empty : bool, optional
-        If True, ``Order.add`` and other methods will raise an
-        EmptyCollectionError if the image collection result has no images. The
-        default behavior is to log, but skip, these empty results
     """
     def __init__(self, tracking_name, tracking_prefix,
-                 name_template=None, prefix_template=None,
-                 save_empty_metadata=True, error_if_empty=False):
+                 name_template=None, prefix_template=None):
         self.tracking_name = tracking_name
         self.tracking_prefix = tracking_prefix
         self.name_template = name_template or defaults.PREARD_NAME
         self.prefix_template = prefix_template or defaults.PREARD_PREFIX
-        self.save_empty_metadata = save_empty_metadata
-        self.error_if_empty = error_if_empty
         self._items = []
 
     def __len__(self):
@@ -63,15 +52,12 @@ class Order(object):
     @contextlib.contextmanager
     def create_submission(cls, tracking_name, tracking_prefix, store,
                           name_template=None, prefix_template=None,
-                          save_empty_metadata=True, error_if_empty=False,
                           submission_info=None, export_image_kwds=None):
         """ Create and submit an order in a single context
         """
         instance = cls(tracking_name, tracking_prefix,
                        name_template=name_template,
-                       prefix_template=prefix_template,
-                       save_empty_metadata=save_empty_metadata,
-                       error_if_empty=error_if_empty)
+                       prefix_template=prefix_template)
         try:
             yield instance
         except Exception as e:
@@ -89,8 +75,28 @@ class Order(object):
     def tiles(self) -> Set[Tile]:
         return set([item['tile'] for item in self._items])
 
-    def add(self, collection, tile, date_start, date_end, filters=None):
+    def add(self, collection, tile, date_start, date_end, filters=None,
+            error_if_empty=False):
         """ Add a "pre-ARD" image to the order
+
+        Parameters
+        ==========
+        collection : str
+            Image collection
+        tile : stems.gis.grids.Tile
+            Tile to create
+        date_start : datetime.datetime
+            Starting time for image data
+        date_end : datetime.datetime
+            Ending time for image data
+        filters : list, optional
+            Earth Engine filters to apply to image collection before
+            creating image
+        error_if_empty : bool, optional
+            If True, ``Order.add`` and other methods will raise an
+            EmptyCollectionError if the image collection result has no images. The
+            default behavior is to log, but skip, these empty results
+
         """
         try:
             # Determine which function should be used for ARD generation
@@ -119,7 +125,7 @@ class Order(object):
         prefix = self.prefix_template.format(**namespace)
 
         # Add in tile and order metadata
-        if not image_metadata['images'] and self.error_if_empty:
+        if not image_metadata['images'] and error_if_empty:
             raise EmptyCollectionError(
                 f'Found 0 images for "{collection}" between '
                 f'{date_start}-{date_end}'
@@ -137,7 +143,9 @@ class Order(object):
             'filters': filters
         })
 
-    def submit(self, store, submission_info=None, export_image_kwds=None):
+    def submit(self, store, submission_info=None,
+               save_empty_metadata=True,
+               export_image_kwds=None):
         """ Submit "pre-ARD" for a collection and tile to be processed
 
         Parameters
@@ -146,6 +154,10 @@ class Order(object):
             Storage backend to use
         submission_info : dict, optional
             Information to include in tracking metadata about the submission
+        save_empty_metadata : bool, optional
+            If True, Pre-ARD image requests that have 0 results (e.g., because
+            of spotty historical record) will store metadata, but will not
+            start the task. If False, will not store this metadata
         export_image_kwds : dict, optional
             Additional keywords to pass onto ``store.store_image``
 
@@ -168,7 +180,7 @@ class Order(object):
         for item in self._items:
             # Don't save empty results if not okay with
             empty = not item['image_metadata']['images']
-            if empty and not self.save_empty_metadata:
+            if empty and not save_empty_metadata:
                 continue
 
             # Create metadata about order and submit
