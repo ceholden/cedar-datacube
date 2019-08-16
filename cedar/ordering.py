@@ -48,25 +48,6 @@ class Order(object):
     def __len__(self):
         return len(self._items)
 
-    @classmethod
-    @contextlib.contextmanager
-    def create_submission(cls, tracking_name, tracking_prefix, store,
-                          name_template=None, prefix_template=None,
-                          submission_info=None, export_image_kwds=None):
-        """ Create and submit an order in a single context
-        """
-        instance = cls(tracking_name, tracking_prefix,
-                       name_template=name_template,
-                       prefix_template=prefix_template)
-        try:
-            yield instance
-        except Exception as e:
-            raise e
-        finally:
-            instance.submit(store,
-                            submission_info=submission_info,
-                            export_image_kwds=export_image_kwds)
-
     @property
     def collections(self) -> Set[str]:
         return set([item['collection'] for item in self._items])

@@ -144,27 +144,38 @@ class Tracker(object):
         # Determine parameters for each submission
         iter_submit = list(itertools.product(collections, tiles, periods))
 
-        # Create an order - submits on context exit
-        with ordering.Order.create_submission(
-                tracking_name, self.tracking_prefix, self.store,
-                name_template=self.name_template,
-                prefix_template=self.prefix_template,
-                submission_info=submission_info,
-                export_image_kwds=self.export_image_kwds) as order:
+        logger.debug(f'Creating order named "{tracking_name}"')
+        order = ordering.Order(
+            tracking_name,
+            self.tracking_prefix,
+            name_template=self.name_template,
+            prefix_template=self.prefix_template
+        )
 
-            # Loop over product of collections, tiles, and dates
-            for collection, tile, (date_start, date_end) in iter_submit:
-                logger.debug(
-                    f'Ordering "{collection}" - '
-                    f'"h{tile.horizontal:03d}v{tile.vertical:03d} - '
-                    f'{date_start.isoformat()} to {date_end.isoformat()}')
+        # Loop over product of collections, tiles, and dates
+        for collection, tile, (date_start, date_end) in iter_submit:
+            logger.debug(
+                f'Adding "{collection}" - '
+                f'"h{tile.horizontal:03d}v{tile.vertical:03d} - '
+                f'{date_start} to {date_end}'
+            )
+            order.add(
+                collection, tile, date_start, date_end,
+                filters=self.filters.get(collection, []),
+                error_if_empty=error_if_empty
+            )
 
-                collection_filters = self.filters.get(collection, [])
-                order.add(collection, tile, date_start, date_end,
-                          error_if_empty=error_if_empty,
-                          filters=collection_filters)
+        logger.debug('Submitting order')
+        tracking_id = order.submit(
+            self.store,
+            submission_info=submission_info,
+            save_empty_metadata=save_empty_metadata,
+            export_image_kwds=self.export_image_kwds
+        )
+        logger.debug(f'Submitted order with name="{tracking_name}" '
+                     f'stored at ID="{tracking_id}"')
 
-        return order.tracking_name, order.tracking_id
+        return tracking_name, tracking_id
 
     def list(self, pattern=None):
         """ Return a list of all tracking metadata
