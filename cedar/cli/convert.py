@@ -56,27 +56,42 @@ def convert(ctx, preard, dest, overwrite, executor):
 
         # Destination can depend on info in metadata - format it
         dest_dir = create_dest_dir(dest_dir_tmpl, metadata)
-        dest_ = dest_dir.joinpath(meta.stem + '.nc')
+        dest_dir.mkdir(parents=True, exist_ok=True)
 
-        if dest_.exists() and not overwrite:
-            click.echo(f'Already processed "{meta.stem}" to "{dest_}"')
+        # Write metadata
+        dest_metadata = dest_dir.joinpath(meta.name)
+        with dest_metadata.open('w') as f:
+            json.dump(metadata, f, indent=2, sortkeys=False)
+            click.echo(f'Copied metadata to destination "{dest_metadata}"')
+
+        # Check if empty and bail
+        if metadata['task']['status'].get('state', 'EMPTY') == 'EMPTY':
+            click.echo('Not attempting to convert empty pre-ARD order '
+                       f'{meta.stem}')
             continue
+        else:
+            # If there's a chance we have imagery, try to convert
+            dest_ard = dest_dir.joinpath(meta.stem + '.nc')
 
-        click.echo(f'Processing pre-ARD "{meta.stem}" to destination "{dest_}"')
-        dest_.parent.mkdir(parents=True, exist_ok=True)
+            if dest_ard.exists() and not overwrite:
+                click.echo(f'Already processed "{meta.stem}" to "{dest_ard}"')
+                continue
 
-        # Read TIFF files into ARD-like xr.Dataset
-        ard_ds = process_preard(metadata, images)
+            click.echo(f'Processing pre-ARD "{meta.stem}" to destination '
+                       f'"{dest_ard}"')
 
-        # Determine encoding
-        encoding = ard_netcdf_encoding(ard_ds, metadata, **encoding_cfg)
+            # Read TIFF files into ARD-like xr.Dataset
+            ard_ds = process_preard(metadata, images)
 
-        with renamed_upon_completion(dest_) as tmp:
-            ard_ds_ = ard_ds.to_netcdf(tmp, encoding=encoding, compute=False)
+            # Determine encoding
+            encoding = ard_netcdf_encoding(ard_ds, metadata, **encoding_cfg)
 
-            # Write with progressbar
-            with ProgressBar():
-                out = ard_ds_.compute()
+            with renamed_upon_completion(dest_) as tmp:
+                ard_ds_ = ard_ds.to_netcdf(tmp, encoding=encoding, compute=False)
+
+                # Write with progressbar
+                with ProgressBar():
+                    out = ard_ds_.compute()
 
     click.echo('Complete')
 
