@@ -90,7 +90,6 @@ def clean(ctx, tracking_name, keep_tracking):
     click.echo(f'Retrieving info about pre-ARD in "{tracking_name}"')
     tracking_info = tracker.read(tracking_name)
 
-    click.echo(f'Cleaning data for {n_orders} orders')
     clean_info = _do_clean(tracker, tracking_name, tracking_info, keep_tracking)
 
     click.echo('Complete!')
@@ -98,6 +97,7 @@ def clean(ctx, tracking_name, keep_tracking):
 
 def _do_clean(tracker, tracking_name, tracking_info, keep_tracking=False):
     n_orders = len(tracking_info['orders'])
+    click.echo(f'Cleaning data for {n_orders} orders')
     with click.progressbar(label='Cleaning',
                            item_show_func=_item_show_func,
                            length=n_orders) as bar:
