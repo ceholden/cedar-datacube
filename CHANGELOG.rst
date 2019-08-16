@@ -11,6 +11,19 @@ For information on the style of this change log, see
 v0.0.4 -- UNRELEASED
 ====================
 
+* **Fixed** bug in ``cedar clean`` command
+* The ``cedar convert`` program will now copy "pre-ARD" image metadata JSON
+  files to the destination directory alongside the "pre-ARD" images (GeoTIFFs
+  converted to NetCDF files). To prevent this behavior, pass
+  ``--skip-metadata`` to the program.
+* Changes were made in where exceptions are handled for the case where a user
+  requests a "pre-ARD" image that returns 0 search results (e.g., wrong time
+  period for sensor, bad historic coverage, etc). By default, ``Order.add``
+  will not raise an ``EmptyCollectionError`` when you try to add a "pre-ARD"
+  image that had 0 image results. You can force an error to be raised by
+  setting ``error_if_empty=True`` in either ``Order.add`` or
+  ``Tracker.submit``.
+
 
 v0.0.3
 ======
