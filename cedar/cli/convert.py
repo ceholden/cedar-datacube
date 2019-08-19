@@ -86,7 +86,7 @@ def convert(ctx, preard, dest, overwrite, executor, skip_metadata):
                 ard_ds_ = ard_ds.to_netcdf(tmp, encoding=encoding,
                                            compute=False)
                 # Write with progressbar
-                with ProgressBar():
+                with ProgressBar(dt=10):  # 10 second update
                     out = ard_ds_.compute()
 
         if not skip_metadata:
