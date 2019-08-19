@@ -82,7 +82,7 @@ def convert(ctx, preard, dest, overwrite, executor, skip_metadata):
             # Determine encoding
             encoding = ard_netcdf_encoding(ard_ds, metadata, **encoding_cfg)
 
-            with renamed_upon_completion(dest_) as tmp:
+            with renamed_upon_completion(dest_ard) as tmp:
                 ard_ds_ = ard_ds.to_netcdf(tmp, encoding=encoding,
                                            compute=False)
                 # Write with progressbar
