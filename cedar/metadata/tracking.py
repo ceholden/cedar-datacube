@@ -10,6 +10,7 @@ import numpy as np
 
 from .core import get_task_metadata
 from .. import validation
+from ..utils import EE_STATES
 
 logger = logging.getLogger(__name__)
 
@@ -91,14 +92,17 @@ class TrackingMetadata(Mapping):
         """
         states = self.states
         n = sum(states.values())
-        n_completed = states.get(_EE_COMPLETED, 0)
+        n_completed = states.get(EE_STATES.COMPLETED, 0)
         return n_completed / n if n_completed else 0.
 
     @property
     def complete(self):
         """ bool: True if all orders have completed
         """
-        return list(self.states) == [_EE_COMPLETED]
+        states = set(self.states)
+        done_or_empty = [state in (EE_STATES.COMPLETED, EE_STATES.EMPTY)
+                         for state in states]
+        return all(done_or_empty)
 
     @property
     def tasks(self):
@@ -292,7 +296,7 @@ def summarize_states(orders):
     """
     order_states = defaultdict(lambda: 0)
     for order in orders:
-        order_states[order['status'].get('state', 'EMPTY')] += 1
+        order_states[order['status'].get('state', EE_STATES.EMPTY)] += 1
     return dict(order_states)
 
 
@@ -328,7 +332,7 @@ def _summarize_order(order):
         'name': order['name'],
         'prefix': order['prefix'],
         'id': status.get('id', 'UNKNOWN'),
-        'state': status.get('state', 'EMPTY'),
+        'state': status.get('state', EE_STATES.EMPTY),
         'runtime': calculate_order_runtime(start_, update, np.nan),
         'n_images': len(output_url),
         'output_url': list(set(output_url))
@@ -346,12 +350,3 @@ def _format_runtime(time_ms):
         return '{0:02.2f}'.format(time_ms / 60. / 1000.)
     else:
         return 'nan'
-
-
-_EE_UNSUBMITTED = 'UNSUBMITTED'
-_EE_READY = 'READY'
-_EE_RUNNING = 'RUNNING'
-_EE_COMPLETED = 'COMPLETED'
-_EE_FAILED = 'FAILED'
-_EE_CANCEL_REQUESTED = 'CANCEL_REQUESTED'
-_EE_CANCELLED = 'CANCELLED'

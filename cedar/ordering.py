@@ -19,6 +19,7 @@ from .metadata import (TrackingMetadata,
                        get_tracking_metadata)
 
 from .sensors import CREATE_ARD_COLLECTION
+from .utils import EE_STATES
 
 logger = logging.getLogger(__name__)
 
@@ -234,8 +235,11 @@ def create_preard_task(image, image_metadata, name, prefix, tile, store,
     # Don't actually create / submit task if order is empty
     if empty:
         task = None
-        task_metadata = {'name': name, 'prefix': prefix,
-                         'status': {'state': 'EMPTY'}}
+        task_metadata = {
+            'name': name,
+            'prefix': prefix,
+            'status': {'state': EE_STATES.EMPTY}
+        }
     else:
         # Create EE task
         task = store.store_image(image, name, prefix, **export_image_kwds)

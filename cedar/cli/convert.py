@@ -30,6 +30,7 @@ def convert(ctx, preard, dest, overwrite, executor, skip_metadata):
 
     from cedar.preard import (ard_netcdf_encoding, find_preard,
                               process_preard, read_metadata)
+    from cedar.utils import EE_STATES
 
     # Provide debug info for the executor
     logger = ctx.obj['logger']
@@ -66,7 +67,8 @@ def convert(ctx, preard, dest, overwrite, executor, skip_metadata):
         dest_ard = dest_dir.joinpath(meta.stem + '.nc')
 
         # Check if empty and bail
-        if metadata['task']['status'].get('state', 'EMPTY') == 'EMPTY':
+        state = metadata['task']['status'].get('state', EE_STATES.EMPTY)
+        if state == EE_STATES.EMPTY:
             click.echo('Not attempting to convert empty pre-ARD order '
                        f'{meta.stem}')
         elif dest_ard.exists() and not overwrite:

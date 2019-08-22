@@ -58,6 +58,26 @@ def affine_to_str(transform):
     return ','.join(map(str, transform[:6]))
 
 
+# =============================================================================
+# Earth Engine
+
+# Task states
+# Note: Not using Enum because we're almost 100% interested in str value and
+#       want to avoid writing `EE_STATES.[STATE].value`
+class EE_STATES(object):
+    # Earth Engine task states
+    UNSUBMITTED = 'UNSUBMITTED'
+    READY = 'READY'
+    RUNNING = 'RUNNING'
+    COMPLETED = 'COMPLETED'
+    FAILED = 'FAILED'
+    CANCEL_REQUESTED = 'CANCEL_REQUESTED'
+    CANCELLED = 'CANCELLED'
+    # Fake state for empty orders
+    EMPTY = 'EMPTY'
+
+
+# TODO: move all GEE related utils into a separate "gee.py" or similar
 def load_ee(initialize=True):
     """ Import and initialize the EE API, handling errors
 
