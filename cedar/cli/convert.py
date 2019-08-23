@@ -21,8 +21,15 @@ from . import options
 @options.opt_overwrite
 @click.option('--skip-metadata', is_flag=True,
               help='Skip copying the metadata')
+@click.option('--skip-partial', is_flag=True,
+              help='Skip over partially completed pre-ARD, requiring that '
+                   'all pre-ARD image chunks/pieces exist before conversion')
+@click.option('--check-shape', is_flag=True,
+              help='Check that the shape (nrow, ncol) of the ARD match the '
+                   'exported shape before continuing')
 @click.pass_context
-def convert(ctx, preard, dest, overwrite, executor, skip_metadata):
+def convert(ctx, preard, dest, overwrite, executor,
+            skip_metadata, skip_partial, check_shape):
     """ Convert "pre-ARD" GeoTIFF(s) to ARD data cubes in NetCDF4 format
     """
     from dask.diagnostics import ProgressBar
@@ -57,6 +64,7 @@ def convert(ctx, preard, dest, overwrite, executor, skip_metadata):
     for i, (meta, images) in enumerate(preard_files.items()):
         # Read metadata first so we know what is in order
         metadata = read_metadata(meta)
+        name = meta.stem
 
         # Destination can depend on info in metadata - format it
         dest_dir = create_dest_dir(dest_dir_tmpl, metadata)
@@ -66,14 +74,34 @@ def convert(ctx, preard, dest, overwrite, executor, skip_metadata):
         dest_metadata = dest_dir.joinpath(meta.name)
         dest_ard = dest_dir.joinpath(meta.stem + '.nc')
 
-        # Check if empty and bail
+        # Process pre-ARD images
         state = metadata['task']['status'].get('state', EE_STATES.EMPTY)
+        # Check if empty and bail
         if state == EE_STATES.EMPTY:
-            click.echo('Not attempting to convert empty pre-ARD order '
-                       f'{meta.stem}')
+            click.echo(f'Not attempting to convert empty pre-ARD order {name}')
         elif dest_ard.exists() and not overwrite:
-            click.echo(f'Already processed "{meta.stem}" to "{dest_ard}"')
+            click.echo(f'Already processed "{name}" to "{dest_ard}"')
         else:
+            # First, try to pass any required checks
+            if skip_partial:
+                n_found = len(images)
+                breakpoint()
+                ourl = metadata['task']['status'].get('output_url', None)
+                if not ourl:
+                    logger.warning(
+                        'Could not determine task `output_url` required for '
+                        f'the ``--skip-partial`` test. Skipping "{name}"'
+                    )
+                    continue
+                n_expect = len(ourl)
+                if n_found != n_expect:
+                    logger.warning(
+                        'Did not locate correct number of pre-ARD image '
+                        f'pieces/chunks (expected {n_expect}, got {n_found}). '
+                        f'Skipping "{name}"'
+                    )
+                    continue
+
             # Try to convert
             click.echo(f'Processing pre-ARD "{meta.stem}" to destination '
                        f'"{dest_ard}"')
@@ -91,6 +119,7 @@ def convert(ctx, preard, dest, overwrite, executor, skip_metadata):
                 with ProgressBar(dt=10):  # 10 second update
                     out = ard_ds_.compute()
 
+        # Process pre-ARD metadata
         if not skip_metadata:
             if dest_metadata.exists() and not overwrite:
                 click.echo(f'Already copied "{meta.stem}" to "{dest_metadata}"')
