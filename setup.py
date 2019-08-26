@@ -65,6 +65,7 @@ if 'pytest' in sys.argv:  # only include if we're testing
 else:
     SETUP_REQUIRES = []
 TESTS_REQUIRE = [
+    'stems',
     'pytest', 'pytest-cov', 'pytest-lazy-fixture', 'coverage',
     'sphinx', 'sphinx_rtd_theme', 'sphinxcontrib-programoutput',
     'sphinxcontrib-bibtex', 'numpydoc',
