@@ -8,8 +8,8 @@ For information on the style of this change log, see
 `keepachangelog.com <http://keepachangelog.com/>`__.
 
 
-v0.0.4 -- UNRELEASED
-====================
+v0.0.4
+======
 
 * **Fixed** bug in ``cedar clean`` command
 * The ``cedar convert`` program will now copy "pre-ARD" image metadata JSON
