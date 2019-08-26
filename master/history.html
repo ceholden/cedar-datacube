@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Change Log &mdash; cedar 0.0.3.post0+4.g04d51e2 documentation</title>
+  <title>Change Log &mdash; cedar 0.0.4 documentation</title>
   
 
   
@@ -61,7 +61,7 @@
             
             
               <div class="version">
-                0.0.3.post0+4.g04d51e2
+                0.0.4
               </div>
             
           
@@ -89,7 +89,7 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Change Log</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#v0-0-4-unreleased">v0.0.4 – UNRELEASED</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#v0-0-4">v0.0.4</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#v0-0-3">v0.0.3</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#v0-0-2">v0.0.2</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#v0-0-1-post1">v0.0.1.post1</a></li>
@@ -187,8 +187,22 @@
 <p>All notable changes will appear in this log.</p>
 <p>For information on the style of this change log, see
 <a class="reference external" href="http://keepachangelog.com/">keepachangelog.com</a>.</p>
-<div class="section" id="v0-0-4-unreleased">
-<h2>v0.0.4 – UNRELEASED<a class="headerlink" href="#v0-0-4-unreleased" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="v0-0-4">
+<h2>v0.0.4<a class="headerlink" href="#v0-0-4" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p><strong>Fixed</strong> bug in <code class="docutils literal notranslate"><span class="pre">cedar</span> <span class="pre">clean</span></code> command</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">cedar</span> <span class="pre">convert</span></code> program will now copy “pre-ARD” image metadata JSON
+files to the destination directory alongside the “pre-ARD” images (GeoTIFFs
+converted to NetCDF files). To prevent this behavior, pass
+<code class="docutils literal notranslate"><span class="pre">--skip-metadata</span></code> to the program.</p></li>
+<li><p>Changes were made in where exceptions are handled for the case where a user
+requests a “pre-ARD” image that returns 0 search results (e.g., wrong time
+period for sensor, bad historic coverage, etc). By default, <code class="docutils literal notranslate"><span class="pre">Order.add</span></code>
+will not raise an <code class="docutils literal notranslate"><span class="pre">EmptyCollectionError</span></code> when you try to add a “pre-ARD”
+image that had 0 image results. You can force an error to be raised by
+setting <code class="docutils literal notranslate"><span class="pre">error_if_empty=True</span></code> in either <code class="docutils literal notranslate"><span class="pre">Order.add</span></code> or
+<code class="docutils literal notranslate"><span class="pre">Tracker.submit</span></code>.</p></li>
+</ul>
 </div>
 <div class="section" id="v0-0-3">
 <h2>v0.0.3<a class="headerlink" href="#v0-0-3" title="Permalink to this headline">¶</a></h2>

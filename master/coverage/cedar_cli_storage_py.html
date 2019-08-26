@@ -160,11 +160,11 @@
 <p id="n91" class="stm mis"><a href="#n91">91</a></p>
 <p id="n92" class="pln"><a href="#n92">92</a></p>
 <p id="n93" class="stm mis"><a href="#n93">93</a></p>
-<p id="n94" class="stm mis"><a href="#n94">94</a></p>
-<p id="n95" class="pln"><a href="#n95">95</a></p>
-<p id="n96" class="stm mis"><a href="#n96">96</a></p>
+<p id="n94" class="pln"><a href="#n94">94</a></p>
+<p id="n95" class="stm mis"><a href="#n95">95</a></p>
+<p id="n96" class="pln"><a href="#n96">96</a></p>
 <p id="n97" class="pln"><a href="#n97">97</a></p>
-<p id="n98" class="pln"><a href="#n98">98</a></p>
+<p id="n98" class="stm mis"><a href="#n98">98</a></p>
 <p id="n99" class="stm mis"><a href="#n99">99</a></p>
 <p id="n100" class="stm mis"><a href="#n100">100</a></p>
 <p id="n101" class="stm mis"><a href="#n101">101</a></p>
@@ -283,14 +283,14 @@
 <p id="t90" class="stm mis">    <span class="nam">click</span><span class="op">.</span><span class="nam">echo</span><span class="op">(</span><span class="str">f'Retrieving info about pre-ARD in "{tracking_name}"'</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t91" class="stm mis">    <span class="nam">tracking_info</span> <span class="op">=</span> <span class="nam">tracker</span><span class="op">.</span><span class="nam">read</span><span class="op">(</span><span class="nam">tracking_name</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t92" class="pln"><span class="strut">&nbsp;</span></p>
-<p id="t93" class="stm mis">    <span class="nam">click</span><span class="op">.</span><span class="nam">echo</span><span class="op">(</span><span class="str">f'Cleaning data for {n_orders} orders'</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
-<p id="t94" class="stm mis">    <span class="nam">clean_info</span> <span class="op">=</span> <span class="nam">_do_clean</span><span class="op">(</span><span class="nam">tracker</span><span class="op">,</span> <span class="nam">tracking_name</span><span class="op">,</span> <span class="nam">tracking_info</span><span class="op">,</span> <span class="nam">keep_tracking</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
-<p id="t95" class="pln"><span class="strut">&nbsp;</span></p>
-<p id="t96" class="stm mis">    <span class="nam">click</span><span class="op">.</span><span class="nam">echo</span><span class="op">(</span><span class="str">'Complete!'</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t93" class="stm mis">    <span class="nam">clean_info</span> <span class="op">=</span> <span class="nam">_do_clean</span><span class="op">(</span><span class="nam">tracker</span><span class="op">,</span> <span class="nam">tracking_name</span><span class="op">,</span> <span class="nam">tracking_info</span><span class="op">,</span> <span class="nam">keep_tracking</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t94" class="pln"><span class="strut">&nbsp;</span></p>
+<p id="t95" class="stm mis">    <span class="nam">click</span><span class="op">.</span><span class="nam">echo</span><span class="op">(</span><span class="str">'Complete!'</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t96" class="pln"><span class="strut">&nbsp;</span></p>
 <p id="t97" class="pln"><span class="strut">&nbsp;</span></p>
-<p id="t98" class="pln"><span class="strut">&nbsp;</span></p>
-<p id="t99" class="stm mis"><span class="key">def</span> <span class="nam">_do_clean</span><span class="op">(</span><span class="nam">tracker</span><span class="op">,</span> <span class="nam">tracking_name</span><span class="op">,</span> <span class="nam">tracking_info</span><span class="op">,</span> <span class="nam">keep_tracking</span><span class="op">=</span><span class="key">False</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
-<p id="t100" class="stm mis">    <span class="nam">n_orders</span> <span class="op">=</span> <span class="nam">len</span><span class="op">(</span><span class="nam">tracking_info</span><span class="op">[</span><span class="str">'orders'</span><span class="op">]</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t98" class="stm mis"><span class="key">def</span> <span class="nam">_do_clean</span><span class="op">(</span><span class="nam">tracker</span><span class="op">,</span> <span class="nam">tracking_name</span><span class="op">,</span> <span class="nam">tracking_info</span><span class="op">,</span> <span class="nam">keep_tracking</span><span class="op">=</span><span class="key">False</span><span class="op">)</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
+<p id="t99" class="stm mis">    <span class="nam">n_orders</span> <span class="op">=</span> <span class="nam">len</span><span class="op">(</span><span class="nam">tracking_info</span><span class="op">[</span><span class="str">'orders'</span><span class="op">]</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
+<p id="t100" class="stm mis">    <span class="nam">click</span><span class="op">.</span><span class="nam">echo</span><span class="op">(</span><span class="str">f'Cleaning data for {n_orders} orders'</span><span class="op">)</span><span class="strut">&nbsp;</span></p>
 <p id="t101" class="stm mis">    <span class="key">with</span> <span class="nam">click</span><span class="op">.</span><span class="nam">progressbar</span><span class="op">(</span><span class="nam">label</span><span class="op">=</span><span class="str">'Cleaning'</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
 <p id="t102" class="pln">                           <span class="nam">item_show_func</span><span class="op">=</span><span class="nam">_item_show_func</span><span class="op">,</span><span class="strut">&nbsp;</span></p>
 <p id="t103" class="pln">                           <span class="nam">length</span><span class="op">=</span><span class="nam">n_orders</span><span class="op">)</span> <span class="key">as</span> <span class="nam">bar</span><span class="op">:</span><span class="strut">&nbsp;</span></p>
@@ -322,7 +322,7 @@
     <div class="content">
         <p>
             <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.io">coverage.py v4.5.4</a>,
-            created at 2019-08-16 12:27
+            created at 2019-08-26 17:49
         </p>
     </div>
 </div>

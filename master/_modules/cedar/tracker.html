@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>cedar.tracker &mdash; cedar 0.0.3.post0+4.g04d51e2 documentation</title>
+  <title>cedar.tracker &mdash; cedar 0.0.4 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.0.3.post0+4.g04d51e2
+                0.0.4
               </div>
             
           
@@ -244,7 +244,8 @@
         <span class="p">}</span>
 
 <div class="viewcode-block" id="Tracker.submit"><a class="viewcode-back" href="../../cedar/cedar.tracker.html#cedar.tracker.Tracker.submit">[docs]</a>    <span class="k">def</span> <span class="nf">submit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">collections</span><span class="p">,</span> <span class="n">tile_indices</span><span class="p">,</span>
-               <span class="n">period_start</span><span class="p">,</span> <span class="n">period_end</span><span class="p">,</span> <span class="n">period_freq</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+               <span class="n">period_start</span><span class="p">,</span> <span class="n">period_end</span><span class="p">,</span> <span class="n">period_freq</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+               <span class="n">save_empty_metadata</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">error_if_empty</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Submit and track GEE pre-ARD tasks</span>
 
 <span class="sd">        Parameters</span>
@@ -261,6 +262,14 @@
 <span class="sd">            If provided, ``period_start``, ``period_end``, and ``period_freq``</span>
 <span class="sd">            are interpeted as the range for :py:func:`pandas.date_range` and</span>
 <span class="sd">            one or more Tasks will be submitted</span>
+<span class="sd">        save_empty_metadata : bool, optional</span>
+<span class="sd">            If True, Pre-ARD image requests that have 0 results (e.g., because</span>
+<span class="sd">            of spotty historical record) will store metadata, but will not start</span>
+<span class="sd">            the task. If False, will not store this metadata</span>
+<span class="sd">        error_if_empty : bool, optional</span>
+<span class="sd">            If True, raise an EmptyCollectionError if the image collection</span>
+<span class="sd">            result has no images. The default behavior is to log and skip</span>
+<span class="sd">            empty search results</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -306,29 +315,38 @@
         <span class="c1"># Determine parameters for each submission</span>
         <span class="n">iter_submit</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="n">collections</span><span class="p">,</span> <span class="n">tiles</span><span class="p">,</span> <span class="n">periods</span><span class="p">))</span>
 
-        <span class="c1"># Create an order - submits on context exit</span>
-        <span class="k">with</span> <span class="n">ordering</span><span class="o">.</span><span class="n">Order</span><span class="o">.</span><span class="n">create_submission</span><span class="p">(</span>
-                <span class="n">tracking_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">tracking_prefix</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">store</span><span class="p">,</span>
-                <span class="n">name_template</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name_template</span><span class="p">,</span>
-                <span class="n">prefix_template</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">prefix_template</span><span class="p">,</span>
-                <span class="n">submission_info</span><span class="o">=</span><span class="n">submission_info</span><span class="p">,</span>
-                <span class="n">export_image_kwds</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">export_image_kwds</span><span class="p">)</span> <span class="k">as</span> <span class="n">order</span><span class="p">:</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Creating order named &quot;</span><span class="si">{tracking_name}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
+        <span class="n">order</span> <span class="o">=</span> <span class="n">ordering</span><span class="o">.</span><span class="n">Order</span><span class="p">(</span>
+            <span class="n">tracking_name</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">tracking_prefix</span><span class="p">,</span>
+            <span class="n">name_template</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">name_template</span><span class="p">,</span>
+            <span class="n">prefix_template</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">prefix_template</span>
+        <span class="p">)</span>
 
-            <span class="c1"># Loop over product of collections, tiles, and dates</span>
-            <span class="k">for</span> <span class="n">collection</span><span class="p">,</span> <span class="n">tile</span><span class="p">,</span> <span class="p">(</span><span class="n">date_start</span><span class="p">,</span> <span class="n">date_end</span><span class="p">)</span> <span class="ow">in</span> <span class="n">iter_submit</span><span class="p">:</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
-                    <span class="n">f</span><span class="s1">&#39;Ordering &quot;</span><span class="si">{collection}</span><span class="s1">&quot; - &#39;</span>
-                    <span class="n">f</span><span class="s1">&#39;&quot;h</span><span class="si">{tile.horizontal:03d}</span><span class="s1">v</span><span class="si">{tile.vertical:03d}</span><span class="s1"> - &#39;</span>
-                    <span class="n">f</span><span class="s1">&#39;{date_start.isoformat()} to {date_end.isoformat()}&#39;</span><span class="p">)</span>
+        <span class="c1"># Loop over product of collections, tiles, and dates</span>
+        <span class="k">for</span> <span class="n">collection</span><span class="p">,</span> <span class="n">tile</span><span class="p">,</span> <span class="p">(</span><span class="n">date_start</span><span class="p">,</span> <span class="n">date_end</span><span class="p">)</span> <span class="ow">in</span> <span class="n">iter_submit</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+                <span class="n">f</span><span class="s1">&#39;Adding &quot;</span><span class="si">{collection}</span><span class="s1">&quot; - &#39;</span>
+                <span class="n">f</span><span class="s1">&#39;&quot;h</span><span class="si">{tile.horizontal:03d}</span><span class="s1">v</span><span class="si">{tile.vertical:03d}</span><span class="s1"> - &#39;</span>
+                <span class="n">f</span><span class="s1">&#39;</span><span class="si">{date_start}</span><span class="s1"> to </span><span class="si">{date_end}</span><span class="s1">&#39;</span>
+            <span class="p">)</span>
+            <span class="n">order</span><span class="o">.</span><span class="n">add</span><span class="p">(</span>
+                <span class="n">collection</span><span class="p">,</span> <span class="n">tile</span><span class="p">,</span> <span class="n">date_start</span><span class="p">,</span> <span class="n">date_end</span><span class="p">,</span>
+                <span class="n">filters</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">filters</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">collection</span><span class="p">,</span> <span class="p">[]),</span>
+                <span class="n">error_if_empty</span><span class="o">=</span><span class="n">error_if_empty</span>
+            <span class="p">)</span>
 
-                <span class="n">collection_filters</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">filters</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">collection</span><span class="p">,</span> <span class="p">[])</span>
-                <span class="k">try</span><span class="p">:</span>
-                    <span class="n">order</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">collection</span><span class="p">,</span> <span class="n">tile</span><span class="p">,</span> <span class="n">date_start</span><span class="p">,</span> <span class="n">date_end</span><span class="p">,</span>
-                              <span class="n">filters</span><span class="o">=</span><span class="n">collection_filters</span><span class="p">)</span>
-                <span class="k">except</span> <span class="n">EmptyCollectionError</span> <span class="k">as</span> <span class="n">ece</span><span class="p">:</span>
-                    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">ece</span><span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s1">&#39;Submitting order&#39;</span><span class="p">)</span>
+        <span class="n">tracking_id</span> <span class="o">=</span> <span class="n">order</span><span class="o">.</span><span class="n">submit</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">store</span><span class="p">,</span>
+            <span class="n">submission_info</span><span class="o">=</span><span class="n">submission_info</span><span class="p">,</span>
+            <span class="n">save_empty_metadata</span><span class="o">=</span><span class="n">save_empty_metadata</span><span class="p">,</span>
+            <span class="n">export_image_kwds</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">export_image_kwds</span>
+        <span class="p">)</span>
+        <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Submitted order with name=&quot;</span><span class="si">{tracking_name}</span><span class="s1">&quot; &#39;</span>
+                     <span class="n">f</span><span class="s1">&#39;stored at ID=&quot;</span><span class="si">{tracking_id}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
 
-        <span class="k">return</span> <span class="n">order</span><span class="o">.</span><span class="n">tracking_name</span><span class="p">,</span> <span class="n">order</span><span class="o">.</span><span class="n">tracking_id</span></div>
+        <span class="k">return</span> <span class="n">tracking_name</span><span class="p">,</span> <span class="n">tracking_id</span></div>
 
 <div class="viewcode-block" id="Tracker.list"><a class="viewcode-back" href="../../cedar/cedar.tracker.html#cedar.tracker.Tracker.list">[docs]</a>    <span class="k">def</span> <span class="nf">list</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pattern</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; Return a list of all tracking metadata</span>
@@ -509,9 +527,9 @@
     <span class="n">orders</span> <span class="o">=</span> <span class="n">tracking_info</span><span class="p">[</span><span class="s1">&#39;orders&#39;</span><span class="p">]</span>
     <span class="k">for</span> <span class="n">order</span> <span class="ow">in</span> <span class="n">orders</span><span class="p">:</span>
         <span class="c1"># Get info about order</span>
-        <span class="n">id_</span> <span class="o">=</span> <span class="n">order</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">][</span><span class="s1">&#39;id&#39;</span><span class="p">]</span>
+        <span class="n">id_</span> <span class="o">=</span> <span class="n">order</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="n">name</span><span class="p">,</span> <span class="n">prefix</span> <span class="o">=</span> <span class="n">order</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">],</span> <span class="n">order</span><span class="p">[</span><span class="s1">&#39;prefix&#39;</span><span class="p">]</span>
-        <span class="n">n_images</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">order</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;output_url&#39;</span><span class="p">,</span> <span class="p">[]))</span> <span class="ow">or</span> <span class="kc">None</span>
+        <span class="n">n_images</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">order</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;output_url&#39;</span><span class="p">,</span> <span class="p">[]))</span> <span class="ow">or</span> <span class="kc">None</span>
 
         <span class="c1"># Retrieve image and metadata</span>
         <span class="n">dst_meta</span> <span class="o">=</span> <span class="n">store</span><span class="o">.</span><span class="n">retrieve_metadata</span><span class="p">(</span><span class="n">dest</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">prefix</span><span class="p">,</span>
@@ -541,7 +559,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">orders</span> <span class="o">=</span> <span class="n">tracking_info</span><span class="p">[</span><span class="s1">&#39;orders&#39;</span><span class="p">]</span>
     <span class="k">for</span> <span class="n">order</span> <span class="ow">in</span> <span class="n">orders</span><span class="p">:</span>
-        <span class="n">id_</span> <span class="o">=</span> <span class="n">order</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">][</span><span class="s1">&#39;id&#39;</span><span class="p">]</span>
+        <span class="n">id_</span> <span class="o">=</span> <span class="n">order</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="n">name</span><span class="p">,</span> <span class="n">prefix</span> <span class="o">=</span> <span class="n">order</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">],</span> <span class="n">order</span><span class="p">[</span><span class="s1">&#39;prefix&#39;</span><span class="p">]</span>
         <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Deleting image and metadata for id=</span><span class="si">{id_}</span><span class="s1">, &#39;</span>
                      <span class="n">f</span><span class="s1">&#39;name=&quot;</span><span class="si">{name}</span><span class="s1">&quot;, prefix=&quot;</span><span class="si">{prefix}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>

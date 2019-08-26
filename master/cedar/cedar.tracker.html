@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>cedar.tracker module &mdash; cedar 0.0.3.post0+4.g04d51e2 documentation</title>
+  <title>cedar.tracker module &mdash; cedar 0.0.4 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.0.3.post0+4.g04d51e2
+                0.0.4
               </div>
             
           
@@ -294,7 +294,7 @@ looks for tracking information matching
 
 <dl class="method">
 <dt id="cedar.tracker.Tracker.submit">
-<code class="sig-name descname">submit</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">collections</em>, <em class="sig-param">tile_indices</em>, <em class="sig-param">period_start</em>, <em class="sig-param">period_end</em>, <em class="sig-param">period_freq=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/tracker.html#Tracker.submit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.tracker.Tracker.submit" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">submit</code><span class="sig-paren">(</span><em class="sig-param">self</em>, <em class="sig-param">collections</em>, <em class="sig-param">tile_indices</em>, <em class="sig-param">period_start</em>, <em class="sig-param">period_end</em>, <em class="sig-param">period_freq=None</em>, <em class="sig-param">save_empty_metadata=True</em>, <em class="sig-param">error_if_empty=False</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/cedar/tracker.html#Tracker.submit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cedar.tracker.Tracker.submit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Submit and track GEE pre-ARD tasks</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -304,8 +304,14 @@ looks for tracking information matching
 <li><p><strong>period_start</strong> (<em>dt.datetime</em>) – Starting period date</p></li>
 <li><p><strong>period_end</strong> (<em>dt.datetime</em>) – Ending period date</p></li>
 <li><p><strong>period_freq</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><em>optional</em>) – If provided, <code class="docutils literal notranslate"><span class="pre">period_start</span></code>, <code class="docutils literal notranslate"><span class="pre">period_end</span></code>, and <code class="docutils literal notranslate"><span class="pre">period_freq</span></code>
-are interpeted as the range for <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.date_range.html#pandas.date_range" title="(in pandas v0.25.0)"><code class="xref py py-func docutils literal notranslate"><span class="pre">pandas.date_range()</span></code></a> and
+are interpeted as the range for <a class="reference external" href="https://pandas.pydata.org/pandas-docs/stable/reference/api/pandas.date_range.html#pandas.date_range" title="(in pandas v0.25.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">pandas.date_range()</span></code></a> and
 one or more Tasks will be submitted</p></li>
+<li><p><strong>save_empty_metadata</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em>, </em><em>optional</em>) – If True, Pre-ARD image requests that have 0 results (e.g., because
+of spotty historical record) will store metadata, but will not start
+the task. If False, will not store this metadata</p></li>
+<li><p><strong>error_if_empty</strong> (<a class="reference external" href="https://docs.python.org/3.7/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a><em>, </em><em>optional</em>) – If True, raise an EmptyCollectionError if the image collection
+result has no images. The default behavior is to log and skip
+empty search results</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>

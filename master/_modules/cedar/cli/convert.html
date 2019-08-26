@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>cedar.cli.convert &mdash; cedar 0.0.3.post0+4.g04d51e2 documentation</title>
+  <title>cedar.cli.convert &mdash; cedar 0.0.4 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.0.3.post0+4.g04d51e2
+                0.0.4
               </div>
             
           
@@ -171,6 +171,7 @@
   <h1>Source code for cedar.cli.convert</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot; CLI for converting &quot;pre-ARD&quot; to ARD data cubes</span>
 <span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">os.path</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="k">import</span> <span class="n">Path</span>
@@ -189,8 +190,10 @@
               <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Override config file destination directory&#39;</span><span class="p">)</span>
 <span class="nd">@cli_options</span><span class="o">.</span><span class="n">opt_executor</span>
 <span class="nd">@options</span><span class="o">.</span><span class="n">opt_overwrite</span>
+<span class="nd">@click</span><span class="o">.</span><span class="n">option</span><span class="p">(</span><span class="s1">&#39;--skip-metadata&#39;</span><span class="p">,</span> <span class="n">is_flag</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+              <span class="n">help</span><span class="o">=</span><span class="s1">&#39;Skip copying the metadata&#39;</span><span class="p">)</span>
 <span class="nd">@click</span><span class="o">.</span><span class="n">pass_context</span>
-<span class="k">def</span> <span class="nf">convert</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">preard</span><span class="p">,</span> <span class="n">dest</span><span class="p">,</span> <span class="n">overwrite</span><span class="p">,</span> <span class="n">executor</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">convert</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">preard</span><span class="p">,</span> <span class="n">dest</span><span class="p">,</span> <span class="n">overwrite</span><span class="p">,</span> <span class="n">executor</span><span class="p">,</span> <span class="n">skip_metadata</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Convert &quot;pre-ARD&quot; GeoTIFF(s) to ARD data cubes in NetCDF4 format</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">from</span> <span class="nn">dask.diagnostics</span> <span class="k">import</span> <span class="n">ProgressBar</span>
@@ -198,6 +201,7 @@
 
     <span class="kn">from</span> <span class="nn">cedar.preard</span> <span class="k">import</span> <span class="p">(</span><span class="n">ard_netcdf_encoding</span><span class="p">,</span> <span class="n">find_preard</span><span class="p">,</span>
                               <span class="n">process_preard</span><span class="p">,</span> <span class="n">read_metadata</span><span class="p">)</span>
+    <span class="kn">from</span> <span class="nn">cedar.utils</span> <span class="k">import</span> <span class="n">EE_STATES</span>
 
     <span class="c1"># Provide debug info for the executor</span>
     <span class="n">logger</span> <span class="o">=</span> <span class="n">ctx</span><span class="o">.</span><span class="n">obj</span><span class="p">[</span><span class="s1">&#39;logger&#39;</span><span class="p">]</span>
@@ -227,27 +231,45 @@
 
         <span class="c1"># Destination can depend on info in metadata - format it</span>
         <span class="n">dest_dir</span> <span class="o">=</span> <span class="n">create_dest_dir</span><span class="p">(</span><span class="n">dest_dir_tmpl</span><span class="p">,</span> <span class="n">metadata</span><span class="p">)</span>
-        <span class="n">dest_</span> <span class="o">=</span> <span class="n">dest_dir</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="n">meta</span><span class="o">.</span><span class="n">stem</span> <span class="o">+</span> <span class="s1">&#39;.nc&#39;</span><span class="p">)</span>
+        <span class="n">dest_dir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">dest_</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">overwrite</span><span class="p">:</span>
-            <span class="n">click</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Already processed &quot;</span><span class="si">{meta.stem}</span><span class="s1">&quot; to &quot;</span><span class="si">{dest_}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
-            <span class="k">continue</span>
+        <span class="c1"># Create metadata/image names</span>
+        <span class="n">dest_metadata</span> <span class="o">=</span> <span class="n">dest_dir</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="n">meta</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+        <span class="n">dest_ard</span> <span class="o">=</span> <span class="n">dest_dir</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="n">meta</span><span class="o">.</span><span class="n">stem</span> <span class="o">+</span> <span class="s1">&#39;.nc&#39;</span><span class="p">)</span>
 
-        <span class="n">click</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Processing pre-ARD &quot;</span><span class="si">{meta.stem}</span><span class="s1">&quot; to destination &quot;</span><span class="si">{dest_}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
-        <span class="n">dest_</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="c1"># Check if empty and bail</span>
+        <span class="n">state</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s1">&#39;task&#39;</span><span class="p">][</span><span class="s1">&#39;status&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;state&#39;</span><span class="p">,</span> <span class="n">EE_STATES</span><span class="o">.</span><span class="n">EMPTY</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">state</span> <span class="o">==</span> <span class="n">EE_STATES</span><span class="o">.</span><span class="n">EMPTY</span><span class="p">:</span>
+            <span class="n">click</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="s1">&#39;Not attempting to convert empty pre-ARD order &#39;</span>
+                       <span class="n">f</span><span class="s1">&#39;</span><span class="si">{meta.stem}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">dest_ard</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">overwrite</span><span class="p">:</span>
+            <span class="n">click</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Already processed &quot;</span><span class="si">{meta.stem}</span><span class="s1">&quot; to &quot;</span><span class="si">{dest_ard}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Try to convert</span>
+            <span class="n">click</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Processing pre-ARD &quot;</span><span class="si">{meta.stem}</span><span class="s1">&quot; to destination &#39;</span>
+                       <span class="n">f</span><span class="s1">&#39;&quot;</span><span class="si">{dest_ard}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
 
-        <span class="c1"># Read TIFF files into ARD-like xr.Dataset</span>
-        <span class="n">ard_ds</span> <span class="o">=</span> <span class="n">process_preard</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="n">images</span><span class="p">)</span>
+            <span class="c1"># Read TIFF files into ARD-like xr.Dataset</span>
+            <span class="n">ard_ds</span> <span class="o">=</span> <span class="n">process_preard</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="n">images</span><span class="p">)</span>
 
-        <span class="c1"># Determine encoding</span>
-        <span class="n">encoding</span> <span class="o">=</span> <span class="n">ard_netcdf_encoding</span><span class="p">(</span><span class="n">ard_ds</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span> <span class="o">**</span><span class="n">encoding_cfg</span><span class="p">)</span>
+            <span class="c1"># Determine encoding</span>
+            <span class="n">encoding</span> <span class="o">=</span> <span class="n">ard_netcdf_encoding</span><span class="p">(</span><span class="n">ard_ds</span><span class="p">,</span> <span class="n">metadata</span><span class="p">,</span> <span class="o">**</span><span class="n">encoding_cfg</span><span class="p">)</span>
 
-        <span class="k">with</span> <span class="n">renamed_upon_completion</span><span class="p">(</span><span class="n">dest_</span><span class="p">)</span> <span class="k">as</span> <span class="n">tmp</span><span class="p">:</span>
-            <span class="n">ard_ds_</span> <span class="o">=</span> <span class="n">ard_ds</span><span class="o">.</span><span class="n">to_netcdf</span><span class="p">(</span><span class="n">tmp</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="n">encoding</span><span class="p">,</span> <span class="n">compute</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="k">with</span> <span class="n">renamed_upon_completion</span><span class="p">(</span><span class="n">dest_ard</span><span class="p">)</span> <span class="k">as</span> <span class="n">tmp</span><span class="p">:</span>
+                <span class="n">ard_ds_</span> <span class="o">=</span> <span class="n">ard_ds</span><span class="o">.</span><span class="n">to_netcdf</span><span class="p">(</span><span class="n">tmp</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="n">encoding</span><span class="p">,</span>
+                                           <span class="n">compute</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                <span class="c1"># Write with progressbar</span>
+                <span class="k">with</span> <span class="n">ProgressBar</span><span class="p">(</span><span class="n">dt</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>  <span class="c1"># 10 second update</span>
+                    <span class="n">out</span> <span class="o">=</span> <span class="n">ard_ds_</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
 
-            <span class="c1"># Write with progressbar</span>
-            <span class="k">with</span> <span class="n">ProgressBar</span><span class="p">():</span>
-                <span class="n">out</span> <span class="o">=</span> <span class="n">ard_ds_</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">skip_metadata</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">dest_metadata</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">overwrite</span><span class="p">:</span>
+                <span class="n">click</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Already copied &quot;</span><span class="si">{meta.stem}</span><span class="s1">&quot; to &quot;</span><span class="si">{dest_metadata}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># Always write metadata</span>
+                <span class="k">with</span> <span class="n">dest_metadata</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                    <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">metadata</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                <span class="n">click</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Copied metadata to destination &quot;</span><span class="si">{dest_metadata}</span><span class="s1">&quot;&#39;</span><span class="p">)</span>
 
     <span class="n">click</span><span class="o">.</span><span class="n">echo</span><span class="p">(</span><span class="s1">&#39;Complete&#39;</span><span class="p">)</span>
 

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>cedar.sensors.landsat &mdash; cedar 0.0.3.post0+4.g04d51e2 documentation</title>
+  <title>cedar.sensors.landsat &mdash; cedar 0.0.4 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.0.3.post0+4.g04d51e2
+                0.0.4
               </div>
             
           
@@ -173,6 +173,7 @@
 <span class="sd">&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">datetime</span> <span class="k">as</span> <span class="nn">dt</span>
 <span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
 
 <span class="kn">import</span> <span class="nn">ee</span>
 
@@ -301,8 +302,8 @@
     <span class="n">imgcol_udates</span> <span class="o">=</span> <span class="n">common</span><span class="o">.</span><span class="n">get_collection_uniq_dates</span><span class="p">(</span><span class="n">imgcol</span><span class="p">)</span>
     <span class="n">n_images</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">imgcol_udates</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">n_images</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">EmptyCollectionError</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Found 0 images for &quot;</span><span class="si">{collection}</span><span class="s1">&quot; between &#39;</span>
-                                   <span class="n">f</span><span class="s1">&#39;</span><span class="si">{date_start}</span><span class="s1">-</span><span class="si">{date_end}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Found 0 images for &quot;</span><span class="si">{collection}</span><span class="s1">&quot; between &#39;</span>
+                      <span class="n">f</span><span class="s1">&#39;</span><span class="si">{date_start}</span><span class="s1">-</span><span class="si">{date_end}</span><span class="s1">&#39;</span><span class="p">)</span>
 
     <span class="c1"># Loop over unique dates, making mosaics to eliminate north/south if needed</span>
     <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Creating ARD for </span><span class="si">{n_images}</span><span class="s1"> images&#39;</span><span class="p">)</span>
@@ -315,7 +316,10 @@
         <span class="n">prepped</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">img</span><span class="p">,</span> <span class="n">meta</span><span class="p">))</span>
 
     <span class="c1"># Unpack</span>
-    <span class="n">images</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">prepped</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">prepped</span><span class="p">:</span>
+        <span class="n">images</span><span class="p">,</span> <span class="n">image_metadata</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">prepped</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">images</span><span class="p">,</span> <span class="n">image_metadata</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
 
     <span class="c1"># Re-create as collection and turn to bands (n_image x bands_per_image)</span>
     <span class="n">tile_col</span> <span class="o">=</span> <span class="n">ee</span><span class="o">.</span><span class="n">ImageCollection</span><span class="o">.</span><span class="n">fromImages</span><span class="p">(</span><span class="n">images</span><span class="p">)</span>
@@ -326,14 +330,13 @@
     <span class="n">tile_bands_unmasked</span> <span class="o">=</span> <span class="n">tile_bands</span><span class="o">.</span><span class="n">unmask</span><span class="p">(</span><span class="n">nodata</span><span class="p">)</span>
 
     <span class="c1"># Get all image metadata at once (saves time back and forth)</span>
-    <span class="n">images_metadata</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">ee</span><span class="o">.</span><span class="n">List</span><span class="p">(</span><span class="n">_</span><span class="p">)</span><span class="o">.</span><span class="n">getInfo</span><span class="p">())</span>
-
+    <span class="n">images_metadata_</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">ee</span><span class="o">.</span><span class="n">List</span><span class="p">(</span><span class="n">image_metadata</span><span class="p">)</span><span class="o">.</span><span class="n">getInfo</span><span class="p">())</span>
 
     <span class="c1"># Create overall metadata</span>
     <span class="n">metadata</span> <span class="o">=</span> <span class="p">{</span>
         <span class="s1">&#39;bands&#39;</span><span class="p">:</span> <span class="n">band_names</span><span class="p">,</span>
         <span class="s1">&#39;nodata&#39;</span><span class="p">:</span> <span class="n">nodata</span><span class="p">,</span>
-        <span class="s1">&#39;images&#39;</span><span class="p">:</span> <span class="n">images_metadata</span>
+        <span class="s1">&#39;images&#39;</span><span class="p">:</span> <span class="n">images_metadata_</span>
     <span class="p">}</span>
 
     <span class="k">return</span> <span class="n">tile_bands_unmasked</span><span class="p">,</span> <span class="n">metadata</span></div>

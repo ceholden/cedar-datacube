@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>cedar.metadata.tracking &mdash; cedar 0.0.3.post0+4.g04d51e2 documentation</title>
+  <title>cedar.metadata.tracking &mdash; cedar 0.0.4 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.0.3.post0+4.g04d51e2
+                0.0.4
               </div>
             
           
@@ -174,13 +174,16 @@
 <span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">defaultdict</span>
 <span class="kn">import</span> <span class="nn">datetime</span> <span class="k">as</span> <span class="nn">dt</span>
 <span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="k">import</span> <span class="n">Path</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="kn">from</span> <span class="nn">.core</span> <span class="k">import</span> <span class="n">get_task_metadata</span>
 <span class="kn">from</span> <span class="nn">..</span> <span class="k">import</span> <span class="n">validation</span>
+<span class="kn">from</span> <span class="nn">..utils</span> <span class="k">import</span> <span class="n">EE_STATES</span>
 
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
 
 <span class="n">_HERE</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="vm">__file__</span><span class="p">)</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span>
 <span class="n">SCHEMA_TRACKING</span> <span class="o">=</span> <span class="n">_HERE</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="s1">&#39;schema_tracking.json&#39;</span><span class="p">)</span>
@@ -260,14 +263,17 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">states</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">states</span>
         <span class="n">n</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">states</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
-        <span class="n">n_completed</span> <span class="o">=</span> <span class="n">states</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">_EE_COMPLETED</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">n_completed</span> <span class="o">=</span> <span class="n">states</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">EE_STATES</span><span class="o">.</span><span class="n">COMPLETED</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">n_completed</span> <span class="o">/</span> <span class="n">n</span> <span class="k">if</span> <span class="n">n_completed</span> <span class="k">else</span> <span class="mf">0.</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">complete</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot; bool: True if all orders have completed</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">)</span> <span class="o">==</span> <span class="p">[</span><span class="n">_EE_COMPLETED</span><span class="p">]</span>
+        <span class="n">states</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">states</span><span class="p">)</span>
+        <span class="n">done_or_empty</span> <span class="o">=</span> <span class="p">[</span><span class="n">state</span> <span class="ow">in</span> <span class="p">(</span><span class="n">EE_STATES</span><span class="o">.</span><span class="n">COMPLETED</span><span class="p">,</span> <span class="n">EE_STATES</span><span class="o">.</span><span class="n">EMPTY</span><span class="p">)</span>
+                         <span class="k">for</span> <span class="n">state</span> <span class="ow">in</span> <span class="n">states</span><span class="p">]</span>
+        <span class="k">return</span> <span class="nb">all</span><span class="p">(</span><span class="n">done_or_empty</span><span class="p">)</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">tasks</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -276,11 +282,20 @@
         <span class="kn">from</span> <span class="nn">..utils</span> <span class="k">import</span> <span class="n">get_ee_tasks</span><span class="p">,</span> <span class="n">load_ee</span>
         <span class="n">ee_api</span> <span class="o">=</span> <span class="n">load_ee</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>  <span class="c1"># should initialize elsewhere</span>
         <span class="n">tasks</span> <span class="o">=</span> <span class="n">get_ee_tasks</span><span class="p">()</span>
-        <span class="n">order_tasks</span> <span class="o">=</span> <span class="p">[</span><span class="n">tasks</span><span class="p">[</span><span class="n">order</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">][</span><span class="s1">&#39;id&#39;</span><span class="p">]]</span> <span class="k">for</span> <span class="n">order</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">orders</span><span class="p">]</span>
+        <span class="n">order_tasks</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">tasks</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">order</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;UNKNOWN&#39;</span><span class="p">),</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">order</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">orders</span>
+        <span class="p">]</span>
         <span class="k">return</span> <span class="n">order_tasks</span>
 
-<div class="viewcode-block" id="TrackingMetadata.update"><a class="viewcode-back" href="../../../cedar/cedar.metadata.tracking.html#cedar.metadata.tracking.TrackingMetadata.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot; Update the tracking metadata by checking EE task status</span>
+<div class="viewcode-block" id="TrackingMetadata.update"><a class="viewcode-back" href="../../../cedar/cedar.metadata.tracking.html#cedar.metadata.tracking.TrackingMetadata.update">[docs]</a>    <span class="k">def</span> <span class="nf">update</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">skip_if_missing</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Update the tracking metadata order info against EE task status</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        skip_if_missing : bool, optional</span>
+<span class="sd">            If True, logs and skips updating order information when the order</span>
+<span class="sd">            task cannot be retrieved.</span>
 
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -289,10 +304,19 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">updated</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">task</span><span class="p">,</span> <span class="n">order</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tasks</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">orders</span><span class="p">):</span>
-            <span class="n">order_</span> <span class="o">=</span> <span class="n">order</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-            <span class="n">task_info</span> <span class="o">=</span> <span class="n">get_task_metadata</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>
-            <span class="n">order</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">task_info</span><span class="p">)</span>
-            <span class="n">updated</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">order</span><span class="p">)</span>
+            <span class="n">id_</span> <span class="o">=</span> <span class="n">order</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;UNKNOWN&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">task</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">msg</span> <span class="o">=</span> <span class="n">f</span><span class="s1">&#39;Order task id=&quot;</span><span class="si">{id_}</span><span class="s1">&quot; does not exist or has expired&#39;</span>
+                <span class="k">if</span> <span class="n">skip_if_missing</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+                    <span class="n">updated</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">order</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">order_</span> <span class="o">=</span> <span class="n">order</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+                <span class="n">task_info</span> <span class="o">=</span> <span class="n">get_task_metadata</span><span class="p">(</span><span class="n">task</span><span class="p">)</span>
+                <span class="n">order_</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">task_info</span><span class="p">)</span>
+                <span class="n">updated</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">order_</span><span class="p">)</span>
 
         <span class="n">data</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="n">data</span><span class="p">[</span><span class="s1">&#39;orders&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">updated</span>
@@ -443,7 +467,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">order_states</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="mi">0</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">order</span> <span class="ow">in</span> <span class="n">orders</span><span class="p">:</span>
-        <span class="n">order_states</span><span class="p">[</span><span class="n">order</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">][</span><span class="s1">&#39;state&#39;</span><span class="p">]]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">order_states</span><span class="p">[</span><span class="n">order</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;state&#39;</span><span class="p">,</span> <span class="n">EE_STATES</span><span class="o">.</span><span class="n">EMPTY</span><span class="p">)]</span> <span class="o">+=</span> <span class="mi">1</span>
     <span class="k">return</span> <span class="nb">dict</span><span class="p">(</span><span class="n">order_states</span><span class="p">)</span></div>
 
 
@@ -452,9 +476,9 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">runtimes</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">order</span> <span class="ow">in</span> <span class="n">orders</span><span class="p">:</span>
-        <span class="n">runtime</span> <span class="o">=</span> <span class="n">calculate_order_runtime</span><span class="p">(</span>
-            <span class="n">order</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">][</span><span class="s1">&#39;start_timestamp_ms&#39;</span><span class="p">],</span>
-            <span class="n">order</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">][</span><span class="s1">&#39;update_timestamp_ms&#39;</span><span class="p">])</span>
+        <span class="n">start_</span> <span class="o">=</span> <span class="n">order</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;start_timestamp_ms&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">update</span> <span class="o">=</span> <span class="n">order</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;update_timestamp_ms&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">runtime</span> <span class="o">=</span> <span class="n">calculate_order_runtime</span><span class="p">(</span><span class="n">start_</span><span class="p">,</span> <span class="n">update</span><span class="p">)</span>  <span class="c1"># nan if Nones</span>
         <span class="n">runtimes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">runtime</span><span class="p">)</span>
 
     <span class="n">runtimes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">runtimes</span><span class="p">)</span>
@@ -471,15 +495,19 @@
 
 
 <span class="k">def</span> <span class="nf">_summarize_order</span><span class="p">(</span><span class="n">order</span><span class="p">):</span>
-    <span class="n">summary</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">order</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;prefix&#39;</span><span class="p">,</span> <span class="p">)}</span>
-    <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">order</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">][</span><span class="s1">&#39;id&#39;</span><span class="p">]</span>
-    <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;state&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">order</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">][</span><span class="s1">&#39;state&#39;</span><span class="p">]</span>
-    <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;runtime&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">calculate_order_runtime</span><span class="p">(</span>
-        <span class="n">order</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">][</span><span class="s1">&#39;start_timestamp_ms&#39;</span><span class="p">],</span>
-        <span class="n">order</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">][</span><span class="s1">&#39;update_timestamp_ms&#39;</span><span class="p">])</span>
-    <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;n_images&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">order</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">][</span><span class="s1">&#39;output_url&#39;</span><span class="p">])</span>
-    <span class="n">summary</span><span class="p">[</span><span class="s1">&#39;output_url&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">order</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">][</span><span class="s1">&#39;output_url&#39;</span><span class="p">]))</span>
-
+    <span class="n">status</span> <span class="o">=</span> <span class="n">order</span><span class="p">[</span><span class="s1">&#39;status&#39;</span><span class="p">]</span>
+    <span class="n">start_</span> <span class="o">=</span> <span class="n">status</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;start_timestamp_ms&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">update</span> <span class="o">=</span> <span class="n">status</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;update_timestamp_ms&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="n">output_url</span> <span class="o">=</span> <span class="n">status</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;output_url&#39;</span><span class="p">,</span> <span class="p">[])</span>
+    <span class="n">summary</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;name&#39;</span><span class="p">:</span> <span class="n">order</span><span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">],</span>
+        <span class="s1">&#39;prefix&#39;</span><span class="p">:</span> <span class="n">order</span><span class="p">[</span><span class="s1">&#39;prefix&#39;</span><span class="p">],</span>
+        <span class="s1">&#39;id&#39;</span><span class="p">:</span> <span class="n">status</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;id&#39;</span><span class="p">,</span> <span class="s1">&#39;UNKNOWN&#39;</span><span class="p">),</span>
+        <span class="s1">&#39;state&#39;</span><span class="p">:</span> <span class="n">status</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;state&#39;</span><span class="p">,</span> <span class="n">EE_STATES</span><span class="o">.</span><span class="n">EMPTY</span><span class="p">),</span>
+        <span class="s1">&#39;runtime&#39;</span><span class="p">:</span> <span class="n">calculate_order_runtime</span><span class="p">(</span><span class="n">start_</span><span class="p">,</span> <span class="n">update</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">),</span>
+        <span class="s1">&#39;n_images&#39;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">output_url</span><span class="p">),</span>
+        <span class="s1">&#39;output_url&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">output_url</span><span class="p">))</span>
+    <span class="p">}</span>
     <span class="k">return</span> <span class="n">summary</span>
 
 
@@ -493,15 +521,6 @@
         <span class="k">return</span> <span class="s1">&#39;</span><span class="si">{0:02.2f}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">time_ms</span> <span class="o">/</span> <span class="mf">60.</span> <span class="o">/</span> <span class="mf">1000.</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="s1">&#39;nan&#39;</span>
-
-
-<span class="n">_EE_UNSUBMITTED</span> <span class="o">=</span> <span class="s1">&#39;UNSUBMITTED&#39;</span>
-<span class="n">_EE_READY</span> <span class="o">=</span> <span class="s1">&#39;READY&#39;</span>
-<span class="n">_EE_RUNNING</span> <span class="o">=</span> <span class="s1">&#39;RUNNING&#39;</span>
-<span class="n">_EE_COMPLETED</span> <span class="o">=</span> <span class="s1">&#39;COMPLETED&#39;</span>
-<span class="n">_EE_FAILED</span> <span class="o">=</span> <span class="s1">&#39;FAILED&#39;</span>
-<span class="n">_EE_CANCEL_REQUESTED</span> <span class="o">=</span> <span class="s1">&#39;CANCEL_REQUESTED&#39;</span>
-<span class="n">_EE_CANCELLED</span> <span class="o">=</span> <span class="s1">&#39;CANCELLED&#39;</span>
 </pre></div>
 
            </div>

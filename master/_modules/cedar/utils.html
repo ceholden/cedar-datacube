@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>cedar.utils &mdash; cedar 0.0.3.post0+4.g04d51e2 documentation</title>
+  <title>cedar.utils &mdash; cedar 0.0.4 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.0.3.post0+4.g04d51e2
+                0.0.4
               </div>
             
           
@@ -229,6 +229,26 @@
     <span class="k">return</span> <span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">transform</span><span class="p">[:</span><span class="mi">6</span><span class="p">]))</span></div>
 
 
+<span class="c1"># =============================================================================</span>
+<span class="c1"># Earth Engine</span>
+
+<span class="c1"># Task states</span>
+<span class="c1"># Note: Not using Enum because we&#39;re almost 100% interested in str value and</span>
+<span class="c1">#       want to avoid writing `EE_STATES.[STATE].value`</span>
+<div class="viewcode-block" id="EE_STATES"><a class="viewcode-back" href="../../cedar/cedar.utils.html#cedar.utils.EE_STATES">[docs]</a><span class="k">class</span> <span class="nc">EE_STATES</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="c1"># Earth Engine task states</span>
+    <span class="n">UNSUBMITTED</span> <span class="o">=</span> <span class="s1">&#39;UNSUBMITTED&#39;</span>
+    <span class="n">READY</span> <span class="o">=</span> <span class="s1">&#39;READY&#39;</span>
+    <span class="n">RUNNING</span> <span class="o">=</span> <span class="s1">&#39;RUNNING&#39;</span>
+    <span class="n">COMPLETED</span> <span class="o">=</span> <span class="s1">&#39;COMPLETED&#39;</span>
+    <span class="n">FAILED</span> <span class="o">=</span> <span class="s1">&#39;FAILED&#39;</span>
+    <span class="n">CANCEL_REQUESTED</span> <span class="o">=</span> <span class="s1">&#39;CANCEL_REQUESTED&#39;</span>
+    <span class="n">CANCELLED</span> <span class="o">=</span> <span class="s1">&#39;CANCELLED&#39;</span>
+    <span class="c1"># Fake state for empty orders</span>
+    <span class="n">EMPTY</span> <span class="o">=</span> <span class="s1">&#39;EMPTY&#39;</span></div>
+
+
+<span class="c1"># TODO: move all GEE related utils into a separate &quot;gee.py&quot; or similar</span>
 <div class="viewcode-block" id="load_ee"><a class="viewcode-back" href="../../cedar/cedar.utils.html#cedar.utils.load_ee">[docs]</a><span class="k">def</span> <span class="nf">load_ee</span><span class="p">(</span><span class="n">initialize</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot; Import and initialize the EE API, handling errors</span>
 

@@ -9,7 +9,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Index &mdash; cedar 0.0.3.post0+4.g04d51e2 documentation</title>
+  <title>Index &mdash; cedar 0.0.4 documentation</title>
   
 
   
@@ -60,7 +60,7 @@
             
             
               <div class="version">
-                0.0.3.post0+4.g04d51e2
+                0.0.4
               </div>
             
           
@@ -233,6 +233,10 @@
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="cedar/cedar.metadata.tracking.html#cedar.metadata.tracking.calculate_order_runtime">calculate_order_runtime() (in module cedar.metadata.tracking)</a>
 </li>
+      <li><a href="cedar/cedar.utils.html#cedar.utils.EE_STATES.CANCEL_REQUESTED">CANCEL_REQUESTED (cedar.utils.EE_STATES attribute)</a>
+</li>
+      <li><a href="cedar/cedar.utils.html#cedar.utils.EE_STATES.CANCELLED">CANCELLED (cedar.utils.EE_STATES attribute)</a>
+</li>
       <li><a href="cedar/cedar.html#module-cedar">cedar (module)</a>
 </li>
       <li><a href="cedar/cedar.cli.html#module-cedar.cli">cedar.cli (module)</a>
@@ -319,6 +323,8 @@
 </li>
       <li><a href="cedar/cedar.metadata.tracking.html#cedar.metadata.tracking.TrackingMetadata.complete">complete() (cedar.metadata.tracking.TrackingMetadata property)</a>
 </li>
+      <li><a href="cedar/cedar.utils.html#cedar.utils.EE_STATES.COMPLETED">COMPLETED (cedar.utils.EE_STATES attribute)</a>
+</li>
       <li><a href="cedar/cedar.config.core.html#cedar.config.core.Config">Config (class in cedar.config.core)</a>
 </li>
       <li><a href="cedar/cedar.sensors.landsat.html#cedar.sensors.landsat.create_ard">create_ard() (in module cedar.sensors.landsat)</a>
@@ -329,7 +335,7 @@
 </li>
       <li><a href="cedar/cedar.utils.html#cedar.utils.create_filters">create_filters() (in module cedar.utils)</a>
 </li>
-      <li><a href="cedar/cedar.ordering.html#cedar.ordering.Order.create_submission">create_submission() (cedar.ordering.Order class method)</a>
+      <li><a href="cedar/cedar.ordering.html#cedar.ordering.create_preard_task">create_preard_task() (in module cedar.ordering)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -361,12 +367,16 @@
 <h2 id="E">E</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="cedar/cedar.exceptions.html#cedar.exceptions.EmptyCollectionError">EmptyCollectionError</a>
+      <li><a href="cedar/cedar.utils.html#cedar.utils.EE_STATES">EE_STATES (class in cedar.utils)</a>
 </li>
-      <li><a href="cedar/cedar.exceptions.html#cedar.exceptions.EmptyOrderError">EmptyOrderError</a>
+      <li><a href="cedar/cedar.utils.html#cedar.utils.EE_STATES.EMPTY">EMPTY (cedar.utils.EE_STATES attribute)</a>
+</li>
+      <li><a href="cedar/cedar.exceptions.html#cedar.exceptions.EmptyCollectionError">EmptyCollectionError</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="cedar/cedar.exceptions.html#cedar.exceptions.EmptyOrderError">EmptyOrderError</a>
+</li>
       <li><a href="cedar/cedar.stores.gcs.html#cedar.stores.gcs.exists">exists() (in module cedar.stores.gcs)</a>
 
       <ul>
@@ -379,6 +389,8 @@
 <h2 id="F">F</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="cedar/cedar.utils.html#cedar.utils.EE_STATES.FAILED">FAILED (cedar.utils.EE_STATES attribute)</a>
+</li>
       <li><a href="cedar/cedar.cli.options.html#cedar.cli.options.fetch_config">fetch_config() (in module cedar.cli.options)</a>
 </li>
       <li><a href="cedar/cedar.cli.options.html#cedar.cli.options.fetch_param">fetch_param() (in module cedar.cli.options)</a>
@@ -595,6 +607,8 @@
       </ul></li>
       <li><a href="cedar/cedar.preard.html#cedar.preard.read_preard">read_preard() (in module cedar.preard)</a>
 </li>
+      <li><a href="cedar/cedar.utils.html#cedar.utils.EE_STATES.READY">READY (cedar.utils.EE_STATES attribute)</a>
+</li>
       <li><a href="cedar/cedar.stores.gcs.html#cedar.stores.gcs.GCSStore.remove">remove() (cedar.stores.gcs.GCSStore method)</a>, <a href="storage.html#cedar.stores.gcs.GCSStore.remove">[1]</a>
 
       <ul>
@@ -627,6 +641,8 @@
         <li><a href="cedar/cedar.stores.gdrive.html#cedar.stores.gdrive.GDriveStore.retrieve_metadata">(cedar.stores.gdrive.GDriveStore method)</a>, <a href="storage.html#cedar.stores.gdrive.GDriveStore.retrieve_metadata">[1]</a>
 </li>
       </ul></li>
+      <li><a href="cedar/cedar.utils.html#cedar.utils.EE_STATES.RUNNING">RUNNING (cedar.utils.EE_STATES attribute)</a>
+</li>
   </ul></td>
 </tr></table>
 
@@ -653,10 +669,10 @@
         <li><a href="cedar/cedar.stores.gdrive.html#cedar.stores.gdrive.GDriveStore.store_metadata">(cedar.stores.gdrive.GDriveStore method)</a>, <a href="storage.html#cedar.stores.gdrive.GDriveStore.store_metadata">[1]</a>
 </li>
       </ul></li>
-      <li><a href="cedar/cedar.cli.options.html#cedar.cli.options.STYLE_DEBUG">STYLE_DEBUG() (in module cedar.cli.options)</a>
-</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="cedar/cedar.cli.options.html#cedar.cli.options.STYLE_DEBUG">STYLE_DEBUG() (in module cedar.cli.options)</a>
+</li>
       <li><a href="cedar/cedar.cli.options.html#cedar.cli.options.STYLE_ERROR">STYLE_ERROR() (in module cedar.cli.options)</a>
 </li>
       <li><a href="cedar/cedar.cli.options.html#cedar.cli.options.STYLE_INFO">STYLE_INFO() (in module cedar.cli.options)</a>
@@ -671,8 +687,6 @@
         <li><a href="cedar/cedar.tracker.html#cedar.tracker.Tracker.submit">(cedar.tracker.Tracker method)</a>
 </li>
       </ul></li>
-      <li><a href="cedar/cedar.ordering.html#cedar.ordering.submit_preard_task">submit_preard_task() (in module cedar.ordering)</a>
-</li>
       <li><a href="cedar/cedar.metadata.tracking.html#cedar.metadata.tracking.summarize_runtimes">summarize_runtimes() (in module cedar.metadata.tracking)</a>
 </li>
       <li><a href="cedar/cedar.metadata.tracking.html#cedar.metadata.tracking.summarize_states">summarize_states() (in module cedar.metadata.tracking)</a>
@@ -709,6 +723,8 @@
 <h2 id="U">U</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="cedar/cedar.utils.html#cedar.utils.EE_STATES.UNSUBMITTED">UNSUBMITTED (cedar.utils.EE_STATES attribute)</a>
+</li>
       <li><a href="cedar/cedar.metadata.tracking.html#cedar.metadata.tracking.TrackingMetadata.update">update() (cedar.metadata.tracking.TrackingMetadata method)</a>
 
       <ul>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>cedar.preard &mdash; cedar 0.0.3.post0+4.g04d51e2 documentation</title>
+  <title>cedar.preard &mdash; cedar 0.0.4 documentation</title>
   
 
   
@@ -59,7 +59,7 @@
             
             
               <div class="version">
-                0.0.3.post0+4.g04d51e2
+                0.0.4
               </div>
             
           
@@ -261,6 +261,9 @@
 <span class="sd">    path : str or Path</span>
 <span class="sd">        Path to a metadata file or directory of files (returning matches</span>
 <span class="sd">        inside the directory)</span>
+<span class="sd">    metadata_pattern : str, optional</span>
+<span class="sd">        If ``path`` is a directory, this value is used as a glob inside</span>
+<span class="sd">        ``path`` to locate metadata files</span>
 
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
@@ -280,6 +283,7 @@
             <span class="n">preard</span><span class="p">[</span><span class="n">meta</span><span class="p">]</span> <span class="o">=</span> <span class="n">images</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;Could not find images for metadata file </span><span class="si">{meta}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="n">preard</span><span class="p">[</span><span class="n">meta</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="k">return</span> <span class="n">preard</span></div>
 
