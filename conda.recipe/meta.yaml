@@ -1,12 +1,12 @@
-{% set version = "0.0.3.post0" %}
+{% set version = "0.0.4" %}
 
 package:
   name: cedar-datacube
   version: {{ version }}
 
 source:
-  url: https://files.pythonhosted.org/packages/e8/af/48a15004e0749182bc253ef7b619829d7c4985b82ddcbd005badc42c037b/cedar-datacube-{{ version }}.tar.gz
-  sha256: 8acd144e6cd6093822763f07a0deb297bf92ec65ed40a35ec9699c3be5d1c31d
+  url: https://files.pythonhosted.org/packages/70/6f/86781daafc9bc848f860b6b860bb6497a7718b097e963d329e49178a567c/cedar-datacube-{{ version }}.tar.gz
+  sha256: c60fea272290a9201e084929d641c565042dbbd2d1ea6606e37dd4148eef48ef
 
 build:
   number: 0
